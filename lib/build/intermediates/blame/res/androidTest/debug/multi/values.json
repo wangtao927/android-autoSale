@@ -1,0 +1,374 @@
+[
+    {
+        "outputFile": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 33,
+                    "endColumn": 19,
+                    "endOffset": 920
+                },
+                "from": {
+                    "file": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endLine": 33,
+                        "endColumn": 19,
+                        "endOffset": 920
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 34,
+                    "startColumn": 4,
+                    "startOffset": 925,
+                    "endLine": 65,
+                    "endColumn": 19,
+                    "endOffset": 1791
+                },
+                "from": {
+                    "file": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 34,
+                        "startColumn": 4,
+                        "startOffset": 925,
+                        "endLine": 65,
+                        "endColumn": 19,
+                        "endOffset": 1791
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 66,
+                    "startColumn": 4,
+                    "startOffset": 1796,
+                    "endColumn": 57,
+                    "endOffset": 1849
+                },
+                "from": {
+                    "file": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 66,
+                        "startColumn": 4,
+                        "startOffset": 1796,
+                        "endColumn": 57,
+                        "endOffset": 1849
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 67,
+                    "startColumn": 4,
+                    "startOffset": 1854,
+                    "endColumn": 55,
+                    "endOffset": 1905
+                },
+                "from": {
+                    "file": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 67,
+                        "startColumn": 4,
+                        "startOffset": 1854,
+                        "endColumn": 55,
+                        "endOffset": 1905
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 68,
+                    "startColumn": 4,
+                    "startOffset": 1910,
+                    "endLine": 88,
+                    "endColumn": 10,
+                    "endOffset": 2729
+                },
+                "from": {
+                    "file": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 68,
+                        "startColumn": 4,
+                        "startOffset": 1910,
+                        "endLine": 88,
+                        "endColumn": 10,
+                        "endOffset": 2729
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 89,
+                    "startColumn": 4,
+                    "startOffset": 2734,
+                    "endColumn": 59,
+                    "endOffset": 2789
+                },
+                "from": {
+                    "file": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 89,
+                        "startColumn": 4,
+                        "startOffset": 2734,
+                        "endColumn": 59,
+                        "endOffset": 2789
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 90,
+                    "startColumn": 4,
+                    "startOffset": 2794,
+                    "endColumn": 88,
+                    "endOffset": 2878
+                },
+                "from": {
+                    "file": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 90,
+                        "startColumn": 4,
+                        "startOffset": 2794,
+                        "endColumn": 88,
+                        "endOffset": 2878
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 91,
+                    "startColumn": 4,
+                    "startOffset": 2883,
+                    "endLine": 92,
+                    "endColumn": 16,
+                    "endOffset": 2981
+                },
+                "from": {
+                    "file": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 91,
+                        "startColumn": 4,
+                        "startOffset": 2883,
+                        "endLine": 92,
+                        "endColumn": 16,
+                        "endOffset": 2981
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 93,
+                    "startColumn": 4,
+                    "startOffset": 2986,
+                    "endLine": 94,
+                    "endColumn": 18,
+                    "endOffset": 3082
+                },
+                "from": {
+                    "file": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 93,
+                        "startColumn": 4,
+                        "startOffset": 2986,
+                        "endLine": 94,
+                        "endColumn": 18,
+                        "endOffset": 3082
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "E:\\code\\android\\productAutoSale\\project1\\lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 33,
+                    "endColumn": 19,
+                    "endOffset": 920
+                },
+                "from": {
+                    "file": "E:\\code\\android\\productAutoSale\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endLine": 33,
+                        "endColumn": 19,
+                        "endOffset": 920
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 34,
+                    "startColumn": 4,
+                    "startOffset": 925,
+                    "endLine": 65,
+                    "endColumn": 19,
+                    "endOffset": 1791
+                },
+                "from": {
+                    "file": "E:\\code\\android\\productAutoSale\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 34,
+                        "startColumn": 4,
+                        "startOffset": 925,
+                        "endLine": 65,
+                        "endColumn": 19,
+                        "endOffset": 1791
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 66,
+                    "startColumn": 4,
+                    "startOffset": 1796,
+                    "endColumn": 57,
+                    "endOffset": 1849
+                },
+                "from": {
+                    "file": "E:\\code\\android\\productAutoSale\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 66,
+                        "startColumn": 4,
+                        "startOffset": 1796,
+                        "endColumn": 57,
+                        "endOffset": 1849
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 67,
+                    "startColumn": 4,
+                    "startOffset": 1854,
+                    "endColumn": 55,
+                    "endOffset": 1905
+                },
+                "from": {
+                    "file": "E:\\code\\android\\productAutoSale\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 67,
+                        "startColumn": 4,
+                        "startOffset": 1854,
+                        "endColumn": 55,
+                        "endOffset": 1905
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 68,
+                    "startColumn": 4,
+                    "startOffset": 1910,
+                    "endLine": 88,
+                    "endColumn": 10,
+                    "endOffset": 2729
+                },
+                "from": {
+                    "file": "E:\\code\\android\\productAutoSale\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 68,
+                        "startColumn": 4,
+                        "startOffset": 1910,
+                        "endLine": 88,
+                        "endColumn": 10,
+                        "endOffset": 2729
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 89,
+                    "startColumn": 4,
+                    "startOffset": 2734,
+                    "endColumn": 59,
+                    "endOffset": 2789
+                },
+                "from": {
+                    "file": "E:\\code\\android\\productAutoSale\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 89,
+                        "startColumn": 4,
+                        "startOffset": 2734,
+                        "endColumn": 59,
+                        "endOffset": 2789
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 90,
+                    "startColumn": 4,
+                    "startOffset": 2794,
+                    "endColumn": 88,
+                    "endOffset": 2878
+                },
+                "from": {
+                    "file": "E:\\code\\android\\productAutoSale\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 90,
+                        "startColumn": 4,
+                        "startOffset": 2794,
+                        "endColumn": 88,
+                        "endOffset": 2878
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 91,
+                    "startColumn": 4,
+                    "startOffset": 2883,
+                    "endLine": 92,
+                    "endColumn": 16,
+                    "endOffset": 2981
+                },
+                "from": {
+                    "file": "E:\\code\\android\\productAutoSale\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 91,
+                        "startColumn": 4,
+                        "startOffset": 2883,
+                        "endLine": 92,
+                        "endColumn": 16,
+                        "endOffset": 2981
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 93,
+                    "startColumn": 4,
+                    "startOffset": 2986,
+                    "endLine": 94,
+                    "endColumn": 18,
+                    "endOffset": 3082
+                },
+                "from": {
+                    "file": "E:\\code\\android\\productAutoSale\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 93,
+                        "startColumn": 4,
+                        "startOffset": 2986,
+                        "endLine": 94,
+                        "endColumn": 18,
+                        "endOffset": 3082
+                    }
+                }
+            }
+        ]
+    }
+]

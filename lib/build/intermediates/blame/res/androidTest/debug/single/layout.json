@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\console.xml",
+        "source": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\layout\\console.xml"
+    },
+    {
+        "merged": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\activity_main.xml",
+        "source": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\main.xml",
+        "source": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\layout\\main.xml"
+    },
+    {
+        "merged": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\sending01010101.xml",
+        "source": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\layout\\sending01010101.xml"
+    },
+    {
+        "merged": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\loopback.xml",
+        "source": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\layout\\loopback.xml"
+    },
+    {
+        "merged": "E:\\code\\android\\productAutoSale\\project1\\lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\activity_main.xml",
+        "source": "E:\\code\\android\\productAutoSale\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\select_goods.xml",
+        "source": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\layout\\select_goods.xml"
+    }
+]

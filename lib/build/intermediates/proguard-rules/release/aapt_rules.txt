@@ -1,0 +1,15 @@
+# view AndroidManifest.xml #generated:30
+-keep class com.ys.ui.activity.MainActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:15
+-keep class com.ys.ui.sample.Application { <init>(...); }
+
+# view AndroidManifest.xml #generated:19
+-keep class com.ys.ui.sample.MainMenu { <init>(...); }
+
+# view AndroidManifest.xml #generated:29
+-keep class com.ys.ui.sample.SelectGoodsActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:28
+-keep class com.ys.ui.sample.SerialPortPreferences { <init>(...); }
+

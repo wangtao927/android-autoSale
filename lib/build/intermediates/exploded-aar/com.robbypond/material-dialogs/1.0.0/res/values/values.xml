@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/C:/dev/android/material-dialogs/library/src/main/res/values/attrs.xml -->
+    <eat-comment/>
+    <attr format="color" name="button_color"/>
+    <attr format="color" name="content_color"/>
+    <attr format="color" name="divider_color"/>
+    <attr format="color" name="item_color"/>
+    <attr format="color" name="title_color"/>
+    <!-- From: file:/C:/dev/android/material-dialogs/library/src/main/res/values/colors.xml -->
+    <eat-comment/>
+    <color name="button_dark">#FFFFFF</color>
+    <color name="button_light">#3C3C3D</color>
+    <color name="content_dark">#EDEDED</color>
+    <color name="content_light">#444444</color>
+    <color name="divider_black">#10000000</color>
+    <color name="divider_white">#10FFFFFF</color>
+    <color name="item_dark">#EDEDED</color>
+    <color name="item_light">#535353</color>
+    <color name="material_blue_500">#5677fc</color>
+    <color name="title_dark">#FFFFFF</color>
+    <color name="title_light">#000000</color>
+    <!-- From: file:/C:/dev/android/material-dialogs/library/src/main/res/values/dimens.xml -->
+    <eat-comment/>
+    <dimen name="button_frame_margin">16dp</dimen>
+    <dimen name="button_height">36dp</dimen>
+    <dimen name="button_height_customview">56dp</dimen>
+    <dimen name="button_min_width">56dp</dimen>
+    <dimen name="button_padding">8dp</dimen>
+    <dimen name="button_textsize">14sp</dimen>
+    <dimen name="content_textsize">16sp</dimen>
+    <dimen name="dialog_frame_margin">24dp</dimen>
+    <dimen name="listitem_height">48dp</dimen>
+    <dimen name="listitem_textsize">16sp</dimen>
+    <dimen name="title_margin_customview">8dp</dimen>
+    <dimen name="title_textsize">20sp</dimen>
+    <!-- From: file:/C:/dev/android/material-dialogs/library/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
+    <string name="more_info">More Info</string>
+    <!-- From: file:/C:/dev/android/material-dialogs/library/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="ActionButton" parent="@style/_ActionButtonParent"/>
+    <style name="ActionModeStyle" parent="Widget.AppCompat.ActionMode">
+        <item name="android:background">#000</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_action_close</item>
+        <item name="android:actionModeCloseDrawable">@drawable/ic_action_close</item>
+    </style>
+    <style name="Dark" parent="android:Theme.Black">
+        <item name="title_color">@color/title_dark</item>
+        <item name="content_color">@color/content_dark</item>
+        <item name="item_color">@color/item_dark</item>
+        <item name="button_color">@color/button_dark</item>
+        <item name="divider_color">@color/divider_white</item>
+    </style>
+    <style name="Light" parent="android:Theme.Light">
+        <item name="android:actionModeStyle">@style/ActionModeStyle</item>
+
+        <item name="title_color">@color/title_light</item>
+        <item name="content_color">@color/content_light</item>
+        <item name="item_color">@color/item_light</item>
+        <item name="button_color">@color/button_light</item>
+        <item name="divider_color">@color/divider_black</item>
+    </style>
+    <style name="_ActionButtonParent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/button_height</item>
+        <item name="android:text">@string/accept</item>
+        <item name="android:minWidth">@dimen/button_min_width</item>
+        <item name="android:textSize">@dimen/button_textsize</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/button_padding</item>
+    </style>
+</resources>

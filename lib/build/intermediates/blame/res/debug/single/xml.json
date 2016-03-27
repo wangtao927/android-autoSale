@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "D:\\medicineVend\\project1\\app\\build\\intermediates\\res\\merged\\debug\\xml\\serial_port_preferences.xml",
+        "source": "D:\\medicineVend\\project1\\app\\src\\main\\res\\xml\\serial_port_preferences.xml"
+    },
+    {
+        "merged": "E:\\code\\android\\project1\\app\\build\\intermediates\\res\\merged\\debug\\xml\\serial_port_preferences.xml",
+        "source": "E:\\code\\android\\project1\\app\\src\\main\\res\\xml\\serial_port_preferences.xml"
+    },
+    {
+        "merged": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\res\\merged\\debug\\xml\\serial_port_preferences.xml",
+        "source": "D:\\medicineVend\\project1\\lib\\src\\main\\res\\xml\\serial_port_preferences.xml"
+    }
+]
