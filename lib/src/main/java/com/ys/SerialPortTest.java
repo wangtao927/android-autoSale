@@ -120,7 +120,7 @@ public class SerialPortTest {
                 try {
                     if (mInputStream == null)
                         return;
-                    byte[] buffer = new byte[512];
+                    byte[] buffer = new byte[2048];
                     size = mInputStream.read(buffer);
                     if (size > 0) {
 //                        if(MyLog.isDyeLevel()){

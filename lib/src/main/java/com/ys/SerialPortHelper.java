@@ -2,10 +2,14 @@ package com.ys;
 
 import android.util.Log;
 
+import com.ys.service.MyService;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wangtao on 2016/3/26.
@@ -24,10 +28,14 @@ public class SerialPortHelper {
         ports.add(19200);
         ports.add(38400);
     }
+    private SerialPortTest test = null;
+    private SerialPort serialPort = null;
 
     private String path;
 
     private int port;
+
+    private Map<String, String> serialMap = new HashMap();
     SerialPortTest.OnDataReceiveListener  listener = new SerialPortTest.OnDataReceiveListener() {
         @Override
         public void onDataReceive(byte[] buffer, int size) {
@@ -41,7 +49,7 @@ public class SerialPortHelper {
                 // 打印机
 
                 // pos
-
+                serialMap.put(path, String.valueOf(port));
                 Log.d(TAG, String.format("onDataReceive: path:%s,port:%s", path, port));
 
                 test.closeSerialPort();
@@ -50,23 +58,36 @@ public class SerialPortHelper {
         }
     };
 
-    private SerialPortTest test = null;
-    private SerialPort serialPort = null;
 
     //获取售货机串口  名字 和端口
     public void getSaleSerial() {
+         this.getSerial("020B0B03");
+    }
+
+
+    //获取 打印机串口信息
+
+    private void getPrintSerial() {
+        this.getSerial("");
+    }
+    // 获取银联支付串口
+
+    public void getMiniPosSerial() {
+    }
+    private void getSerial(String cmds) {
         String[] driverPaths = finder.getAllDevicesPath();
 
         for (String path : driverPaths) {
-
+            if (serialMap.containsKey(path)) {
+                continue;
+            }
             for (int port : ports) {
                 try {
                     try {
                         serialPort = new SerialPort(new File(path), port, 0);
 
-
                     } catch (IOException e) {
-                         // 打开串口失败
+                        // 打开串口失败
 
                         continue;
                     }
@@ -75,24 +96,13 @@ public class SerialPortHelper {
                     test = SerialPortTest.getInstance(serialPort);
                     test.setOnDataReceiveListener(listener);
                     test.onCreate();
-                    test.sendCmds("020b0b03");
+                    test.sendCmds(cmds);
 
                 } catch (SecurityException e) {
                     continue;
                 }
-
-
             }
-
         }
-
-
     }
-
-    //获取 打印机串口信息
-
-    // 获取银联支付串口
-
-
 
 }
