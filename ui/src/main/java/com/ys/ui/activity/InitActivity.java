@@ -36,7 +36,7 @@ public class InitActivity extends Activity {
 		BindLfService();
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.pos_main);
 
 		setupUI();//设置UI
 	}
@@ -91,37 +91,6 @@ public class InitActivity extends Activity {
 	private TextView info,key,lcd;
 	private Switch SWsynch;
 
-	private void setupUI(){
-		BTinit = (Button) this.findViewById(R.id.BTinit);
-		BTinit.setOnClickListener(mOnClickListener);
-		BRelease = (Button) this.findViewById(R.id.BTrelease);
-		BRelease.setOnClickListener(mOnClickListener);
-
-		BTsignin = (Button) this.findViewById(R.id.BTsignin);
-		BTsignin.setOnClickListener(mOnClickListener);
-		BTtrade = (Button) this.findViewById(R.id.BTtrade);
-		BTtrade.setOnClickListener(mOnClickListener);
-		BTquery = (Button) this.findViewById(R.id.BTquery);
-		BTquery.setOnClickListener(mOnClickListener);
-
-		BTcancel = (Button) this.findViewById(R.id.BTcancel);
-		BTcancel.setOnClickListener(mOnClickListener);
-
-
-		BTgetRecordInfo = (Button) this.findViewById(R.id.BTgetRecordInfo);
-		BTgetRecordInfo.setOnClickListener(mOnClickListener);
-
-
-		BTsettle = (Button) this.findViewById(R.id.BTsettle);
-		BTsettle.setOnClickListener(mOnClickListener);
-
-		SWsynch = (Switch) this.findViewById(R.id.SWsynch);
-		SWsynch.setOnClickListener(mOnClickListener);
-
-		info = (TextView) this.findViewById(R.id.info);
-		key = (TextView) this.findViewById(R.id.key);
-		lcd = (TextView) this.findViewById(R.id.lcd);
-	}
 	private OnClickListener mOnClickListener = new OnClickListener(){
 
 		@Override
@@ -207,6 +176,40 @@ public class InitActivity extends Activity {
 			}
 			//SWsynch
 		}};
+
+
+	private void setupUI(){
+		BTinit = (Button) this.findViewById(R.id.BTinit);
+		BTinit.setOnClickListener(mOnClickListener);
+		BRelease = (Button) this.findViewById(R.id.BTrelease);
+		BRelease.setOnClickListener(mOnClickListener);
+
+		BTsignin = (Button) this.findViewById(R.id.BTsignin);
+		BTsignin.setOnClickListener(mOnClickListener);
+		BTtrade = (Button) this.findViewById(R.id.BTtrade);
+		BTtrade.setOnClickListener(mOnClickListener);
+		BTquery = (Button) this.findViewById(R.id.BTquery);
+		BTquery.setOnClickListener(mOnClickListener);
+
+		BTcancel = (Button) this.findViewById(R.id.BTcancel);
+		BTcancel.setOnClickListener(mOnClickListener);
+
+
+		BTgetRecordInfo = (Button) this.findViewById(R.id.BTgetRecordInfo);
+		BTgetRecordInfo.setOnClickListener(mOnClickListener);
+
+
+		BTsettle = (Button) this.findViewById(R.id.BTsettle);
+		BTsettle.setOnClickListener(mOnClickListener);
+
+		SWsynch = (Switch) this.findViewById(R.id.SWsynch);
+		SWsynch.setOnClickListener(mOnClickListener);
+
+		info = (TextView) this.findViewById(R.id.info);
+		key = (TextView) this.findViewById(R.id.key);
+		lcd = (TextView) this.findViewById(R.id.lcd);
+	}
+
 	//////////////////////////////////////////业务返回///////////////////////////////////////
 	private Handler mmHandler = new Handler(){
 		@Override
