@@ -1,0 +1,107 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".TestActivity" >
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/BTinit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="POS接口初始化" />
+        <Button
+            android:id="@+id/BTrelease"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="POS接口释放" />
+        <Button
+            android:id="@+id/BTsignin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="POS签到" />
+        <Button
+            android:id="@+id/BTsettle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="POS结算" />
+        </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/BTtrade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="POS消费" />
+
+        </LinearLayout>
+
+
+
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/BTquery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="POS余额查询" />
+    <Button
+        android:id="@+id/BTcancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="POS取消" />
+
+        <Button
+            android:visibility="invisible"
+            android:id="@+id/BTgetRecordInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="POS取交易信息" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Switch
+            android:checked="false"
+            android:id="@+id/SWsynch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/lcd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/info"
+        android:text="1111111111111"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
+	
+</RelativeLayout>

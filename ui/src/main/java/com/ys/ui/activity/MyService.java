@@ -1,0 +1,151 @@
+package com.ys.ui.activity;
+
+
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Binder;
+import android.os.IBinder;
+import android.util.Log;
+
+import com.landfoneapi.misposwa.E_REQ_RETURN;
+import com.landfoneapi.misposwa.ILfListener;
+import com.landfoneapi.misposwa.MyApi;
+
+public class MyService extends Service {
+
+	private MyBinder mBinder = new MyBinder();
+	private Context getServiceContext(){
+		return this;
+	}
+	@Override
+	public IBinder onBind(Intent arg0) {
+		return mBinder;
+	}
+	@Override
+	public void onCreate(){
+		Log.i("MyService", "onCreate!!");
+		super.onCreate();
+	}
+	@Override
+	public void onDestroy(){
+		Log.i("MyService", "onDestroy!!");
+		super.onDestroy();
+	}
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		flags = START_STICKY;
+		return super.onStartCommand(intent, flags, startId);
+	}
+	public class MyBinder extends Binder{
+		/**
+		 * 获取当前Service的实例
+		 * @return
+		 */
+		public MyService getService(){
+			return MyService.this;
+		}
+		///////////////////////////////////////业务操作////////////////////////////////////////////
+		private MyApi mMyApi = new MyApi();
+
+		public void setILfListener(ILfListener lsn){
+			mMyApi.setILfListener(lsn);
+		}
+
+		/**
+		 * 是否使用同步接口，切换时设置一次即可
+		 * @param v
+		 */
+		public void setUseSynch(boolean v){
+			 mMyApi.setUseSynch(v);
+		}
+
+		/**
+		 * 是否使用同步方法
+		 * @return
+		 */
+		public boolean isUseSynch(){
+			return mMyApi.isUseSynch();
+		}
+		public E_REQ_RETURN pos_init(){
+			//设置串口接口
+			mMyApi.setPOSISerialPort(null);//null时使用android的串口jni，android_serialport_api.SerialPort
+			//设置透传ip、端口；POS的串口路径和波特率
+			return mMyApi.pos_init("211.147.64.198", 5800, "/dev/ttyS1", "9600");//"/dev/ttyS1"//lf
+		}
+		/**
+		 * 签到
+		 * @return
+		 */
+		public E_REQ_RETURN pos_signin(){
+			return mMyApi.pos_signin();
+		}
+
+		/**
+		 *	取助农类交易信息
+		 * @param tradeSerial 凭证号,填写"000000"为获取最后一笔交易
+		 * @return
+		 */
+		public E_REQ_RETURN pos_getTradeInfo(String tradeSerial){
+			return mMyApi.pos_getrecord("000000000000000","00000000",tradeSerial);
+		}
+
+		/**
+		 * 取消操作，网络通讯时不可取消
+		 * @return
+		 */
+		public E_REQ_RETURN pos_cancel(){
+			return mMyApi.pos_cancel();
+		}
+
+		/**
+		 * 确认操作
+		 * @return
+		 */
+		public E_REQ_RETURN pos_confirm(){
+			return mMyApi.pos_confirm();
+		}
+		/**
+		 * 释放接口
+		 * @return
+		 */
+		public E_REQ_RETURN pos_release(){
+			return mMyApi.pos_release();
+		}
+
+		/**
+		 * 结算
+		 * @return
+		 */
+		public E_REQ_RETURN pos_settle(){
+			return mMyApi.pos_settle();
+		}
+
+
+
+		///////////////////////////////////////////////////非助农接口////////////////////////////////////////////////////////////
+		/**
+		 * 查余额，余额通过液晶透传显示数据上报（Display）
+		 * @return
+		 */
+		public E_REQ_RETURN pos_query(){
+			return mMyApi.pos_query();
+		}
+
+		/**
+		 * 消费
+		 * @param amount_fen
+		 * @return
+		 */
+		public E_REQ_RETURN pos_purchase(int amount_fen){
+			return mMyApi.pos_purchase(amount_fen);
+		}
+
+		/**
+		 * 是否允许查询余额
+		 * @return	false-允许
+		 */
+		public boolean pos_isQuerying(){return mMyApi.pos_isQuerying();}
+
+	}
+}
