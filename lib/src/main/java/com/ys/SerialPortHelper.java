@@ -2,7 +2,6 @@ package com.ys;
 
 import android.util.Log;
 
-import com.ys.service.MyService;
 
 import java.io.File;
 import java.io.IOException;

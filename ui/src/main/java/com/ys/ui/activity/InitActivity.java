@@ -9,6 +9,7 @@ import com.landfoneapi.protocol.pkg.DisplayType;
 import com.landfoneapi.protocol.pkg._04_GetRecordReply;
 import com.landfoneapi.protocol.pkg._04_PassbookRenewReply;
 import com.ys.ui.R;
+import com.ys.ui.service.MyService;
 
 import android.app.Activity;
 import android.content.ComponentName;
