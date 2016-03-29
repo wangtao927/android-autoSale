@@ -1,1 +1,1 @@
-include ':lib', ':ui'
+include ':lib', ':ui', ':daogenerate'

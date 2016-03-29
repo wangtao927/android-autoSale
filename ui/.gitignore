@@ -1,1 +1,13 @@
-/build
+build/*
+.idea
+target
+
+*.iml
+out
+.idea/*
+
+### Java template
+*.class
+
+###log file
+*.log

@@ -36,7 +36,7 @@
         <activity android:name=".sample.SelectGoodsActivity" />
         <activity android:name=".sample.MainMenu"></activity>
 
-        <service android:name="com.ys.ui.activity.MyService"/>
+        <service android:name="com.ys.ui.service.MyService"/>
 
 
         <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
