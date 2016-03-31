@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="确定" />
+
+    <EditText
+        android:id="@+id/et_input"
+        android:layout_width="342dp"
+        android:layout_height="162dp"
+        android:layout_weight="0.65"></EditText>
+    <EditText
+        android:id="@+id/et_out"
+        android:layout_width="339dp"
+        android:layout_height="247dp"
+        android:layout_marginTop="10dp"></EditText>
+
+    <include layout="@layout/include_loading" />
+</LinearLayout>
+
