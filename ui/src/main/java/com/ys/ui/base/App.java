@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 
 import com.ys.SerialPort;
 import com.ys.SerialPortFinder;
+import com.ys.data.dao.DaoMaster;
+import com.ys.data.dao.DaoSession;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +16,10 @@ import java.security.InvalidParameterException;
 public class App extends Application {
 
     private static Context mApplicationContext;
+
+    private static DaoMaster daoMaster;
+    private static DaoSession daoSession;
+
 
     public SerialPortFinder mSerialPortFinder = new SerialPortFinder();
     private SerialPort mSerialPort = null;
@@ -55,5 +61,30 @@ public class App extends Application {
             mSerialPort.close();
             mSerialPort = null;
         }
+    }
+
+
+    public static DaoMaster getDaoMaster(Context context) {
+        if (daoMaster == null) {
+            DaoMaster.OpenHelper helper = new DaoMaster.DevOpenHelper(context,Constants.DB_NAME, null);
+            daoMaster = new DaoMaster(helper.getWritableDatabase());
+        }
+        return daoMaster;
+    }
+
+    /**
+     * 取得DaoSession
+     *
+     * @param context
+     * @return
+     */
+    public static DaoSession getDaoSession(Context context) {
+        if (daoSession == null) {
+            if (daoMaster == null) {
+                daoMaster = getDaoMaster(context);
+            }
+            daoSession = daoMaster.newSession();
+        }
+        return daoSession;
     }
 }
