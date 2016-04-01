@@ -21,6 +21,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.btn_sample)
     Button btnSample;
 
+    @Bind(R.id.btn_print)
+    Button btnPrint;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -32,6 +34,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         btnGetDrug.setOnClickListener(this);
         btnQuery.setOnClickListener(this);
         btnSample.setOnClickListener(this);
+        btnPrint.setOnClickListener(this);
     }
 
     @Override
@@ -43,6 +46,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.btn_query:
                 break;
             case R.id.btn_sample:
+                startActivity(new Intent(MainActivity.this, MainMenu.class));
+                break;
+            case R.id.btn_print:
                 startActivity(new Intent(MainActivity.this, MainMenu.class));
                 break;
         }

@@ -2,7 +2,6 @@ package com.ys;
 
 import android.util.Log;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,7 +69,6 @@ public class SerialPortHelper {
         this.getSerial("");
     }
     // 获取银联支付串口
-
     public void getMiniPosSerial() {
     }
     private void getSerial(String cmds) {

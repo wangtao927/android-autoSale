@@ -20,7 +20,7 @@ public class SerialPortUtil {
     private ReadThread mReadThread;
     private String path = "/dev/ttyS2";
     private int baudrate = 19200;
-    private static SerialPortUtil portUtil;
+    private static SerialPortUtil serialPortUtil;
     private OnDataReceiveListener onDataReceiveListener = null;
     private boolean isStop = false;
 
@@ -33,12 +33,19 @@ public class SerialPortUtil {
         onDataReceiveListener = dataReceiveListener;
     }
 
+    public SerialPortUtil(OnDataReceiveListener onDataReceiveListener) {
+            this.onDataReceiveListener = onDataReceiveListener;
+           this.onCreate();
+    }
+    public SerialPortUtil() {
+           this.onCreate();
+    }
+
     public static SerialPortUtil getInstance() {
-        if (null == portUtil) {
-            portUtil = new SerialPortUtil();
-            portUtil.onCreate();
+        if (serialPortUtil == null) {
+            serialPortUtil = new SerialPortUtil();
         }
-        return portUtil;
+        return serialPortUtil;
     }
 
     /**

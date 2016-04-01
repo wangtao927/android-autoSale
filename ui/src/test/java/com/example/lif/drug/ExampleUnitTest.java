@@ -1,4 +1,4 @@
-package com.example.lif.ui;
+package com.ys.lif.ui;
 
 import org.junit.Test;
 

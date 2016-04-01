@@ -24,6 +24,10 @@
         "source": "E:\\code\\android\\productAutoSale\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\layout\\activity_main.xml"
     },
     {
+        "merged": "E:\\code\\github\\android-autoSale\\lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\activity_main.xml",
+        "source": "E:\\code\\github\\android-autoSale\\lib\\build\\intermediates\\bundles\\debug\\res\\layout\\activity_main.xml"
+    },
+    {
         "merged": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\select_goods.xml",
         "source": "D:\\medicineVend\\project1\\lib\\build\\intermediates\\bundles\\debug\\res\\layout\\select_goods.xml"
     }
