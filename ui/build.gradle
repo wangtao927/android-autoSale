@@ -18,6 +18,12 @@ android {
     }
     productFlavors {
     }
+
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java', 'src/main/java-gen']
+        }
+    }
 }
 
 dependencies {
@@ -46,5 +52,6 @@ dependencies {
     compile 'org.jsoup:jsoup:1.8.3'
     compile project(':lib')
     compile files('libs/android-serialport.jar')
+    compile files('libs/landfone-mispos.jar')
 
 }
