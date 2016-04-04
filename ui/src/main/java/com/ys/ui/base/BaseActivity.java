@@ -1,16 +1,22 @@
 package com.ys.ui.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.ys.ui.R;
+import com.ys.data.bean.McStatusBean;
+import com.ys.data.dao.DaoMaster;
+import com.ys.data.dao.DaoSession;
+import com.ys.data.dao.McStatusBeanDao;
+import com.ys.ui.activity.MainActivity;
+import com.ys.ui.activity.TermInitActivity;
 
-import butterknife.Bind;
+import java.util.List;
+
 import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -26,7 +32,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayoutId());
         ButterKnife.bind(this);
         create(savedInstanceState);
+
+
+
+
+
     }
+
+
 
     @Override
     protected void onDestroy() {

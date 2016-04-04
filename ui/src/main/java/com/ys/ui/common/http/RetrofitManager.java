@@ -22,7 +22,7 @@ import rx.Observable;
 
 public class RetrofitManager {
 
-    public static final String BASE_URL = "http://www.baidu.com/";
+    public static final String BASE_URL = "http://112.74.69.111/?s=svr/";
 
     //短缓存有效期为1分钟
     public static final int CACHE_STALE_SHORT = 60;

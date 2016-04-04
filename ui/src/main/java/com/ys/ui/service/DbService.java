@@ -2,7 +2,7 @@ package com.ys.ui.service;
 
 import android.content.Context;
 
-import com.ys.base.GreenDao;
+
 import com.ys.data.dao.DaoSession;
 import com.ys.data.dao.GoodsBeanDao;
 import com.ys.data.dao.McGoodsBeanDao;
@@ -12,44 +12,62 @@ import com.ys.data.dao.PromotionBeanDao;
 import com.ys.data.dao.SaleListBeanDao;
 import com.ys.ui.base.App;
 
+import java.util.Collection;
+import java.util.List;
+
+import de.greenrobot.dao.AbstractDao;
+import de.greenrobot.dao.query.Query;
+import de.greenrobot.dao.query.QueryBuilder;
+
 /**
  * Created by wangtao on 2016/4/1.
  */
-public class DbService {
+public interface DbService<V, K>{
 
-    private static final String TAG = DbService.class.getSimpleName();
-    private static DbService instance;
-    private static Context appContext;
-    private DaoSession mDaoSession;
+    boolean insert(V v);
 
-    private McStatusBeanDao mcStatusBeanDao;
-    private McGoodsBeanDao mcGoodsBeanDao;
-    private McParamsBeanDao mcParamsBeanDao;
-    private SaleListBeanDao saleListBeanDao;
-    private GoodsBeanDao goodsBeanDao;
-    private PromotionBeanDao promotionBeanDao;
+    boolean delete(V v);
 
+    boolean deleteByKey(K key);
 
-    private DbService() {
-    }
+    boolean deleteList(List<K> list);
 
-    public static DbService getInstance(Context context) {
-        if (instance == null) {
-            instance = new DbService();
-            if (appContext == null){
-                appContext = context.getApplicationContext();
-            }
-            instance.mDaoSession = App.getDaoSession(context);
-            instance.mcStatusBeanDao = instance.mDaoSession.getMcStatusBeanDao();
-            instance.mcGoodsBeanDao = instance.mDaoSession.getMcGoodsBeanDao();
-            instance.goodsBeanDao = instance.mDaoSession.getGoodsBeanDao();
-            instance.promotionBeanDao = instance.mDaoSession.getPromotionBeanDao();
-            instance.mcParamsBeanDao = instance.mDaoSession.getMcParamsBeanDao();
-            instance.saleListBeanDao = instance.mDaoSession.getSaleListBeanDao();
+    boolean deleteByKeyIn(K... keys);
 
-        }
-        return instance;
-    }
+    boolean deleteAll();
 
+    boolean insertOrReplate(V v);
+
+    boolean update(V v);
+
+    boolean updateIn(V... v);
+
+    boolean updateList(List<V> lists);
+
+    V selectByPrimaryKey(K key);
+
+    List<V> loadAll();
+
+    boolean refresh(V v);
+
+    boolean dropDatabase();
+
+    void runIn(Runnable runnable);
+
+    AbstractDao<V, K> getAbstractDao();
+
+    boolean insertList(List<V> lists);
+
+    boolean insertOrReplaceList(List<V> lists);
+
+    QueryBuilder<V> getQueryBuilder();
+
+    List<V> queryRaw(String where, String... selectionArg);
+
+    Query<V> queryRawCreate(String where, Object... selectArg);
+
+    Query<V> queryRawCreateListArgs(String where, Collection<Object> selectionsArg);
+
+    
 
 }

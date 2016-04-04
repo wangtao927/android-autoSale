@@ -25,9 +25,6 @@ import java.io.LineNumberReader;
 import java.util.Iterator;
 import java.util.Vector;
 
-/**
- *
- */
 public class SerialPortFinder {
 
 	public class Driver {

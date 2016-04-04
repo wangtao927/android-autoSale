@@ -69,8 +69,7 @@ public class SerialPortHelper {
         this.getSerial("");
     }
     // 获取银联支付串口
-    public void getMiniPosSerial() {
-    }
+
     private void getSerial(String cmds) {
         String[] driverPaths = finder.getAllDevicesPath();
 

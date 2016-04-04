@@ -9,41 +9,52 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
-        <activity
-            android:name=".activity.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-       <!-- <activity
-            android:name="com.ys.ui.activity.InitActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>-->
-        <activity
-            android:name=".activity.GetProductActivity"
-            android:label="@string/title_activity_get_product"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".sample.SerialPortPreferences"></activity>
-        <activity android:name=".sample.SelectGoodsActivity" />
-        <activity android:name=".sample.MainMenu"></activity>
-
-        <service android:name="com.ys.ui.service.MyService"/>
-
 
         <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
         <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
         <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
         <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
         <uses-permission android:name="android.permission.INTERNET"/>
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
+        <activity
+            android:name="com.ys.ui.activity.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+       <!-- <activity
+            android:name=".activity.InitActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>-->
+        <activity
+            android:name="com.ys.ui.activity.GetProductActivity"
+            android:label="@string/title_activity_get_product"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name="com.ys.ui.activity.PrintActivity"
+            android:label="@string/print"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+         <activity
+            android:name="com.ys.ui.activity.TermInitActivity"
+            android:label="@string/term_init" ></activity>
+
+<!--
+        <activity android:name="com.ys.ui.activity.MainActivity"></activity>
+-->
+        <activity android:name="com.ys.ui.sample.SerialPortPreferences"></activity>
+        <activity android:name="com.ys.ui.sample.SelectGoodsActivity" />
+        <activity android:name="com.ys.ui.sample.MainMenu"></activity>
+
+        <service android:name="com.ys.ui.service.MyService"/>
     </application>
 </manifest>
