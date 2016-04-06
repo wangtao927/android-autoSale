@@ -45,7 +45,7 @@
             android:label="@string/print"
             android:theme="@style/AppTheme.NoActionBar"></activity>
          <activity
-            android:name="com.ys.ui.activity.TermInitActivity"
+            android:name="com.ys.ui.activity.TermInitActivity" android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/term_init" ></activity>
 
 <!--

@@ -32,11 +32,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayoutId());
         ButterKnife.bind(this);
         create(savedInstanceState);
-
-
-
-
-
     }
 
 
