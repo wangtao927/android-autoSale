@@ -1,6 +1,7 @@
 package com.ys.ui.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -18,6 +19,8 @@ import com.ys.data.bean.McStatusBean;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
+import com.ys.ui.common.http.RetrofitManager;
+import com.ys.ui.common.response.TermInitResponse;
 import com.ys.ui.sample.MainMenu;
 import com.ys.ui.utils.StringUtils;
 import com.ys.ui.utils.ToastUtils;
@@ -51,16 +54,21 @@ public class TermInitActivity extends Activity {
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+
+        // 到后台去检验 终端号是否合法
+        RetrofitManager manager = RetrofitManager.builder();
+        TermInitResponse response = manager.mcReset(et_termno.getText().toString(), "12345678");
+            ToastUtils.showShortMessage(response.toString(), App.getContext());
             // 存储到  sqllite 中
         App.getDaoSession(App.getContext()).getMcStatusBeanDao().insertOrReplace(getInitBean(et_termno.getText().toString()));
         McStatusBean bean = App.getDaoSession(App.getContext()).getMcStatusBeanDao().load(1);
         ToastUtils.showError(et_termno.getText().toString() + bean.getMr_id(), App.getContext());
 
-         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        double latitude = location.getLatitude();     //经度
-        double longitude = location.getLongitude(); //纬度
-        double altitude =  location.getAltitude();     //海拔
+//         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//        double latitude = location.getLatitude();     //经度
+//        double longitude = location.getLongitude(); //纬度
+//        double altitude =  location.getAltitude();     //海拔
         }
     };
     private McStatusBean getInitBean(String termno) {

@@ -99,8 +99,8 @@ public class DaoGenerate {
         Entity mcParamBean = schema.addEntity("McParamsBean");
         mcParamBean.setTableName("mcparams");
 
-        mcParamBean.addLongProperty("mp_id").primaryKey().autoincrement();
-        mcParamBean.addStringProperty("p_code");
+        mcParamBean.addLongProperty("mp_id").autoincrement();
+        mcParamBean.addStringProperty("p_code").primaryKey();
         mcParamBean.addStringProperty("mcp_pvalue");
     }
 

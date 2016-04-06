@@ -18,4 +18,7 @@ public interface ProductApi {
     @GET("/product/{code}")
     Observable<Object> queryProductByCode(@Path("code") String code);
 
+
+
+
 }

@@ -2,10 +2,15 @@ package com.ys.ui.common.http;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.ys.ui.base.App;
+import com.ys.ui.common.response.TermInitResponse;
+import com.ys.ui.common.sign.Signature;
 import com.ys.ui.utils.NetUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -22,7 +27,7 @@ import rx.Observable;
 
 public class RetrofitManager {
 
-    public static final String BASE_URL = "http://112.74.69.111/?s=svr/";
+    public static final String BASE_URL = "http://112.74.69.111:8088/svr/";
 
     //短缓存有效期为1分钟
     public static final int CACHE_STALE_SHORT = 60;
@@ -37,6 +42,7 @@ public class RetrofitManager {
     public static final String CACHE_CONTROL_NETWORK = "max-age=0";
     private static OkHttpClient mOkHttpClient;
     private final ProductApi mProductApi;
+    private final TermStatusApi termStatusApi;
 
     public static RetrofitManager builder() {
         return new RetrofitManager();
@@ -53,6 +59,7 @@ public class RetrofitManager {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         mProductApi = retrofit.create(ProductApi.class);
+        termStatusApi = retrofit.create(TermStatusApi.class);
     }
 
     private void initOkHttpClient() {
@@ -61,7 +68,6 @@ public class RetrofitManager {
         if (mOkHttpClient == null) {
             synchronized (RetrofitManager.class) {
                 if (mOkHttpClient == null) {
-
                     // 指定缓存路径,缓存大小100Mb
                     Cache cache = new Cache(new File(App.getContext().getCacheDir(), "HttpCache"),
                             1024 * 1024 * 100);
@@ -104,5 +110,16 @@ public class RetrofitManager {
 
     public Observable<Object> queryProductByCode(String code) {
         return mProductApi.queryProductByCode(code);
+    }
+
+    public TermInitResponse mcReset(String termno, String mcno) {
+        Map map = new HashMap<String, Object>();
+        long time = Calendar.getInstance().getTimeInMillis();
+        map.put("mc_serial_no", mcno);
+        map.put("mc_no", termno);
+        map.put("time", time);
+        String sign = Signature.getSign(map);
+        return termStatusApi.mcReset(termno, mcno, time, sign);
+
     }
 }
