@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="android-serialport">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/ui/libs/android-serialport.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

@@ -1,0 +1,14 @@
+*.iml
+*.json
+*/target/*
+.idea/
+*/logs/*
+logs/*
+build/*
+ui/*.iml
+lib/*.iml
+lib/build
+local.properties
+.gradle
+# Mac-specific directory that no other operating system needs.
+.DS_Store

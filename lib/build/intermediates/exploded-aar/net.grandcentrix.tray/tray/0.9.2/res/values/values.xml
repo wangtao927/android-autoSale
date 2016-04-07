@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- From: file:/Users/pascalwelsch/Projects/tray/library/build/generated/res/generated/release/values/generated.xml -->
-    <eat-comment/>
-    <item name="tray__authority" type="string">com.example.preferences</item>
-</resources>
