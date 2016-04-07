@@ -1,16 +1,16 @@
 package com.ys.ui.service;
 
 
+import com.landfoneapi.misposwa.E_REQ_RETURN;
+import com.landfoneapi.misposwa.ILfListener;
+import com.landfoneapi.misposwa.MyApi;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
-
-import com.landfoneapi.misposwa.E_REQ_RETURN;
-import com.landfoneapi.misposwa.ILfListener;
-import com.landfoneapi.misposwa.MyApi;
 
 public class MyService extends Service {
 
@@ -32,6 +32,7 @@ public class MyService extends Service {
 		Log.i("MyService", "onDestroy!!");
 		super.onDestroy();
 	}
+
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		flags = START_STICKY;

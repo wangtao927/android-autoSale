@@ -112,7 +112,7 @@ public class RetrofitManager {
         return mProductApi.queryProductByCode(code);
     }
 
-    public TermInitResponse mcReset(String termno, String mcno) {
+    public Observable<TermInitResponse>  mcReset(String termno, String mcno) {
         Map map = new HashMap<String, Object>();
         long time = Calendar.getInstance().getTimeInMillis();
         map.put("mc_serial_no", mcno);
@@ -120,6 +120,16 @@ public class RetrofitManager {
         map.put("time", time);
         String sign = Signature.getSign(map);
         return termStatusApi.mcReset(termno, mcno, time, sign);
-
     }
+
+//    public TermInitResponse mcReset(String termno, String mcno) {
+//        Map map = new HashMap<String, Object>();
+//        long time = Calendar.getInstance().getTimeInMillis();
+//        map.put("mc_serial_no", mcno);
+//        map.put("mc_no", termno);
+//        map.put("time", time);
+//        String sign = Signature.getSign(map);
+//        return termStatusApi.mcReset(termno, mcno, time, sign);
+//
+//    }
 }

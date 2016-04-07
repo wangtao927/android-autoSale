@@ -5,6 +5,8 @@ import com.ys.ui.common.response.TermInitResponse;
 
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Query;
+import rx.Observable;
 
 /**
  * Created by wangtao on 2016/4/5.
@@ -19,5 +21,5 @@ public interface TermStatusApi {
      */
     @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_SHORT)
     @GET("/mcReset")
-    TermInitResponse mcReset(String mc_no, String mc_serial_no, long time, String sign);
+    Observable<TermInitResponse> mcReset(@Query("mc_no") String mc_no, @Query("mc_serial_no") String mc_serial_no, @Query("time") long time, @Query("sign") String sign);
 }
