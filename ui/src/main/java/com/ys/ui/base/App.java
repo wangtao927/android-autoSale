@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.facebook.stetho.Stetho;
 import com.ys.SerialPort;
 import com.ys.SerialPortFinder;
 import com.ys.data.dao.DaoMaster;
@@ -31,6 +32,15 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mApplicationContext = this;
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(
+                                Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(
+                                Stetho.defaultInspectorModulesProvider(this))
+                        .build());
+
+
     }
 
     // 获取ApplicationContext

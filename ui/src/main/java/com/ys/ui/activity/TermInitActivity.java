@@ -8,10 +8,9 @@ import android.widget.Toast;
 
 import com.ys.data.bean.McStatusBean;
 import com.ys.ui.R;
-import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
 import com.ys.ui.common.http.RetrofitManager;
-import com.ys.ui.utils.ToastUtils;
+import com.ys.ui.common.response.TermInitResponse;
 
 import java.util.Date;
 
@@ -22,17 +21,19 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
- *初始化终端参数  初始化终端号
+ * 初始化终端参数  初始化终端号
  */
 public class TermInitActivity extends BaseActivity implements View.OnClickListener {
     private String TAG = "TermInitActivity";
+
     @Override
     protected void create(Bundle savedInstanceState) {
 
         btn_save.setOnClickListener(this);
     }
+
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
 
     }
@@ -59,18 +60,17 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-          switch (v.getId()) {
-              case R.id.btn_save:
-                  check();
-                  // 到后台去检验 终端号是否合法
+        switch (v.getId()) {
+            case R.id.btn_save:
+                check();
+                // 到后台去检验 终端号是否合法
                  /* RetrofitManager manager = RetrofitManager.builder();
                   TermInitResponse response = manager.mcReset();
                   ToastUtils.showShortMessage(response.toString(), App.getContext());*/
-                  // 存储到  sqllite 中
-                  App.getDaoSession(App.getContext()).getMcStatusBeanDao().insertOrReplace(getInitBean(et_termno.getText().toString()));
-                  McStatusBean bean = App.getDaoSession(App.getContext()).getMcStatusBeanDao().load(1);
-                  ToastUtils.showError(et_termno.getText().toString() + bean.getMr_id(), App.getContext());
-
+                // 存储到  sqllite 中
+//                App.getDaoSession(App.getContext()).getMcStatusBeanDao().insertOrReplace(getInitBean(et_termno.getText().toString()));
+//                McStatusBean bean = App.getDaoSession(App.getContext()).getMcStatusBeanDao().load(1);
+//                ToastUtils.showError(et_termno.getText().toString() + bean.getMr_id(), App.getContext());
 
 
 //         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -78,9 +78,9 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
 //        double latitude = location.getLatitude();     //经度
 //        double longitude = location.getLongitude(); //纬度
 //        double altitude =  location.getAltitude();     //海拔
-                  break;
+                break;
 
-          }
+        }
     }
 
     private void check() {
@@ -91,11 +91,12 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
                     @Override
                     public void call() {
                         //showProgress();
+                        int  i = 0;
                     }
                 })
-                .subscribe(new Action1<Object>() {
+                .subscribe(new Action1<TermInitResponse>() {
                     @Override
-                    public void call(Object newsList) {
+                    public void call(TermInitResponse response) {
                         Toast.makeText(TermInitActivity.this, "成功", Toast.LENGTH_SHORT).show();
                     }
                 }, new Action1<Throwable>() {
