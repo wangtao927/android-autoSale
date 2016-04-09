@@ -16,10 +16,19 @@ public class DaoGenerate {
         addMCGoods(schema);
         addMCParams(schema);
         addMCStatus(schema);
+           addMcAdmin(schema);
         addPromotion(schema);
         addSaleList(schema);
 
          new DaoGenerator().generateAll(schema, "E:/code/github/android-autoSale/ui/src/main/java-gen");
+    }
+
+    private static void addMcAdmin(Schema schema) {
+        Entity mcParamBean = schema.addEntity("McAdminBean");
+        mcParamBean.setTableName("mcadmin");
+        mcParamBean.addStringProperty("u_no").primaryKey();//机身号
+        mcParamBean.addStringProperty("u_pwd");
+
     }
 
     /**
@@ -99,22 +108,25 @@ public class DaoGenerate {
         Entity mcParamBean = schema.addEntity("McParamsBean");
         mcParamBean.setTableName("mcparams");
 
-        mcParamBean.addLongProperty("mp_id").autoincrement();
-        mcParamBean.addStringProperty("p_code").primaryKey();
-        mcParamBean.addStringProperty("mcp_pvalue");
+//        mcParamBean.addIntProperty("mp_id").autoincrement();
+        mcParamBean.addStringProperty("pcode").primaryKey();
+        mcParamBean.addStringProperty("pvalue");
     }
 
     private static void addMCStatus(Schema schema) {
         Entity mcParamBean = schema.addEntity("McStatusBean");
         mcParamBean.setTableName("mcstatus");
-        mcParamBean.addIntProperty("mr_id").primaryKey();
-        mcParamBean.addStringProperty("mc_no");
-        mcParamBean.addStringProperty("mr_coin_status");
-        mcParamBean.addStringProperty("mr_coin_short");
-        mcParamBean.addStringProperty("mr_bill_status");
+        mcParamBean.addStringProperty("mc_id").primaryKey();//主键ID
+        mcParamBean.addStringProperty("mc_no");//终端号
+        mcParamBean.addStringProperty("mc_serial_no");//机身号
+        mcParamBean.addStringProperty("mr_coin_status");//DEFAULT '0' COMMENT '硬币器状态：''0''-正常，''1''-异常。',
+        mcParamBean.addStringProperty("mr_coin_short");//DEFAULT NULL COMMENT '硬币预警',
+        mcParamBean.addStringProperty("mr_bill_status");//DEFAULT '0' COMMENT '纸币器状态：''0''-正常，''1''-异常。',
         mcParamBean.addStringProperty("mr_bill_short");
         mcParamBean.addStringProperty("mr_uppos_status");
         mcParamBean.addStringProperty("mr_scpos_status");
+        mcParamBean.addStringProperty("mr_alipay_status");
+        mcParamBean.addStringProperty("mr_wxpay_status");
         mcParamBean.addStringProperty("mr_net_status");
         mcParamBean.addStringProperty("mr_temp");
         mcParamBean.addStringProperty("mr_door_isfault");
@@ -127,6 +139,7 @@ public class DaoGenerate {
         mcParamBean.addStringProperty("mr_gear_fault_nos");
         mcParamBean.addIntProperty("mr_data_fault");
         mcParamBean.addDateProperty("mr_door_date");
+        mcParamBean.addDateProperty("mr_mc_position");
         mcParamBean.addDateProperty("addtime");
         mcParamBean.addDateProperty("updatetime");
     }

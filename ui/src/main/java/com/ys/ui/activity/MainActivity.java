@@ -77,7 +77,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(new Intent(MainActivity.this, PrintActivity.class));
                 break;
             case R.id.btn_admin:
-                startActivity(new Intent(MainActivity.this, PrintActivity.class));
+                startActivity(new Intent(MainActivity.this, AdminActivity.class));
                 break;
         }
     }

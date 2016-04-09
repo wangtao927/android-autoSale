@@ -2,7 +2,11 @@ package com.ys.ui.common.http;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.ys.ui.base.App;
-import com.ys.ui.common.response.TermInitResponse;
+import com.ys.ui.common.request.CommonRequest;
+import com.ys.ui.common.request.McDataVo;
+import com.ys.ui.common.response.CommonResponse;
+import com.ys.ui.common.response.McDataResult;
+import com.ys.ui.common.response.TermInitResult;
 import com.ys.ui.common.sign.Signature;
 import com.ys.ui.utils.NetUtil;
 
@@ -27,7 +31,8 @@ import rx.Observable;
 
 public class RetrofitManager {
 
-    public static final String BASE_URL = "http://112.74.69.111:8088/svr/";
+    public static final String BASE_URL = "http://112.74.69.111:8088/api/";
+//    public static final String BASE_URL = "http://192.168.1.130:8088/api/";
 
     //短缓存有效期为1分钟
     public static final int CACHE_STALE_SHORT = 60;
@@ -43,6 +48,7 @@ public class RetrofitManager {
     private static OkHttpClient mOkHttpClient;
     private final ProductApi mProductApi;
     private final TermStatusApi termStatusApi;
+    private final McDataApi mcDataApi;
 
     public static RetrofitManager builder() {
         return new RetrofitManager();
@@ -60,6 +66,7 @@ public class RetrofitManager {
                 .build();
         mProductApi = retrofit.create(ProductApi.class);
         termStatusApi = retrofit.create(TermStatusApi.class);
+        mcDataApi = retrofit.create(McDataApi.class);
     }
 
     private void initOkHttpClient() {
@@ -98,6 +105,7 @@ public class RetrofitManager {
             if (NetUtil.isNetworkConnected()) {
                 //有网的时候读接口上的@Headers里的配置，你可以在这里进行统一的设置
                 String cacheControl = request.cacheControl().toString();
+                //.header("content-type", "application/json")
                 return originalResponse.newBuilder().header("Cache-Control", cacheControl)
                         .removeHeader("Pragma").build();
             } else {
@@ -112,24 +120,19 @@ public class RetrofitManager {
         return mProductApi.queryProductByCode(code);
     }
 
-    public Observable<TermInitResponse>  mcReset(String termno, String mcno) {
+    public Observable<CommonResponse<TermInitResult>>  mcReset(String mcno) {
         Map map = new HashMap<String, Object>();
         long time = Calendar.getInstance().getTimeInMillis();
         map.put("mc_serial_no", mcno);
-        map.put("mc_no", termno);
         map.put("time", time);
         String sign = Signature.getSign(map);
-        return termStatusApi.mcReset(termno, mcno, time, sign);
+
+        return termStatusApi.mcReset(mcno, time, sign);
     }
 
-//    public TermInitResponse mcReset(String termno, String mcno) {
-//        Map map = new HashMap<String, Object>();
-//        long time = Calendar.getInstance().getTimeInMillis();
-//        map.put("mc_serial_no", mcno);
-//        map.put("mc_no", termno);
-//        map.put("time", time);
-//        String sign = Signature.getSign(map);
-//        return termStatusApi.mcReset(termno, mcno, time, sign);
-//
-//    }
+    public Observable<CommonResponse<McDataResult>> postMcData(CommonRequest<McDataVo> request) {
+
+        return mcDataApi.postMcData(request);
+    }
+
 }

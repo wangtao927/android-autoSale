@@ -1,46 +1,33 @@
 package com.ys.ui.common.response;
 
 import com.ys.data.bean.GoodsBean;
+import com.ys.data.bean.McAdminBean;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.McParamsBean;
+import com.ys.data.bean.McStatusBean;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 /**
- * Created by wangtao on 2016/4/5.
+ * Created by wangtao on 2016/4/9.
  */
-public class TermInitResponse implements Serializable {
+public class TermInitResult implements Serializable {
 
-    int code;
-
-    String msg;
-
-    List<McParamsBean>  mcparam;
+    List<McParamsBean> mcparam;
 
     List<McGoodsBean> mcgoods;
 
     List<GoodsBean> goods;
 
+    List<McAdminBean> mcadmin;
 
-    public TermInitResponse() {
-    }
+    McStatusBean machine;
 
-    public int getCode() {
-        return code;
-    }
+    // 广告数据 TODO:
 
-    public void setCode(int code) {
-        this.code = code;
-    }
 
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public TermInitResult() {
     }
 
     public List<McParamsBean> getMcparam() {
@@ -67,14 +54,19 @@ public class TermInitResponse implements Serializable {
         this.goods = goods;
     }
 
-    @Override
-    public String toString() {
-        return "TermInitResponse{" +
-                "code=" + code +
-                ", msg='" + msg + '\'' +
-                ", mcparam=" + mcparam +
-                ", mcgoods=" + mcgoods +
-                ", goods=" + goods +
-                '}';
+    public List<McAdminBean> getMcadmin() {
+        return mcadmin;
+    }
+
+    public void setMcadmin(List<McAdminBean> mcadmin) {
+        this.mcadmin = mcadmin;
+    }
+
+    public McStatusBean getMachine() {
+        return machine;
+    }
+
+    public void setMachine(McStatusBean machine) {
+        this.machine = machine;
     }
 }

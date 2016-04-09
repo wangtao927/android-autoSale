@@ -1,18 +1,27 @@
 package com.ys.ui.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.ys.data.bean.GoodsBean;
+import com.ys.data.bean.McAdminBean;
+import com.ys.data.bean.McGoodsBean;
+import com.ys.data.bean.McParamsBean;
 import com.ys.data.bean.McStatusBean;
 import com.ys.ui.R;
+import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
 import com.ys.ui.common.http.RetrofitManager;
-import com.ys.ui.common.response.TermInitResponse;
+import com.ys.ui.common.response.CommonResponse;
+import com.ys.ui.common.response.TermInitResult;
+import com.ys.ui.utils.StringUtils;
 
 import java.util.Date;
+import java.util.List;
 
 import butterknife.Bind;
 import rx.android.schedulers.AndroidSchedulers;
@@ -45,14 +54,14 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
 
     @Bind(R.id.btn_save)
     Button btn_save;
-    @Bind(R.id.et_termno)
-    EditText et_termno;
     @Bind(R.id.et_serialNo)
     EditText et_serialNo;
 
-    private McStatusBean getInitBean(String termno) {
+    private McStatusBean getInitBean(String termno, String serialNo) {
         McStatusBean bean = new McStatusBean();
+        bean.setMc_id("1");
         bean.setMc_no(termno);
+        bean.setMc_serial_no(serialNo);
         bean.setAddtime(new Date());
         return bean;
     }
@@ -63,15 +72,6 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.btn_save:
                 check();
-                // 到后台去检验 终端号是否合法
-                 /* RetrofitManager manager = RetrofitManager.builder();
-                  TermInitResponse response = manager.mcReset();
-                  ToastUtils.showShortMessage(response.toString(), App.getContext());*/
-                // 存储到  sqllite 中
-//                App.getDaoSession(App.getContext()).getMcStatusBeanDao().insertOrReplace(getInitBean(et_termno.getText().toString()));
-//                McStatusBean bean = App.getDaoSession(App.getContext()).getMcStatusBeanDao().load(1);
-//                ToastUtils.showError(et_termno.getText().toString() + bean.getMr_id(), App.getContext());
-
 
 //         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 //        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -84,7 +84,7 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void check() {
-        RetrofitManager.builder().mcReset(et_termno.getText().toString(), et_serialNo.getText().toString())
+        RetrofitManager.builder().mcReset(et_serialNo.getText().toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0() {
@@ -94,10 +94,18 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
                         int  i = 0;
                     }
                 })
-                .subscribe(new Action1<TermInitResponse>() {
+                .subscribe(new Action1<CommonResponse<TermInitResult>>() {
                     @Override
-                    public void call(TermInitResponse response) {
-                        Toast.makeText(TermInitActivity.this, "成功", Toast.LENGTH_SHORT).show();
+                    public void call(CommonResponse<TermInitResult> response) {
+                        Log.d("result", response.toString());
+                        if (response.isSuccess()) {
+                             // 生成成功  同步数据
+                            initTerm(response);
+                            Toast.makeText(TermInitActivity.this, "终端号"+response.getExt_data().getMachine().getMc_no() , Toast.LENGTH_SHORT).show();
+                            //startActivity(new Intent(TermInitActivity.this, MainActivity.class));
+                        } else {
+                            Toast.makeText(TermInitActivity.this, response.getMsg() , Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -107,4 +115,76 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
                     }
                 });
     }
+
+
+    private void initTerm(CommonResponse<TermInitResult> response) {
+        // 1. 保存终端号到sqllite
+        initTermStatus(response.getExt_data().getMachine().getMc_no(), response.getExt_data().getMachine().getMc_serial_no());
+        // 2. 更新终端参数
+        initMcParam(response.getExt_data().getMcparam());
+        // 3. 更新商品表
+        initGoods(response.getExt_data().getGoods());
+        // 4. 更新终端库存
+        initMcGoods(response.getExt_data().getMcgoods());
+        // 5.更新管理员
+        initAdmin(response.getExt_data().getMcadmin());
+
+    }
+
+    /**
+     *  保存终端号   保证这张表就一条数据
+     * @param termNo
+     */
+    private void initTermStatus(String termNo, String serialNo) {
+        //  存储到  sqllite 中
+        if (!StringUtils.isEmpty(termNo)) {
+            App.getDaoSession(App.getContext()).getMcStatusBeanDao().deleteAll();
+            App.getDaoSession(App.getContext()).getMcStatusBeanDao().insertOrReplace(getInitBean(termNo, serialNo));
+        }
+
+    }
+
+    /**
+     * 初始化终端参数表
+     * @param lists
+     */
+    private void initMcParam(List<McParamsBean> lists) {
+        if (lists != null && !lists.isEmpty()) {
+            App.getDaoSession(App.getContext()).getMcParamsBeanDao().deleteAll();
+            App.getDaoSession(App.getContext()).getMcParamsBeanDao().insertInTx(lists);
+        }
+
+    }
+
+    /**
+     * 初始化商品表
+     * @param goods
+     */
+    private void initGoods(List<GoodsBean> goods) {
+        if (goods != null && !goods.isEmpty()) {
+            App.getDaoSession(App.getContext()).getGoodsBeanDao().deleteAll();
+            App.getDaoSession(App.getContext()).getGoodsBeanDao().insertInTx(goods);
+        }
+
+    }
+
+    /**
+     * 初始化 终端库存表
+     * @param mcgoods
+     */
+    private void initMcGoods(List<McGoodsBean> mcgoods) {
+        if (mcgoods != null && !mcgoods.isEmpty()) {
+            App.getDaoSession(App.getContext()).getMcGoodsBeanDao().deleteAll();
+            App.getDaoSession(App.getContext()).getMcGoodsBeanDao().insertInTx(mcgoods);
+        }
+
+    }
+
+    public void initAdmin(List<McAdminBean> admins){
+
+        if (admins != null && !admins.isEmpty()) {
+            App.getDaoSession(App.getContext()).getMcAdminBeanDao().insertOrReplaceInTx(admins);
+        }
+    }
+
 }

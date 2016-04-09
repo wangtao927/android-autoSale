@@ -14,7 +14,7 @@ import com.ys.data.bean.McParamsBean;
 /** 
  * DAO for table mcparams.
 */
-public class McParamsBeanDao extends AbstractDao<McParamsBean, Long> {
+public class McParamsBeanDao extends AbstractDao<McParamsBean, String> {
 
     public static final String TABLENAME = "mcparams";
 
@@ -23,9 +23,8 @@ public class McParamsBeanDao extends AbstractDao<McParamsBean, Long> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property Mp_id = new Property(0, Long.class, "mp_id", true, "MP_ID");
-        public final static Property P_code = new Property(1, String.class, "p_code", false, "P_CODE");
-        public final static Property Mcp_pvalue = new Property(2, String.class, "mcp_pvalue", false, "MCP_PVALUE");
+        public final static Property Pcode = new Property(0, String.class, "pcode", true, "PCODE");
+        public final static Property Pvalue = new Property(1, String.class, "pvalue", false, "PVALUE");
     };
 
 
@@ -41,9 +40,8 @@ public class McParamsBeanDao extends AbstractDao<McParamsBean, Long> {
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'mcparams' (" + //
-                "'MP_ID' INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: mp_id
-                "'P_CODE' TEXT," + // 1: p_code
-                "'MCP_PVALUE' TEXT);"); // 2: mcp_pvalue
+                "'PCODE' TEXT PRIMARY KEY NOT NULL ," + // 0: pcode
+                "'PVALUE' TEXT);"); // 1: pvalue
     }
 
     /** Drops the underlying database table. */
@@ -57,35 +55,29 @@ public class McParamsBeanDao extends AbstractDao<McParamsBean, Long> {
     protected void bindValues(SQLiteStatement stmt, McParamsBean entity) {
         stmt.clearBindings();
  
-        Long mp_id = entity.getMp_id();
-        if (mp_id != null) {
-            stmt.bindLong(1, mp_id);
+        String pcode = entity.getPcode();
+        if (pcode != null) {
+            stmt.bindString(1, pcode);
         }
  
-        String p_code = entity.getP_code();
-        if (p_code != null) {
-            stmt.bindString(2, p_code);
-        }
- 
-        String mcp_pvalue = entity.getMcp_pvalue();
-        if (mcp_pvalue != null) {
-            stmt.bindString(3, mcp_pvalue);
+        String pvalue = entity.getPvalue();
+        if (pvalue != null) {
+            stmt.bindString(2, pvalue);
         }
     }
 
     /** @inheritdoc */
     @Override
-    public Long readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
+    public String readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0);
     }    
 
     /** @inheritdoc */
     @Override
     public McParamsBean readEntity(Cursor cursor, int offset) {
         McParamsBean entity = new McParamsBean( //
-            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // mp_id
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // p_code
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // mcp_pvalue
+            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // pcode
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1) // pvalue
         );
         return entity;
     }
@@ -93,23 +85,21 @@ public class McParamsBeanDao extends AbstractDao<McParamsBean, Long> {
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, McParamsBean entity, int offset) {
-        entity.setMp_id(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setP_code(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setMcp_pvalue(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setPcode(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
+        entity.setPvalue(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
      }
     
     /** @inheritdoc */
     @Override
-    protected Long updateKeyAfterInsert(McParamsBean entity, long rowId) {
-        entity.setMp_id(rowId);
-        return rowId;
+    protected String updateKeyAfterInsert(McParamsBean entity, long rowId) {
+        return entity.getPcode();
     }
     
     /** @inheritdoc */
     @Override
-    public Long getKey(McParamsBean entity) {
+    public String getKey(McParamsBean entity) {
         if(entity != null) {
-            return entity.getMp_id();
+            return entity.getPcode();
         } else {
             return null;
         }

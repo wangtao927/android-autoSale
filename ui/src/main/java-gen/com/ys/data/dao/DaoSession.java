@@ -13,6 +13,7 @@ import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.McParamsBean;
 import com.ys.data.bean.McStatusBean;
+import com.ys.data.bean.McAdminBean;
 import com.ys.data.bean.PromotionBean;
 import com.ys.data.bean.SaleListBean;
 
@@ -20,6 +21,7 @@ import com.ys.data.dao.GoodsBeanDao;
 import com.ys.data.dao.McGoodsBeanDao;
 import com.ys.data.dao.McParamsBeanDao;
 import com.ys.data.dao.McStatusBeanDao;
+import com.ys.data.dao.McAdminBeanDao;
 import com.ys.data.dao.PromotionBeanDao;
 import com.ys.data.dao.SaleListBeanDao;
 
@@ -36,6 +38,7 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig mcGoodsBeanDaoConfig;
     private final DaoConfig mcParamsBeanDaoConfig;
     private final DaoConfig mcStatusBeanDaoConfig;
+    private final DaoConfig mcAdminBeanDaoConfig;
     private final DaoConfig promotionBeanDaoConfig;
     private final DaoConfig saleListBeanDaoConfig;
 
@@ -43,6 +46,7 @@ public class DaoSession extends AbstractDaoSession {
     private final McGoodsBeanDao mcGoodsBeanDao;
     private final McParamsBeanDao mcParamsBeanDao;
     private final McStatusBeanDao mcStatusBeanDao;
+    private final McAdminBeanDao mcAdminBeanDao;
     private final PromotionBeanDao promotionBeanDao;
     private final SaleListBeanDao saleListBeanDao;
 
@@ -62,6 +66,9 @@ public class DaoSession extends AbstractDaoSession {
         mcStatusBeanDaoConfig = daoConfigMap.get(McStatusBeanDao.class).clone();
         mcStatusBeanDaoConfig.initIdentityScope(type);
 
+        mcAdminBeanDaoConfig = daoConfigMap.get(McAdminBeanDao.class).clone();
+        mcAdminBeanDaoConfig.initIdentityScope(type);
+
         promotionBeanDaoConfig = daoConfigMap.get(PromotionBeanDao.class).clone();
         promotionBeanDaoConfig.initIdentityScope(type);
 
@@ -72,6 +79,7 @@ public class DaoSession extends AbstractDaoSession {
         mcGoodsBeanDao = new McGoodsBeanDao(mcGoodsBeanDaoConfig, this);
         mcParamsBeanDao = new McParamsBeanDao(mcParamsBeanDaoConfig, this);
         mcStatusBeanDao = new McStatusBeanDao(mcStatusBeanDaoConfig, this);
+        mcAdminBeanDao = new McAdminBeanDao(mcAdminBeanDaoConfig, this);
         promotionBeanDao = new PromotionBeanDao(promotionBeanDaoConfig, this);
         saleListBeanDao = new SaleListBeanDao(saleListBeanDaoConfig, this);
 
@@ -79,6 +87,7 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(McGoodsBean.class, mcGoodsBeanDao);
         registerDao(McParamsBean.class, mcParamsBeanDao);
         registerDao(McStatusBean.class, mcStatusBeanDao);
+        registerDao(McAdminBean.class, mcAdminBeanDao);
         registerDao(PromotionBean.class, promotionBeanDao);
         registerDao(SaleListBean.class, saleListBeanDao);
     }
@@ -88,6 +97,7 @@ public class DaoSession extends AbstractDaoSession {
         mcGoodsBeanDaoConfig.getIdentityScope().clear();
         mcParamsBeanDaoConfig.getIdentityScope().clear();
         mcStatusBeanDaoConfig.getIdentityScope().clear();
+        mcAdminBeanDaoConfig.getIdentityScope().clear();
         promotionBeanDaoConfig.getIdentityScope().clear();
         saleListBeanDaoConfig.getIdentityScope().clear();
     }
@@ -106,6 +116,10 @@ public class DaoSession extends AbstractDaoSession {
 
     public McStatusBeanDao getMcStatusBeanDao() {
         return mcStatusBeanDao;
+    }
+
+    public McAdminBeanDao getMcAdminBeanDao() {
+        return mcAdminBeanDao;
     }
 
     public PromotionBeanDao getPromotionBeanDao() {

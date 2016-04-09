@@ -1,6 +1,7 @@
 package com.ys.ui.common.http;
 
-import com.ys.ui.common.response.TermInitResponse;
+import com.ys.ui.common.response.CommonResponse;
+import com.ys.ui.common.response.TermInitResult;
 
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -18,5 +19,7 @@ public interface TermStatusApi {
      */
     @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_SHORT)
     @GET("mcReset")
-    Observable<TermInitResponse> mcReset(@Query("mc_no") String mc_no, @Query("mc_serial_no") String mc_serial_no, @Query("time") long time, @Query("sign") String sign);
+    Observable<CommonResponse<TermInitResult>> mcReset(@Query("mc_serial_no") String mc_serial_no, @Query("time") long time, @Query("sign") String sign);
+
+
 }

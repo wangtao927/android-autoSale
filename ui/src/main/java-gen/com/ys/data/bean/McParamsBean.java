@@ -6,45 +6,35 @@ package com.ys.data.bean;
  */
 public class McParamsBean {
 
-    private Long mp_id;
-    private String p_code;
-    private String mcp_pvalue;
+    private String pcode;
+    private String pvalue;
 
     public McParamsBean() {
     }
 
-    public McParamsBean(Long mp_id) {
-        this.mp_id = mp_id;
+    public McParamsBean(String pcode) {
+        this.pcode = pcode;
     }
 
-    public McParamsBean(Long mp_id, String p_code, String mcp_pvalue) {
-        this.mp_id = mp_id;
-        this.p_code = p_code;
-        this.mcp_pvalue = mcp_pvalue;
+    public McParamsBean(String pcode, String pvalue) {
+        this.pcode = pcode;
+        this.pvalue = pvalue;
     }
 
-    public Long getMp_id() {
-        return mp_id;
+    public String getPcode() {
+        return pcode;
     }
 
-    public void setMp_id(Long mp_id) {
-        this.mp_id = mp_id;
+    public void setPcode(String pcode) {
+        this.pcode = pcode;
     }
 
-    public String getP_code() {
-        return p_code;
+    public String getPvalue() {
+        return pvalue;
     }
 
-    public void setP_code(String p_code) {
-        this.p_code = p_code;
-    }
-
-    public String getMcp_pvalue() {
-        return mcp_pvalue;
-    }
-
-    public void setMcp_pvalue(String mcp_pvalue) {
-        this.mcp_pvalue = mcp_pvalue;
+    public void setPvalue(String pvalue) {
+        this.pvalue = pvalue;
     }
 
 }

@@ -12,6 +12,7 @@ import com.ys.data.dao.GoodsBeanDao;
 import com.ys.data.dao.McGoodsBeanDao;
 import com.ys.data.dao.McParamsBeanDao;
 import com.ys.data.dao.McStatusBeanDao;
+import com.ys.data.dao.McAdminBeanDao;
 import com.ys.data.dao.PromotionBeanDao;
 import com.ys.data.dao.SaleListBeanDao;
 
@@ -28,6 +29,7 @@ public class DaoMaster extends AbstractDaoMaster {
         McGoodsBeanDao.createTable(db, ifNotExists);
         McParamsBeanDao.createTable(db, ifNotExists);
         McStatusBeanDao.createTable(db, ifNotExists);
+        McAdminBeanDao.createTable(db, ifNotExists);
         PromotionBeanDao.createTable(db, ifNotExists);
         SaleListBeanDao.createTable(db, ifNotExists);
     }
@@ -38,6 +40,7 @@ public class DaoMaster extends AbstractDaoMaster {
         McGoodsBeanDao.dropTable(db, ifExists);
         McParamsBeanDao.dropTable(db, ifExists);
         McStatusBeanDao.dropTable(db, ifExists);
+        McAdminBeanDao.dropTable(db, ifExists);
         PromotionBeanDao.dropTable(db, ifExists);
         SaleListBeanDao.dropTable(db, ifExists);
     }
@@ -75,6 +78,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(McGoodsBeanDao.class);
         registerDaoClass(McParamsBeanDao.class);
         registerDaoClass(McStatusBeanDao.class);
+        registerDaoClass(McAdminBeanDao.class);
         registerDaoClass(PromotionBeanDao.class);
         registerDaoClass(SaleListBeanDao.class);
     }
