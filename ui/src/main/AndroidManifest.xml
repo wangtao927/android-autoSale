@@ -52,6 +52,8 @@
         <activity android:name="com.ys.ui.sample.MainMenu"></activity>
 
         <service android:name="com.ys.ui.service.MyService"/>
+        <service android:name=".service.TimerService"/>
+        <receiver android:name=".service.AlarmReceiver"/>
     </application>
 
 

@@ -12,6 +12,7 @@ import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
 import com.ys.ui.sample.MainMenu;
+import com.ys.ui.service.TimerService;
 import com.ys.ui.utils.ToastUtils;
 
 import java.util.List;
@@ -48,6 +49,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             // 弹出层，输入终端号，初始化机器
             startActivity(new Intent(this, TermInitActivity.class));
         }
+        // 启动service
+       Intent intent = new Intent(this, TimerService.class);
+        startService(intent);
     }
     private boolean isInit() {
         DaoSession session = App.getDaoSession(App.getContext());

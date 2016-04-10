@@ -1,18 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <Button
-        android:id="@+id/btn_admin_timer"
-        android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+     >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
-        android:layout_column="2"
-        android:width="0dp"
-        android:text="定时任务" />
+        android:layout_height="wrap_content"
+        >
 
+       <!-- <Button
+            android:id="@+id/btn_admin_timer"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_column="2"
+            android:width="0dp"
+            android:text="定时任务" />-->
+        <Button
+            android:id="@+id/btn_admin_buhuo"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_column="2"
+            android:width="0dp"
+            android:text="一键补货" />
+        <Button
+            android:id="@+id/btn_admin_end"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_column="2"
+            android:width="0dp"
+            android:text="补货完成" />
+      </LinearLayout>
+      <ListView
+          android:id="@+id/list_view"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content">
 
+      </ListView>
 
 </LinearLayout>

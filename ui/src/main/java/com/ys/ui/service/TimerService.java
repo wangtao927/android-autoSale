@@ -107,7 +107,20 @@ public class TimerService extends Service {
         if (!StringUtils.isEmpty(oprCodes)) {
             String[]  codes = oprCodes.split(",");
             for (String code : codes) {
-
+                 switch (code) {
+                     case "01":// 终端基本信息  终端号  等
+                         break;
+                     case "02":// 终端参数
+                         break;
+                     case "03":// 终端商品
+                         break;
+                     case "04"://终端管理员
+                         break;
+                     case "05"://广告
+                         break;
+                     default:
+                         break;
+                 }
             }
         }
 

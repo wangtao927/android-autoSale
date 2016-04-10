@@ -81,18 +81,18 @@ public class DaoGenerate {
 
         mcGoodsBean.addIntProperty("mg_id").primaryKey();
 
-        mcGoodsBean.addStringProperty("mc_no");
-        mcGoodsBean.addStringProperty("mg_channo").index().unique();
-        mcGoodsBean.addStringProperty("gd_id");
-        mcGoodsBean.addStringProperty("gd_no");
-        mcGoodsBean.addStringProperty("gd_type");
+        mcGoodsBean.addStringProperty("mc_no");//终端号
+        mcGoodsBean.addStringProperty("mg_channo").index().unique();//货道编号
+        mcGoodsBean.addStringProperty("gd_id");//商品ID
+        mcGoodsBean.addStringProperty("gd_no");//商品编码
+        mcGoodsBean.addStringProperty("gd_type");//商品类型
         mcGoodsBean.addStringProperty("gd_approve_code");
         mcGoodsBean.addStringProperty("gd_batch_no");
         mcGoodsBean.addStringProperty("gd_des_code");
         mcGoodsBean.addDateProperty("gd_mf_date");
         mcGoodsBean.addDateProperty("gd_exp_date");
-        mcGoodsBean.addIntProperty("mg_gvol");
-        mcGoodsBean.addIntProperty("mg_gnum");
+        mcGoodsBean.addIntProperty("mg_gvol");//商品容量
+        mcGoodsBean.addIntProperty("mg_gnum");//商品存量
         mcGoodsBean.addIntProperty("prePrice");
         mcGoodsBean.addIntProperty("scorePrice");
         mcGoodsBean.addIntProperty("mg_vip_price");
