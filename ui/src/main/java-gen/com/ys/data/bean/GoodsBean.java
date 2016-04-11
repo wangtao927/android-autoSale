@@ -6,7 +6,7 @@ package com.ys.data.bean;
  */
 public class GoodsBean {
 
-    private Integer gd_id;
+    private Long gd_id;
     private String gd_no;
     private String gd_code;
     private String gd_name;
@@ -20,7 +20,7 @@ public class GoodsBean {
     private Long gd_disc_price;
     private Long gd_vip_price;
     private Long gd_score_price;
-    private Integer gd_supplier;
+    private Long gd_supplier;
     private String gd_img1;
     private String gd_img2;
     private String gd_img3;
@@ -36,11 +36,11 @@ public class GoodsBean {
     public GoodsBean() {
     }
 
-    public GoodsBean(Integer gd_id) {
+    public GoodsBean(Long gd_id) {
         this.gd_id = gd_id;
     }
 
-    public GoodsBean(Integer gd_id, String gd_no, String gd_code, String gd_name, String gd_type, String gd_approve_code, String gd_spec, String gd_manufacturer, String gd_barcode, String gd_class, Long gd_sale_price, Long gd_disc_price, Long gd_vip_price, Long gd_score_price, Integer gd_supplier, String gd_img1, String gd_img2, String gd_img3, String gd_img4, String gd_img_s, String gd_instruction_file, String gd_desc, String mer_no, String remark, String addtime, String updatetime) {
+    public GoodsBean(Long gd_id, String gd_no, String gd_code, String gd_name, String gd_type, String gd_approve_code, String gd_spec, String gd_manufacturer, String gd_barcode, String gd_class, Long gd_sale_price, Long gd_disc_price, Long gd_vip_price, Long gd_score_price, Long gd_supplier, String gd_img1, String gd_img2, String gd_img3, String gd_img4, String gd_img_s, String gd_instruction_file, String gd_desc, String mer_no, String remark, String addtime, String updatetime) {
         this.gd_id = gd_id;
         this.gd_no = gd_no;
         this.gd_code = gd_code;
@@ -69,11 +69,11 @@ public class GoodsBean {
         this.updatetime = updatetime;
     }
 
-    public Integer getGd_id() {
+    public Long getGd_id() {
         return gd_id;
     }
 
-    public void setGd_id(Integer gd_id) {
+    public void setGd_id(Long gd_id) {
         this.gd_id = gd_id;
     }
 
@@ -181,11 +181,11 @@ public class GoodsBean {
         this.gd_score_price = gd_score_price;
     }
 
-    public Integer getGd_supplier() {
+    public Long getGd_supplier() {
         return gd_supplier;
     }
 
-    public void setGd_supplier(Integer gd_supplier) {
+    public void setGd_supplier(Long gd_supplier) {
         this.gd_supplier = gd_supplier;
     }
 

@@ -6,7 +6,7 @@ package com.ys.data.bean;
  */
 public class McGoodsBean {
 
-    private Integer mg_id;
+    private Long mg_id;
     private String mc_no;
     private String mg_channo;
     private String gd_id;
@@ -17,24 +17,24 @@ public class McGoodsBean {
     private String gd_des_code;
     private java.util.Date gd_mf_date;
     private java.util.Date gd_exp_date;
-    private Integer mg_gvol;
-    private Integer mg_gnum;
-    private Integer prePrice;
-    private Integer scorePrice;
-    private Integer mg_vip_price;
-    private Integer mg_price;
-    private Integer chanStatus;
+    private Long mg_gvol;
+    private Long mg_gnum;
+    private Long prePrice;
+    private Long scorePrice;
+    private Long mg_vip_price;
+    private Long mg_price;
+    private Long chanStatus;
     private java.util.Date addtime;
     private java.util.Date updatetime;
 
     public McGoodsBean() {
     }
 
-    public McGoodsBean(Integer mg_id) {
+    public McGoodsBean(Long mg_id) {
         this.mg_id = mg_id;
     }
 
-    public McGoodsBean(Integer mg_id, String mc_no, String mg_channo, String gd_id, String gd_no, String gd_type, String gd_approve_code, String gd_batch_no, String gd_des_code, java.util.Date gd_mf_date, java.util.Date gd_exp_date, Integer mg_gvol, Integer mg_gnum, Integer prePrice, Integer scorePrice, Integer mg_vip_price, Integer mg_price, Integer chanStatus, java.util.Date addtime, java.util.Date updatetime) {
+    public McGoodsBean(Long mg_id, String mc_no, String mg_channo, String gd_id, String gd_no, String gd_type, String gd_approve_code, String gd_batch_no, String gd_des_code, java.util.Date gd_mf_date, java.util.Date gd_exp_date, Long mg_gvol, Long mg_gnum, Long prePrice, Long scorePrice, Long mg_vip_price, Long mg_price, Long chanStatus, java.util.Date addtime, java.util.Date updatetime) {
         this.mg_id = mg_id;
         this.mc_no = mc_no;
         this.mg_channo = mg_channo;
@@ -57,11 +57,11 @@ public class McGoodsBean {
         this.updatetime = updatetime;
     }
 
-    public Integer getMg_id() {
+    public Long getMg_id() {
         return mg_id;
     }
 
-    public void setMg_id(Integer mg_id) {
+    public void setMg_id(Long mg_id) {
         this.mg_id = mg_id;
     }
 
@@ -145,59 +145,59 @@ public class McGoodsBean {
         this.gd_exp_date = gd_exp_date;
     }
 
-    public Integer getMg_gvol() {
+    public Long getMg_gvol() {
         return mg_gvol;
     }
 
-    public void setMg_gvol(Integer mg_gvol) {
+    public void setMg_gvol(Long mg_gvol) {
         this.mg_gvol = mg_gvol;
     }
 
-    public Integer getMg_gnum() {
+    public Long getMg_gnum() {
         return mg_gnum;
     }
 
-    public void setMg_gnum(Integer mg_gnum) {
+    public void setMg_gnum(Long mg_gnum) {
         this.mg_gnum = mg_gnum;
     }
 
-    public Integer getPrePrice() {
+    public Long getPrePrice() {
         return prePrice;
     }
 
-    public void setPrePrice(Integer prePrice) {
+    public void setPrePrice(Long prePrice) {
         this.prePrice = prePrice;
     }
 
-    public Integer getScorePrice() {
+    public Long getScorePrice() {
         return scorePrice;
     }
 
-    public void setScorePrice(Integer scorePrice) {
+    public void setScorePrice(Long scorePrice) {
         this.scorePrice = scorePrice;
     }
 
-    public Integer getMg_vip_price() {
+    public Long getMg_vip_price() {
         return mg_vip_price;
     }
 
-    public void setMg_vip_price(Integer mg_vip_price) {
+    public void setMg_vip_price(Long mg_vip_price) {
         this.mg_vip_price = mg_vip_price;
     }
 
-    public Integer getMg_price() {
+    public Long getMg_price() {
         return mg_price;
     }
 
-    public void setMg_price(Integer mg_price) {
+    public void setMg_price(Long mg_price) {
         this.mg_price = mg_price;
     }
 
-    public Integer getChanStatus() {
+    public Long getChanStatus() {
         return chanStatus;
     }
 
-    public void setChanStatus(Integer chanStatus) {
+    public void setChanStatus(Long chanStatus) {
         this.chanStatus = chanStatus;
     }
 

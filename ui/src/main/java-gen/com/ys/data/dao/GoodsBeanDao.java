@@ -14,7 +14,7 @@ import com.ys.data.bean.GoodsBean;
 /** 
  * DAO for table goods.
 */
-public class GoodsBeanDao extends AbstractDao<GoodsBean, Integer> {
+public class GoodsBeanDao extends AbstractDao<GoodsBean, Long> {
 
     public static final String TABLENAME = "goods";
 
@@ -23,7 +23,7 @@ public class GoodsBeanDao extends AbstractDao<GoodsBean, Integer> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property Gd_id = new Property(0, Integer.class, "gd_id", true, "GD_ID");
+        public final static Property Gd_id = new Property(0, Long.class, "gd_id", true, "GD_ID");
         public final static Property Gd_no = new Property(1, String.class, "gd_no", false, "GD_NO");
         public final static Property Gd_code = new Property(2, String.class, "gd_code", false, "GD_CODE");
         public final static Property Gd_name = new Property(3, String.class, "gd_name", false, "GD_NAME");
@@ -37,7 +37,7 @@ public class GoodsBeanDao extends AbstractDao<GoodsBean, Integer> {
         public final static Property Gd_disc_price = new Property(11, Long.class, "gd_disc_price", false, "GD_DISC_PRICE");
         public final static Property Gd_vip_price = new Property(12, Long.class, "gd_vip_price", false, "GD_VIP_PRICE");
         public final static Property Gd_score_price = new Property(13, Long.class, "gd_score_price", false, "GD_SCORE_PRICE");
-        public final static Property Gd_supplier = new Property(14, Integer.class, "gd_supplier", false, "GD_SUPPLIER");
+        public final static Property Gd_supplier = new Property(14, Long.class, "gd_supplier", false, "GD_SUPPLIER");
         public final static Property Gd_img1 = new Property(15, String.class, "gd_img1", false, "GD_IMG1");
         public final static Property Gd_img2 = new Property(16, String.class, "gd_img2", false, "GD_IMG2");
         public final static Property Gd_img3 = new Property(17, String.class, "gd_img3", false, "GD_IMG3");
@@ -106,7 +106,7 @@ public class GoodsBeanDao extends AbstractDao<GoodsBean, Integer> {
     protected void bindValues(SQLiteStatement stmt, GoodsBean entity) {
         stmt.clearBindings();
  
-        Integer gd_id = entity.getGd_id();
+        Long gd_id = entity.getGd_id();
         if (gd_id != null) {
             stmt.bindLong(1, gd_id);
         }
@@ -176,7 +176,7 @@ public class GoodsBeanDao extends AbstractDao<GoodsBean, Integer> {
             stmt.bindLong(14, gd_score_price);
         }
  
-        Integer gd_supplier = entity.getGd_supplier();
+        Long gd_supplier = entity.getGd_supplier();
         if (gd_supplier != null) {
             stmt.bindLong(15, gd_supplier);
         }
@@ -239,15 +239,15 @@ public class GoodsBeanDao extends AbstractDao<GoodsBean, Integer> {
 
     /** @inheritdoc */
     @Override
-    public Integer readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 0) ? null : cursor.getInt(offset + 0);
+    public Long readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }    
 
     /** @inheritdoc */
     @Override
     public GoodsBean readEntity(Cursor cursor, int offset) {
         GoodsBean entity = new GoodsBean( //
-            cursor.isNull(offset + 0) ? null : cursor.getInt(offset + 0), // gd_id
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // gd_id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // gd_no
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // gd_code
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // gd_name
@@ -261,7 +261,7 @@ public class GoodsBeanDao extends AbstractDao<GoodsBean, Integer> {
             cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11), // gd_disc_price
             cursor.isNull(offset + 12) ? null : cursor.getLong(offset + 12), // gd_vip_price
             cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13), // gd_score_price
-            cursor.isNull(offset + 14) ? null : cursor.getInt(offset + 14), // gd_supplier
+            cursor.isNull(offset + 14) ? null : cursor.getLong(offset + 14), // gd_supplier
             cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // gd_img1
             cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // gd_img2
             cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // gd_img3
@@ -280,7 +280,7 @@ public class GoodsBeanDao extends AbstractDao<GoodsBean, Integer> {
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, GoodsBean entity, int offset) {
-        entity.setGd_id(cursor.isNull(offset + 0) ? null : cursor.getInt(offset + 0));
+        entity.setGd_id(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setGd_no(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setGd_code(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setGd_name(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
@@ -294,7 +294,7 @@ public class GoodsBeanDao extends AbstractDao<GoodsBean, Integer> {
         entity.setGd_disc_price(cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11));
         entity.setGd_vip_price(cursor.isNull(offset + 12) ? null : cursor.getLong(offset + 12));
         entity.setGd_score_price(cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13));
-        entity.setGd_supplier(cursor.isNull(offset + 14) ? null : cursor.getInt(offset + 14));
+        entity.setGd_supplier(cursor.isNull(offset + 14) ? null : cursor.getLong(offset + 14));
         entity.setGd_img1(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
         entity.setGd_img2(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
         entity.setGd_img3(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
@@ -310,13 +310,14 @@ public class GoodsBeanDao extends AbstractDao<GoodsBean, Integer> {
     
     /** @inheritdoc */
     @Override
-    protected Integer updateKeyAfterInsert(GoodsBean entity, long rowId) {
-        return entity.getGd_id();
+    protected Long updateKeyAfterInsert(GoodsBean entity, long rowId) {
+        entity.setGd_id(rowId);
+        return rowId;
     }
     
     /** @inheritdoc */
     @Override
-    public Integer getKey(GoodsBean entity) {
+    public Long getKey(GoodsBean entity) {
         if(entity != null) {
             return entity.getGd_id();
         } else {

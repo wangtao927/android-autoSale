@@ -21,13 +21,13 @@ public class McStatusBean {
     private String mr_temp;
     private String mr_door_isfault;
     private String mr_door_status;
-    private Integer mr_chann_fault_num;
+    private Long mr_chann_fault_num;
     private String mr_chann_fault_nos;
-    private Integer mr_nogd_chnum;
+    private Long mr_nogd_chnum;
     private String mr_nogd_chann;
-    private Integer mr_gear_fault_num;
+    private Long mr_gear_fault_num;
     private String mr_gear_fault_nos;
-    private Integer mr_data_fault;
+    private Long mr_data_fault;
     private java.util.Date mr_door_date;
     private java.util.Date mr_mc_position;
     private java.util.Date addtime;
@@ -40,7 +40,7 @@ public class McStatusBean {
         this.mc_id = mc_id;
     }
 
-    public McStatusBean(String mc_id, String mc_no, String mc_serial_no, String mr_coin_status, String mr_coin_short, String mr_bill_status, String mr_bill_short, String mr_uppos_status, String mr_scpos_status, String mr_alipay_status, String mr_wxpay_status, String mr_net_status, String mr_temp, String mr_door_isfault, String mr_door_status, Integer mr_chann_fault_num, String mr_chann_fault_nos, Integer mr_nogd_chnum, String mr_nogd_chann, Integer mr_gear_fault_num, String mr_gear_fault_nos, Integer mr_data_fault, java.util.Date mr_door_date, java.util.Date mr_mc_position, java.util.Date addtime, java.util.Date updatetime) {
+    public McStatusBean(String mc_id, String mc_no, String mc_serial_no, String mr_coin_status, String mr_coin_short, String mr_bill_status, String mr_bill_short, String mr_uppos_status, String mr_scpos_status, String mr_alipay_status, String mr_wxpay_status, String mr_net_status, String mr_temp, String mr_door_isfault, String mr_door_status, Long mr_chann_fault_num, String mr_chann_fault_nos, Long mr_nogd_chnum, String mr_nogd_chann, Long mr_gear_fault_num, String mr_gear_fault_nos, Long mr_data_fault, java.util.Date mr_door_date, java.util.Date mr_mc_position, java.util.Date addtime, java.util.Date updatetime) {
         this.mc_id = mc_id;
         this.mc_no = mc_no;
         this.mc_serial_no = mc_serial_no;
@@ -189,11 +189,11 @@ public class McStatusBean {
         this.mr_door_status = mr_door_status;
     }
 
-    public Integer getMr_chann_fault_num() {
+    public Long getMr_chann_fault_num() {
         return mr_chann_fault_num;
     }
 
-    public void setMr_chann_fault_num(Integer mr_chann_fault_num) {
+    public void setMr_chann_fault_num(Long mr_chann_fault_num) {
         this.mr_chann_fault_num = mr_chann_fault_num;
     }
 
@@ -205,11 +205,11 @@ public class McStatusBean {
         this.mr_chann_fault_nos = mr_chann_fault_nos;
     }
 
-    public Integer getMr_nogd_chnum() {
+    public Long getMr_nogd_chnum() {
         return mr_nogd_chnum;
     }
 
-    public void setMr_nogd_chnum(Integer mr_nogd_chnum) {
+    public void setMr_nogd_chnum(Long mr_nogd_chnum) {
         this.mr_nogd_chnum = mr_nogd_chnum;
     }
 
@@ -221,11 +221,11 @@ public class McStatusBean {
         this.mr_nogd_chann = mr_nogd_chann;
     }
 
-    public Integer getMr_gear_fault_num() {
+    public Long getMr_gear_fault_num() {
         return mr_gear_fault_num;
     }
 
-    public void setMr_gear_fault_num(Integer mr_gear_fault_num) {
+    public void setMr_gear_fault_num(Long mr_gear_fault_num) {
         this.mr_gear_fault_num = mr_gear_fault_num;
     }
 
@@ -237,11 +237,11 @@ public class McStatusBean {
         this.mr_gear_fault_nos = mr_gear_fault_nos;
     }
 
-    public Integer getMr_data_fault() {
+    public Long getMr_data_fault() {
         return mr_data_fault;
     }
 
-    public void setMr_data_fault(Integer mr_data_fault) {
+    public void setMr_data_fault(Long mr_data_fault) {
         this.mr_data_fault = mr_data_fault;
     }
 

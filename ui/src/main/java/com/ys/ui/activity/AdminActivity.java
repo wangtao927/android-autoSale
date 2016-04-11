@@ -3,13 +3,18 @@ package com.ys.ui.activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.McStatusBean;
 import com.ys.data.bean.SaleListBean;
 import com.ys.ui.R;
+import com.ys.ui.adapter.McGoodsListAdapter;
+import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
 import com.ys.ui.common.http.RetrofitManager;
 import com.ys.ui.common.request.CommonRequest;
@@ -20,6 +25,8 @@ import com.ys.ui.common.response.TermInitResult;
 import com.ys.ui.utils.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import rx.android.schedulers.AndroidSchedulers;
@@ -33,12 +40,60 @@ import rx.schedulers.Schedulers;
 public class AdminActivity extends BaseActivity implements View.OnClickListener {
     private String TAG = "AdminActivity";
 
-    @Bind(R.id.btn_admin_timer)
-    Button btnAdmin;
+    @Bind(R.id.list_view)
+    ListView listView;
 
+    private List<McGoodsBean> lists;
     @Override
     protected void create(Bundle savedInstanceState) {
-           btnAdmin.setOnClickListener(this);
+
+       // List<McGoodsBean> goods = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().loadAll();
+        initData();
+
+        McGoodsListAdapter adapter = new McGoodsListAdapter(AdminActivity.this, R.layout.mcgoods_item, lists);
+
+        listView.setAdapter(adapter);
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ListView lView = (ListView) parent;
+                McGoodsBean goodsBean = (McGoodsBean) lView.getItemAtPosition(position);
+                Toast.makeText(getApplicationContext(), goodsBean.getMg_channo(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void initData() {
+        lists = new ArrayList<>();
+        McGoodsBean bean = new McGoodsBean();
+        bean.setMc_no("8888888");
+        bean.setGd_no("M11111");
+        bean.setChanStatus(1L);
+        bean.setMg_channo("0011");
+        bean.setMg_gnum(10L);
+        bean.setMg_gvol(8L);
+        lists.add(bean);
+        bean = new McGoodsBean();
+        bean.setMc_no("8888888");
+        bean.setGd_no("M11112");
+        bean.setChanStatus(1L);
+        bean.setMg_channo("0012");
+        bean.setMg_gnum(10L);
+        bean.setMg_gvol(8L);
+        lists.add(bean);
+        bean = new McGoodsBean();
+        bean.setMc_no("8888888");
+        bean.setGd_no("M11113");
+        bean.setChanStatus(1L);
+        bean.setMg_channo("0013");
+        bean.setMg_gnum(10L);
+        bean.setMg_gvol(8L);
+        lists.add(bean);
+
+
     }
 
     @Override
@@ -55,66 +110,12 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()) {
-            case R.id.btn_admin_timer:
-                startTimer();
-                break;
-        }
+//        switch (v.getId()) {
+//            case R.id.btn_admin_timer:
+//                startTimer();
+//                break;
+//        }
 
     }
 
-    private void startTimer() {
-        McDataVo vo = new McDataVo();
-        vo.setMcStatus(new McStatusBean());
-        vo.setMcGoodsList(new ArrayList<McGoodsBean>());
-        vo.setMcSaleList(new ArrayList<SaleListBean>());
-        CommonRequest<McDataVo> request = new CommonRequest<>(
-                "88888888", System.currentTimeMillis(), vo
-        );
-        RetrofitManager.builder().postMcData(request)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        //showProgress();
-                        int  i = 0;
-                    }
-                })
-                .subscribe(new Action1<CommonResponse<McDataResult>>() {
-                    @Override
-                    public void call(CommonResponse<McDataResult> response) {
-                        Log.d("result", response.toString());
-                        if (response.isSuccess()) {
-                            // 生成成功  同步数据
-                            // 判断数据，并更新
-                            updateInfo(response.getExt_data().getOprcode(), response.getExt_data().getOprdata());
-
-                            Toast.makeText(AdminActivity.this, "终端号", Toast.LENGTH_SHORT).show();
-                            //startActivity(new Intent(TermInitActivity.this, MainActivity.class));
-                        } else {
-                            Toast.makeText(AdminActivity.this, response.getMsg() , Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        Log.e("error", throwable.toString());
-                        Toast.makeText(AdminActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
-                        //hideProgress();
-                    }
-                });
-    }
-
-    private void  updateInfo(String oprCodes, TermInitResult result) {
-        if (!StringUtils.isEmpty(oprCodes)) {
-            String[]  codes = oprCodes.split(",");
-            for (String code : codes) {
-
-            }
-        }
-
-
-
-    }
 }

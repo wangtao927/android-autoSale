@@ -1,5 +1,6 @@
 package com.ys.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -106,11 +107,12 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
                         } else {
                             Toast.makeText(TermInitActivity.this, response.getMsg() , Toast.LENGTH_SHORT).show();
                         }
+                        startActivity(new Intent(TermInitActivity.this, MainActivity.class));
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        Toast.makeText(TermInitActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(TermInitActivity.this, "获取数据失败" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
                         //hideProgress();
                     }
                 });

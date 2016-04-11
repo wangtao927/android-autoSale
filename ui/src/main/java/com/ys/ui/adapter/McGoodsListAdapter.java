@@ -5,7 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
+import com.ys.data.bean.McGoodsBean;
+import com.ys.ui.R;
 import com.ys.ui.view.McGoodsView;
 
 import java.util.List;
@@ -13,11 +16,11 @@ import java.util.List;
 /**
  * Created by wangtao on 2016/4/10.
  */
-public class McGoodsListAdapter extends ArrayAdapter<McGoodsView> {
+public class McGoodsListAdapter extends ArrayAdapter<McGoodsBean> {
 
     private int resouceId;
 
-    public McGoodsListAdapter(Context context, int textViewResourceId, List<McGoodsView> objects) {
+    public McGoodsListAdapter(Context context, int textViewResourceId, List<McGoodsBean> objects) {
         super(context, textViewResourceId, objects);
         this.resouceId = textViewResourceId;
     }
@@ -25,8 +28,24 @@ public class McGoodsListAdapter extends ArrayAdapter<McGoodsView> {
     @Override
     public View getView(int position, View convertView, ViewGroup parant) {
 
-        McGoodsView goodsView = getItem(position);
-        View view = LayoutInflater.from(getContext()).inflate(resouceId, null);
+        McGoodsBean goodsView = getItem(position);
+        View view;
+        if (convertView == null) {
+            view = LayoutInflater.from(getContext()).inflate(resouceId, null);
+        } else {
+            view = convertView;
+        }
+        TextView channo = (TextView)view.findViewById(R.id.channo);
+        TextView gdNo = (TextView)view.findViewById(R.id.gdNo);
+        TextView gvol = (TextView)view.findViewById(R.id.gvol);
+        TextView gnum = (TextView)view.findViewById(R.id.gnum);
+        TextView chanStatus = (TextView)view.findViewById(R.id.chanStatus);
+        channo.setText(goodsView.getMg_channo());
+        gdNo.setText(goodsView.getGd_no());
+        gvol.setText(goodsView.getMg_gvol().toString());
+        gnum.setText(goodsView.getMg_gnum().toString());
+        chanStatus.setText(goodsView.getChanStatus().toString());
+
 
         return view;
 

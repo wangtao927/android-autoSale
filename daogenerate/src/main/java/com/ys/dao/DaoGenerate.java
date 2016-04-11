@@ -43,7 +43,7 @@ public class DaoGenerate {
 
         // greenDAO 会自动根据实体类的属性值来创建表字段，并赋予默认值
         // 接下来你便可以设置表中的字段：
-        goodsBean.addIntProperty("gd_id").primaryKey();
+        goodsBean.addLongProperty("gd_id").primaryKey();
         goodsBean.addStringProperty("gd_no").index();
         goodsBean.addStringProperty("gd_code");
         goodsBean.addStringProperty("gd_name");
@@ -57,7 +57,7 @@ public class DaoGenerate {
         goodsBean.addLongProperty("gd_disc_price");
         goodsBean.addLongProperty("gd_vip_price");
         goodsBean.addLongProperty("gd_score_price");
-        goodsBean.addIntProperty("gd_supplier");
+        goodsBean.addLongProperty("gd_supplier");
         goodsBean.addStringProperty("gd_img1");
         goodsBean.addStringProperty("gd_img2");
         goodsBean.addStringProperty("gd_img3");
@@ -79,7 +79,7 @@ public class DaoGenerate {
         Entity mcGoodsBean = schema.addEntity("McGoodsBean");
         mcGoodsBean.setTableName("mcgoods");
 
-        mcGoodsBean.addIntProperty("mg_id").primaryKey();
+        mcGoodsBean.addLongProperty("mg_id").primaryKey();
 
         mcGoodsBean.addStringProperty("mc_no");//终端号
         mcGoodsBean.addStringProperty("mg_channo").index().unique();//货道编号
@@ -91,13 +91,13 @@ public class DaoGenerate {
         mcGoodsBean.addStringProperty("gd_des_code");
         mcGoodsBean.addDateProperty("gd_mf_date");
         mcGoodsBean.addDateProperty("gd_exp_date");
-        mcGoodsBean.addIntProperty("mg_gvol");//商品容量
-        mcGoodsBean.addIntProperty("mg_gnum");//商品存量
-        mcGoodsBean.addIntProperty("prePrice");
-        mcGoodsBean.addIntProperty("scorePrice");
-        mcGoodsBean.addIntProperty("mg_vip_price");
-        mcGoodsBean.addIntProperty("mg_price");
-        mcGoodsBean.addIntProperty("chanStatus");
+        mcGoodsBean.addLongProperty("mg_gvol");//商品容量
+        mcGoodsBean.addLongProperty("mg_gnum");//商品存量
+        mcGoodsBean.addLongProperty("prePrice");
+        mcGoodsBean.addLongProperty("scorePrice");
+        mcGoodsBean.addLongProperty("mg_vip_price");
+        mcGoodsBean.addLongProperty("mg_price");
+        mcGoodsBean.addLongProperty("chanStatus");
         mcGoodsBean.addDateProperty("addtime");
         mcGoodsBean.addDateProperty("updatetime");
 
@@ -108,7 +108,7 @@ public class DaoGenerate {
         Entity mcParamBean = schema.addEntity("McParamsBean");
         mcParamBean.setTableName("mcparams");
 
-//        mcParamBean.addIntProperty("mp_id").autoincrement();
+//        mcParamBean.addLongProperty("mp_id").autoincrement();
         mcParamBean.addStringProperty("pcode").primaryKey();
         mcParamBean.addStringProperty("pvalue");
     }
@@ -131,13 +131,13 @@ public class DaoGenerate {
         mcParamBean.addStringProperty("mr_temp");
         mcParamBean.addStringProperty("mr_door_isfault");
         mcParamBean.addStringProperty("mr_door_status");
-        mcParamBean.addIntProperty("mr_chann_fault_num");
+        mcParamBean.addLongProperty("mr_chann_fault_num");
         mcParamBean.addStringProperty("mr_chann_fault_nos");
-        mcParamBean.addIntProperty("mr_nogd_chnum");
+        mcParamBean.addLongProperty("mr_nogd_chnum");
         mcParamBean.addStringProperty("mr_nogd_chann");
-        mcParamBean.addIntProperty("mr_gear_fault_num");
+        mcParamBean.addLongProperty("mr_gear_fault_num");
         mcParamBean.addStringProperty("mr_gear_fault_nos");
-        mcParamBean.addIntProperty("mr_data_fault");
+        mcParamBean.addLongProperty("mr_data_fault");
         mcParamBean.addDateProperty("mr_door_date");
         mcParamBean.addDateProperty("mr_mc_position");
         mcParamBean.addDateProperty("addtime");
@@ -148,7 +148,7 @@ public class DaoGenerate {
     private static void addPromotion(Schema schema) {
         Entity mcParamBean = schema.addEntity("PromotionBean");
         mcParamBean.setTableName("promotion");
-        mcParamBean.addIntProperty("pt_id").primaryKey();
+        mcParamBean.addLongProperty("pt_id").primaryKey();
         mcParamBean.addStringProperty("pt_name");
         mcParamBean.addStringProperty("pt_msg");
         mcParamBean.addStringProperty("pt_desc");

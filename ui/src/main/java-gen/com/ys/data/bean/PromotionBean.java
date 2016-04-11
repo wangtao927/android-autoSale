@@ -6,7 +6,7 @@ package com.ys.data.bean;
  */
 public class PromotionBean {
 
-    private Integer pt_id;
+    private Long pt_id;
     private String pt_name;
     private String pt_msg;
     private String pt_desc;
@@ -28,11 +28,11 @@ public class PromotionBean {
     public PromotionBean() {
     }
 
-    public PromotionBean(Integer pt_id) {
+    public PromotionBean(Long pt_id) {
         this.pt_id = pt_id;
     }
 
-    public PromotionBean(Integer pt_id, String pt_name, String pt_msg, String pt_desc, String pt_status, java.util.Date pt_starttime, java.util.Date pt_endtime, String pt_range, String pt_rangeparam, String pt_goods, String pt_goodsparam, String pt_condition, String pt_conditionparam, String pt_type, String pt_typeparam, String remark, String addtime, String updatetime) {
+    public PromotionBean(Long pt_id, String pt_name, String pt_msg, String pt_desc, String pt_status, java.util.Date pt_starttime, java.util.Date pt_endtime, String pt_range, String pt_rangeparam, String pt_goods, String pt_goodsparam, String pt_condition, String pt_conditionparam, String pt_type, String pt_typeparam, String remark, String addtime, String updatetime) {
         this.pt_id = pt_id;
         this.pt_name = pt_name;
         this.pt_msg = pt_msg;
@@ -53,11 +53,11 @@ public class PromotionBean {
         this.updatetime = updatetime;
     }
 
-    public Integer getPt_id() {
+    public Long getPt_id() {
         return pt_id;
     }
 
-    public void setPt_id(Integer pt_id) {
+    public void setPt_id(Long pt_id) {
         this.pt_id = pt_id;
     }
 

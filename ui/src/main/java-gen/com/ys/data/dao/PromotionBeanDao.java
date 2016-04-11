@@ -14,7 +14,7 @@ import com.ys.data.bean.PromotionBean;
 /** 
  * DAO for table promotion.
 */
-public class PromotionBeanDao extends AbstractDao<PromotionBean, Integer> {
+public class PromotionBeanDao extends AbstractDao<PromotionBean, Long> {
 
     public static final String TABLENAME = "promotion";
 
@@ -23,7 +23,7 @@ public class PromotionBeanDao extends AbstractDao<PromotionBean, Integer> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property Pt_id = new Property(0, Integer.class, "pt_id", true, "PT_ID");
+        public final static Property Pt_id = new Property(0, Long.class, "pt_id", true, "PT_ID");
         public final static Property Pt_name = new Property(1, String.class, "pt_name", false, "PT_NAME");
         public final static Property Pt_msg = new Property(2, String.class, "pt_msg", false, "PT_MSG");
         public final static Property Pt_desc = new Property(3, String.class, "pt_desc", false, "PT_DESC");
@@ -87,7 +87,7 @@ public class PromotionBeanDao extends AbstractDao<PromotionBean, Integer> {
     protected void bindValues(SQLiteStatement stmt, PromotionBean entity) {
         stmt.clearBindings();
  
-        Integer pt_id = entity.getPt_id();
+        Long pt_id = entity.getPt_id();
         if (pt_id != null) {
             stmt.bindLong(1, pt_id);
         }
@@ -180,15 +180,15 @@ public class PromotionBeanDao extends AbstractDao<PromotionBean, Integer> {
 
     /** @inheritdoc */
     @Override
-    public Integer readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 0) ? null : cursor.getInt(offset + 0);
+    public Long readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }    
 
     /** @inheritdoc */
     @Override
     public PromotionBean readEntity(Cursor cursor, int offset) {
         PromotionBean entity = new PromotionBean( //
-            cursor.isNull(offset + 0) ? null : cursor.getInt(offset + 0), // pt_id
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // pt_id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // pt_name
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // pt_msg
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // pt_desc
@@ -213,7 +213,7 @@ public class PromotionBeanDao extends AbstractDao<PromotionBean, Integer> {
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, PromotionBean entity, int offset) {
-        entity.setPt_id(cursor.isNull(offset + 0) ? null : cursor.getInt(offset + 0));
+        entity.setPt_id(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setPt_name(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setPt_msg(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setPt_desc(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
@@ -235,13 +235,14 @@ public class PromotionBeanDao extends AbstractDao<PromotionBean, Integer> {
     
     /** @inheritdoc */
     @Override
-    protected Integer updateKeyAfterInsert(PromotionBean entity, long rowId) {
-        return entity.getPt_id();
+    protected Long updateKeyAfterInsert(PromotionBean entity, long rowId) {
+        entity.setPt_id(rowId);
+        return rowId;
     }
     
     /** @inheritdoc */
     @Override
-    public Integer getKey(PromotionBean entity) {
+    public Long getKey(PromotionBean entity) {
         if(entity != null) {
             return entity.getPt_id();
         } else {

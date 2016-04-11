@@ -38,13 +38,13 @@ public class McStatusBeanDao extends AbstractDao<McStatusBean, String> {
         public final static Property Mr_temp = new Property(12, String.class, "mr_temp", false, "MR_TEMP");
         public final static Property Mr_door_isfault = new Property(13, String.class, "mr_door_isfault", false, "MR_DOOR_ISFAULT");
         public final static Property Mr_door_status = new Property(14, String.class, "mr_door_status", false, "MR_DOOR_STATUS");
-        public final static Property Mr_chann_fault_num = new Property(15, Integer.class, "mr_chann_fault_num", false, "MR_CHANN_FAULT_NUM");
+        public final static Property Mr_chann_fault_num = new Property(15, Long.class, "mr_chann_fault_num", false, "MR_CHANN_FAULT_NUM");
         public final static Property Mr_chann_fault_nos = new Property(16, String.class, "mr_chann_fault_nos", false, "MR_CHANN_FAULT_NOS");
-        public final static Property Mr_nogd_chnum = new Property(17, Integer.class, "mr_nogd_chnum", false, "MR_NOGD_CHNUM");
+        public final static Property Mr_nogd_chnum = new Property(17, Long.class, "mr_nogd_chnum", false, "MR_NOGD_CHNUM");
         public final static Property Mr_nogd_chann = new Property(18, String.class, "mr_nogd_chann", false, "MR_NOGD_CHANN");
-        public final static Property Mr_gear_fault_num = new Property(19, Integer.class, "mr_gear_fault_num", false, "MR_GEAR_FAULT_NUM");
+        public final static Property Mr_gear_fault_num = new Property(19, Long.class, "mr_gear_fault_num", false, "MR_GEAR_FAULT_NUM");
         public final static Property Mr_gear_fault_nos = new Property(20, String.class, "mr_gear_fault_nos", false, "MR_GEAR_FAULT_NOS");
-        public final static Property Mr_data_fault = new Property(21, Integer.class, "mr_data_fault", false, "MR_DATA_FAULT");
+        public final static Property Mr_data_fault = new Property(21, Long.class, "mr_data_fault", false, "MR_DATA_FAULT");
         public final static Property Mr_door_date = new Property(22, java.util.Date.class, "mr_door_date", false, "MR_DOOR_DATE");
         public final static Property Mr_mc_position = new Property(23, java.util.Date.class, "mr_mc_position", false, "MR_MC_POSITION");
         public final static Property Addtime = new Property(24, java.util.Date.class, "addtime", false, "ADDTIME");
@@ -178,7 +178,7 @@ public class McStatusBeanDao extends AbstractDao<McStatusBean, String> {
             stmt.bindString(15, mr_door_status);
         }
  
-        Integer mr_chann_fault_num = entity.getMr_chann_fault_num();
+        Long mr_chann_fault_num = entity.getMr_chann_fault_num();
         if (mr_chann_fault_num != null) {
             stmt.bindLong(16, mr_chann_fault_num);
         }
@@ -188,7 +188,7 @@ public class McStatusBeanDao extends AbstractDao<McStatusBean, String> {
             stmt.bindString(17, mr_chann_fault_nos);
         }
  
-        Integer mr_nogd_chnum = entity.getMr_nogd_chnum();
+        Long mr_nogd_chnum = entity.getMr_nogd_chnum();
         if (mr_nogd_chnum != null) {
             stmt.bindLong(18, mr_nogd_chnum);
         }
@@ -198,7 +198,7 @@ public class McStatusBeanDao extends AbstractDao<McStatusBean, String> {
             stmt.bindString(19, mr_nogd_chann);
         }
  
-        Integer mr_gear_fault_num = entity.getMr_gear_fault_num();
+        Long mr_gear_fault_num = entity.getMr_gear_fault_num();
         if (mr_gear_fault_num != null) {
             stmt.bindLong(20, mr_gear_fault_num);
         }
@@ -208,7 +208,7 @@ public class McStatusBeanDao extends AbstractDao<McStatusBean, String> {
             stmt.bindString(21, mr_gear_fault_nos);
         }
  
-        Integer mr_data_fault = entity.getMr_data_fault();
+        Long mr_data_fault = entity.getMr_data_fault();
         if (mr_data_fault != null) {
             stmt.bindLong(22, mr_data_fault);
         }
@@ -259,13 +259,13 @@ public class McStatusBeanDao extends AbstractDao<McStatusBean, String> {
             cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // mr_temp
             cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // mr_door_isfault
             cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // mr_door_status
-            cursor.isNull(offset + 15) ? null : cursor.getInt(offset + 15), // mr_chann_fault_num
+            cursor.isNull(offset + 15) ? null : cursor.getLong(offset + 15), // mr_chann_fault_num
             cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // mr_chann_fault_nos
-            cursor.isNull(offset + 17) ? null : cursor.getInt(offset + 17), // mr_nogd_chnum
+            cursor.isNull(offset + 17) ? null : cursor.getLong(offset + 17), // mr_nogd_chnum
             cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // mr_nogd_chann
-            cursor.isNull(offset + 19) ? null : cursor.getInt(offset + 19), // mr_gear_fault_num
+            cursor.isNull(offset + 19) ? null : cursor.getLong(offset + 19), // mr_gear_fault_num
             cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20), // mr_gear_fault_nos
-            cursor.isNull(offset + 21) ? null : cursor.getInt(offset + 21), // mr_data_fault
+            cursor.isNull(offset + 21) ? null : cursor.getLong(offset + 21), // mr_data_fault
             cursor.isNull(offset + 22) ? null : new java.util.Date(cursor.getLong(offset + 22)), // mr_door_date
             cursor.isNull(offset + 23) ? null : new java.util.Date(cursor.getLong(offset + 23)), // mr_mc_position
             cursor.isNull(offset + 24) ? null : new java.util.Date(cursor.getLong(offset + 24)), // addtime
@@ -292,13 +292,13 @@ public class McStatusBeanDao extends AbstractDao<McStatusBean, String> {
         entity.setMr_temp(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
         entity.setMr_door_isfault(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
         entity.setMr_door_status(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
-        entity.setMr_chann_fault_num(cursor.isNull(offset + 15) ? null : cursor.getInt(offset + 15));
+        entity.setMr_chann_fault_num(cursor.isNull(offset + 15) ? null : cursor.getLong(offset + 15));
         entity.setMr_chann_fault_nos(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
-        entity.setMr_nogd_chnum(cursor.isNull(offset + 17) ? null : cursor.getInt(offset + 17));
+        entity.setMr_nogd_chnum(cursor.isNull(offset + 17) ? null : cursor.getLong(offset + 17));
         entity.setMr_nogd_chann(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
-        entity.setMr_gear_fault_num(cursor.isNull(offset + 19) ? null : cursor.getInt(offset + 19));
+        entity.setMr_gear_fault_num(cursor.isNull(offset + 19) ? null : cursor.getLong(offset + 19));
         entity.setMr_gear_fault_nos(cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20));
-        entity.setMr_data_fault(cursor.isNull(offset + 21) ? null : cursor.getInt(offset + 21));
+        entity.setMr_data_fault(cursor.isNull(offset + 21) ? null : cursor.getLong(offset + 21));
         entity.setMr_door_date(cursor.isNull(offset + 22) ? null : new java.util.Date(cursor.getLong(offset + 22)));
         entity.setMr_mc_position(cursor.isNull(offset + 23) ? null : new java.util.Date(cursor.getLong(offset + 23)));
         entity.setAddtime(cursor.isNull(offset + 24) ? null : new java.util.Date(cursor.getLong(offset + 24)));
