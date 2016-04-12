@@ -48,10 +48,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (!isInit()) {
             // 弹出层，输入终端号，初始化机器
             startActivity(new Intent(this, TermInitActivity.class));
+            return;
+        } else {
+            // 启动service
+            Intent intent = new Intent(this, TimerService.class);
+            startService(intent);
         }
-        // 启动service
-       Intent intent = new Intent(this, TimerService.class);
-        startService(intent);
+
     }
     private boolean isInit() {
         DaoSession session = App.getDaoSession(App.getContext());

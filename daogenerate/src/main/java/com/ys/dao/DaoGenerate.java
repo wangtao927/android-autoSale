@@ -79,10 +79,10 @@ public class DaoGenerate {
         Entity mcGoodsBean = schema.addEntity("McGoodsBean");
         mcGoodsBean.setTableName("mcgoods");
 
-        mcGoodsBean.addLongProperty("mg_id").primaryKey();
+//        mcGoodsBean.addLongProperty("mg_id").primaryKey();
 
         mcGoodsBean.addStringProperty("mc_no");//终端号
-        mcGoodsBean.addStringProperty("mg_channo").index().unique();//货道编号
+        mcGoodsBean.addStringProperty("mg_channo").primaryKey();//货道编号
         mcGoodsBean.addStringProperty("gd_id");//商品ID
         mcGoodsBean.addStringProperty("gd_no");//商品编码
         mcGoodsBean.addStringProperty("gd_type");//商品类型

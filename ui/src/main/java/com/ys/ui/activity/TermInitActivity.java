@@ -17,6 +17,7 @@ import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
 import com.ys.ui.common.http.RetrofitManager;
+import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.TermInitResult;
 import com.ys.ui.utils.StringUtils;
@@ -58,14 +59,6 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
     @Bind(R.id.et_serialNo)
     EditText et_serialNo;
 
-    private McStatusBean getInitBean(String termno, String serialNo) {
-        McStatusBean bean = new McStatusBean();
-        bean.setMc_id("1");
-        bean.setMc_no(termno);
-        bean.setMc_serial_no(serialNo);
-        bean.setAddtime(new Date());
-        return bean;
-    }
 
 
     @Override
@@ -121,72 +114,73 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
 
     private void initTerm(CommonResponse<TermInitResult> response) {
         // 1. 保存终端号到sqllite
-        initTermStatus(response.getExt_data().getMachine().getMc_no(), response.getExt_data().getMachine().getMc_serial_no());
+        DbManagerHelper.initTermStatus(response.getExt_data().getMachine().getMc_no(), response.getExt_data().getMachine().getMc_serial_no());
         // 2. 更新终端参数
-        initMcParam(response.getExt_data().getMcparam());
+        DbManagerHelper.initMcParam(response.getExt_data().getMcparam());
         // 3. 更新商品表
-        initGoods(response.getExt_data().getGoods());
+        DbManagerHelper.initGoods(response.getExt_data().getGoods());
         // 4. 更新终端库存
-        initMcGoods(response.getExt_data().getMcgoods());
+        DbManagerHelper.initMcGoods(response.getExt_data().getMcgoods());
         // 5.更新管理员
-        initAdmin(response.getExt_data().getMcadmin());
+        DbManagerHelper.initAdmin(response.getExt_data().getMcadmin());
 
     }
-
-    /**
-     *  保存终端号   保证这张表就一条数据
-     * @param termNo
-     */
-    private void initTermStatus(String termNo, String serialNo) {
-        //  存储到  sqllite 中
-        if (!StringUtils.isEmpty(termNo)) {
-            App.getDaoSession(App.getContext()).getMcStatusBeanDao().deleteAll();
-            App.getDaoSession(App.getContext()).getMcStatusBeanDao().insertOrReplace(getInitBean(termNo, serialNo));
-        }
-
-    }
-
-    /**
-     * 初始化终端参数表
-     * @param lists
-     */
-    private void initMcParam(List<McParamsBean> lists) {
-        if (lists != null && !lists.isEmpty()) {
-            App.getDaoSession(App.getContext()).getMcParamsBeanDao().deleteAll();
-            App.getDaoSession(App.getContext()).getMcParamsBeanDao().insertInTx(lists);
-        }
-
-    }
-
-    /**
-     * 初始化商品表
-     * @param goods
-     */
-    private void initGoods(List<GoodsBean> goods) {
-        if (goods != null && !goods.isEmpty()) {
-            App.getDaoSession(App.getContext()).getGoodsBeanDao().deleteAll();
-            App.getDaoSession(App.getContext()).getGoodsBeanDao().insertInTx(goods);
-        }
-
-    }
-
-    /**
-     * 初始化 终端库存表
-     * @param mcgoods
-     */
-    private void initMcGoods(List<McGoodsBean> mcgoods) {
-        if (mcgoods != null && !mcgoods.isEmpty()) {
-            App.getDaoSession(App.getContext()).getMcGoodsBeanDao().deleteAll();
-            App.getDaoSession(App.getContext()).getMcGoodsBeanDao().insertInTx(mcgoods);
-        }
-
-    }
-
-    public void initAdmin(List<McAdminBean> admins){
-
-        if (admins != null && !admins.isEmpty()) {
-            App.getDaoSession(App.getContext()).getMcAdminBeanDao().insertOrReplaceInTx(admins);
-        }
-    }
+//
+//    /**
+//     *  保存终端号   保证这张表就一条数据
+//     * @param termNo
+//     */
+//    private void initTermStatus(String termNo, String serialNo) {
+//        //  存储到  sqllite 中
+//        if (!StringUtils.isEmpty(termNo)) {
+//            App.getDaoSession(App.getContext()).getMcStatusBeanDao().deleteAll();
+//            App.getDaoSession(App.getContext()).getMcStatusBeanDao().insertOrReplace(getInitBean(termNo, serialNo));
+//        }
+//
+//    }
+//
+//    /**
+//     * 初始化终端参数表
+//     * @param lists
+//     */
+//    private void initMcParam(List<McParamsBean> lists) {
+//        if (lists != null && !lists.isEmpty()) {
+//            App.getDaoSession(App.getContext()).getMcParamsBeanDao().deleteAll();
+//            App.getDaoSession(App.getContext()).getMcParamsBeanDao().insertInTx(lists);
+//        }
+//
+//    }
+//
+//    /**
+//     * 初始化商品表
+//     * @param goods
+//     */
+//    private void initGoods(List<GoodsBean> goods) {
+//        if (goods != null && !goods.isEmpty()) {
+//            App.getDaoSession(App.getContext()).getGoodsBeanDao().deleteAll();
+//            App.getDaoSession(App.getContext()).getGoodsBeanDao().insertInTx(goods);
+//        }
+//
+//    }
+//
+//    /**
+//     * 初始化 终端库存表
+//     * @param mcgoods
+//     */
+//    private void initMcGoods(List<McGoodsBean> mcgoods) {
+//        if (mcgoods != null && !mcgoods.isEmpty()) {
+//            App.getDaoSession(App.getContext()).getMcGoodsBeanDao().deleteAll();
+//            App.getDaoSession(App.getContext()).getMcGoodsBeanDao().insertInTx(mcgoods);
+//        }
+//
+//    }
+//
+//    public void initAdmin(List<McAdminBean> admins){
+//
+//        if (admins != null && !admins.isEmpty()) {
+//            App.getDaoSession(App.getContext()).getMcAdminBeanDao().deleteAll();
+//            App.getDaoSession(App.getContext()).getMcAdminBeanDao().insertOrReplaceInTx(admins);
+//        }
+//    }
 
 }

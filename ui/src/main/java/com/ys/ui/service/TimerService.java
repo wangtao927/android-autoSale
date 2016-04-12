@@ -18,6 +18,7 @@ import com.ys.data.dao.McParamsBeanDao;
 import com.ys.data.dao.SaleListBeanDao;
 import com.ys.ui.base.App;
 import com.ys.ui.common.http.RetrofitManager;
+import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.request.CommonRequest;
 import com.ys.ui.common.request.McDataVo;
 import com.ys.ui.common.response.CommonResponse;
@@ -27,7 +28,9 @@ import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.greenrobot.dao.query.Query;
 import rx.android.schedulers.AndroidSchedulers;
@@ -73,7 +76,11 @@ public class TimerService extends Service {
         // 获取终端状态， 只有一条记录
         mcStatusBeanList =
                 App.getDaoSession(App.getContext()).getMcStatusBeanDao().loadAll();
-        McStatusBean bean = mcStatusBeanList.get(0);
+        McStatusBean bean;
+        if (mcStatusBeanList != null  && !mcStatusBeanList.isEmpty()) {
+            bean = mcStatusBeanList.get(0);
+        }
+        bean = new McStatusBean();
         vo.setMcStatus(bean);
 
         // 获取库存信息
@@ -124,30 +131,80 @@ public class TimerService extends Service {
     private void  updateInfo(String oprCodes, TermInitResult result) {
         if (!StringUtils.isEmpty(oprCodes)) {
             String[]  codes = oprCodes.split(",");
-
+            Map map  = new HashMap<String, String>();
             for (String code : codes) {
                  switch (code) {
                      case "01":// 终端基本信息  终端号  等
                          if (result.getMachine() != null) {
                              // 先查出主键， 然后更新
-                             McStatusBean statusBean = App.getDaoSession(App.getContext()).getMcStatusBeanDao().loadAll().get(0);
-                            // App.getDaoSession(App.getContext()).getMcStatusBeanDao().update();
+
+                             try {
+                                 McStatusBean statusBean = App.getDaoSession(App.getContext()).getMcStatusBeanDao().loadAll().get(0);
+                                 McStatusBean entity = result.getMachine();
+                                 entity.setMc_id(statusBean.getMc_id());
+                                 App.getDaoSession(App.getContext()).getMcStatusBeanDao().update(entity);
+                                 map.put("01", "0");// 0 成功 1 失败
+                             } catch (Exception e) {
+                                 map.put("01", "1");// 0 成功 1 失败
+                             }
+                         } else {
+                             map.put("01", "1");// 0 成功 1 失败
                          }
                          break;
-                     case "02":// 终端参数
+                     case "02":// 终端参数,  全部删除， 再插入
+                         if (result.getMcparam() != null && !result.getMcparam().isEmpty()) {
+
+                             try {
+                                 DbManagerHelper.initMcParam(result.getMcparam());
+                                 map.put("02", "0");// 0 成功 1 失败
+                             } catch (Exception e) {
+                                 map.put("02", "1");// 0 成功 1 失败
+                             }
+
+                         }
+                         map.put("02", "1");// 0 成功 1 失败
 
                          break;
                      case "03":// 库存信息 根据货道号更新  商品编码  容量  价格
+                         if (result.getMcgoods() != null && !result.getMcgoods().isEmpty()) {
+
+                             try {
+                                 DbManagerHelper.updateMcGoods(result.getMcgoods());
+                                 map.put("03", "0");// 0 成功 1 失败
+                             } catch (Exception e) {
+                                 map.put("03", "1");// 0 成功 1 失败
+                             }
+                         }
+                         map.put("04", "1");// 0 成功 1 失败
 
                          break;
                      case "04"://终端管理员  // 全部删除， 再插入
+                         if (result.getMcadmin() != null && !result.getMcadmin().isEmpty()) {
+
+                             try {
+                                 DbManagerHelper.initAdmin(result.getMcadmin());
+                                 map.put("04", "0");// 0 成功 1 失败
+                             } catch (Exception e) {
+                                 map.put("04", "1");// 0 成功 1 失败
+                             }
+                         }
+                         map.put("04", "1");// 0 成功 1 失败
 
                          break;
                      case "05"://广告 全部删除 再插入
 
                          break;
-                     case "06": // 下载商品信息
+                     case "06": // 下载商品信息， 全部删除再插入
+                          if (result.getGoods() != null && !result.getGoods().isEmpty()) {
 
+                              try {
+                                  DbManagerHelper.initGoods(result.getGoods());
+                                  map.put("06", "0");// 0 成功 1 失败
+                              } catch (Exception e) {
+                                  map.put("06", "1");// 0 成功 1 失败
+                              }
+                          }
+                         map.put("06", "1");// 0 成功 1 失败
                          break;
                      default:
                          break;

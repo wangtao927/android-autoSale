@@ -6,7 +6,6 @@ package com.ys.data.bean;
  */
 public class McGoodsBean {
 
-    private Long mg_id;
     private String mc_no;
     private String mg_channo;
     private String gd_id;
@@ -30,12 +29,11 @@ public class McGoodsBean {
     public McGoodsBean() {
     }
 
-    public McGoodsBean(Long mg_id) {
-        this.mg_id = mg_id;
+    public McGoodsBean(String mg_channo) {
+        this.mg_channo = mg_channo;
     }
 
-    public McGoodsBean(Long mg_id, String mc_no, String mg_channo, String gd_id, String gd_no, String gd_type, String gd_approve_code, String gd_batch_no, String gd_des_code, java.util.Date gd_mf_date, java.util.Date gd_exp_date, Long mg_gvol, Long mg_gnum, Long prePrice, Long scorePrice, Long mg_vip_price, Long mg_price, Long chanStatus, java.util.Date addtime, java.util.Date updatetime) {
-        this.mg_id = mg_id;
+    public McGoodsBean(String mc_no, String mg_channo, String gd_id, String gd_no, String gd_type, String gd_approve_code, String gd_batch_no, String gd_des_code, java.util.Date gd_mf_date, java.util.Date gd_exp_date, Long mg_gvol, Long mg_gnum, Long prePrice, Long scorePrice, Long mg_vip_price, Long mg_price, Long chanStatus, java.util.Date addtime, java.util.Date updatetime) {
         this.mc_no = mc_no;
         this.mg_channo = mg_channo;
         this.gd_id = gd_id;
@@ -55,14 +53,6 @@ public class McGoodsBean {
         this.chanStatus = chanStatus;
         this.addtime = addtime;
         this.updatetime = updatetime;
-    }
-
-    public Long getMg_id() {
-        return mg_id;
-    }
-
-    public void setMg_id(Long mg_id) {
-        this.mg_id = mg_id;
     }
 
     public String getMc_no() {
