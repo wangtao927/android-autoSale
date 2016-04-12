@@ -12,7 +12,10 @@ public class SaleListBean {
     private java.util.Date sl_time;
     private String mc_no;
     private String sl_gd_no;
+    private String sl_gd_name;
     private Long sl_pre_price;
+    private Long sl_disc_price;
+    private Long sl_vip_price;
     private Long sl_amt;
     private Long sl_score;
     private Long sl_cash_in;
@@ -28,6 +31,7 @@ public class SaleListBean {
     private String sl_acc_no;
     private Long sl_bf_amt;
     private Long sl_af_amt;
+    private Long sl_send_status;
 
     public SaleListBean() {
     }
@@ -36,14 +40,17 @@ public class SaleListBean {
         this.sl_id = sl_id;
     }
 
-    public SaleListBean(Long sl_id, String sl_no, String sl_batch_no, java.util.Date sl_time, String mc_no, String sl_gd_no, Long sl_pre_price, Long sl_amt, Long sl_score, Long sl_cash_in, Long sl_cash_out, String sl_coin_in, String sl_coin_out, String sl_chann, Long sl_num, String sl_type, String sl_isvip, String sl_status, String sl_err_msg, String sl_acc_no, Long sl_bf_amt, Long sl_af_amt) {
+    public SaleListBean(Long sl_id, String sl_no, String sl_batch_no, java.util.Date sl_time, String mc_no, String sl_gd_no, String sl_gd_name, Long sl_pre_price, Long sl_disc_price, Long sl_vip_price, Long sl_amt, Long sl_score, Long sl_cash_in, Long sl_cash_out, String sl_coin_in, String sl_coin_out, String sl_chann, Long sl_num, String sl_type, String sl_isvip, String sl_status, String sl_err_msg, String sl_acc_no, Long sl_bf_amt, Long sl_af_amt, Long sl_send_status) {
         this.sl_id = sl_id;
         this.sl_no = sl_no;
         this.sl_batch_no = sl_batch_no;
         this.sl_time = sl_time;
         this.mc_no = mc_no;
         this.sl_gd_no = sl_gd_no;
+        this.sl_gd_name = sl_gd_name;
         this.sl_pre_price = sl_pre_price;
+        this.sl_disc_price = sl_disc_price;
+        this.sl_vip_price = sl_vip_price;
         this.sl_amt = sl_amt;
         this.sl_score = sl_score;
         this.sl_cash_in = sl_cash_in;
@@ -59,6 +66,7 @@ public class SaleListBean {
         this.sl_acc_no = sl_acc_no;
         this.sl_bf_amt = sl_bf_amt;
         this.sl_af_amt = sl_af_amt;
+        this.sl_send_status = sl_send_status;
     }
 
     public Long getSl_id() {
@@ -109,12 +117,36 @@ public class SaleListBean {
         this.sl_gd_no = sl_gd_no;
     }
 
+    public String getSl_gd_name() {
+        return sl_gd_name;
+    }
+
+    public void setSl_gd_name(String sl_gd_name) {
+        this.sl_gd_name = sl_gd_name;
+    }
+
     public Long getSl_pre_price() {
         return sl_pre_price;
     }
 
     public void setSl_pre_price(Long sl_pre_price) {
         this.sl_pre_price = sl_pre_price;
+    }
+
+    public Long getSl_disc_price() {
+        return sl_disc_price;
+    }
+
+    public void setSl_disc_price(Long sl_disc_price) {
+        this.sl_disc_price = sl_disc_price;
+    }
+
+    public Long getSl_vip_price() {
+        return sl_vip_price;
+    }
+
+    public void setSl_vip_price(Long sl_vip_price) {
+        this.sl_vip_price = sl_vip_price;
     }
 
     public Long getSl_amt() {
@@ -235,6 +267,14 @@ public class SaleListBean {
 
     public void setSl_af_amt(Long sl_af_amt) {
         this.sl_af_amt = sl_af_amt;
+    }
+
+    public Long getSl_send_status() {
+        return sl_send_status;
+    }
+
+    public void setSl_send_status(Long sl_send_status) {
+        this.sl_send_status = sl_send_status;
     }
 
 }

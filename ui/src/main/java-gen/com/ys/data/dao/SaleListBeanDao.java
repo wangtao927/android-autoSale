@@ -29,22 +29,26 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
         public final static Property Sl_time = new Property(3, java.util.Date.class, "sl_time", false, "SL_TIME");
         public final static Property Mc_no = new Property(4, String.class, "mc_no", false, "MC_NO");
         public final static Property Sl_gd_no = new Property(5, String.class, "sl_gd_no", false, "SL_GD_NO");
-        public final static Property Sl_pre_price = new Property(6, Long.class, "sl_pre_price", false, "SL_PRE_PRICE");
-        public final static Property Sl_amt = new Property(7, Long.class, "sl_amt", false, "SL_AMT");
-        public final static Property Sl_score = new Property(8, Long.class, "sl_score", false, "SL_SCORE");
-        public final static Property Sl_cash_in = new Property(9, Long.class, "sl_cash_in", false, "SL_CASH_IN");
-        public final static Property Sl_cash_out = new Property(10, Long.class, "sl_cash_out", false, "SL_CASH_OUT");
-        public final static Property Sl_coin_in = new Property(11, String.class, "sl_coin_in", false, "SL_COIN_IN");
-        public final static Property Sl_coin_out = new Property(12, String.class, "sl_coin_out", false, "SL_COIN_OUT");
-        public final static Property Sl_chann = new Property(13, String.class, "sl_chann", false, "SL_CHANN");
-        public final static Property Sl_num = new Property(14, Long.class, "sl_num", false, "SL_NUM");
-        public final static Property Sl_type = new Property(15, String.class, "sl_type", false, "SL_TYPE");
-        public final static Property Sl_isvip = new Property(16, String.class, "sl_isvip", false, "SL_ISVIP");
-        public final static Property Sl_status = new Property(17, String.class, "sl_status", false, "SL_STATUS");
-        public final static Property Sl_err_msg = new Property(18, String.class, "sl_err_msg", false, "SL_ERR_MSG");
-        public final static Property Sl_acc_no = new Property(19, String.class, "sl_acc_no", false, "SL_ACC_NO");
-        public final static Property Sl_bf_amt = new Property(20, Long.class, "sl_bf_amt", false, "SL_BF_AMT");
-        public final static Property Sl_af_amt = new Property(21, Long.class, "sl_af_amt", false, "SL_AF_AMT");
+        public final static Property Sl_gd_name = new Property(6, String.class, "sl_gd_name", false, "SL_GD_NAME");
+        public final static Property Sl_pre_price = new Property(7, Long.class, "sl_pre_price", false, "SL_PRE_PRICE");
+        public final static Property Sl_disc_price = new Property(8, Long.class, "sl_disc_price", false, "SL_DISC_PRICE");
+        public final static Property Sl_vip_price = new Property(9, Long.class, "sl_vip_price", false, "SL_VIP_PRICE");
+        public final static Property Sl_amt = new Property(10, Long.class, "sl_amt", false, "SL_AMT");
+        public final static Property Sl_score = new Property(11, Long.class, "sl_score", false, "SL_SCORE");
+        public final static Property Sl_cash_in = new Property(12, Long.class, "sl_cash_in", false, "SL_CASH_IN");
+        public final static Property Sl_cash_out = new Property(13, Long.class, "sl_cash_out", false, "SL_CASH_OUT");
+        public final static Property Sl_coin_in = new Property(14, String.class, "sl_coin_in", false, "SL_COIN_IN");
+        public final static Property Sl_coin_out = new Property(15, String.class, "sl_coin_out", false, "SL_COIN_OUT");
+        public final static Property Sl_chann = new Property(16, String.class, "sl_chann", false, "SL_CHANN");
+        public final static Property Sl_num = new Property(17, Long.class, "sl_num", false, "SL_NUM");
+        public final static Property Sl_type = new Property(18, String.class, "sl_type", false, "SL_TYPE");
+        public final static Property Sl_isvip = new Property(19, String.class, "sl_isvip", false, "SL_ISVIP");
+        public final static Property Sl_status = new Property(20, String.class, "sl_status", false, "SL_STATUS");
+        public final static Property Sl_err_msg = new Property(21, String.class, "sl_err_msg", false, "SL_ERR_MSG");
+        public final static Property Sl_acc_no = new Property(22, String.class, "sl_acc_no", false, "SL_ACC_NO");
+        public final static Property Sl_bf_amt = new Property(23, Long.class, "sl_bf_amt", false, "SL_BF_AMT");
+        public final static Property Sl_af_amt = new Property(24, Long.class, "sl_af_amt", false, "SL_AF_AMT");
+        public final static Property Sl_send_status = new Property(25, Long.class, "sl_send_status", false, "SL_SEND_STATUS");
     };
 
 
@@ -66,22 +70,26 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
                 "'SL_TIME' INTEGER," + // 3: sl_time
                 "'MC_NO' TEXT," + // 4: mc_no
                 "'SL_GD_NO' TEXT," + // 5: sl_gd_no
-                "'SL_PRE_PRICE' INTEGER," + // 6: sl_pre_price
-                "'SL_AMT' INTEGER," + // 7: sl_amt
-                "'SL_SCORE' INTEGER," + // 8: sl_score
-                "'SL_CASH_IN' INTEGER," + // 9: sl_cash_in
-                "'SL_CASH_OUT' INTEGER," + // 10: sl_cash_out
-                "'SL_COIN_IN' TEXT," + // 11: sl_coin_in
-                "'SL_COIN_OUT' TEXT," + // 12: sl_coin_out
-                "'SL_CHANN' TEXT," + // 13: sl_chann
-                "'SL_NUM' INTEGER," + // 14: sl_num
-                "'SL_TYPE' TEXT," + // 15: sl_type
-                "'SL_ISVIP' TEXT," + // 16: sl_isvip
-                "'SL_STATUS' TEXT," + // 17: sl_status
-                "'SL_ERR_MSG' TEXT," + // 18: sl_err_msg
-                "'SL_ACC_NO' TEXT," + // 19: sl_acc_no
-                "'SL_BF_AMT' INTEGER," + // 20: sl_bf_amt
-                "'SL_AF_AMT' INTEGER);"); // 21: sl_af_amt
+                "'SL_GD_NAME' TEXT," + // 6: sl_gd_name
+                "'SL_PRE_PRICE' INTEGER," + // 7: sl_pre_price
+                "'SL_DISC_PRICE' INTEGER," + // 8: sl_disc_price
+                "'SL_VIP_PRICE' INTEGER," + // 9: sl_vip_price
+                "'SL_AMT' INTEGER," + // 10: sl_amt
+                "'SL_SCORE' INTEGER," + // 11: sl_score
+                "'SL_CASH_IN' INTEGER," + // 12: sl_cash_in
+                "'SL_CASH_OUT' INTEGER," + // 13: sl_cash_out
+                "'SL_COIN_IN' TEXT," + // 14: sl_coin_in
+                "'SL_COIN_OUT' TEXT," + // 15: sl_coin_out
+                "'SL_CHANN' TEXT," + // 16: sl_chann
+                "'SL_NUM' INTEGER," + // 17: sl_num
+                "'SL_TYPE' TEXT," + // 18: sl_type
+                "'SL_ISVIP' TEXT," + // 19: sl_isvip
+                "'SL_STATUS' TEXT," + // 20: sl_status
+                "'SL_ERR_MSG' TEXT," + // 21: sl_err_msg
+                "'SL_ACC_NO' TEXT," + // 22: sl_acc_no
+                "'SL_BF_AMT' INTEGER," + // 23: sl_bf_amt
+                "'SL_AF_AMT' INTEGER," + // 24: sl_af_amt
+                "'SL_SEND_STATUS' INTEGER);"); // 25: sl_send_status
     }
 
     /** Drops the underlying database table. */
@@ -125,84 +133,104 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
             stmt.bindString(6, sl_gd_no);
         }
  
+        String sl_gd_name = entity.getSl_gd_name();
+        if (sl_gd_name != null) {
+            stmt.bindString(7, sl_gd_name);
+        }
+ 
         Long sl_pre_price = entity.getSl_pre_price();
         if (sl_pre_price != null) {
-            stmt.bindLong(7, sl_pre_price);
+            stmt.bindLong(8, sl_pre_price);
+        }
+ 
+        Long sl_disc_price = entity.getSl_disc_price();
+        if (sl_disc_price != null) {
+            stmt.bindLong(9, sl_disc_price);
+        }
+ 
+        Long sl_vip_price = entity.getSl_vip_price();
+        if (sl_vip_price != null) {
+            stmt.bindLong(10, sl_vip_price);
         }
  
         Long sl_amt = entity.getSl_amt();
         if (sl_amt != null) {
-            stmt.bindLong(8, sl_amt);
+            stmt.bindLong(11, sl_amt);
         }
  
         Long sl_score = entity.getSl_score();
         if (sl_score != null) {
-            stmt.bindLong(9, sl_score);
+            stmt.bindLong(12, sl_score);
         }
  
         Long sl_cash_in = entity.getSl_cash_in();
         if (sl_cash_in != null) {
-            stmt.bindLong(10, sl_cash_in);
+            stmt.bindLong(13, sl_cash_in);
         }
  
         Long sl_cash_out = entity.getSl_cash_out();
         if (sl_cash_out != null) {
-            stmt.bindLong(11, sl_cash_out);
+            stmt.bindLong(14, sl_cash_out);
         }
  
         String sl_coin_in = entity.getSl_coin_in();
         if (sl_coin_in != null) {
-            stmt.bindString(12, sl_coin_in);
+            stmt.bindString(15, sl_coin_in);
         }
  
         String sl_coin_out = entity.getSl_coin_out();
         if (sl_coin_out != null) {
-            stmt.bindString(13, sl_coin_out);
+            stmt.bindString(16, sl_coin_out);
         }
  
         String sl_chann = entity.getSl_chann();
         if (sl_chann != null) {
-            stmt.bindString(14, sl_chann);
+            stmt.bindString(17, sl_chann);
         }
  
         Long sl_num = entity.getSl_num();
         if (sl_num != null) {
-            stmt.bindLong(15, sl_num);
+            stmt.bindLong(18, sl_num);
         }
  
         String sl_type = entity.getSl_type();
         if (sl_type != null) {
-            stmt.bindString(16, sl_type);
+            stmt.bindString(19, sl_type);
         }
  
         String sl_isvip = entity.getSl_isvip();
         if (sl_isvip != null) {
-            stmt.bindString(17, sl_isvip);
+            stmt.bindString(20, sl_isvip);
         }
  
         String sl_status = entity.getSl_status();
         if (sl_status != null) {
-            stmt.bindString(18, sl_status);
+            stmt.bindString(21, sl_status);
         }
  
         String sl_err_msg = entity.getSl_err_msg();
         if (sl_err_msg != null) {
-            stmt.bindString(19, sl_err_msg);
+            stmt.bindString(22, sl_err_msg);
         }
  
         String sl_acc_no = entity.getSl_acc_no();
         if (sl_acc_no != null) {
-            stmt.bindString(20, sl_acc_no);
+            stmt.bindString(23, sl_acc_no);
         }
  
         Long sl_bf_amt = entity.getSl_bf_amt();
         if (sl_bf_amt != null) {
-            stmt.bindLong(21, sl_bf_amt);
+            stmt.bindLong(24, sl_bf_amt);
         }
  
         Long sl_af_amt = entity.getSl_af_amt();
         if (sl_af_amt != null) {
-            stmt.bindLong(22, sl_af_amt);
+            stmt.bindLong(25, sl_af_amt);
+        }
+ 
+        Long sl_send_status = entity.getSl_send_status();
+        if (sl_send_status != null) {
+            stmt.bindLong(26, sl_send_status);
         }
     }
 
@@ -222,22 +250,26 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
             cursor.isNull(offset + 3) ? null : new java.util.Date(cursor.getLong(offset + 3)), // sl_time
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // mc_no
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // sl_gd_no
-            cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6), // sl_pre_price
-            cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7), // sl_amt
-            cursor.isNull(offset + 8) ? null : cursor.getLong(offset + 8), // sl_score
-            cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9), // sl_cash_in
-            cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10), // sl_cash_out
-            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // sl_coin_in
-            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // sl_coin_out
-            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // sl_chann
-            cursor.isNull(offset + 14) ? null : cursor.getLong(offset + 14), // sl_num
-            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // sl_type
-            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // sl_isvip
-            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // sl_status
-            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // sl_err_msg
-            cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // sl_acc_no
-            cursor.isNull(offset + 20) ? null : cursor.getLong(offset + 20), // sl_bf_amt
-            cursor.isNull(offset + 21) ? null : cursor.getLong(offset + 21) // sl_af_amt
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // sl_gd_name
+            cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7), // sl_pre_price
+            cursor.isNull(offset + 8) ? null : cursor.getLong(offset + 8), // sl_disc_price
+            cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9), // sl_vip_price
+            cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10), // sl_amt
+            cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11), // sl_score
+            cursor.isNull(offset + 12) ? null : cursor.getLong(offset + 12), // sl_cash_in
+            cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13), // sl_cash_out
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // sl_coin_in
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // sl_coin_out
+            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // sl_chann
+            cursor.isNull(offset + 17) ? null : cursor.getLong(offset + 17), // sl_num
+            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // sl_type
+            cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // sl_isvip
+            cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20), // sl_status
+            cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21), // sl_err_msg
+            cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22), // sl_acc_no
+            cursor.isNull(offset + 23) ? null : cursor.getLong(offset + 23), // sl_bf_amt
+            cursor.isNull(offset + 24) ? null : cursor.getLong(offset + 24), // sl_af_amt
+            cursor.isNull(offset + 25) ? null : cursor.getLong(offset + 25) // sl_send_status
         );
         return entity;
     }
@@ -251,22 +283,26 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
         entity.setSl_time(cursor.isNull(offset + 3) ? null : new java.util.Date(cursor.getLong(offset + 3)));
         entity.setMc_no(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setSl_gd_no(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setSl_pre_price(cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6));
-        entity.setSl_amt(cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7));
-        entity.setSl_score(cursor.isNull(offset + 8) ? null : cursor.getLong(offset + 8));
-        entity.setSl_cash_in(cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9));
-        entity.setSl_cash_out(cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10));
-        entity.setSl_coin_in(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
-        entity.setSl_coin_out(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
-        entity.setSl_chann(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
-        entity.setSl_num(cursor.isNull(offset + 14) ? null : cursor.getLong(offset + 14));
-        entity.setSl_type(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
-        entity.setSl_isvip(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
-        entity.setSl_status(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
-        entity.setSl_err_msg(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
-        entity.setSl_acc_no(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
-        entity.setSl_bf_amt(cursor.isNull(offset + 20) ? null : cursor.getLong(offset + 20));
-        entity.setSl_af_amt(cursor.isNull(offset + 21) ? null : cursor.getLong(offset + 21));
+        entity.setSl_gd_name(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setSl_pre_price(cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7));
+        entity.setSl_disc_price(cursor.isNull(offset + 8) ? null : cursor.getLong(offset + 8));
+        entity.setSl_vip_price(cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9));
+        entity.setSl_amt(cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10));
+        entity.setSl_score(cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11));
+        entity.setSl_cash_in(cursor.isNull(offset + 12) ? null : cursor.getLong(offset + 12));
+        entity.setSl_cash_out(cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13));
+        entity.setSl_coin_in(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setSl_coin_out(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
+        entity.setSl_chann(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
+        entity.setSl_num(cursor.isNull(offset + 17) ? null : cursor.getLong(offset + 17));
+        entity.setSl_type(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
+        entity.setSl_isvip(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
+        entity.setSl_status(cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20));
+        entity.setSl_err_msg(cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21));
+        entity.setSl_acc_no(cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22));
+        entity.setSl_bf_amt(cursor.isNull(offset + 23) ? null : cursor.getLong(offset + 23));
+        entity.setSl_af_amt(cursor.isNull(offset + 24) ? null : cursor.getLong(offset + 24));
+        entity.setSl_send_status(cursor.isNull(offset + 25) ? null : cursor.getLong(offset + 25));
      }
     
     /** @inheritdoc */

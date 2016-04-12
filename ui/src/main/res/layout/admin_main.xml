@@ -4,18 +4,10 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" android:orientation="vertical"
      >
-    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="wrap_content" android:orientation="horizontal"
         >
-
-       &lt;!&ndash; <Button
-            android:id="@+id/btn_admin_timer"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_column="2"
-            android:width="0dp"
-            android:text="定时任务" />&ndash;&gt;
         <Button
             android:id="@+id/btn_admin_buhuo"
             android:layout_height="wrap_content"
@@ -30,7 +22,7 @@
             android:layout_column="2"
             android:width="0dp"
             android:text="补货完成" />
-      </LinearLayout>-->
+      </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:orientation="horizontal" >

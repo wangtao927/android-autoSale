@@ -176,7 +176,11 @@ public class DaoGenerate {
         mcParamBean.addDateProperty("sl_time");
         mcParamBean.addStringProperty("mc_no");
         mcParamBean.addStringProperty("sl_gd_no");
+        mcParamBean.addStringProperty("sl_gd_name");
         mcParamBean.addLongProperty("sl_pre_price");
+        mcParamBean.addLongProperty("sl_disc_price");
+        mcParamBean.addLongProperty("sl_vip_price");
+
         mcParamBean.addLongProperty("sl_amt");
         mcParamBean.addLongProperty("sl_score");
         mcParamBean.addLongProperty("sl_cash_in");
@@ -192,6 +196,8 @@ public class DaoGenerate {
         mcParamBean.addStringProperty("sl_acc_no");
         mcParamBean.addLongProperty("sl_bf_amt");
         mcParamBean.addLongProperty("sl_af_amt");
+        mcParamBean.addLongProperty("sl_send_status");//上报状态 0 未上报 1 已上报
+
     }
 
     }

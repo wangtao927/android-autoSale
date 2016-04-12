@@ -11,8 +11,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.ys.data.bean.McGoodsBean;
+import com.ys.data.bean.McParamsBean;
 import com.ys.data.bean.McStatusBean;
 import com.ys.data.bean.SaleListBean;
+import com.ys.data.dao.McParamsBeanDao;
+import com.ys.data.dao.SaleListBeanDao;
 import com.ys.ui.base.App;
 import com.ys.ui.common.http.RetrofitManager;
 import com.ys.ui.common.request.CommonRequest;
@@ -24,7 +27,9 @@ import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.StringUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import de.greenrobot.dao.query.Query;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
@@ -41,16 +46,13 @@ public class TimerService extends Service {
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         new Thread(new Runnable() {
             @Override
             public void run() {
-
+                  startTimer();
             }
         }).start();
-
         AlarmManager manager = (AlarmManager)getSystemService(ALARM_SERVICE);
-
         //获取循环的时间
         long triggerTime = SystemClock.elapsedRealtime() +
                 PropertyUtils.getInstance().getOnlineSendSplit() * 60 * 1000;
@@ -62,14 +64,31 @@ public class TimerService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
+    private List<McStatusBean> mcStatusBeanList;
+    private List<McGoodsBean> mcGoodsBeanList;
+    private List<SaleListBean> saleListBeans;
     private void startTimer() {
         McDataVo vo = new McDataVo();
-        vo.setMcStatus(new McStatusBean());
-        vo.setMcGoodsList(new ArrayList<McGoodsBean>());
-        vo.setMcSaleList(new ArrayList<SaleListBean>());
+
+        // 获取终端状态， 只有一条记录
+        mcStatusBeanList =
+                App.getDaoSession(App.getContext()).getMcStatusBeanDao().loadAll();
+        McStatusBean bean = mcStatusBeanList.get(0);
+        vo.setMcStatus(bean);
+
+        // 获取库存信息
+        mcGoodsBeanList = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().loadAll();
+        vo.setMcGoodsList(mcGoodsBeanList);
+        //
+        Query<SaleListBean> query =  App.getDaoSession(App.getContext()).getSaleListBeanDao()
+                .queryBuilder().where(SaleListBeanDao.Properties.Sl_send_status.eq(0)).build();
+
+        saleListBeans = query.list();
+        //saleListBeans = App.getDaoSession(App.getContext()).queryBuilder().list()
+
+        vo.setMcSaleList(saleListBeans);
         CommonRequest<McDataVo> request = new CommonRequest<>(
-                "88888888", System.currentTimeMillis(), vo
-        );
+                bean.getMc_no(), System.currentTimeMillis(), vo);
         RetrofitManager.builder().postMcData(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -77,7 +96,7 @@ public class TimerService extends Service {
                     @Override
                     public void call() {
                         //showProgress();
-                        int  i = 0;
+
                     }
                 })
                 .subscribe(new Action1<CommonResponse<McDataResult>>() {
@@ -89,7 +108,6 @@ public class TimerService extends Service {
                             // 判断数据，并更新
                             updateInfo(response.getExt_data().getOprcode(), response.getExt_data().getOprdata());
 
-                            //startActivity(new Intent(TermInitActivity.this, MainActivity.class));
                         } else {
 
                         }
@@ -106,17 +124,30 @@ public class TimerService extends Service {
     private void  updateInfo(String oprCodes, TermInitResult result) {
         if (!StringUtils.isEmpty(oprCodes)) {
             String[]  codes = oprCodes.split(",");
+
             for (String code : codes) {
                  switch (code) {
                      case "01":// 终端基本信息  终端号  等
+                         if (result.getMachine() != null) {
+                             // 先查出主键， 然后更新
+                             McStatusBean statusBean = App.getDaoSession(App.getContext()).getMcStatusBeanDao().loadAll().get(0);
+                            // App.getDaoSession(App.getContext()).getMcStatusBeanDao().update();
+                         }
                          break;
                      case "02":// 终端参数
+
                          break;
-                     case "03":// 终端商品
+                     case "03":// 库存信息 根据货道号更新  商品编码  容量  价格
+
                          break;
-                     case "04"://终端管理员
+                     case "04"://终端管理员  // 全部删除， 再插入
+
                          break;
-                     case "05"://广告
+                     case "05"://广告 全部删除 再插入
+
+                         break;
+                     case "06": // 下载商品信息
+
                          break;
                      default:
                          break;
