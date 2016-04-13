@@ -50,6 +50,8 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
     @Bind(R.id.btn_buhuo)
     Button btnBuHuo;
     private List<McGoodsBean> lists;
+
+    private McGoodsListAdapter adapter;
     @Override
     protected void create(Bundle savedInstanceState) {
 
@@ -58,7 +60,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
        // List<McGoodsBean> goods = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().loadAll();
         initData();
 
-        McGoodsListAdapter adapter = new McGoodsListAdapter(AdminActivity.this, R.layout.mcgoods_item, lists);
+        adapter = new McGoodsListAdapter(AdminActivity.this, R.layout.mcgoods_item, lists);
 
         listView.setAdapter(adapter);
 
@@ -100,6 +102,8 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
                 startActivity(new Intent(AdminActivity.this, TermInitActivity.class));
                 break;
             case R.id.btn_buhuo:
+                adapter.notifyDataSetChanged();
+
                 App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateAll();
 
                 lists = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().loadAll();
