@@ -6,7 +6,6 @@ package com.ys.data.bean;
  */
 public class GoodsBean {
 
-    private Long gd_id;
     private String gd_no;
     private String gd_code;
     private String gd_name;
@@ -36,12 +35,11 @@ public class GoodsBean {
     public GoodsBean() {
     }
 
-    public GoodsBean(Long gd_id) {
-        this.gd_id = gd_id;
+    public GoodsBean(String gd_no) {
+        this.gd_no = gd_no;
     }
 
-    public GoodsBean(Long gd_id, String gd_no, String gd_code, String gd_name, String gd_type, String gd_approve_code, String gd_spec, String gd_manufacturer, String gd_barcode, String gd_class, Long gd_sale_price, Long gd_disc_price, Long gd_vip_price, Long gd_score_price, Long gd_supplier, String gd_img1, String gd_img2, String gd_img3, String gd_img4, String gd_img_s, String gd_instruction_file, String gd_desc, String mer_no, String remark, String addtime, String updatetime) {
-        this.gd_id = gd_id;
+    public GoodsBean(String gd_no, String gd_code, String gd_name, String gd_type, String gd_approve_code, String gd_spec, String gd_manufacturer, String gd_barcode, String gd_class, Long gd_sale_price, Long gd_disc_price, Long gd_vip_price, Long gd_score_price, Long gd_supplier, String gd_img1, String gd_img2, String gd_img3, String gd_img4, String gd_img_s, String gd_instruction_file, String gd_desc, String mer_no, String remark, String addtime, String updatetime) {
         this.gd_no = gd_no;
         this.gd_code = gd_code;
         this.gd_name = gd_name;
@@ -67,14 +65,6 @@ public class GoodsBean {
         this.remark = remark;
         this.addtime = addtime;
         this.updatetime = updatetime;
-    }
-
-    public Long getGd_id() {
-        return gd_id;
-    }
-
-    public void setGd_id(Long gd_id) {
-        this.gd_id = gd_id;
     }
 
     public String getGd_no() {

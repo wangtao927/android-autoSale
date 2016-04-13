@@ -43,8 +43,7 @@ public class DaoGenerate {
 
         // greenDAO 会自动根据实体类的属性值来创建表字段，并赋予默认值
         // 接下来你便可以设置表中的字段：
-        goodsBean.addLongProperty("gd_id").primaryKey();
-        goodsBean.addStringProperty("gd_no").index();
+        goodsBean.addStringProperty("gd_no").primaryKey();
         goodsBean.addStringProperty("gd_code");
         goodsBean.addStringProperty("gd_name");
         goodsBean.addStringProperty("gd_type");
@@ -83,7 +82,6 @@ public class DaoGenerate {
 
         mcGoodsBean.addStringProperty("mc_no");//终端号
         mcGoodsBean.addStringProperty("mg_channo").primaryKey();//货道编号
-        mcGoodsBean.addStringProperty("gd_id");//商品ID
         mcGoodsBean.addStringProperty("gd_no");//商品编码
         mcGoodsBean.addStringProperty("gd_type");//商品类型
         mcGoodsBean.addStringProperty("gd_approve_code");
@@ -116,8 +114,7 @@ public class DaoGenerate {
     private static void addMCStatus(Schema schema) {
         Entity mcParamBean = schema.addEntity("McStatusBean");
         mcParamBean.setTableName("mcstatus");
-        mcParamBean.addStringProperty("mc_id").primaryKey();//主键ID
-        mcParamBean.addStringProperty("mc_no");//终端号
+        mcParamBean.addStringProperty("mc_no").primaryKey();//终端号
         mcParamBean.addStringProperty("mc_serial_no");//机身号
         mcParamBean.addStringProperty("mr_coin_status");//DEFAULT '0' COMMENT '硬币器状态：''0''-正常，''1''-异常。',
         mcParamBean.addStringProperty("mr_coin_short");//DEFAULT NULL COMMENT '硬币预警',
@@ -139,9 +136,7 @@ public class DaoGenerate {
         mcParamBean.addStringProperty("mr_gear_fault_nos");
         mcParamBean.addLongProperty("mr_data_fault");
         mcParamBean.addDateProperty("mr_door_date");
-        mcParamBean.addDateProperty("mr_mc_position");
-        mcParamBean.addDateProperty("addtime");
-        mcParamBean.addDateProperty("updatetime");
+        mcParamBean.addStringProperty("mr_mc_position");
     }
 
 

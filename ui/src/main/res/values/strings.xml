@@ -11,4 +11,6 @@
     <string name="serial_no">机身号</string>
     <string name="confirm">初始化</string>
     <string name="admin">后台</string>
+    <string name="reset" >重置</string>
+    <string name="onekeybuhuo" >一键补货</string>
 </resources>

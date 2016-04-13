@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteStatement;
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import de.greenrobot.dao.internal.DaoConfig;
+import de.greenrobot.dao.internal.SqlUtils;
 
 import com.ys.data.bean.McGoodsBean;
 
@@ -25,23 +26,22 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
     public static class Properties {
         public final static Property Mc_no = new Property(0, String.class, "mc_no", false, "MC_NO");
         public final static Property Mg_channo = new Property(1, String.class, "mg_channo", true, "MG_CHANNO");
-        public final static Property Gd_id = new Property(2, String.class, "gd_id", false, "GD_ID");
-        public final static Property Gd_no = new Property(3, String.class, "gd_no", false, "GD_NO");
-        public final static Property Gd_type = new Property(4, String.class, "gd_type", false, "GD_TYPE");
-        public final static Property Gd_approve_code = new Property(5, String.class, "gd_approve_code", false, "GD_APPROVE_CODE");
-        public final static Property Gd_batch_no = new Property(6, String.class, "gd_batch_no", false, "GD_BATCH_NO");
-        public final static Property Gd_des_code = new Property(7, String.class, "gd_des_code", false, "GD_DES_CODE");
-        public final static Property Gd_mf_date = new Property(8, java.util.Date.class, "gd_mf_date", false, "GD_MF_DATE");
-        public final static Property Gd_exp_date = new Property(9, java.util.Date.class, "gd_exp_date", false, "GD_EXP_DATE");
-        public final static Property Mg_gvol = new Property(10, Long.class, "mg_gvol", false, "MG_GVOL");
-        public final static Property Mg_gnum = new Property(11, Long.class, "mg_gnum", false, "MG_GNUM");
-        public final static Property PrePrice = new Property(12, Long.class, "prePrice", false, "PRE_PRICE");
-        public final static Property ScorePrice = new Property(13, Long.class, "scorePrice", false, "SCORE_PRICE");
-        public final static Property Mg_vip_price = new Property(14, Long.class, "mg_vip_price", false, "MG_VIP_PRICE");
-        public final static Property Mg_price = new Property(15, Long.class, "mg_price", false, "MG_PRICE");
-        public final static Property ChanStatus = new Property(16, Long.class, "chanStatus", false, "CHAN_STATUS");
-        public final static Property Addtime = new Property(17, java.util.Date.class, "addtime", false, "ADDTIME");
-        public final static Property Updatetime = new Property(18, java.util.Date.class, "updatetime", false, "UPDATETIME");
+        public final static Property Gd_no = new Property(2, String.class, "gd_no", false, "GD_NO");
+        public final static Property Gd_type = new Property(3, String.class, "gd_type", false, "GD_TYPE");
+        public final static Property Gd_approve_code = new Property(4, String.class, "gd_approve_code", false, "GD_APPROVE_CODE");
+        public final static Property Gd_batch_no = new Property(5, String.class, "gd_batch_no", false, "GD_BATCH_NO");
+        public final static Property Gd_des_code = new Property(6, String.class, "gd_des_code", false, "GD_DES_CODE");
+        public final static Property Gd_mf_date = new Property(7, java.util.Date.class, "gd_mf_date", false, "GD_MF_DATE");
+        public final static Property Gd_exp_date = new Property(8, java.util.Date.class, "gd_exp_date", false, "GD_EXP_DATE");
+        public final static Property Mg_gvol = new Property(9, Long.class, "mg_gvol", false, "MG_GVOL");
+        public final static Property Mg_gnum = new Property(10, Long.class, "mg_gnum", false, "MG_GNUM");
+        public final static Property PrePrice = new Property(11, Long.class, "prePrice", false, "PRE_PRICE");
+        public final static Property ScorePrice = new Property(12, Long.class, "scorePrice", false, "SCORE_PRICE");
+        public final static Property Mg_vip_price = new Property(13, Long.class, "mg_vip_price", false, "MG_VIP_PRICE");
+        public final static Property Mg_price = new Property(14, Long.class, "mg_price", false, "MG_PRICE");
+        public final static Property ChanStatus = new Property(15, Long.class, "chanStatus", false, "CHAN_STATUS");
+        public final static Property Addtime = new Property(16, java.util.Date.class, "addtime", false, "ADDTIME");
+        public final static Property Updatetime = new Property(17, java.util.Date.class, "updatetime", false, "UPDATETIME");
     };
 
 
@@ -59,29 +59,50 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
         db.execSQL("CREATE TABLE " + constraint + "'mcgoods' (" + //
                 "'MC_NO' TEXT," + // 0: mc_no
                 "'MG_CHANNO' TEXT PRIMARY KEY NOT NULL ," + // 1: mg_channo
-                "'GD_ID' TEXT," + // 2: gd_id
-                "'GD_NO' TEXT," + // 3: gd_no
-                "'GD_TYPE' TEXT," + // 4: gd_type
-                "'GD_APPROVE_CODE' TEXT," + // 5: gd_approve_code
-                "'GD_BATCH_NO' TEXT," + // 6: gd_batch_no
-                "'GD_DES_CODE' TEXT," + // 7: gd_des_code
-                "'GD_MF_DATE' INTEGER," + // 8: gd_mf_date
-                "'GD_EXP_DATE' INTEGER," + // 9: gd_exp_date
-                "'MG_GVOL' INTEGER," + // 10: mg_gvol
-                "'MG_GNUM' INTEGER," + // 11: mg_gnum
-                "'PRE_PRICE' INTEGER," + // 12: prePrice
-                "'SCORE_PRICE' INTEGER," + // 13: scorePrice
-                "'MG_VIP_PRICE' INTEGER," + // 14: mg_vip_price
-                "'MG_PRICE' INTEGER," + // 15: mg_price
-                "'CHAN_STATUS' INTEGER," + // 16: chanStatus
-                "'ADDTIME' INTEGER," + // 17: addtime
-                "'UPDATETIME' INTEGER);"); // 18: updatetime
+                "'GD_NO' TEXT," + // 2: gd_no
+                "'GD_TYPE' TEXT," + // 3: gd_type
+                "'GD_APPROVE_CODE' TEXT," + // 4: gd_approve_code
+                "'GD_BATCH_NO' TEXT," + // 5: gd_batch_no
+                "'GD_DES_CODE' TEXT," + // 6: gd_des_code
+                "'GD_MF_DATE' INTEGER," + // 7: gd_mf_date
+                "'GD_EXP_DATE' INTEGER," + // 8: gd_exp_date
+                "'MG_GVOL' INTEGER," + // 9: mg_gvol
+                "'MG_GNUM' INTEGER," + // 10: mg_gnum
+                "'PRE_PRICE' INTEGER," + // 11: prePrice
+                "'SCORE_PRICE' INTEGER," + // 12: scorePrice
+                "'MG_VIP_PRICE' INTEGER," + // 13: mg_vip_price
+                "'MG_PRICE' INTEGER," + // 14: mg_price
+                "'CHAN_STATUS' INTEGER," + // 15: chanStatus
+                "'ADDTIME' INTEGER," + // 16: addtime
+                "'UPDATETIME' INTEGER);"); // 17: updatetime
     }
 
     /** Drops the underlying database table. */
     public static void dropTable(SQLiteDatabase db, boolean ifExists) {
         String sql = "DROP TABLE " + (ifExists ? "IF EXISTS " : "") + "'mcgoods'";
         db.execSQL(sql);
+    }
+
+    public void updateAll() {
+        String sql = "UPDATE mcgoods SET mg_gnum=mg_gvol";
+        SQLiteStatement stmt = db.compileStatement(sql);
+        if (db.isDbLockedByCurrentThread()) {
+            synchronized (stmt) {
+                stmt.execute();
+             }
+        } else {
+            // Do TX to acquire a connection before locking the stmt to avoid deadlocks
+            db.beginTransaction();
+            try {
+                synchronized (stmt) {
+                    stmt.execute();
+                }
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        }
+
     }
 
     /** @inheritdoc */
@@ -99,90 +120,84 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
             stmt.bindString(2, mg_channo);
         }
  
-        String gd_id = entity.getGd_id();
-        if (gd_id != null) {
-            stmt.bindString(3, gd_id);
-        }
- 
         String gd_no = entity.getGd_no();
         if (gd_no != null) {
-            stmt.bindString(4, gd_no);
+            stmt.bindString(3, gd_no);
         }
  
         String gd_type = entity.getGd_type();
         if (gd_type != null) {
-            stmt.bindString(5, gd_type);
+            stmt.bindString(4, gd_type);
         }
  
         String gd_approve_code = entity.getGd_approve_code();
         if (gd_approve_code != null) {
-            stmt.bindString(6, gd_approve_code);
+            stmt.bindString(5, gd_approve_code);
         }
  
         String gd_batch_no = entity.getGd_batch_no();
         if (gd_batch_no != null) {
-            stmt.bindString(7, gd_batch_no);
+            stmt.bindString(6, gd_batch_no);
         }
  
         String gd_des_code = entity.getGd_des_code();
         if (gd_des_code != null) {
-            stmt.bindString(8, gd_des_code);
+            stmt.bindString(7, gd_des_code);
         }
  
         java.util.Date gd_mf_date = entity.getGd_mf_date();
         if (gd_mf_date != null) {
-            stmt.bindLong(9, gd_mf_date.getTime());
+            stmt.bindLong(8, gd_mf_date.getTime());
         }
  
         java.util.Date gd_exp_date = entity.getGd_exp_date();
         if (gd_exp_date != null) {
-            stmt.bindLong(10, gd_exp_date.getTime());
+            stmt.bindLong(9, gd_exp_date.getTime());
         }
  
         Long mg_gvol = entity.getMg_gvol();
         if (mg_gvol != null) {
-            stmt.bindLong(11, mg_gvol);
+            stmt.bindLong(10, mg_gvol);
         }
-
-        // 存量不更新
-//        Long mg_gnum = entity.getMg_gnum();
-//        if (mg_gnum != null) {
-//            stmt.bindLong(12, mg_gnum);
-//        }
+ 
+        Long mg_gnum = entity.getMg_gnum();
+        if (mg_gnum != null) {
+            stmt.bindLong(11, mg_gnum);
+        }
  
         Long prePrice = entity.getPrePrice();
         if (prePrice != null) {
-            stmt.bindLong(13, prePrice);
+            stmt.bindLong(12, prePrice);
         }
  
         Long scorePrice = entity.getScorePrice();
         if (scorePrice != null) {
-            stmt.bindLong(14, scorePrice);
+            stmt.bindLong(13, scorePrice);
         }
  
         Long mg_vip_price = entity.getMg_vip_price();
         if (mg_vip_price != null) {
-            stmt.bindLong(15, mg_vip_price);
+            stmt.bindLong(14, mg_vip_price);
         }
  
         Long mg_price = entity.getMg_price();
         if (mg_price != null) {
-            stmt.bindLong(16, mg_price);
+            stmt.bindLong(15, mg_price);
         }
  
         Long chanStatus = entity.getChanStatus();
         if (chanStatus != null) {
-            stmt.bindLong(17, chanStatus);
+            stmt.bindLong(16, chanStatus);
         }
  
         java.util.Date addtime = entity.getAddtime();
         if (addtime != null) {
-            stmt.bindLong(18, addtime.getTime());
+            stmt.bindLong(17, addtime.getTime());
         }
  
         java.util.Date updatetime = entity.getUpdatetime();
         if (updatetime != null) {
-            stmt.bindLong(19, updatetime.getTime());
+            stmt.bindLong(18, updatetime.getTime());
         }
     }
 
@@ -198,23 +213,22 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
         McGoodsBean entity = new McGoodsBean( //
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // mc_no
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // mg_channo
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // gd_id
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // gd_no
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // gd_type
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // gd_approve_code
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // gd_batch_no
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // gd_des_code
-            cursor.isNull(offset + 8) ? null : new java.util.Date(cursor.getLong(offset + 8)), // gd_mf_date
-            cursor.isNull(offset + 9) ? null : new java.util.Date(cursor.getLong(offset + 9)), // gd_exp_date
-            cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10), // mg_gvol
-            cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11), // mg_gnum
-            cursor.isNull(offset + 12) ? null : cursor.getLong(offset + 12), // prePrice
-            cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13), // scorePrice
-            cursor.isNull(offset + 14) ? null : cursor.getLong(offset + 14), // mg_vip_price
-            cursor.isNull(offset + 15) ? null : cursor.getLong(offset + 15), // mg_price
-            cursor.isNull(offset + 16) ? null : cursor.getLong(offset + 16), // chanStatus
-            cursor.isNull(offset + 17) ? null : new java.util.Date(cursor.getLong(offset + 17)), // addtime
-            cursor.isNull(offset + 18) ? null : new java.util.Date(cursor.getLong(offset + 18)) // updatetime
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // gd_no
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // gd_type
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // gd_approve_code
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // gd_batch_no
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // gd_des_code
+            cursor.isNull(offset + 7) ? null : new java.util.Date(cursor.getLong(offset + 7)), // gd_mf_date
+            cursor.isNull(offset + 8) ? null : new java.util.Date(cursor.getLong(offset + 8)), // gd_exp_date
+            cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9), // mg_gvol
+            cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10), // mg_gnum
+            cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11), // prePrice
+            cursor.isNull(offset + 12) ? null : cursor.getLong(offset + 12), // scorePrice
+            cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13), // mg_vip_price
+            cursor.isNull(offset + 14) ? null : cursor.getLong(offset + 14), // mg_price
+            cursor.isNull(offset + 15) ? null : cursor.getLong(offset + 15), // chanStatus
+            cursor.isNull(offset + 16) ? null : new java.util.Date(cursor.getLong(offset + 16)), // addtime
+            cursor.isNull(offset + 17) ? null : new java.util.Date(cursor.getLong(offset + 17)) // updatetime
         );
         return entity;
     }
@@ -224,23 +238,22 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
     public void readEntity(Cursor cursor, McGoodsBean entity, int offset) {
         entity.setMc_no(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
         entity.setMg_channo(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setGd_id(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setGd_no(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setGd_type(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setGd_approve_code(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setGd_batch_no(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setGd_des_code(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setGd_mf_date(cursor.isNull(offset + 8) ? null : new java.util.Date(cursor.getLong(offset + 8)));
-        entity.setGd_exp_date(cursor.isNull(offset + 9) ? null : new java.util.Date(cursor.getLong(offset + 9)));
-        entity.setMg_gvol(cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10));
-        entity.setMg_gnum(cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11));
-        entity.setPrePrice(cursor.isNull(offset + 12) ? null : cursor.getLong(offset + 12));
-        entity.setScorePrice(cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13));
-        entity.setMg_vip_price(cursor.isNull(offset + 14) ? null : cursor.getLong(offset + 14));
-        entity.setMg_price(cursor.isNull(offset + 15) ? null : cursor.getLong(offset + 15));
-        entity.setChanStatus(cursor.isNull(offset + 16) ? null : cursor.getLong(offset + 16));
-        entity.setAddtime(cursor.isNull(offset + 17) ? null : new java.util.Date(cursor.getLong(offset + 17)));
-        entity.setUpdatetime(cursor.isNull(offset + 18) ? null : new java.util.Date(cursor.getLong(offset + 18)));
+        entity.setGd_no(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setGd_type(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setGd_approve_code(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setGd_batch_no(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setGd_des_code(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setGd_mf_date(cursor.isNull(offset + 7) ? null : new java.util.Date(cursor.getLong(offset + 7)));
+        entity.setGd_exp_date(cursor.isNull(offset + 8) ? null : new java.util.Date(cursor.getLong(offset + 8)));
+        entity.setMg_gvol(cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9));
+        entity.setMg_gnum(cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10));
+        entity.setPrePrice(cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11));
+        entity.setScorePrice(cursor.isNull(offset + 12) ? null : cursor.getLong(offset + 12));
+        entity.setMg_vip_price(cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13));
+        entity.setMg_price(cursor.isNull(offset + 14) ? null : cursor.getLong(offset + 14));
+        entity.setChanStatus(cursor.isNull(offset + 15) ? null : cursor.getLong(offset + 15));
+        entity.setAddtime(cursor.isNull(offset + 16) ? null : new java.util.Date(cursor.getLong(offset + 16)));
+        entity.setUpdatetime(cursor.isNull(offset + 17) ? null : new java.util.Date(cursor.getLong(offset + 17)));
      }
     
     /** @inheritdoc */

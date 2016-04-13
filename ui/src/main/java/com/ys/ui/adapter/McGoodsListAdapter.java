@@ -1,6 +1,7 @@
 package com.ys.ui.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,11 +43,16 @@ public class McGoodsListAdapter extends ArrayAdapter<McGoodsBean> {
         TextView chanStatus = (TextView)view.findViewById(R.id.chanStatus);
         channo.setText(goodsView.getMg_channo());
         gdNo.setText(goodsView.getGd_no());
-        gvol.setText(goodsView.getMg_gvol().toString());
-        gnum.setText(goodsView.getMg_gnum().toString());
-        chanStatus.setText(goodsView.getChanStatus().toString());
+        if (goodsView.getMg_gvol() != null) {
+            gvol.setText(String.valueOf(goodsView.getMg_gvol()));
 
-
+        }
+        if (goodsView.getMg_gnum() != null) {
+            gnum.setText(String.valueOf(goodsView.getMg_gnum()));
+        }
+        if (goodsView.getChanStatus() != null) {
+            chanStatus.setText(String.valueOf(goodsView.getChanStatus()));
+        }
         return view;
 
     }

@@ -1,5 +1,7 @@
 package com.ys.ui.common.http;
 
+import android.util.Log;
+
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.ys.ui.base.App;
 import com.ys.ui.common.request.CommonRequest;
@@ -131,7 +133,7 @@ public class RetrofitManager {
     }
 
     public Observable<CommonResponse<McDataResult>> postMcData(CommonRequest<McDataVo> request) {
-
+        Log.w("request:", request.toString());
         return mcDataApi.postMcData(request);
     }
 

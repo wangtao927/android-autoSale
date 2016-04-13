@@ -6,7 +6,6 @@ package com.ys.data.bean;
  */
 public class McStatusBean {
 
-    private String mc_id;
     private String mc_no;
     private String mc_serial_no;
     private String mr_coin_status;
@@ -29,19 +28,16 @@ public class McStatusBean {
     private String mr_gear_fault_nos;
     private Long mr_data_fault;
     private java.util.Date mr_door_date;
-    private java.util.Date mr_mc_position;
-    private java.util.Date addtime;
-    private java.util.Date updatetime;
+    private String mr_mc_position;
 
     public McStatusBean() {
     }
 
-    public McStatusBean(String mc_id) {
-        this.mc_id = mc_id;
+    public McStatusBean(String mc_no) {
+        this.mc_no = mc_no;
     }
 
-    public McStatusBean(String mc_id, String mc_no, String mc_serial_no, String mr_coin_status, String mr_coin_short, String mr_bill_status, String mr_bill_short, String mr_uppos_status, String mr_scpos_status, String mr_alipay_status, String mr_wxpay_status, String mr_net_status, String mr_temp, String mr_door_isfault, String mr_door_status, Long mr_chann_fault_num, String mr_chann_fault_nos, Long mr_nogd_chnum, String mr_nogd_chann, Long mr_gear_fault_num, String mr_gear_fault_nos, Long mr_data_fault, java.util.Date mr_door_date, java.util.Date mr_mc_position, java.util.Date addtime, java.util.Date updatetime) {
-        this.mc_id = mc_id;
+    public McStatusBean(String mc_no, String mc_serial_no, String mr_coin_status, String mr_coin_short, String mr_bill_status, String mr_bill_short, String mr_uppos_status, String mr_scpos_status, String mr_alipay_status, String mr_wxpay_status, String mr_net_status, String mr_temp, String mr_door_isfault, String mr_door_status, Long mr_chann_fault_num, String mr_chann_fault_nos, Long mr_nogd_chnum, String mr_nogd_chann, Long mr_gear_fault_num, String mr_gear_fault_nos, Long mr_data_fault, java.util.Date mr_door_date, String mr_mc_position) {
         this.mc_no = mc_no;
         this.mc_serial_no = mc_serial_no;
         this.mr_coin_status = mr_coin_status;
@@ -65,16 +61,6 @@ public class McStatusBean {
         this.mr_data_fault = mr_data_fault;
         this.mr_door_date = mr_door_date;
         this.mr_mc_position = mr_mc_position;
-        this.addtime = addtime;
-        this.updatetime = updatetime;
-    }
-
-    public String getMc_id() {
-        return mc_id;
-    }
-
-    public void setMc_id(String mc_id) {
-        this.mc_id = mc_id;
     }
 
     public String getMc_no() {
@@ -253,28 +239,12 @@ public class McStatusBean {
         this.mr_door_date = mr_door_date;
     }
 
-    public java.util.Date getMr_mc_position() {
+    public String getMr_mc_position() {
         return mr_mc_position;
     }
 
-    public void setMr_mc_position(java.util.Date mr_mc_position) {
+    public void setMr_mc_position(String mr_mc_position) {
         this.mr_mc_position = mr_mc_position;
-    }
-
-    public java.util.Date getAddtime() {
-        return addtime;
-    }
-
-    public void setAddtime(java.util.Date addtime) {
-        this.addtime = addtime;
-    }
-
-    public java.util.Date getUpdatetime() {
-        return updatetime;
-    }
-
-    public void setUpdatetime(java.util.Date updatetime) {
-        this.updatetime = updatetime;
     }
 
 }

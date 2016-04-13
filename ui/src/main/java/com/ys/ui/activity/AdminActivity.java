@@ -1,5 +1,6 @@
 package com.ys.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -43,10 +44,17 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
     @Bind(R.id.list_view)
     ListView listView;
 
+    @Bind(R.id.btn_reset)
+    Button btnReset;
+
+    @Bind(R.id.btn_buhuo)
+    Button btnBuHuo;
     private List<McGoodsBean> lists;
     @Override
     protected void create(Bundle savedInstanceState) {
 
+        btnBuHuo.setOnClickListener(this);
+        btnReset.setOnClickListener(this);
        // List<McGoodsBean> goods = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().loadAll();
         initData();
 
@@ -64,36 +72,13 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
                         Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
 
     private void initData() {
         lists = new ArrayList<>();
-        McGoodsBean bean = new McGoodsBean();
-        bean.setMc_no("8888888");
-        bean.setGd_no("M11111");
-        bean.setChanStatus(1L);
-        bean.setMg_channo("0011");
-        bean.setMg_gnum(10L);
-        bean.setMg_gvol(8L);
-        lists.add(bean);
-        bean = new McGoodsBean();
-        bean.setMc_no("8888888");
-        bean.setGd_no("M11112");
-        bean.setChanStatus(1L);
-        bean.setMg_channo("0012");
-        bean.setMg_gnum(10L);
-        bean.setMg_gvol(8L);
-        lists.add(bean);
-        bean = new McGoodsBean();
-        bean.setMc_no("8888888");
-        bean.setGd_no("M11113");
-        bean.setChanStatus(1L);
-        bean.setMg_channo("0013");
-        bean.setMg_gnum(10L);
-        bean.setMg_gvol(8L);
-        lists.add(bean);
-
-
+        lists =  App.getDaoSession(App.getContext()).getMcGoodsBeanDao().loadAll();
     }
 
     @Override
@@ -110,12 +95,26 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
 
-//        switch (v.getId()) {
-//            case R.id.btn_admin_timer:
-//                startTimer();
-//                break;
-//        }
+        switch (v.getId()) {
+            case R.id.btn_reset:
+                startActivity(new Intent(AdminActivity.this, TermInitActivity.class));
+                break;
+            case R.id.btn_buhuo:
+                App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateAll();
+
+                lists = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().loadAll();
+                // 更新界面
+//                finish();
+//                Intent intent = new Intent(this, AdminActivity.class);
+//                intent.setClass(AdminActivity.this,AdminActivity.class);
+//                Bundle bl=new Bundle();
+//                bl.putLong("threadId", Thread.currentThread().getId());
+//                intent.putExtras(bl);
+//                startActivity(intent);
+                break;
+        }
 
     }
+
 
 }

@@ -9,19 +9,19 @@
         android:layout_height="wrap_content" android:orientation="horizontal"
         >
         <Button
-            android:id="@+id/btn_admin_buhuo"
+            android:id="@+id/btn_buhuo"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_column="2"
             android:width="0dp"
-            android:text="一键补货" />
+            android:text="@string/onekeybuhuo" />
         <Button
-            android:id="@+id/btn_admin_end"
+            android:id="@+id/btn_reset"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_column="2"
             android:width="0dp"
-            android:text="补货完成" />
+            android:text="@string/reset" />
       </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"

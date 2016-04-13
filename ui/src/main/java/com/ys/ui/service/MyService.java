@@ -98,8 +98,7 @@ public class MyService extends Service {
 		}
 
 		/**
-		 * 取消操作，网络通讯时不可取消
-		 * @return
+		 * 取消操作，网络通讯时不可取消* @return
 		 */
 		public E_REQ_RETURN pos_cancel(){
 			return mMyApi.pos_cancel();

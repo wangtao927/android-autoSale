@@ -79,8 +79,10 @@ public class TimerService extends Service {
         McStatusBean bean;
         if (mcStatusBeanList != null  && !mcStatusBeanList.isEmpty()) {
             bean = mcStatusBeanList.get(0);
+        } else {
+            return;
         }
-        bean = new McStatusBean();
+
         vo.setMcStatus(bean);
 
         // 获取库存信息
@@ -141,7 +143,7 @@ public class TimerService extends Service {
                              try {
                                  McStatusBean statusBean = App.getDaoSession(App.getContext()).getMcStatusBeanDao().loadAll().get(0);
                                  McStatusBean entity = result.getMachine();
-                                 entity.setMc_id(statusBean.getMc_id());
+                                 entity.setMc_no(statusBean.getMc_no());
                                  App.getDaoSession(App.getContext()).getMcStatusBeanDao().update(entity);
                                  map.put("01", "0");// 0 成功 1 失败
                              } catch (Exception e) {

@@ -8,7 +8,6 @@ public class McGoodsBean {
 
     private String mc_no;
     private String mg_channo;
-    private String gd_id;
     private String gd_no;
     private String gd_type;
     private String gd_approve_code;
@@ -33,10 +32,9 @@ public class McGoodsBean {
         this.mg_channo = mg_channo;
     }
 
-    public McGoodsBean(String mc_no, String mg_channo, String gd_id, String gd_no, String gd_type, String gd_approve_code, String gd_batch_no, String gd_des_code, java.util.Date gd_mf_date, java.util.Date gd_exp_date, Long mg_gvol, Long mg_gnum, Long prePrice, Long scorePrice, Long mg_vip_price, Long mg_price, Long chanStatus, java.util.Date addtime, java.util.Date updatetime) {
+    public McGoodsBean(String mc_no, String mg_channo, String gd_no, String gd_type, String gd_approve_code, String gd_batch_no, String gd_des_code, java.util.Date gd_mf_date, java.util.Date gd_exp_date, Long mg_gvol, Long mg_gnum, Long prePrice, Long scorePrice, Long mg_vip_price, Long mg_price, Long chanStatus, java.util.Date addtime, java.util.Date updatetime) {
         this.mc_no = mc_no;
         this.mg_channo = mg_channo;
-        this.gd_id = gd_id;
         this.gd_no = gd_no;
         this.gd_type = gd_type;
         this.gd_approve_code = gd_approve_code;
@@ -69,14 +67,6 @@ public class McGoodsBean {
 
     public void setMg_channo(String mg_channo) {
         this.mg_channo = mg_channo;
-    }
-
-    public String getGd_id() {
-        return gd_id;
-    }
-
-    public void setGd_id(String gd_id) {
-        this.gd_id = gd_id;
     }
 
     public String getGd_no() {

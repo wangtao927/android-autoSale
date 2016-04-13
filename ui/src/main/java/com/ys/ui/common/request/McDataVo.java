@@ -44,4 +44,13 @@ public class McDataVo implements Serializable {
     public void setMcSaleList(List<SaleListBean> mcSaleList) {
         this.mcSaleList = mcSaleList;
     }
+
+    @Override
+    public String toString() {
+        return "McDataVo{" +
+                "mcStatus=" + mcStatus +
+                ", mcGoodsList=" + mcGoodsList +
+                ", mcSaleList=" + mcSaleList +
+                '}';
+    }
 }

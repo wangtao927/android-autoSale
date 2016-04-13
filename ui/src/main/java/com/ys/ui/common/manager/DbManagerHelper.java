@@ -1,5 +1,9 @@
 package com.ys.ui.common.manager;
 
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
+
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McAdminBean;
 import com.ys.data.bean.McGoodsBean;
@@ -19,25 +23,26 @@ public class DbManagerHelper {
 
     /**
      *  保存终端号   保证这张表就一条数据
-     * @param termNo
+     * @param mcStatusBean
      */
-    public static void initTermStatus(String termNo, String serialNo) {
+    public static void initTermStatus(McStatusBean mcStatusBean) {
         //  存储到  sqllite 中
-        if (!StringUtils.isEmpty(termNo)) {
+        if (mcStatusBean != null) {
             App.getDaoSession(App.getContext()).getMcStatusBeanDao().deleteAll();
-            App.getDaoSession(App.getContext()).getMcStatusBeanDao().insertOrReplace(getInitBean(termNo, serialNo));
+            App.getDaoSession(App.getContext()).getMcStatusBeanDao().insertOrReplace(mcStatusBean);
         }
 
     }
 
-    private static McStatusBean getInitBean(String termno, String serialNo) {
-        McStatusBean bean = new McStatusBean();
-        bean.setMc_id("1");
-        bean.setMc_no(termno);
-        bean.setMc_serial_no(serialNo);
-        bean.setAddtime(new Date());
-        return bean;
-    }
+
+//
+//    private String getPosition() {
+//        LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+//        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//        double latitude = location.getLatitude();     //经度
+//        double longitude = location.getLongitude(); //纬度
+//        double altitude =  location.getAltitude();     //海拔
+//    }
     /**
      * 初始化终端参数表
      * @param lists
