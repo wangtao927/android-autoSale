@@ -123,7 +123,7 @@ public class RetrofitManager {
     }
 
     public Observable<CommonResponse<TermInitResult>>  mcReset(String mcno) {
-        Map map = new HashMap<String, Object>();
+        Map map = new HashMap<>();
         long time = Calendar.getInstance().getTimeInMillis();
         map.put("mc_serial_no", mcno);
         map.put("time", time);
@@ -135,6 +135,13 @@ public class RetrofitManager {
     public Observable<CommonResponse<McDataResult>> postMcData(CommonRequest<McDataVo> request) {
         Log.w("request:", request.toString());
         return mcDataApi.postMcData(request);
+    }
+
+    public Observable<CommonResponse<String>> postOprStatus(String mcNo, Map<String, String> map) {
+
+        CommonRequest<Map<String, String>> request= new CommonRequest<>(mcNo,
+                System.currentTimeMillis(), map);
+        return mcDataApi.postOprStatus(request);
     }
 
 }

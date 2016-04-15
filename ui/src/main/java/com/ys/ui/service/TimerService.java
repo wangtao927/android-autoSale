@@ -70,15 +70,18 @@ public class TimerService extends Service {
     private List<McStatusBean> mcStatusBeanList;
     private List<McGoodsBean> mcGoodsBeanList;
     private List<SaleListBean> saleListBeans;
+
+    private String mcNo;//终端号
+
     private void startTimer() {
         McDataVo vo = new McDataVo();
-
         // 获取终端状态， 只有一条记录
         mcStatusBeanList =
                 App.getDaoSession(App.getContext()).getMcStatusBeanDao().loadAll();
         McStatusBean bean;
         if (mcStatusBeanList != null  && !mcStatusBeanList.isEmpty()) {
             bean = mcStatusBeanList.get(0);
+            mcNo = bean.getMc_no();
         } else {
             return;
         }
@@ -133,17 +136,15 @@ public class TimerService extends Service {
     private void  updateInfo(String oprCodes, TermInitResult result) {
         if (!StringUtils.isEmpty(oprCodes)) {
             String[]  codes = oprCodes.split(",");
-            Map map  = new HashMap<String, String>();
+            Map map  = new HashMap<>();
             for (String code : codes) {
                  switch (code) {
                      case "01":// 终端基本信息  终端号  等
                          if (result.getMachine() != null) {
-                             // 先查出主键， 然后更新
 
                              try {
-                                 McStatusBean statusBean = App.getDaoSession(App.getContext()).getMcStatusBeanDao().loadAll().get(0);
                                  McStatusBean entity = result.getMachine();
-                                 entity.setMc_no(statusBean.getMc_no());
+                                 entity.setMc_no(mcNo);
                                  App.getDaoSession(App.getContext()).getMcStatusBeanDao().update(entity);
                                  map.put("01", "0");// 0 成功 1 失败
                              } catch (Exception e) {
@@ -212,9 +213,38 @@ public class TimerService extends Service {
                          break;
                  }
             }
+
+            //上报 处理数据的结果
+            postOprStatus(map);
         }
 
 
 
+    }
+
+    private void postOprStatus(Map<String, String> map) {
+        RetrofitManager.builder().postOprStatus(mcNo, map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        //showProgress();
+
+                    }
+                })
+                .subscribe(new Action1<CommonResponse<String>>() {
+                    @Override
+                    public void call(CommonResponse<String> response) {
+                        Log.d("result", response.toString());
+
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.e("error", throwable.toString());
+                        //hideProgress();
+                    }
+                });
     }
 }

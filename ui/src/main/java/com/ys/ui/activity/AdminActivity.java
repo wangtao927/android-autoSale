@@ -63,6 +63,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
         adapter = new McGoodsListAdapter(AdminActivity.this, R.layout.mcgoods_item, lists);
 
         listView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -70,8 +71,10 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ListView lView = (ListView) parent;
                 McGoodsBean goodsBean = (McGoodsBean) lView.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(), goodsBean.getMg_channo(),
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), goodsBean.getMg_channo(),
+//                        Toast.LENGTH_SHORT).show();
+                // 弹出一个输入框， 修改库存
+
             }
         });
 
@@ -102,7 +105,6 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
                 startActivity(new Intent(AdminActivity.this, TermInitActivity.class));
                 break;
             case R.id.btn_buhuo:
-                adapter.notifyDataSetChanged();
 
                 App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateAll();
 

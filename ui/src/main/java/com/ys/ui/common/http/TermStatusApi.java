@@ -22,4 +22,5 @@ public interface TermStatusApi {
     Observable<CommonResponse<TermInitResult>> mcReset(@Query("mc_serial_no") String mc_serial_no, @Query("time") long time, @Query("sign") String sign);
 
 
+
 }
