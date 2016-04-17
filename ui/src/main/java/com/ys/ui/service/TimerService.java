@@ -120,8 +120,6 @@ public class TimerService extends Service {
                             // 判断数据，并更新
                             updateInfo(response.getExt_data().getOprcode(), response.getExt_data().getOprdata());
 
-                        } else {
-
                         }
                     }
                 }, new Action1<Throwable>() {

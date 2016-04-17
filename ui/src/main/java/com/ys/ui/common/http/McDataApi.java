@@ -2,6 +2,7 @@ package com.ys.ui.common.http;
 
 import com.ys.ui.common.request.CommonRequest;
 import com.ys.ui.common.request.McDataVo;
+import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.McDataResult;
 import com.ys.ui.common.response.TermInitResult;
@@ -36,4 +37,15 @@ public interface McDataApi {
     @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_SHORT)
     @POST("postOprStatus")
     Observable<CommonResponse<String>> postOprStatus(@Body CommonRequest<Map<String, String>> request);
+
+    /**
+     * 创建订单
+     * @param request
+     * @return
+     */
+    @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_SHORT)
+    @POST("createOrder")
+    Observable<CommonResponse<String>> createOrder(@Body CommonRequest<SaleListVo> request);
+
+
 }

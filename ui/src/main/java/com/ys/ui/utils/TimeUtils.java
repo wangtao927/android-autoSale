@@ -12,6 +12,7 @@ import java.util.GregorianCalendar;
 public class TimeUtils {
 
     public static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final SimpleDateFormat ORDER_DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
     public static final SimpleDateFormat DATE_FORMAT_DATE = new SimpleDateFormat("yyyy-MM-dd");
 
     private TimeUtils() {
@@ -27,6 +28,11 @@ public class TimeUtils {
      */
     public static String getTime(long timeInMillis, SimpleDateFormat dateFormat) {
         return dateFormat.format(new Date(timeInMillis));
+    }
+
+    public static String getCurrentTime() {
+        return ORDER_DATE_FORMAT.format(Calendar.getInstance().getTime());
+
     }
 
     /**

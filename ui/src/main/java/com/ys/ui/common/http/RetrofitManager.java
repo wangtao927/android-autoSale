@@ -3,14 +3,17 @@ package com.ys.ui.common.http;
 import android.util.Log;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.google.gson.GsonBuilder;
 import com.ys.ui.base.App;
 import com.ys.ui.common.request.CommonRequest;
 import com.ys.ui.common.request.McDataVo;
+import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.McDataResult;
 import com.ys.ui.common.response.TermInitResult;
 import com.ys.ui.common.sign.Signature;
 import com.ys.ui.utils.NetUtil;
+import com.ys.ui.utils.OrderUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +36,8 @@ import rx.Observable;
 
 public class RetrofitManager {
 
-    public static final String BASE_URL = "http://112.74.69.111:8088/api/";
+    public static final String BASE_URL = "http://boai.fccb001.com:8088/api/";
+//    public static final String BASE_URL = "http://112.74.69.111:8088/api/";
 //    public static final String BASE_URL = "http://192.168.1.130:8088/api/";
 
     //短缓存有效期为1分钟
@@ -64,7 +68,9 @@ public class RetrofitManager {
                 .baseUrl(BASE_URL)
                 .client(mOkHttpClient)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
+                        .setDateFormat("yyyy-MM-dd HH:mm:ss").generateNonExecutableJson()
+                        .create()))
                 .build();
         mProductApi = retrofit.create(ProductApi.class);
         termStatusApi = retrofit.create(TermStatusApi.class);
@@ -109,6 +115,7 @@ public class RetrofitManager {
                 String cacheControl = request.cacheControl().toString();
                 //.header("content-type", "application/json")
                 return originalResponse.newBuilder().header("Cache-Control", cacheControl)
+                        .header("content-type", "application/json")
                         .removeHeader("Pragma").build();
             } else {
                 return originalResponse.newBuilder()
@@ -134,14 +141,32 @@ public class RetrofitManager {
 
     public Observable<CommonResponse<McDataResult>> postMcData(CommonRequest<McDataVo> request) {
         Log.w("request:", request.toString());
+        Log.w("request-json:", new GsonBuilder().create().toJson(request));
         return mcDataApi.postMcData(request);
     }
 
+    /**
+     * 上传操作状态
+     * @param mcNo
+     * @param map
+     * @return
+     */
     public Observable<CommonResponse<String>> postOprStatus(String mcNo, Map<String, String> map) {
 
         CommonRequest<Map<String, String>> request= new CommonRequest<>(mcNo,
                 System.currentTimeMillis(), map);
+        Log.w("request:", request.toString());
+
         return mcDataApi.postOprStatus(request);
     }
 
+    public Observable<CommonResponse<String>> createOrder(String mcNo, SaleListVo saleListVo) {
+        // 创建订单号
+        saleListVo.setSlNo(OrderUtils.getOrderNo(mcNo));
+        CommonRequest<SaleListVo> request = new CommonRequest<>(mcNo, System.currentTimeMillis(), saleListVo);
+        Log.w("request:", request.toString());
+
+        return mcDataApi.createOrder(request);
+
+    }
 }

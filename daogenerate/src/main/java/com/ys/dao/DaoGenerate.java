@@ -95,7 +95,7 @@ public class DaoGenerate {
         mcGoodsBean.addLongProperty("scorePrice");
         mcGoodsBean.addLongProperty("mg_vip_price");
         mcGoodsBean.addLongProperty("mg_price");
-        mcGoodsBean.addLongProperty("chanStatus");
+        mcGoodsBean.addLongProperty("chanStatus"); // 默认不卡货   1 正常  2 卡货
         mcGoodsBean.addDateProperty("addtime");
         mcGoodsBean.addDateProperty("updatetime");
 
@@ -166,27 +166,27 @@ public class DaoGenerate {
         Entity mcParamBean = schema.addEntity("SaleListBean");
         mcParamBean.setTableName("salelist");
         mcParamBean.addLongProperty("sl_id").primaryKey().autoincrement();
-        mcParamBean.addStringProperty("sl_no");
-        mcParamBean.addStringProperty("sl_batch_no");
-        mcParamBean.addDateProperty("sl_time");
-        mcParamBean.addStringProperty("mc_no");
-        mcParamBean.addStringProperty("sl_gd_no");
-        mcParamBean.addStringProperty("sl_gd_name");
-        mcParamBean.addLongProperty("sl_pre_price");
-        mcParamBean.addLongProperty("sl_disc_price");
-        mcParamBean.addLongProperty("sl_vip_price");
+        mcParamBean.addStringProperty("sl_no"); //终端号
+        mcParamBean.addStringProperty("sl_batch_no");// 批次号
+        mcParamBean.addDateProperty("sl_time");//交易时间
+        mcParamBean.addStringProperty("mc_no");// 终端号
+        mcParamBean.addStringProperty("sl_gd_no");// 商品编码
+        mcParamBean.addStringProperty("sl_gd_name");//商品名称
+        mcParamBean.addLongProperty("sl_pre_price");//原价
+        mcParamBean.addLongProperty("sl_disc_price");// 折扣价
+        mcParamBean.addLongProperty("sl_vip_price");//会员价
 
-        mcParamBean.addLongProperty("sl_amt");
-        mcParamBean.addLongProperty("sl_score");
-        mcParamBean.addLongProperty("sl_cash_in");
-        mcParamBean.addLongProperty("sl_cash_out");
+        mcParamBean.addLongProperty("sl_amt");//交易金额
+        mcParamBean.addLongProperty("sl_score");//小费积分
+        mcParamBean.addLongProperty("sl_cash_in");//投纸币金额
+        mcParamBean.addLongProperty("sl_cash_out");//找零纸币金额
         mcParamBean.addStringProperty("sl_coin_in");
         mcParamBean.addStringProperty("sl_coin_out");
-        mcParamBean.addStringProperty("sl_chann");
-        mcParamBean.addLongProperty("sl_num");
-        mcParamBean.addStringProperty("sl_type");
-        mcParamBean.addStringProperty("sl_isvip");
-        mcParamBean.addStringProperty("sl_status");
+        mcParamBean.addStringProperty("sl_chann");//货道编号
+        mcParamBean.addLongProperty("sl_num"); //销售数量
+        mcParamBean.addStringProperty("sl_type");//付款方式：1-现金、2-银行卡、3-微信支付，4-支付宝，5-积分兑换，6-提货码
+        mcParamBean.addStringProperty("sl_isvip");// 是否会员，0-否，1-是
+        mcParamBean.addStringProperty("sl_status");//交易状态：1-已下单，2-已支付，3-已出货，4-已退款，5-支付失败，6-出货失败
         mcParamBean.addStringProperty("sl_err_msg");
         mcParamBean.addStringProperty("sl_acc_no");
         mcParamBean.addLongProperty("sl_bf_amt");

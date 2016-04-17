@@ -41,6 +41,9 @@
             android:name="com.ys.ui.activity.TermInitActivity" android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/term_init" ></activity>
         <activity
+            android:name="com.ys.ui.activity.AdminLoginActivity" android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/login" ></activity>
+        <activity
             android:name="com.ys.ui.activity.AdminActivity" android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/admin" ></activity>
 

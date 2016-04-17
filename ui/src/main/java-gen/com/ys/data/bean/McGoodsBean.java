@@ -21,7 +21,7 @@ public class McGoodsBean {
     private Long scorePrice;
     private Long mg_vip_price;
     private Long mg_price;
-    private Long chanStatus;
+    private Long chanStatus = 0L;
     private java.util.Date addtime;
     private java.util.Date updatetime;
 
@@ -174,6 +174,9 @@ public class McGoodsBean {
     }
 
     public Long getChanStatus() {
+        if (chanStatus == null) {
+            chanStatus = 0L;
+        }
         return chanStatus;
     }
 

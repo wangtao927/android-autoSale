@@ -15,6 +15,13 @@
             android:layout_column="2"
             android:width="0dp"
             android:text="@string/onekeybuhuo" />
+         <Button
+            android:id="@+id/btn_clear"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_column="3"
+            android:width="0dp"
+            android:text="@string/onekeyclear" />
         <Button
             android:id="@+id/btn_reset"
             android:layout_height="wrap_content"
@@ -35,6 +42,11 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="商品编号"
+            />
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="商品名称"
             />
         <TextView
             android:layout_width="40dp"
@@ -58,5 +70,6 @@
           android:layout_height="wrap_content">
 
       </ListView>
+    <include layout="@layout/include_loading" />
 
 </LinearLayout>

@@ -21,12 +21,13 @@ import butterknife.Bind;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
-    // 交易流水生成规则  终端号+yyyymmddhhiiss
 
     @Bind(R.id.btn_get_drug)
     Button btnGetDrug;
+
     @Bind(R.id.btn_query)
     Button btnQuery;
+
     @Bind(R.id.btn_sample)
     Button btnSample;
 

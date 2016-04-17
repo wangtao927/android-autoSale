@@ -6,11 +6,15 @@
     <string name="title_activity_get_product">GetProductActivity</string>
     <string name="sample">sample</string>
     <string name="print">打印机</string>
+    <string name="login">登录</string>
     <string name="term_init">终端初始化</string>
     <string name="term_no">终端号</string>
     <string name="serial_no">机身号</string>
     <string name="confirm">初始化</string>
+    <string name="getProduct">取货</string>
+    <string name="back">返回</string>
     <string name="admin">后台</string>
     <string name="reset" >重置</string>
     <string name="onekeybuhuo" >一键补货</string>
+    <string name="onekeyclear" >一键清卡货</string>
 </resources>

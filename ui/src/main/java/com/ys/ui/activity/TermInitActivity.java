@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -86,6 +87,8 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
     @Bind(R.id.et_serialNo)
     EditText et_serialNo;
 
+    @Bind(R.id.pb_loading)
+    ContentLoadingProgressBar mPbLoading;
 
 
     @Override
@@ -105,7 +108,7 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
-                        //showProgress();
+                        showProgress();
 
                     }
                 })
@@ -121,13 +124,16 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
                         } else {
                             Toast.makeText(TermInitActivity.this, response.getMsg(), Toast.LENGTH_SHORT).show();
                         }
+                        // 关闭当前active
+                        finish();
                         startActivity(new Intent(TermInitActivity.this, MainActivity.class));
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
+                        hideProgress();
                         Toast.makeText(TermInitActivity.this, "获取数据失败" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
-                        //hideProgress();
+
                     }
                 });
     }
@@ -157,4 +163,12 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+
+    public void showProgress() {
+        mPbLoading.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgress() {
+        mPbLoading.setVisibility(View.GONE);
+    }
 }
