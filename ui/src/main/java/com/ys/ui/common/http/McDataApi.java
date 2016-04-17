@@ -2,18 +2,14 @@ package com.ys.ui.common.http;
 
 import com.ys.ui.common.request.CommonRequest;
 import com.ys.ui.common.request.McDataVo;
-import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.McDataResult;
-import com.ys.ui.common.response.TermInitResult;
 
 import java.util.Map;
 
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -43,9 +39,9 @@ public interface McDataApi {
      * @param request
      * @return
      */
-    @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_SHORT)
-    @POST("createOrder")
-    Observable<CommonResponse<String>> createOrder(@Body CommonRequest<SaleListVo> request);
+//    @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_SHORT)
+//    @POST("createOrder")
+//    Observable<CommonResponse<String>> createOrder(@Body CommonRequest<SaleListVo> request);
 
 
 }

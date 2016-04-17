@@ -16,6 +16,7 @@ import com.ys.ui.common.constants.SlTypeEnum;
 import com.ys.ui.common.http.RetrofitManager;
 import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
+import com.ys.ui.common.response.CreateOrderResult;
 import com.ys.ui.common.response.TermInitResult;
 import com.ys.ui.common.sign.MD5;
 import com.ys.ui.utils.ToastUtils;
@@ -112,9 +113,9 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
                         showProgress();
                     }
                 })
-                .subscribe(new Action1<CommonResponse<String>>() {
+                .subscribe(new Action1<CommonResponse<CreateOrderResult>>() {
                     @Override
-                    public void call(CommonResponse<String> response) {
+                    public void call(CommonResponse<CreateOrderResult> response) {
                         hideProgress();
                         if (response.isSuccess()) {
                            // 调用出货

@@ -34,7 +34,7 @@ public class PropertyUtils {
      */
     public int getOnlineSendSplit() {
         return 1;
-       //return Integer.valueOf(getValue(ParamEnum.ONLINE_SEND_SPLIT));
+//       return Integer.valueOf(getValue(ParamEnum.ONLINE_SEND_SPLIT));
     }
 
     /**

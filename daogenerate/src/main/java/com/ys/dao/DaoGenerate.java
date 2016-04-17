@@ -87,8 +87,8 @@ public class DaoGenerate {
         mcGoodsBean.addStringProperty("gd_approve_code");
         mcGoodsBean.addStringProperty("gd_batch_no");
         mcGoodsBean.addStringProperty("gd_des_code");
-        mcGoodsBean.addDateProperty("gd_mf_date");
-        mcGoodsBean.addDateProperty("gd_exp_date");
+        mcGoodsBean.addStringProperty("gd_mf_date");
+        mcGoodsBean.addStringProperty("gd_exp_date");
         mcGoodsBean.addLongProperty("mg_gvol");//商品容量
         mcGoodsBean.addLongProperty("mg_gnum");//商品存量
         mcGoodsBean.addLongProperty("prePrice");
@@ -148,8 +148,8 @@ public class DaoGenerate {
         mcParamBean.addStringProperty("pt_msg");
         mcParamBean.addStringProperty("pt_desc");
         mcParamBean.addStringProperty("pt_status");
-        mcParamBean.addDateProperty("pt_starttime");
-        mcParamBean.addDateProperty("pt_endtime");
+        mcParamBean.addStringProperty("pt_starttime");
+        mcParamBean.addStringProperty("pt_endtime");
         mcParamBean.addStringProperty("pt_range");
         mcParamBean.addStringProperty("pt_rangeparam");
         mcParamBean.addStringProperty("pt_goods");
@@ -168,7 +168,7 @@ public class DaoGenerate {
         mcParamBean.addLongProperty("sl_id").primaryKey().autoincrement();
         mcParamBean.addStringProperty("sl_no"); //终端号
         mcParamBean.addStringProperty("sl_batch_no");// 批次号
-        mcParamBean.addDateProperty("sl_time");//交易时间
+        mcParamBean.addStringProperty("sl_time");//交易时间
         mcParamBean.addStringProperty("mc_no");// 终端号
         mcParamBean.addStringProperty("sl_gd_no");// 商品编码
         mcParamBean.addStringProperty("sl_gd_name");//商品名称

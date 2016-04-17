@@ -174,9 +174,6 @@ public class McGoodsBean {
     }
 
     public Long getChanStatus() {
-        if (chanStatus == null) {
-            chanStatus = 0L;
-        }
         return chanStatus;
     }
 

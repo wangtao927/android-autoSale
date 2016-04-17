@@ -9,7 +9,9 @@ import com.ys.ui.common.request.CommonRequest;
 import com.ys.ui.common.request.McDataVo;
 import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
+import com.ys.ui.common.response.CreateOrderResult;
 import com.ys.ui.common.response.McDataResult;
+import com.ys.ui.common.response.SaleListResult;
 import com.ys.ui.common.response.TermInitResult;
 import com.ys.ui.common.sign.Signature;
 import com.ys.ui.utils.NetUtil;
@@ -36,8 +38,8 @@ import rx.Observable;
 
 public class RetrofitManager {
 
-    public static final String BASE_URL = "http://boai.fccb001.com:8088/api/";
-//    public static final String BASE_URL = "http://112.74.69.111:8088/api/";
+//    public static final String BASE_URL = "http://boai.fccb001.com:8088/api/";
+    public static final String BASE_URL = "http://112.74.69.111:8088/api/";
 //    public static final String BASE_URL = "http://192.168.1.130:8088/api/";
 
     //短缓存有效期为1分钟
@@ -55,6 +57,7 @@ public class RetrofitManager {
     private final ProductApi mProductApi;
     private final TermStatusApi termStatusApi;
     private final McDataApi mcDataApi;
+    private final OrderApi orderApi;
 
     public static RetrofitManager builder() {
         return new RetrofitManager();
@@ -69,12 +72,13 @@ public class RetrofitManager {
                 .client(mOkHttpClient)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
-                        .setDateFormat("yyyy-MM-dd HH:mm:ss").generateNonExecutableJson()
+                        .setDateFormat("yyyy-MM-dd HH:mm:ss")
                         .create()))
                 .build();
         mProductApi = retrofit.create(ProductApi.class);
         termStatusApi = retrofit.create(TermStatusApi.class);
         mcDataApi = retrofit.create(McDataApi.class);
+        orderApi = retrofit.create(OrderApi.class);
     }
 
     private void initOkHttpClient() {
@@ -115,7 +119,7 @@ public class RetrofitManager {
                 String cacheControl = request.cacheControl().toString();
                 //.header("content-type", "application/json")
                 return originalResponse.newBuilder().header("Cache-Control", cacheControl)
-                        .header("content-type", "application/json")
+//                        .header("content-type", "application/json")
                         .removeHeader("Pragma").build();
             } else {
                 return originalResponse.newBuilder()
@@ -160,13 +164,32 @@ public class RetrofitManager {
         return mcDataApi.postOprStatus(request);
     }
 
-    public Observable<CommonResponse<String>> createOrder(String mcNo, SaleListVo saleListVo) {
+    /**
+     * 创建订单
+     * @param mcNo
+     * @param saleListVo
+     * @return
+     */
+    public Observable<CommonResponse<CreateOrderResult>> createOrder(String mcNo, SaleListVo saleListVo) {
         // 创建订单号
         saleListVo.setSlNo(OrderUtils.getOrderNo(mcNo));
         CommonRequest<SaleListVo> request = new CommonRequest<>(mcNo, System.currentTimeMillis(), saleListVo);
         Log.w("request:", request.toString());
 
-        return mcDataApi.createOrder(request);
+        return orderApi.createOrder(request);
 
     }
+
+    public Observable<CommonResponse<SaleListResult>> getOrderStatus(String slNo) {
+
+        long time = System.currentTimeMillis();
+        Map map = new HashMap<>();
+
+        map.put("sl_no", slNo);
+        map.put("time", time);
+        String sign = Signature.getSign(map);
+        return orderApi.queryOrderByNo(slNo, time, sign);
+
+    }
+
 }
