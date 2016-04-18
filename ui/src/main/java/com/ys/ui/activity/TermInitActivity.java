@@ -119,6 +119,10 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
                         if (response.isSuccess()) {
                             // 生成成功  同步数据
                             initTerm(response);
+
+                            // 初始化数据成功， 初始化出货机，打印机，银联
+
+
                             Toast.makeText(TermInitActivity.this, "终端号" + response.getExt_data().getMachine().getMc_no(), Toast.LENGTH_SHORT).show();
                             //startActivity(new Intent(TermInitActivity.this, MainActivity.class));
                         } else {

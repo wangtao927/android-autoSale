@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.ys.GetBytesUtils;
 import com.ys.data.bean.McStatusBean;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
@@ -122,10 +123,10 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
                         if (response.isSuccess()) {
                            // 调用出货
 
-                        } else {
-                            // 失败
+                           finish();
+                            startActivity(new Intent(GetProductActivity.this, OutGoodsActivity.class));
                         }
-                        ToastUtils.showShortMessage("response:" + response.toString(), GetProductActivity.this);
+                        ToastUtils.showError("提货码无效", GetProductActivity.this);
                     }
                 }, new Action1<Throwable>() {
                     @Override
