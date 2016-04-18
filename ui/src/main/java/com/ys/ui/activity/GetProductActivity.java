@@ -22,6 +22,7 @@ import com.ys.ui.common.sign.MD5;
 import com.ys.ui.utils.ToastUtils;
 
 import java.util.List;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import rx.android.schedulers.AndroidSchedulers;
@@ -54,6 +55,8 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void create(Bundle savedInstanceState) {
+        // 开始计时
+
         btnConfirm.setOnClickListener(this);
         btnBack.setOnClickListener(this);
     }
@@ -75,7 +78,6 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
     private void getProductByCode() {
         final String code = etProductCode.getText().toString();
         String pwd = etProductPwd.getText().toString();
-        pwd = MD5.MD5Encode(pwd);
         List<McStatusBean> list = App.getDaoSession(App.getContext()).getMcStatusBeanDao().loadAll();
         if (list != null && !list.isEmpty()) {
             McStatusBean bean = list.get(0);

@@ -50,6 +50,7 @@ public class BufferData {
 
     public boolean match(byte startbyte, byte endbyte) {
 
+        // 有的报文  可能 只有02  或者没有02
         boolean flag = false;
         for (int i =0; i< _list.length; i++) {
             if (_list[i] == startbyte) {

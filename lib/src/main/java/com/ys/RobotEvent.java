@@ -90,7 +90,7 @@ public class RobotEvent {
         }
         catch (Exception ex)
         {
-            //SunLib.Log.Write(SunLib.Level.ERROR, "CSRobot", ex.Message + "\r\n" + ex.StackTrace);
+
         }
     }
 
