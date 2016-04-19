@@ -4,10 +4,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.DialogPreference;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,7 +47,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by wangtao on 2016/4/9.
  */
-public class AdminActivity extends BaseActivity implements View.OnClickListener {
+public class AdminActivity extends BaseActivity implements View.OnClickListener, AbsListView.OnScrollListener {
     private String TAG = "AdminActivity";
 
     @Bind(R.id.list_view)
@@ -56,26 +59,36 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
     @Bind(R.id.btn_buhuo)
     Button btnBuHuo;
 
-   @Bind(R.id.btn_clear)
+    @Bind(R.id.btn_clear)
     Button btnClear;
-    private List<McGoodsBean> lists;
+    private List<McGoodsBean> lists=new ArrayList();
 
     @Bind(R.id.pb_loading)
     ContentLoadingProgressBar mPbLoading;
 
     private McGoodsListAdapter adapter;
+
+    private Thread mThread;
+
+    private long mTotalCount;
+
+    public static final int mPageSize = 2;
+
+    public int mPageIndex = 1;
+
     @Override
     protected void create(Bundle savedInstanceState) {
 
         btnBuHuo.setOnClickListener(this);
         btnReset.setOnClickListener(this);
         btnClear.setOnClickListener(this);
-        initData();
+        loadData();
 
         adapter = new McGoodsListAdapter(AdminActivity.this, R.layout.mcgoods_item, lists);
 
         listView.setAdapter(adapter);
-
+        // 给ListView注册滚动监听
+        listView.setOnScrollListener(this);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -117,9 +130,13 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
 
     }
 
-    private void initData() {
-        lists = new ArrayList<>();
-        lists =  App.getDaoSession(App.getContext()).getMcGoodsBeanDao().loadAll();
+    private void loadData() {
+        mTotalCount = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().count();
+//        List pageList = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().queryBuilder().
+//                offset(mPageIndex * mPageSize).limit(mPageSize).list();
+        List pageList = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().loadAll();
+        lists.addAll(pageList);
+        //adapter.setData(lists);
     }
 
     @Override
@@ -163,4 +180,32 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
     public void hideProgress() {
         mPbLoading.setVisibility(View.GONE);
     }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, final int totalItemCount) {
+//        if (firstVisibleItem + visibleItemCount == totalItemCount) {
+//            if (mThread == null || !mThread.isAlive()) {
+//                mThread = new Thread() {
+//                    @Override
+//                    public void run() {
+//                        if(adapter.getCount() < mTotalCount){
+//                            mPageIndex++;
+//                            loadData();
+//                            adapter.notifyDataSetChanged();
+//                        }else{
+//                            ToastUtils.showError("所有数据已经全部加载了", App.getContext());
+//                        }
+//
+//                    }
+//                };
+//                mThread.start();
+//            }
+//        }
+    }
+
 }

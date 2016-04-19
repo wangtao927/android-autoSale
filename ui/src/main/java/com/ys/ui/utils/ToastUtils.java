@@ -18,6 +18,8 @@ package com.ys.ui.utils;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.ys.ui.base.App;
+
 
 public class ToastUtils {
 
@@ -29,8 +31,8 @@ public class ToastUtils {
         getToast(message, context).show();
     }
 
-    public static void showShortMessage(String message, Context context) {
-        getToast(message, context, Toast.LENGTH_SHORT).show();
+    public static void showShortMessage(String message) {
+        getToast(message, App.getContext(), Toast.LENGTH_SHORT).show();
     }
 
     private static Toast getToast(String message, Context context) {
