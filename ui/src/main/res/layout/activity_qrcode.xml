@@ -12,7 +12,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="请扫描二维码完成支付"
-        />
+        android:id="@+id/textView" />
+
+    <Button
+        android:id="@+id/wx_pay"
+        android:text="微信支付"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ali_pay"
+        android:layout_toLeftOf="@+id/ali_pay"
+        android:layout_toStartOf="@+id/ali_pay" />
+    <Button
+        android:id="@+id/ali_pay"
+        android:text="支付宝支付"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:id="@+id/iv_wx_qrcode"

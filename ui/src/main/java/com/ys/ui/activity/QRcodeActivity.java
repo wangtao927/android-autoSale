@@ -3,13 +3,20 @@ package com.ys.ui.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+import com.ys.data.bean.GoodsBean;
+import com.ys.data.bean.McStatusBean;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
@@ -20,6 +27,8 @@ import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateOrderResult;
 import com.ys.ui.utils.ToastUtils;
 
+import java.util.List;
+
 import butterknife.Bind;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
@@ -29,11 +38,19 @@ import rx.schedulers.Schedulers;
 /**
  * Created by river on 2016/4/19.
  */
-public class QRcodeActivity extends BaseActivity {
+public class QRcodeActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.iv_wx_qrcode)
     ImageView wxQrcodeImage;
 
+    @Bind(R.id.wx_pay)
+    Button wxPay;
+
+    @Bind(R.id.ali_pay)
+    Button aliPay;
+
+    private GoodsBean goodsBean;
+    private McStatusBean statusBean;
     /**
      * 用字符串生成二维码
      * @param str
@@ -70,17 +87,23 @@ public class QRcodeActivity extends BaseActivity {
     @Override
     protected void create(Bundle savedInstanceState) {
         //调用接口获取地址
-        createOrder();
+        goodsBean =  App.getDaoSession(App.getContext()).getGoodsBeanDao().loadAll().get(0);
+        statusBean =  App.getDaoSession(App.getContext()).getMcStatusBeanDao().loadAll().get(0);
+        //createOrder();
+        wxPay.setOnClickListener(this);
+        aliPay.setOnClickListener(this);
 
     }
 
-    private void createOrder() {
+    private void createOrder(String type) {
+
         SaleListVo saleListVo = new SaleListVo();
-        saleListVo.setMcNo("8888888");
-        saleListVo.setSlType(String.valueOf(SlTypeEnum.WX.getIndex()));
-        saleListVo.setSlGdName("白加黑");
-        saleListVo.setSlGdNo("10003");
-        saleListVo.setSlAmt(10000L);
+        saleListVo.setMcNo(statusBean.getMc_no());
+        saleListVo.setSlType(type);
+        saleListVo.setSlGdName(goodsBean.getGd_name());
+        saleListVo.setSlGdNo(goodsBean.getGd_no());
+        saleListVo.setSlAmt(goodsBean.getGd_sale_price());
+
         RetrofitManager.builder().createOrder(saleListVo.getMcNo(), saleListVo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -97,17 +120,23 @@ public class QRcodeActivity extends BaseActivity {
                         if (response.isSuccess()) {
                             // 调用出货
                             try {
-                                Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcodeUrl());
-                                wxQrcodeImage.setImageBitmap(qrcodeBitmap);
+                                if (TextUtils.isEmpty(response.getExt_data().getQrcodeUrl())) {
+                                    Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcode());
+                                    wxQrcodeImage.setImageBitmap(qrcodeBitmap);
+                                } else {
+                                    Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcodeUrl());
+                                    wxQrcodeImage.setImageBitmap(qrcodeBitmap);
+                                }
+
 
                             } catch (WriterException e) {
-                                e.printStackTrace();
+                                Log.e("error:", e.getMessage());
                             }
 //                            finish();
 //                            startActivity(new Intent(GetProductActivity.this, OutGoodsActivity.class));
                             ToastUtils.showShortMessage("支付成功，请等药品出货");
                         }else{
-                            ToastUtils.showShortMessage("支付失败");
+                            ToastUtils.showError("支付失败", QRcodeActivity.this);
                         }
 
                     }
@@ -120,5 +149,20 @@ public class QRcodeActivity extends BaseActivity {
 
                     }
                 });
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+            case R.id.wx_pay:
+                 createOrder(String.valueOf(SlTypeEnum.WX.getIndex()));
+                break;
+
+            case R.id.ali_pay:
+                createOrder(String.valueOf(SlTypeEnum.ALIPAY.getIndex()));
+
+                break;
+        }
     }
 }

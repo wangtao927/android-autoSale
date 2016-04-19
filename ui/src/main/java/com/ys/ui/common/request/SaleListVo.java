@@ -128,4 +128,21 @@ public class SaleListVo implements Serializable {
     public void setSlThPwd(String slThPwd) {
         this.slThPwd = slThPwd;
     }
+
+    @Override
+    public String toString() {
+        return "SaleListVo{" +
+                "slNo='" + slNo + '\'' +
+                ", slType='" + slType + '\'' +
+                ", slGdName='" + slGdName + '\'' +
+                ", slGdNo='" + slGdNo + '\'' +
+                ", slAmt=" + slAmt +
+                ", mcNo='" + mcNo + '\'' +
+                ", slScore=" + slScore +
+                ", slIsvip='" + slIsvip + '\'' +
+                ", slAccNo='" + slAccNo + '\'' +
+                ", slThCardno='" + slThCardno + '\'' +
+                ", slThPwd='" + slThPwd + '\'' +
+                '}';
+    }
 }
