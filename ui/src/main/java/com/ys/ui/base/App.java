@@ -24,9 +24,9 @@ public class App extends Application {
 
     public SerialPortFinder mSerialPortFinder = new SerialPortFinder();
     private SerialPort mSerialPort = null;
-    private int baudrate  = 19200;
-    //private int port = 0;
-    private String path = "/dev/ttyES1";
+//    private int baudrate  = 19200;
+//    //private int port = 0;
+//    private String path = "/dev/ttyES1";
 
     @Override
     public void onCreate() {
@@ -48,7 +48,7 @@ public class App extends Application {
         return mApplicationContext;
     }
 
-    public SerialPort getSerialPort() throws SecurityException, IOException, InvalidParameterException {
+    public SerialPort getSerialPort(String path, int baudrate) throws SecurityException, IOException, InvalidParameterException {
         if (mSerialPort == null) {
 			/* Read serial port parameters */
             SharedPreferences sp = getSharedPreferences("android_serialport_api.sample_preferences", MODE_PRIVATE);

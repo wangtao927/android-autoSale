@@ -33,7 +33,7 @@ public class PropertyUtils {
      * @return
      */
     public int getOnlineSendSplit() {
-        return 1;
+        return 10;
 //       return Integer.valueOf(getValue(ParamEnum.ONLINE_SEND_SPLIT));
     }
 

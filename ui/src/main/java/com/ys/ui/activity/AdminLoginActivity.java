@@ -12,7 +12,7 @@ import com.ys.ui.base.BaseActivity;
 public class AdminLoginActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected int getLayoutId() {
-        return R.layout.active_login;
+        return R.layout.activity_login;
     }
 
     @Override

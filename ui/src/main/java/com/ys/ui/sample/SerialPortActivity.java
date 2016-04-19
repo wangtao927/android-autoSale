@@ -34,6 +34,9 @@ public abstract class SerialPortActivity extends Activity {
 	protected OutputStream mOutputStream;
 	private InputStream mInputStream;
 	private ReadThread mReadThread;
+	protected int baudrate  = 19200;
+
+	protected String path = "/dev/ttyES1";
 
 	/**
 	 * 读取终端设备数据
@@ -138,7 +141,7 @@ public abstract class SerialPortActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		mApplication = (App) getApplication();
 		try {
-			mSerialPort = mApplication.getSerialPort();
+			mSerialPort = mApplication.getSerialPort(path, baudrate);
 			mOutputStream = mSerialPort.getOutputStream();
 			mInputStream = mSerialPort.getInputStream();
 

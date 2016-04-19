@@ -11,6 +11,7 @@ import com.ys.RobotEventArg;
 import com.ys.ui.sample.SerialPortActivity;
 import com.ys.ui.utils.PropertyUtils;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -23,7 +24,13 @@ public class OutGoodsActivity extends SerialPortActivity {
     private RobotEvent robotEvent = RobotEvent.getInstance();
 
     private BufferData bufferData;
+    SendingThread mSendingThread;
+
     byte[] mBuffer;
+    protected int baudrate  = 19200;
+
+    protected String path = "/dev/ttyES1";
+
     // 定义一个queue, 往queue
     private Queue<RobotEventArg> queue = new LinkedBlockingQueue<>();
     private long startTime = 0L;
@@ -33,13 +40,13 @@ public class OutGoodsActivity extends SerialPortActivity {
         super.onCreate(savedInstanceState);
 
         startTime = System.currentTimeMillis();
+
         // 发送选货请求
         byte b = 11;
         mBuffer = GetBytesUtils.goodsSelect(b);
-
-        // 出货
-
-
+        SendingThread mSendingThread = new SendingThread();
+        mSendingThread.start();
+        this.consumer();
     }
 
     @Override
@@ -172,13 +179,15 @@ public class OutGoodsActivity extends SerialPortActivity {
                          continue;
                      } else if (robotEvent.getiMsgCode() == 3) {
                          // 选货结束  发送出货命令
+                         mBuffer = GetBytesUtils.goodsOuter();
 
-
+                         SendingThread mSendingThread = new SendingThread();
+                         mSendingThread.start();
                      } else if (robotEvent.getiMsgCode() == 6) {
-                        // 出货完成
+                        // 出货完成  结束
 
                      } else {
-                         // 出货失败
+                         // 出货失败  结束
 
                      }
 
@@ -193,5 +202,22 @@ public class OutGoodsActivity extends SerialPortActivity {
     }
 
 
+    private class SendingThread extends Thread {
+        @Override
+        public void run() {
+            while (!isInterrupted()) {
+                try {
+                    if (mOutputStream != null) {
+                        mOutputStream.write(mBuffer, 0, mBuffer.length);
+                    } else {
+                        return;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return;
+                }
+            }
+        }
+    }
 
 }

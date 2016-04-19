@@ -2,6 +2,7 @@
     <string name="app_name">售药机</string>
     <string name="action_settings">Settings</string>
     <string name="get_drug">取药</string>
+    <string name="buy_drug">购药</string>
     <string name="query">寻医问药</string>
     <string name="title_activity_get_product">GetProductActivity</string>
     <string name="sample">sample</string>

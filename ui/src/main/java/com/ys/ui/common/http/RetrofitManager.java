@@ -133,6 +133,8 @@ public class RetrofitManager {
         return mProductApi.queryProductByCode(code);
     }
 
+
+
     public Observable<CommonResponse<TermInitResult>>  mcReset(String mcno) {
         Map map = new HashMap<>();
         long time = Calendar.getInstance().getTimeInMillis();
@@ -160,6 +162,7 @@ public class RetrofitManager {
         CommonRequest<Map<String, String>> request= new CommonRequest<>(mcNo,
                 System.currentTimeMillis(), map);
         Log.w("request:", request.toString());
+        Log.w("request-json:", new GsonBuilder().create().toJson(request));
 
         return mcDataApi.postOprStatus(request);
     }

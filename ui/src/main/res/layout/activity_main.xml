@@ -15,6 +15,15 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:ellipsize="end" />
+<Button
+        android:id="@+id/btn_buy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/buy_drug"
+        android:singleLine="true"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:ellipsize="end" />
 
     <Button
         android:id="@+id/btn_query"

@@ -148,6 +148,7 @@ public class TimerService extends Service {
                              } catch (Exception e) {
                                  map.put("01", "1");// 0 成功 1 失败
                              }
+
                          } else {
                              map.put("01", "1");// 0 成功 1 失败
                          }
@@ -161,10 +162,10 @@ public class TimerService extends Service {
                              } catch (Exception e) {
                                  map.put("02", "1");// 0 成功 1 失败
                              }
-
+                             continue;
+                         } else {
+                             map.put("02", "1");// 0 成功 1 失败
                          }
-                         map.put("02", "1");// 0 成功 1 失败
-
                          break;
                      case "03":// 库存信息 根据货道号更新  商品编码  容量  价格
                          if (result.getMcgoods() != null && !result.getMcgoods().isEmpty()) {
@@ -175,9 +176,9 @@ public class TimerService extends Service {
                              } catch (Exception e) {
                                  map.put("03", "1");// 0 成功 1 失败
                              }
+                         } else {
+                             map.put("04", "1");// 0 成功 1 失败
                          }
-                         map.put("04", "1");// 0 成功 1 失败
-
                          break;
                      case "04"://终端管理员  // 全部删除， 再插入
                          if (result.getMcadmin() != null && !result.getMcadmin().isEmpty()) {
@@ -188,9 +189,11 @@ public class TimerService extends Service {
                              } catch (Exception e) {
                                  map.put("04", "1");// 0 成功 1 失败
                              }
-                         }
-                         map.put("04", "1");// 0 成功 1 失败
 
+                         } else {
+                             map.put("04", "1");// 0 成功 1 失败
+
+                         }
                          break;
                      case "05"://广告 全部删除 再插入
 
@@ -204,8 +207,9 @@ public class TimerService extends Service {
                               } catch (Exception e) {
                                   map.put("06", "1");// 0 成功 1 失败
                               }
+                          } else {
+                              map.put("06", "1");// 0 成功 1 失败
                           }
-                         map.put("06", "1");// 0 成功 1 失败
                          break;
                      default:
                          break;
@@ -213,7 +217,10 @@ public class TimerService extends Service {
             }
 
             //上报 处理数据的结果
-            postOprStatus(map);
+
+            if (!map.isEmpty()) {
+                postOprStatus(map);
+            }
         }
 
 

@@ -33,6 +33,14 @@
             android:name="com.ys.ui.activity.GetProductActivity"
             android:label="@string/title_activity_get_product"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+      <activity
+            android:name="com.ys.ui.activity.GridActivity"
+            android:label="@string/buy_drug"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name="com.ys.ui.activity.GoodsListActivity"
+            android:label="@string/buy_drug"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name="com.ys.ui.activity.PrintActivity"
             android:label="@string/print"
