@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ys.ui" >
+    package="com.ys.ui">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".base.App"
@@ -8,71 +16,64 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
-
-
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         <activity
-            android:name="com.ys.ui.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-       <!-- <activity
+        <!--
+        <activity
             android:name=".activity.InitActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>-->
+        </activity>
+        -->
         <activity
-            android:name="com.ys.ui.activity.GetProductActivity"
+            android:name=".activity.GetProductActivity"
             android:label="@string/title_activity_get_product"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-      <activity
-            android:name="com.ys.ui.activity.GridActivity"
-            android:label="@string/buy_drug"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.ys.ui.activity.GoodsListActivity"
-            android:label="@string/buy_drug"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name="com.ys.ui.activity.PrintActivity"
+            android:name=".activity.PrintActivity"
             android:label="@string/print"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-         <activity
-            android:name="com.ys.ui.activity.TermInitActivity" android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/term_init" ></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.ys.ui.activity.AdminLoginActivity" android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/login" ></activity>
+            android:name=".activity.TermInitActivity"
+            android:label="@string/term_init"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.ys.ui.activity.AdminActivity" android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/admin" ></activity>
+            android:name=".activity.AdminLoginActivity"
+            android:label="@string/login"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.AdminActivity"
+            android:label="@string/admin"
+            android:theme="@style/AppTheme.NoActionBar" />
+        android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.QRcodeActivity"
+            android:label="二维码支付"
+            android:theme="@style/AppTheme.NoActionBar" />
 
-<!--
-        <activity android:name="com.ys.ui.activity.MainActivity"></activity>
--->
-        <activity android:name="com.ys.ui.sample.SerialPortPreferences"></activity>
-        <activity android:name="com.ys.ui.sample.SelectGoodsActivity" />
-        <activity android:name="com.ys.ui.sample.MainMenu"></activity>
+        <!--         <activity android:name="com.ys.ui.activity.MainActivity"></activity> -->
+        <activity android:name=".sample.SerialPortPreferences" />
+        <activity android:name=".sample.SelectGoodsActivity" />
+        <activity android:name=".sample.MainMenu" />
 
-        <service android:name="com.ys.ui.service.MyService"/>
-        <service android:name=".service.TimerService"/>
-        <receiver android:name=".service.AlarmReceiver"/>
+        <service android:name=".service.MyService" />
+        <service android:name=".service.TimerService" />
+
+        <receiver android:name=".service.AlarmReceiver" />
+
     </application>
 
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 </manifest>

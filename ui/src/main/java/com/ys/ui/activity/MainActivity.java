@@ -36,6 +36,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.btn_admin)
     Button btn_admin;
+
+    @Bind(R.id.btn_qrcode)
+    Button btn_qrcode;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -48,6 +52,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         btnSample.setOnClickListener(this);
         btnPrint.setOnClickListener(this);
         btn_admin.setOnClickListener(this);
+        btn_qrcode.setOnClickListener(this);
         // 如果终端号不存在， 则跳转到设置终端信息界面
         if (!isInit()) {
             // 弹出层，输入终端号，初始化机器
@@ -69,7 +74,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             return false;
         } else {
             // 展示 终端号
-            ToastUtils.showShortMessage(lists.get(0).getMc_no(), App.getContext());
+            ToastUtils.showShortMessage(lists.get(0).getMc_no());
         }
         return true;
     }
@@ -90,6 +95,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.btn_admin:
                 startActivity(new Intent(MainActivity.this, AdminActivity.class));
                 break;
+            case R.id.btn_qrcode:
+                startActivity(new Intent(MainActivity.this, QRcodeActivity.class));
+                break;
+
         }
     }
 

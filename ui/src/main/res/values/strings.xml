@@ -15,7 +15,8 @@
     <string name="getProduct">取货</string>
     <string name="back">返回</string>
     <string name="admin">后台</string>
-    <string name="reset" >重置</string>
-    <string name="onekeybuhuo" >一键补货</string>
-    <string name="onekeyclear" >一键清卡货</string>
+    <string name="reset">重置</string>
+    <string name="onekeybuhuo">一键补货</string>
+    <string name="onekeyclear">一键清卡货</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>

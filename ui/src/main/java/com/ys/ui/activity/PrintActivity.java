@@ -149,7 +149,7 @@ public class PrintActivity extends BaseActivity implements View.OnClickListener 
            result  = util.sendBuffer(bytes);
 
         } catch (Exception e) {
-            ToastUtils.showShortMessage("报错了："+ e.getMessage(), App.getContext());
+            ToastUtils.showShortMessage("报错了："+ e.getMessage());
         }
 
 

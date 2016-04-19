@@ -26,7 +26,6 @@ import java.util.Map;
  * Created by wangtao on 2016/4/10.
  */
 public class McGoodsListAdapter extends ArrayAdapter<McGoodsBean> {
-
     private int resouceId;
 
     private Map<String, GoodsBean> goodsMap;
@@ -36,6 +35,9 @@ public class McGoodsListAdapter extends ArrayAdapter<McGoodsBean> {
         initGoodsMap();
     }
 
+    public int getCount() {
+        return goodsMap.size();
+    }
 
 
     @Override
@@ -114,5 +116,6 @@ public class McGoodsListAdapter extends ArrayAdapter<McGoodsBean> {
             }
         }
     }
+
 
 }
