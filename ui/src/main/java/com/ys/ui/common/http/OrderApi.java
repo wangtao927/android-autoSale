@@ -38,7 +38,7 @@ public interface OrderApi {
     Observable<CommonResponse<SaleListResult>> queryOrderByNo(@Query("sl_no") String slNo, @Query("time") long time, @Query("sign") String sign);
 
     @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_SHORT)
-    @GET("refund")
-    Observable<CommonResponse<String>> refund(@Query("sl_no")String slNo, @Query("time") long time, @Query("sign") String sign);
+    @POST("refund")
+    Observable<CommonResponse<String>> refund(@Body String sl_no, @Body long time, @Body String sign);
 
 }

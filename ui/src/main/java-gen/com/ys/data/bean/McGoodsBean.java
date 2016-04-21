@@ -15,8 +15,8 @@ public class McGoodsBean {
     private String gd_des_code;
     private java.util.Date gd_mf_date;
     private java.util.Date gd_exp_date;
-    private Long mg_gvol;
-    private Long mg_gnum;
+    private Long mg_gvol=0L;
+    private Long mg_gnum =0L;
     private Long prePrice;
     private Long scorePrice;
     private Long mg_vip_price;

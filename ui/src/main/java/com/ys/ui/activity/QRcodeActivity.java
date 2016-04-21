@@ -16,7 +16,9 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.ys.data.bean.GoodsBean;
+import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.McStatusBean;
+import com.ys.data.dao.GoodsBeanDao;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
@@ -54,6 +56,7 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
     Button aliPay;
 
     private GoodsBean goodsBean;
+    private McGoodsBean mcGoodsBean;
     private McStatusBean statusBean;
     /**
      * 用字符串生成二维码
@@ -91,9 +94,15 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void create(Bundle savedInstanceState) {
         //调用接口获取地址
-        goodsBean =  App.getDaoSession(App.getContext()).getGoodsBeanDao().loadAll().get(0);
-        statusBean =  App.getDaoSession(App.getContext()).getMcStatusBeanDao().loadAll().get(0);
+
+        statusBean =  App.getDaoSession(App.getContext()).getMcStatusBeanDao().queryBuilder().unique();
+        String mcNo = statusBean.getMc_no();
+
+        mcGoodsBean =App.getDaoSession(App.getContext()).getMcGoodsBeanDao().queryBuilder().limit(1).unique();
+        String gdNo = mcGoodsBean.getGd_no();
+        goodsBean =  App.getDaoSession(App.getContext()).getGoodsBeanDao().queryBuilder().where(GoodsBeanDao.Properties.Gd_no.eq(gdNo)).unique();
         //createOrder();
+
         wxPay.setOnClickListener(this);
         aliPay.setOnClickListener(this);
 
@@ -219,6 +228,8 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
 
 
                            } else {
+                               finish();
+                               startActivity(new Intent(QRcodeActivity.this, MainActivity.class));
                                ToastUtils.showError("未支付或者支付失败", QRcodeActivity.this);
 
                            }
