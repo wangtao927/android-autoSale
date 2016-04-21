@@ -2,7 +2,6 @@ package com.ys.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.Button;
@@ -35,19 +34,19 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
 
     @Bind(R.id.btn_clear)
     Button btnClear;
+
+    @Bind(R.id.recycler_view)
+    LMRecyclerView recyclerView;
+
     private List<McGoodsBean> lists = new ArrayList();
 
     private McGoodsListAdapter adapter;
 
     private long mTotalCount;
 
-    public static final int mPageSize = 2;
+    private static final int mPageSize = 10;
 
-    public int mPageIndex = 1;
-
-
-    @Bind(R.id.recycler_view)
-    LMRecyclerView recyclerView;
+    private int mPageIndex = 1;
 
 
     @Override
@@ -58,13 +57,12 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
         btnReset.setOnClickListener(this);
         btnClear.setOnClickListener(this);
         loadData();
-        adapter = new McGoodsListAdapter(AdminActivity.this, R.layout.mcgoods_item, lists);
+        adapter = new McGoodsListAdapter(AdminActivity.this, lists);
         recyclerView.setAdapter(adapter);
     }
 
     private void initView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(App.ctx));
-        recyclerView.setAdapter(adapter);
         recyclerView.setLoadMoreListener(this);
     }
 
@@ -72,19 +70,14 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
         mTotalCount = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().count();
 
         QueryBuilder<McGoodsBean> queryBuilder = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().queryBuilder();
-        List pageList = queryBuilder.offset(mPageIndex * mPageSize).limit(mPageSize).list();
+        int offset = mPageIndex == 1 ? 0 : (mPageIndex * mPageSize);
+        List pageList = queryBuilder.offset(offset).limit(mPageSize).list();
         lists.addAll(pageList);
 
     }
 
     private void refresh() {
         adapter.setData(lists);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
     }
 
     @Override
@@ -118,6 +111,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void loadMore() {
         if (lists.size() < mTotalCount) {
+            mPageIndex++;
             loadData();
             refresh();
         } else {

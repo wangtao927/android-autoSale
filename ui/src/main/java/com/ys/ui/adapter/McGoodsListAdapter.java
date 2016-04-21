@@ -37,16 +37,13 @@ import butterknife.OnClick;
  * Created by wangtao on 2016/4/10.
  */
 public class McGoodsListAdapter extends RecyclerView.Adapter<McGoodsListAdapter.Holder> {
-    private int resouceId;
-
     private Map<String, GoodsBean> goodsMap = new HashMap<>();
     private List<McGoodsBean> data;
     private Context context;
 
-    public McGoodsListAdapter(Context context, int textViewResourceId, List<McGoodsBean> lists) {
+    public McGoodsListAdapter(Context context, List<McGoodsBean> lists) {
         this.context = context;
         data = lists;
-        this.resouceId = textViewResourceId;
         initGoodsMap();
 
     }
