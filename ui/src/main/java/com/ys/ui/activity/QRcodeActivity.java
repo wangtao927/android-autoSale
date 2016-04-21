@@ -25,9 +25,13 @@ import com.ys.ui.common.http.RetrofitManager;
 import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateOrderResult;
+import com.ys.ui.common.response.SaleListResult;
+import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.ToastUtils;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import rx.android.schedulers.AndroidSchedulers;
@@ -95,6 +99,23 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
 
     }
 
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+            case R.id.wx_pay:
+                 createOrder(String.valueOf(SlTypeEnum.WX.getIndex()));
+                break;
+
+            case R.id.ali_pay:
+                createOrder(String.valueOf(SlTypeEnum.ALIPAY.getIndex()));
+
+                break;
+        }
+    }
+
+
     private void createOrder(String type) {
 
         SaleListVo saleListVo = new SaleListVo();
@@ -127,14 +148,14 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
                                     Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcodeUrl());
                                     wxQrcodeImage.setImageBitmap(qrcodeBitmap);
                                 }
-
-
+                                //
+                                waitPay(response.getExt_data().getSlNo());
                             } catch (WriterException e) {
                                 Log.e("error:", e.getMessage());
                             }
 //                            finish();
 //                            startActivity(new Intent(GetProductActivity.this, OutGoodsActivity.class));
-                            ToastUtils.showShortMessage("支付成功，请等药品出货");
+
                         }else{
                             ToastUtils.showError("支付失败", QRcodeActivity.this);
                         }
@@ -151,18 +172,67 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
                 });
     }
 
-    @Override
-    public void onClick(View v) {
+    private long startTime = 0;
+    private int timeout =  PropertyUtils.getInstance().getTransTimeout();
 
-        switch (v.getId()){
-            case R.id.wx_pay:
-                 createOrder(String.valueOf(SlTypeEnum.WX.getIndex()));
-                break;
+    private void waitPay(final String slNo) {
+        startTime = System.currentTimeMillis();
+        java.util.Timer timer = new java.util.Timer(true);
 
-            case R.id.ali_pay:
-                createOrder(String.valueOf(SlTypeEnum.ALIPAY.getIndex()));
+        TimerTask task = new TimerTask() {
+            public void run() {
+                getOrderStatus(slNo);
 
-                break;
-        }
+            }
+        };
+        timer.schedule(task, 5000);
+
+
     }
+
+     private void getOrderStatus(final String slNo) {
+         RetrofitManager.builder().getOrderStatus(slNo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        //showProgress();
+                    }
+                })
+                .subscribe(new Action1<CommonResponse<SaleListResult>>() {
+                    @Override
+                    public void call(CommonResponse<SaleListResult> response) {
+                        //hideProgress();
+                       Log.d("orderStatus", response.toString());
+                       if (response.getCode() == 0){
+                           //支付成功
+                           ToastUtils.showShortMessage("支付成功");
+                       } else {
+                           if (System.currentTimeMillis() - startTime  < timeout*1000) {
+                               try {
+                                   Thread.sleep(5000);
+                               } catch (InterruptedException e) {
+                                   e.printStackTrace();
+                               }
+                               getOrderStatus(slNo);
+
+
+                           } else {
+                               ToastUtils.showError("未支付或者支付失败", QRcodeActivity.this);
+
+                           }
+
+                       }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        //hideProgress();
+                        //Toast.makeText(GetProductActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+     }
 }

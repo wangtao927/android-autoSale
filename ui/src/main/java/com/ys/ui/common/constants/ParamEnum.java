@@ -9,7 +9,7 @@ public enum ParamEnum {
     ONLINE_SEND_SPLIT("09","在线信息发送间隔","60"),
     RETRY_TIMES("0C","重发次数","3"),
     SYSTEM_TIME("99","系统时间",""),
-    TRANS_TIMEOUT("23","交易超时","60"),
+    TRANS_TIMEOUT("23","交易超时","120"),
     OTHER_TIMEOUT("24","其他超时","120"),
     NOTICE_TIMEOUT("30","提示超时","10"),
     REFUND_TIMEOUT("31","找零超时","150"),
