@@ -1,38 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_item"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
     <TextView
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
         android:id="@+id/channo"
-        />
+        android:layout_width="60dp"
+        android:layout_height="wrap_content" />
+
     <TextView
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
         android:id="@+id/gdNo"
-        />
+        android:layout_width="80dp"
+        android:layout_height="wrap_content" />
+
     <TextView
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
         android:id="@+id/gdName"
-        />
+        android:layout_width="100dp"
+        android:layout_height="wrap_content" />
+
     <TextView
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
         android:id="@+id/gvol"
-        />
+        android:layout_width="40dp"
+        android:layout_height="wrap_content" />
+
     <TextView
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
         android:id="@+id/gnum"
-        />
-   <!-- <TextView
         android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/chanStatus"
-        />-->
+        android:layout_height="wrap_content" />
+    <!-- <TextView
+         android:layout_width="40dp"
+         android:layout_height="wrap_content"
+         android:id="@+id/chanStatus"
+         />-->
     <CheckBox
         android:id="@+id/chanStatus"
         android:layout_width="wrap_content"

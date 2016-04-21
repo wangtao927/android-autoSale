@@ -20,6 +20,7 @@
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,27 +42,39 @@
         <activity
             android:name=".activity.GetProductActivity"
             android:label="@string/title_activity_get_product"
+            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.PrintActivity"
             android:label="@string/print"
+            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.TermInitActivity"
             android:label="@string/term_init"
+            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.AdminLoginActivity"
             android:label="@string/login"
+            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.AdminActivity"
             android:label="@string/admin"
+            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoActionBar" />
         android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.QRcodeActivity"
             android:label="二维码支付"
+            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoActionBar" />
 
         <!--         <activity android:name="com.ys.ui.activity.MainActivity"></activity> -->

@@ -16,7 +16,7 @@ import java.security.InvalidParameterException;
 
 public class App extends Application {
 
-    private static Context mApplicationContext;
+    public static Context ctx;
 
     private static DaoMaster daoMaster;
     private static DaoSession daoSession;
@@ -31,7 +31,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        mApplicationContext = this;
+        ctx = this;
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)
                         .enableDumpapp(
@@ -45,7 +45,7 @@ public class App extends Application {
 
     // 获取ApplicationContext
     public static Context getContext() {
-        return mApplicationContext;
+        return ctx;
     }
 
     public SerialPort getSerialPort(String path, int baudrate) throws SecurityException, IOException, InvalidParameterException {
