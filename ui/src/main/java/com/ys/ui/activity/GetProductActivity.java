@@ -123,6 +123,8 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
                         if (response.isSuccess()) {
                            // 调用出货
 
+
+
                            finish();
                             startActivity(new Intent(GetProductActivity.this, OutGoodsActivity.class));
                         }

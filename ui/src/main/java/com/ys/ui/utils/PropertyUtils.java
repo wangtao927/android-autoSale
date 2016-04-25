@@ -37,6 +37,9 @@ public class PropertyUtils {
 //       return Integer.valueOf(getValue(ParamEnum.ONLINE_SEND_SPLIT));
     }
 
+    public String getFastDfsUrl() {
+        return "http://112.74.69.111:8090/";
+    }
     /**
      * 获取重试时间
      * @return

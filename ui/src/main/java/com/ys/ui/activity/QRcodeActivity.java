@@ -96,7 +96,6 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
         //调用接口获取地址
 
         statusBean =  App.getDaoSession(App.getContext()).getMcStatusBeanDao().queryBuilder().unique();
-        String mcNo = statusBean.getMc_no();
 
         mcGoodsBean =App.getDaoSession(App.getContext()).getMcGoodsBeanDao().queryBuilder().limit(1).unique();
         String gdNo = mcGoodsBean.getGd_no();
