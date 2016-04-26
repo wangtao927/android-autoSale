@@ -3,6 +3,7 @@ package com.ys.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import com.bumptech.glide.Glide;
 import com.ys.data.bean.GoodsBean;
 import com.ys.ui.R;
 import com.ys.ui.activity.ProductDetailActivity;
+import com.ys.ui.utils.ImageUtils;
+import com.ys.ui.utils.PropertyUtils;
 
 import java.util.List;
 
@@ -50,8 +53,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
         holder.productName.setTag(bean);
         holder.productName.setText(bean.getGd_name());
 
+        String url = PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(bean.getGd_img1());
+        Log.d("url:", url);
         Glide.with(context)
-                .load(R.drawable.sky)
+                .load(url)
                 .centerCrop()
                 .into(holder.productIcon);
 

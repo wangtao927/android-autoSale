@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -146,6 +147,15 @@ public class ImageUtils {
             s.close();
         } catch (IOException e) {
             throw new RuntimeException("IOException occurred. ", e);
+        }
+    }
+
+    public static String getImageUrl(String imgUrl) {
+        if (!TextUtils.isEmpty(imgUrl) && imgUrl.contains("|")) {
+            String[] imgsUrls = imgUrl.split("\\|");
+            return  imgsUrls[0];
+        } else {
+            return imgUrl;
         }
     }
 }
