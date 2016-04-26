@@ -68,16 +68,16 @@ public class OutGoodsActivity extends SerialPortActivity {
                                     break; // 正常
                                 case 0x13:
                                     queue.add(new RobotEventArg(3, 1, "扫描中"));
-                                    break; // 스캔중
+                                    break;
                                 case 0x14:
                                     queue.add(new RobotEventArg(3, 1, "扫描完毕"));
-                                    break; // 스캔완료
+                                    break;
                                 case 0x01:
                                     queue.add(new RobotEventArg(3, 1, "扫描中 Time Over 发生错误"));
-                                    break; // 스캔중 타임오버
+                                    break;
                                 case 0x0F:
                                     queue.add(new RobotEventArg(3, 1, "扫描中 ERROR"));
-                                    break; // 스캔중 에러
+                                    break;
                                 case 0x0C:
                                     queue.add(new RobotEventArg(3, 2, "TEST MODE 1"));
                                     break;
@@ -86,19 +86,19 @@ public class OutGoodsActivity extends SerialPortActivity {
                                     break;
                                 case 0x20:
                                     queue.add(new RobotEventArg(3, 3, "硬币机制 发生错误"));
-                                    break; // 코인메카 에러
+                                    break;
                                 case 0x21:
                                     queue.add(new RobotEventArg(3, 4, "纸币被卡到 发生错误"));
-                                    break; // 지폐걸림
+                                    break;
                                 case 0x22:
                                     queue.add(new RobotEventArg(3, 4, "纸币感应器 发生问题"));
-                                    break; // 지폐센서에러
+                                    break;
                                 case 0x23:
                                     queue.add(new RobotEventArg(3, 4, "纸币马达 发生问题"));
-                                    break; // 지폐모터에러
+                                    break;
                                 case 0x24:
                                     queue.add(new RobotEventArg(3, 4, "纸币ROM 发生问题"));
-                                    break; // 지폐ROM에러
+                                    break;
                             }
                             break;
                         case 0x26: // --缺货确认
