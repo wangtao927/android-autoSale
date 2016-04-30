@@ -25,29 +25,40 @@ public class GoodsBeanDao extends AbstractDao<GoodsBean, String> {
     public static class Properties {
         public final static Property Gd_no = new Property(0, String.class, "gd_no", true, "GD_NO");
         public final static Property Gd_code = new Property(1, String.class, "gd_code", false, "GD_CODE");
-        public final static Property Gd_name = new Property(2, String.class, "gd_name", false, "GD_NAME");
-        public final static Property Gd_type = new Property(3, String.class, "gd_type", false, "GD_TYPE");
-        public final static Property Gd_approve_code = new Property(4, String.class, "gd_approve_code", false, "GD_APPROVE_CODE");
-        public final static Property Gd_spec = new Property(5, String.class, "gd_spec", false, "GD_SPEC");
-        public final static Property Gd_manufacturer = new Property(6, String.class, "gd_manufacturer", false, "GD_MANUFACTURER");
-        public final static Property Gd_barcode = new Property(7, String.class, "gd_barcode", false, "GD_BARCODE");
-        public final static Property Gd_class = new Property(8, String.class, "gd_class", false, "GD_CLASS");
-        public final static Property Gd_sale_price = new Property(9, Long.class, "gd_sale_price", false, "GD_SALE_PRICE");
-        public final static Property Gd_disc_price = new Property(10, Long.class, "gd_disc_price", false, "GD_DISC_PRICE");
-        public final static Property Gd_vip_price = new Property(11, Long.class, "gd_vip_price", false, "GD_VIP_PRICE");
-        public final static Property Gd_score_price = new Property(12, Long.class, "gd_score_price", false, "GD_SCORE_PRICE");
-        public final static Property Gd_supplier = new Property(13, Long.class, "gd_supplier", false, "GD_SUPPLIER");
-        public final static Property Gd_img1 = new Property(14, String.class, "gd_img1", false, "GD_IMG1");
-        public final static Property Gd_img2 = new Property(15, String.class, "gd_img2", false, "GD_IMG2");
-        public final static Property Gd_img3 = new Property(16, String.class, "gd_img3", false, "GD_IMG3");
-        public final static Property Gd_img4 = new Property(17, String.class, "gd_img4", false, "GD_IMG4");
-        public final static Property Gd_img_s = new Property(18, String.class, "gd_img_s", false, "GD_IMG_S");
-        public final static Property Gd_instruction_file = new Property(19, String.class, "gd_instruction_file", false, "GD_INSTRUCTION_FILE");
-        public final static Property Gd_desc = new Property(20, String.class, "gd_desc", false, "GD_DESC");
-        public final static Property Mer_no = new Property(21, String.class, "mer_no", false, "MER_NO");
-        public final static Property Remark = new Property(22, String.class, "remark", false, "REMARK");
-        public final static Property Addtime = new Property(23, String.class, "addtime", false, "ADDTIME");
-        public final static Property Updatetime = new Property(24, String.class, "updatetime", false, "UPDATETIME");
+        public final static Property Gd_short_name = new Property(2, String.class, "gd_short_name", false, "GD_SHORT_NAME");
+        public final static Property Gd_name = new Property(3, String.class, "gd_name", false, "GD_NAME");
+        public final static Property Gd_type = new Property(4, String.class, "gd_type", false, "GD_TYPE");
+        public final static Property Gd_ty_class = new Property(5, String.class, "gd_ty_class", false, "GD_TY_CLASS");
+        public final static Property Gd_pm_class = new Property(6, String.class, "gd_pm_class", false, "GD_PM_CLASS");
+        public final static Property Gd_nm_class = new Property(7, String.class, "gd_nm_class", false, "GD_NM_CLASS");
+        public final static Property Gd_approve_code = new Property(8, String.class, "gd_approve_code", false, "GD_APPROVE_CODE");
+        public final static Property Gd_spec = new Property(9, String.class, "gd_spec", false, "GD_SPEC");
+        public final static Property Gd_brand = new Property(10, String.class, "gd_brand", false, "GD_BRAND");
+        public final static Property Gd_manufacturer = new Property(11, String.class, "gd_manufacturer", false, "GD_MANUFACTURER");
+        public final static Property Gd_saleunit = new Property(12, String.class, "gd_saleunit", false, "GD_SALEUNIT");
+        public final static Property Gd_barcode = new Property(13, String.class, "gd_barcode", false, "GD_BARCODE");
+        public final static Property Gd_sale_price = new Property(14, Long.class, "gd_sale_price", false, "GD_SALE_PRICE");
+        public final static Property Gd_disc_price = new Property(15, Long.class, "gd_disc_price", false, "GD_DISC_PRICE");
+        public final static Property Gd_vip_price = new Property(16, Long.class, "gd_vip_price", false, "GD_VIP_PRICE");
+        public final static Property Gd_score_price = new Property(17, Long.class, "gd_score_price", false, "GD_SCORE_PRICE");
+        public final static Property Gd_supplier = new Property(18, Long.class, "gd_supplier", false, "GD_SUPPLIER");
+        public final static Property Gd_img1 = new Property(19, String.class, "gd_img1", false, "GD_IMG1");
+        public final static Property Gd_img2 = new Property(20, String.class, "gd_img2", false, "GD_IMG2");
+        public final static Property Gd_img3 = new Property(21, String.class, "gd_img3", false, "GD_IMG3");
+        public final static Property Gd_img4 = new Property(22, String.class, "gd_img4", false, "GD_IMG4");
+        public final static Property Gd_img_s = new Property(23, String.class, "gd_img_s", false, "GD_IMG_S");
+        public final static Property Gd_instruction_file = new Property(24, String.class, "gd_instruction_file", false, "GD_INSTRUCTION_FILE");
+        public final static Property Gd_desc = new Property(25, String.class, "gd_desc", false, "GD_DESC");
+        public final static Property Gd_url = new Property(26, String.class, "gd_url", false, "GD_URL");
+        public final static Property Gd_desc1 = new Property(27, String.class, "gd_desc1", false, "GD_DESC1");
+        public final static Property Gd_desc2 = new Property(28, String.class, "gd_desc2", false, "GD_DESC2");
+        public final static Property Gd_desc3 = new Property(29, String.class, "gd_desc3", false, "GD_DESC3");
+        public final static Property Gd_desc4 = new Property(30, String.class, "gd_desc4", false, "GD_DESC4");
+        public final static Property Gd_desc5 = new Property(31, String.class, "gd_desc5", false, "GD_DESC5");
+        public final static Property Mer_no = new Property(32, String.class, "mer_no", false, "MER_NO");
+        public final static Property Remark = new Property(33, String.class, "remark", false, "REMARK");
+        public final static Property Addtime = new Property(34, String.class, "addtime", false, "ADDTIME");
+        public final static Property Updatetime = new Property(35, String.class, "updatetime", false, "UPDATETIME");
     };
 
 
@@ -65,29 +76,40 @@ public class GoodsBeanDao extends AbstractDao<GoodsBean, String> {
         db.execSQL("CREATE TABLE " + constraint + "'goods' (" + //
                 "'GD_NO' TEXT PRIMARY KEY NOT NULL ," + // 0: gd_no
                 "'GD_CODE' TEXT," + // 1: gd_code
-                "'GD_NAME' TEXT," + // 2: gd_name
-                "'GD_TYPE' TEXT," + // 3: gd_type
-                "'GD_APPROVE_CODE' TEXT," + // 4: gd_approve_code
-                "'GD_SPEC' TEXT," + // 5: gd_spec
-                "'GD_MANUFACTURER' TEXT," + // 6: gd_manufacturer
-                "'GD_BARCODE' TEXT," + // 7: gd_barcode
-                "'GD_CLASS' TEXT," + // 8: gd_class
-                "'GD_SALE_PRICE' INTEGER," + // 9: gd_sale_price
-                "'GD_DISC_PRICE' INTEGER," + // 10: gd_disc_price
-                "'GD_VIP_PRICE' INTEGER," + // 11: gd_vip_price
-                "'GD_SCORE_PRICE' INTEGER," + // 12: gd_score_price
-                "'GD_SUPPLIER' INTEGER," + // 13: gd_supplier
-                "'GD_IMG1' TEXT," + // 14: gd_img1
-                "'GD_IMG2' TEXT," + // 15: gd_img2
-                "'GD_IMG3' TEXT," + // 16: gd_img3
-                "'GD_IMG4' TEXT," + // 17: gd_img4
-                "'GD_IMG_S' TEXT," + // 18: gd_img_s
-                "'GD_INSTRUCTION_FILE' TEXT," + // 19: gd_instruction_file
-                "'GD_DESC' TEXT," + // 20: gd_desc
-                "'MER_NO' TEXT," + // 21: mer_no
-                "'REMARK' TEXT," + // 22: remark
-                "'ADDTIME' TEXT," + // 23: addtime
-                "'UPDATETIME' TEXT);"); // 24: updatetime
+                "'GD_SHORT_NAME' TEXT," + // 2: gd_short_name
+                "'GD_NAME' TEXT," + // 3: gd_name
+                "'GD_TYPE' TEXT," + // 4: gd_type
+                "'GD_TY_CLASS' TEXT," + // 5: gd_ty_class
+                "'GD_PM_CLASS' TEXT," + // 6: gd_pm_class
+                "'GD_NM_CLASS' TEXT," + // 7: gd_nm_class
+                "'GD_APPROVE_CODE' TEXT," + // 8: gd_approve_code
+                "'GD_SPEC' TEXT," + // 9: gd_spec
+                "'GD_BRAND' TEXT," + // 10: gd_brand
+                "'GD_MANUFACTURER' TEXT," + // 11: gd_manufacturer
+                "'GD_SALEUNIT' TEXT," + // 12: gd_saleunit
+                "'GD_BARCODE' TEXT," + // 13: gd_barcode
+                "'GD_SALE_PRICE' INTEGER," + // 14: gd_sale_price
+                "'GD_DISC_PRICE' INTEGER," + // 15: gd_disc_price
+                "'GD_VIP_PRICE' INTEGER," + // 16: gd_vip_price
+                "'GD_SCORE_PRICE' INTEGER," + // 17: gd_score_price
+                "'GD_SUPPLIER' INTEGER," + // 18: gd_supplier
+                "'GD_IMG1' TEXT," + // 19: gd_img1
+                "'GD_IMG2' TEXT," + // 20: gd_img2
+                "'GD_IMG3' TEXT," + // 21: gd_img3
+                "'GD_IMG4' TEXT," + // 22: gd_img4
+                "'GD_IMG_S' TEXT," + // 23: gd_img_s
+                "'GD_INSTRUCTION_FILE' TEXT," + // 24: gd_instruction_file
+                "'GD_DESC' TEXT," + // 25: gd_desc
+                "'GD_URL' TEXT," + // 26: gd_url
+                "'GD_DESC1' TEXT," + // 27: gd_desc1
+                "'GD_DESC2' TEXT," + // 28: gd_desc2
+                "'GD_DESC3' TEXT," + // 29: gd_desc3
+                "'GD_DESC4' TEXT," + // 30: gd_desc4
+                "'GD_DESC5' TEXT," + // 31: gd_desc5
+                "'MER_NO' TEXT," + // 32: mer_no
+                "'REMARK' TEXT," + // 33: remark
+                "'ADDTIME' TEXT," + // 34: addtime
+                "'UPDATETIME' TEXT);"); // 35: updatetime
     }
 
     /** Drops the underlying database table. */
@@ -111,119 +133,174 @@ public class GoodsBeanDao extends AbstractDao<GoodsBean, String> {
             stmt.bindString(2, gd_code);
         }
  
+        String gd_short_name = entity.getGd_short_name();
+        if (gd_short_name != null) {
+            stmt.bindString(3, gd_short_name);
+        }
+ 
         String gd_name = entity.getGd_name();
         if (gd_name != null) {
-            stmt.bindString(3, gd_name);
+            stmt.bindString(4, gd_name);
         }
  
         String gd_type = entity.getGd_type();
         if (gd_type != null) {
-            stmt.bindString(4, gd_type);
+            stmt.bindString(5, gd_type);
+        }
+ 
+        String gd_ty_class = entity.getGd_ty_class();
+        if (gd_ty_class != null) {
+            stmt.bindString(6, gd_ty_class);
+        }
+ 
+        String gd_pm_class = entity.getGd_pm_class();
+        if (gd_pm_class != null) {
+            stmt.bindString(7, gd_pm_class);
+        }
+ 
+        String gd_nm_class = entity.getGd_nm_class();
+        if (gd_nm_class != null) {
+            stmt.bindString(8, gd_nm_class);
         }
  
         String gd_approve_code = entity.getGd_approve_code();
         if (gd_approve_code != null) {
-            stmt.bindString(5, gd_approve_code);
+            stmt.bindString(9, gd_approve_code);
         }
  
         String gd_spec = entity.getGd_spec();
         if (gd_spec != null) {
-            stmt.bindString(6, gd_spec);
+            stmt.bindString(10, gd_spec);
+        }
+ 
+        String gd_brand = entity.getGd_brand();
+        if (gd_brand != null) {
+            stmt.bindString(11, gd_brand);
         }
  
         String gd_manufacturer = entity.getGd_manufacturer();
         if (gd_manufacturer != null) {
-            stmt.bindString(7, gd_manufacturer);
+            stmt.bindString(12, gd_manufacturer);
+        }
+ 
+        String gd_saleunit = entity.getGd_saleunit();
+        if (gd_saleunit != null) {
+            stmt.bindString(13, gd_saleunit);
         }
  
         String gd_barcode = entity.getGd_barcode();
         if (gd_barcode != null) {
-            stmt.bindString(8, gd_barcode);
-        }
- 
-        String gd_class = entity.getGd_class();
-        if (gd_class != null) {
-            stmt.bindString(9, gd_class);
+            stmt.bindString(14, gd_barcode);
         }
  
         Long gd_sale_price = entity.getGd_sale_price();
         if (gd_sale_price != null) {
-            stmt.bindLong(10, gd_sale_price);
+            stmt.bindLong(15, gd_sale_price);
         }
  
         Long gd_disc_price = entity.getGd_disc_price();
         if (gd_disc_price != null) {
-            stmt.bindLong(11, gd_disc_price);
+            stmt.bindLong(16, gd_disc_price);
         }
  
         Long gd_vip_price = entity.getGd_vip_price();
         if (gd_vip_price != null) {
-            stmt.bindLong(12, gd_vip_price);
+            stmt.bindLong(17, gd_vip_price);
         }
  
         Long gd_score_price = entity.getGd_score_price();
         if (gd_score_price != null) {
-            stmt.bindLong(13, gd_score_price);
+            stmt.bindLong(18, gd_score_price);
         }
  
         Long gd_supplier = entity.getGd_supplier();
         if (gd_supplier != null) {
-            stmt.bindLong(14, gd_supplier);
+            stmt.bindLong(19, gd_supplier);
         }
  
         String gd_img1 = entity.getGd_img1();
         if (gd_img1 != null) {
-            stmt.bindString(15, gd_img1);
+            stmt.bindString(20, gd_img1);
         }
  
         String gd_img2 = entity.getGd_img2();
         if (gd_img2 != null) {
-            stmt.bindString(16, gd_img2);
+            stmt.bindString(21, gd_img2);
         }
  
         String gd_img3 = entity.getGd_img3();
         if (gd_img3 != null) {
-            stmt.bindString(17, gd_img3);
+            stmt.bindString(22, gd_img3);
         }
  
         String gd_img4 = entity.getGd_img4();
         if (gd_img4 != null) {
-            stmt.bindString(18, gd_img4);
+            stmt.bindString(23, gd_img4);
         }
  
         String gd_img_s = entity.getGd_img_s();
         if (gd_img_s != null) {
-            stmt.bindString(19, gd_img_s);
+            stmt.bindString(24, gd_img_s);
         }
  
         String gd_instruction_file = entity.getGd_instruction_file();
         if (gd_instruction_file != null) {
-            stmt.bindString(20, gd_instruction_file);
+            stmt.bindString(25, gd_instruction_file);
         }
  
         String gd_desc = entity.getGd_desc();
         if (gd_desc != null) {
-            stmt.bindString(21, gd_desc);
+            stmt.bindString(26, gd_desc);
+        }
+ 
+        String gd_url = entity.getGd_url();
+        if (gd_url != null) {
+            stmt.bindString(27, gd_url);
+        }
+ 
+        String gd_desc1 = entity.getGd_desc1();
+        if (gd_desc1 != null) {
+            stmt.bindString(28, gd_desc1);
+        }
+ 
+        String gd_desc2 = entity.getGd_desc2();
+        if (gd_desc2 != null) {
+            stmt.bindString(29, gd_desc2);
+        }
+ 
+        String gd_desc3 = entity.getGd_desc3();
+        if (gd_desc3 != null) {
+            stmt.bindString(30, gd_desc3);
+        }
+ 
+        String gd_desc4 = entity.getGd_desc4();
+        if (gd_desc4 != null) {
+            stmt.bindString(31, gd_desc4);
+        }
+ 
+        String gd_desc5 = entity.getGd_desc5();
+        if (gd_desc5 != null) {
+            stmt.bindString(32, gd_desc5);
         }
  
         String mer_no = entity.getMer_no();
         if (mer_no != null) {
-            stmt.bindString(22, mer_no);
+            stmt.bindString(33, mer_no);
         }
  
         String remark = entity.getRemark();
         if (remark != null) {
-            stmt.bindString(23, remark);
+            stmt.bindString(34, remark);
         }
  
         String addtime = entity.getAddtime();
         if (addtime != null) {
-            stmt.bindString(24, addtime);
+            stmt.bindString(35, addtime);
         }
  
         String updatetime = entity.getUpdatetime();
         if (updatetime != null) {
-            stmt.bindString(25, updatetime);
+            stmt.bindString(36, updatetime);
         }
     }
 
@@ -239,29 +316,40 @@ public class GoodsBeanDao extends AbstractDao<GoodsBean, String> {
         GoodsBean entity = new GoodsBean( //
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // gd_no
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // gd_code
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // gd_name
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // gd_type
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // gd_approve_code
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // gd_spec
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // gd_manufacturer
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // gd_barcode
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // gd_class
-            cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9), // gd_sale_price
-            cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10), // gd_disc_price
-            cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11), // gd_vip_price
-            cursor.isNull(offset + 12) ? null : cursor.getLong(offset + 12), // gd_score_price
-            cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13), // gd_supplier
-            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // gd_img1
-            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // gd_img2
-            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // gd_img3
-            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // gd_img4
-            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // gd_img_s
-            cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // gd_instruction_file
-            cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20), // gd_desc
-            cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21), // mer_no
-            cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22), // remark
-            cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23), // addtime
-            cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24) // updatetime
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // gd_short_name
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // gd_name
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // gd_type
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // gd_ty_class
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // gd_pm_class
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // gd_nm_class
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // gd_approve_code
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // gd_spec
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // gd_brand
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // gd_manufacturer
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // gd_saleunit
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // gd_barcode
+            cursor.isNull(offset + 14) ? null : cursor.getLong(offset + 14), // gd_sale_price
+            cursor.isNull(offset + 15) ? null : cursor.getLong(offset + 15), // gd_disc_price
+            cursor.isNull(offset + 16) ? null : cursor.getLong(offset + 16), // gd_vip_price
+            cursor.isNull(offset + 17) ? null : cursor.getLong(offset + 17), // gd_score_price
+            cursor.isNull(offset + 18) ? null : cursor.getLong(offset + 18), // gd_supplier
+            cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // gd_img1
+            cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20), // gd_img2
+            cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21), // gd_img3
+            cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22), // gd_img4
+            cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23), // gd_img_s
+            cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24), // gd_instruction_file
+            cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25), // gd_desc
+            cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26), // gd_url
+            cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27), // gd_desc1
+            cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28), // gd_desc2
+            cursor.isNull(offset + 29) ? null : cursor.getString(offset + 29), // gd_desc3
+            cursor.isNull(offset + 30) ? null : cursor.getString(offset + 30), // gd_desc4
+            cursor.isNull(offset + 31) ? null : cursor.getString(offset + 31), // gd_desc5
+            cursor.isNull(offset + 32) ? null : cursor.getString(offset + 32), // mer_no
+            cursor.isNull(offset + 33) ? null : cursor.getString(offset + 33), // remark
+            cursor.isNull(offset + 34) ? null : cursor.getString(offset + 34), // addtime
+            cursor.isNull(offset + 35) ? null : cursor.getString(offset + 35) // updatetime
         );
         return entity;
     }
@@ -271,29 +359,40 @@ public class GoodsBeanDao extends AbstractDao<GoodsBean, String> {
     public void readEntity(Cursor cursor, GoodsBean entity, int offset) {
         entity.setGd_no(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
         entity.setGd_code(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setGd_name(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setGd_type(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setGd_approve_code(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setGd_spec(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setGd_manufacturer(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setGd_barcode(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setGd_class(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
-        entity.setGd_sale_price(cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9));
-        entity.setGd_disc_price(cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10));
-        entity.setGd_vip_price(cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11));
-        entity.setGd_score_price(cursor.isNull(offset + 12) ? null : cursor.getLong(offset + 12));
-        entity.setGd_supplier(cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13));
-        entity.setGd_img1(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
-        entity.setGd_img2(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
-        entity.setGd_img3(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
-        entity.setGd_img4(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
-        entity.setGd_img_s(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
-        entity.setGd_instruction_file(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
-        entity.setGd_desc(cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20));
-        entity.setMer_no(cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21));
-        entity.setRemark(cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22));
-        entity.setAddtime(cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23));
-        entity.setUpdatetime(cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24));
+        entity.setGd_short_name(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setGd_name(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setGd_type(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setGd_ty_class(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setGd_pm_class(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setGd_nm_class(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setGd_approve_code(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setGd_spec(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setGd_brand(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setGd_manufacturer(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setGd_saleunit(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setGd_barcode(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setGd_sale_price(cursor.isNull(offset + 14) ? null : cursor.getLong(offset + 14));
+        entity.setGd_disc_price(cursor.isNull(offset + 15) ? null : cursor.getLong(offset + 15));
+        entity.setGd_vip_price(cursor.isNull(offset + 16) ? null : cursor.getLong(offset + 16));
+        entity.setGd_score_price(cursor.isNull(offset + 17) ? null : cursor.getLong(offset + 17));
+        entity.setGd_supplier(cursor.isNull(offset + 18) ? null : cursor.getLong(offset + 18));
+        entity.setGd_img1(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
+        entity.setGd_img2(cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20));
+        entity.setGd_img3(cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21));
+        entity.setGd_img4(cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22));
+        entity.setGd_img_s(cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23));
+        entity.setGd_instruction_file(cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24));
+        entity.setGd_desc(cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25));
+        entity.setGd_url(cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26));
+        entity.setGd_desc1(cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27));
+        entity.setGd_desc2(cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28));
+        entity.setGd_desc3(cursor.isNull(offset + 29) ? null : cursor.getString(offset + 29));
+        entity.setGd_desc4(cursor.isNull(offset + 30) ? null : cursor.getString(offset + 30));
+        entity.setGd_desc5(cursor.isNull(offset + 31) ? null : cursor.getString(offset + 31));
+        entity.setMer_no(cursor.isNull(offset + 32) ? null : cursor.getString(offset + 32));
+        entity.setRemark(cursor.isNull(offset + 33) ? null : cursor.getString(offset + 33));
+        entity.setAddtime(cursor.isNull(offset + 34) ? null : cursor.getString(offset + 34));
+        entity.setUpdatetime(cursor.isNull(offset + 35) ? null : cursor.getString(offset + 35));
      }
     
     /** @inheritdoc */

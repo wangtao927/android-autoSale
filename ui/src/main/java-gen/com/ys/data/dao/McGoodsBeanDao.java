@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteStatement;
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import de.greenrobot.dao.internal.DaoConfig;
-import de.greenrobot.dao.internal.SqlUtils;
 
 import com.ys.data.bean.McGoodsBean;
 
@@ -33,8 +32,8 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
         public final static Property Gd_approve_code = new Property(4, String.class, "gd_approve_code", false, "GD_APPROVE_CODE");
         public final static Property Gd_batch_no = new Property(5, String.class, "gd_batch_no", false, "GD_BATCH_NO");
         public final static Property Gd_des_code = new Property(6, String.class, "gd_des_code", false, "GD_DES_CODE");
-        public final static Property Gd_mf_date = new Property(7, java.util.Date.class, "gd_mf_date", false, "GD_MF_DATE");
-        public final static Property Gd_exp_date = new Property(8, java.util.Date.class, "gd_exp_date", false, "GD_EXP_DATE");
+        public final static Property Gd_mf_date = new Property(7, String.class, "gd_mf_date", false, "GD_MF_DATE");
+        public final static Property Gd_exp_date = new Property(8, String.class, "gd_exp_date", false, "GD_EXP_DATE");
         public final static Property Mg_gvol = new Property(9, Long.class, "mg_gvol", false, "MG_GVOL");
         public final static Property Mg_gnum = new Property(10, Long.class, "mg_gnum", false, "MG_GNUM");
         public final static Property PrePrice = new Property(11, Long.class, "prePrice", false, "PRE_PRICE");
@@ -66,8 +65,8 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
                 "'GD_APPROVE_CODE' TEXT," + // 4: gd_approve_code
                 "'GD_BATCH_NO' TEXT," + // 5: gd_batch_no
                 "'GD_DES_CODE' TEXT," + // 6: gd_des_code
-                "'GD_MF_DATE' INTEGER," + // 7: gd_mf_date
-                "'GD_EXP_DATE' INTEGER," + // 8: gd_exp_date
+                "'GD_MF_DATE' TEXT," + // 7: gd_mf_date
+                "'GD_EXP_DATE' TEXT," + // 8: gd_exp_date
                 "'MG_GVOL' INTEGER," + // 9: mg_gvol
                 "'MG_GNUM' INTEGER," + // 10: mg_gnum
                 "'PRE_PRICE' INTEGER," + // 11: prePrice
@@ -84,6 +83,7 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
         String sql = "DROP TABLE " + (ifExists ? "IF EXISTS " : "") + "'mcgoods'";
         db.execSQL(sql);
     }
+
 
     public void clearChanStatus(List<McGoodsBean> lists) {
         String sql = "UPDATE mcgoods SET CHAN_STATUS=1";
@@ -114,8 +114,34 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
         }
 
     }
+
+    public void reduceMcStore(String channo) {
+        String sql = "UPDATE mcgoods SET mg_gnum=mg_gnum-1 WHERE mg_channo=? ";
+        SQLiteStatement stmt = db.compileStatement(sql);
+        if (db.isDbLockedByCurrentThread()) {
+            synchronized (stmt) {
+                stmt.bindString(1, channo);
+                stmt.execute();
+            }
+        } else {
+            // Do TX to acquire a connection before locking the stmt to avoid deadlocks
+            db.beginTransaction();
+            try {
+                synchronized (stmt) {
+                    stmt.bindString(1, channo);
+                    stmt.execute();
+                }
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        }
+
+    }
+
+
     public void updateAll(List<McGoodsBean> lists) {
-        String sql = "UPDATE mcgoods SET mg_gnum=mg_gvol";
+        String sql = "UPDATE mcgoods SET mg_gnum=mg_gvol ";
         SQLiteStatement stmt = db.compileStatement(sql);
         if (db.isDbLockedByCurrentThread()) {
             synchronized (stmt) {
@@ -135,6 +161,31 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
                         bean.setMg_gnum(bean.getMg_gvol());
                         attachEntity(bean.getMg_channo(), bean, true);
                     }
+                }
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        }
+    }
+
+    public void updateChanStatusByChanno(String channo, Long chanStatus) {
+        String sql = "UPDATE mcgoods SET CHAN_STATUS = ? WHERE mg_channo=?";
+        SQLiteStatement stmt = db.compileStatement(sql);
+        if (db.isDbLockedByCurrentThread()) {
+            synchronized (stmt) {
+                stmt.bindLong(1, chanStatus);
+                stmt.bindString(2, channo);
+                stmt.execute();
+            }
+        } else {
+            // Do TX to acquire a connection before locking the stmt to avoid deadlocks
+            db.beginTransaction();
+            try {
+                synchronized (stmt) {
+                    stmt.bindLong(1, chanStatus);
+                    stmt.bindString(2, channo);
+                    stmt.execute();
                 }
                 db.setTransactionSuccessful();
             } finally {
@@ -202,7 +253,6 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
 
     }
 
-
     /** @inheritdoc */
     @Override
     protected void bindValues(SQLiteStatement stmt, McGoodsBean entity) {
@@ -243,14 +293,14 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
             stmt.bindString(7, gd_des_code);
         }
  
-        java.util.Date gd_mf_date = entity.getGd_mf_date();
+        String gd_mf_date = entity.getGd_mf_date();
         if (gd_mf_date != null) {
-            stmt.bindLong(8, gd_mf_date.getTime());
+            stmt.bindString(8, gd_mf_date);
         }
  
-        java.util.Date gd_exp_date = entity.getGd_exp_date();
+        String gd_exp_date = entity.getGd_exp_date();
         if (gd_exp_date != null) {
-            stmt.bindLong(9, gd_exp_date.getTime());
+            stmt.bindString(9, gd_exp_date);
         }
  
         Long mg_gvol = entity.getMg_gvol();
@@ -316,8 +366,8 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // gd_approve_code
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // gd_batch_no
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // gd_des_code
-            cursor.isNull(offset + 7) ? null : new java.util.Date(cursor.getLong(offset + 7)), // gd_mf_date
-            cursor.isNull(offset + 8) ? null : new java.util.Date(cursor.getLong(offset + 8)), // gd_exp_date
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // gd_mf_date
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // gd_exp_date
             cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9), // mg_gvol
             cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10), // mg_gnum
             cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11), // prePrice
@@ -341,8 +391,8 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
         entity.setGd_approve_code(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setGd_batch_no(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setGd_des_code(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setGd_mf_date(cursor.isNull(offset + 7) ? null : new java.util.Date(cursor.getLong(offset + 7)));
-        entity.setGd_exp_date(cursor.isNull(offset + 8) ? null : new java.util.Date(cursor.getLong(offset + 8)));
+        entity.setGd_mf_date(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setGd_exp_date(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
         entity.setMg_gvol(cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9));
         entity.setMg_gnum(cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10));
         entity.setPrePrice(cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11));

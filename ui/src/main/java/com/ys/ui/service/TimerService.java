@@ -211,6 +211,20 @@ public class TimerService extends Service {
                               map.put("06", "1");// 0 成功 1 失败
                           }
                          break;
+                     case "07": // 更新库存 卡货
+                           if (result.getMcstore() != null && !result.getMcstore().isEmpty()){
+                               try {
+                                   DbManagerHelper.updateMcStore(result.getMcstore());
+                                   map.put("07", "0");// 0 成功 1 失败
+                               } catch (Exception e) {
+                                   map.put("07", "1");// 0 成功 1 失败
+                               }
+                           } else {
+                               map.put("07", "1");// 0 成功 1 失败
+
+                           }
+
+                         break;
                      default:
                          break;
                  }

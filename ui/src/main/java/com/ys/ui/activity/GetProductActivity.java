@@ -9,12 +9,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ys.GetBytesUtils;
+import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.McStatusBean;
+import com.ys.data.dao.McGoodsBeanDao;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
 import com.ys.ui.common.constants.SlTypeEnum;
 import com.ys.ui.common.http.RetrofitManager;
+import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateOrderResult;
@@ -123,10 +126,21 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
                         if (response.isSuccess()) {
                            // 调用出货
 
+                            String gdNo = response.getExt_data().getSlGdNo();
+                            // 根据商品编码查询机器是否有该商品
+                            McGoodsBean mcGoodsBean = DbManagerHelper.getOutGoods(gdNo);
+                            if (mcGoodsBean == null ) {
+                                ToastUtils.showError("该终端没有对应的药品", GetProductActivity.this);
 
+                                return;
+                            } else {
+                                Intent intent = new Intent(GetProductActivity.this, OutGoodsActivity.class);
+                                intent.putExtra("slNo", response.getExt_data().getSlNo());
 
-                           finish();
-                            startActivity(new Intent(GetProductActivity.this, OutGoodsActivity.class));
+                                intent.putExtra("channo", mcGoodsBean.getMg_channo());
+                                GetProductActivity.this.finish();
+                                startActivity(intent);
+                            }
                         }
                         ToastUtils.showError("提货码无效", GetProductActivity.this);
                     }

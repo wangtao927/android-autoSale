@@ -8,13 +8,18 @@ public class GoodsBean {
 
     private String gd_no;
     private String gd_code;
+    private String gd_short_name;
     private String gd_name;
     private String gd_type;
+    private String gd_ty_class;
+    private String gd_pm_class;
+    private String gd_nm_class;
     private String gd_approve_code;
     private String gd_spec;
+    private String gd_brand;
     private String gd_manufacturer;
+    private String gd_saleunit;
     private String gd_barcode;
-    private String gd_class;
     private Long gd_sale_price;
     private Long gd_disc_price;
     private Long gd_vip_price;
@@ -27,6 +32,12 @@ public class GoodsBean {
     private String gd_img_s;
     private String gd_instruction_file;
     private String gd_desc;
+    private String gd_url;
+    private String gd_desc1;
+    private String gd_desc2;
+    private String gd_desc3;
+    private String gd_desc4;
+    private String gd_desc5;
     private String mer_no;
     private String remark;
     private String addtime;
@@ -39,16 +50,21 @@ public class GoodsBean {
         this.gd_no = gd_no;
     }
 
-    public GoodsBean(String gd_no, String gd_code, String gd_name, String gd_type, String gd_approve_code, String gd_spec, String gd_manufacturer, String gd_barcode, String gd_class, Long gd_sale_price, Long gd_disc_price, Long gd_vip_price, Long gd_score_price, Long gd_supplier, String gd_img1, String gd_img2, String gd_img3, String gd_img4, String gd_img_s, String gd_instruction_file, String gd_desc, String mer_no, String remark, String addtime, String updatetime) {
+    public GoodsBean(String gd_no, String gd_code, String gd_short_name, String gd_name, String gd_type, String gd_ty_class, String gd_pm_class, String gd_nm_class, String gd_approve_code, String gd_spec, String gd_brand, String gd_manufacturer, String gd_saleunit, String gd_barcode, Long gd_sale_price, Long gd_disc_price, Long gd_vip_price, Long gd_score_price, Long gd_supplier, String gd_img1, String gd_img2, String gd_img3, String gd_img4, String gd_img_s, String gd_instruction_file, String gd_desc, String gd_url, String gd_desc1, String gd_desc2, String gd_desc3, String gd_desc4, String gd_desc5, String mer_no, String remark, String addtime, String updatetime) {
         this.gd_no = gd_no;
         this.gd_code = gd_code;
+        this.gd_short_name = gd_short_name;
         this.gd_name = gd_name;
         this.gd_type = gd_type;
+        this.gd_ty_class = gd_ty_class;
+        this.gd_pm_class = gd_pm_class;
+        this.gd_nm_class = gd_nm_class;
         this.gd_approve_code = gd_approve_code;
         this.gd_spec = gd_spec;
+        this.gd_brand = gd_brand;
         this.gd_manufacturer = gd_manufacturer;
+        this.gd_saleunit = gd_saleunit;
         this.gd_barcode = gd_barcode;
-        this.gd_class = gd_class;
         this.gd_sale_price = gd_sale_price;
         this.gd_disc_price = gd_disc_price;
         this.gd_vip_price = gd_vip_price;
@@ -61,6 +77,12 @@ public class GoodsBean {
         this.gd_img_s = gd_img_s;
         this.gd_instruction_file = gd_instruction_file;
         this.gd_desc = gd_desc;
+        this.gd_url = gd_url;
+        this.gd_desc1 = gd_desc1;
+        this.gd_desc2 = gd_desc2;
+        this.gd_desc3 = gd_desc3;
+        this.gd_desc4 = gd_desc4;
+        this.gd_desc5 = gd_desc5;
         this.mer_no = mer_no;
         this.remark = remark;
         this.addtime = addtime;
@@ -83,6 +105,14 @@ public class GoodsBean {
         this.gd_code = gd_code;
     }
 
+    public String getGd_short_name() {
+        return gd_short_name;
+    }
+
+    public void setGd_short_name(String gd_short_name) {
+        this.gd_short_name = gd_short_name;
+    }
+
     public String getGd_name() {
         return gd_name;
     }
@@ -97,6 +127,30 @@ public class GoodsBean {
 
     public void setGd_type(String gd_type) {
         this.gd_type = gd_type;
+    }
+
+    public String getGd_ty_class() {
+        return gd_ty_class;
+    }
+
+    public void setGd_ty_class(String gd_ty_class) {
+        this.gd_ty_class = gd_ty_class;
+    }
+
+    public String getGd_pm_class() {
+        return gd_pm_class;
+    }
+
+    public void setGd_pm_class(String gd_pm_class) {
+        this.gd_pm_class = gd_pm_class;
+    }
+
+    public String getGd_nm_class() {
+        return gd_nm_class;
+    }
+
+    public void setGd_nm_class(String gd_nm_class) {
+        this.gd_nm_class = gd_nm_class;
     }
 
     public String getGd_approve_code() {
@@ -115,6 +169,14 @@ public class GoodsBean {
         this.gd_spec = gd_spec;
     }
 
+    public String getGd_brand() {
+        return gd_brand;
+    }
+
+    public void setGd_brand(String gd_brand) {
+        this.gd_brand = gd_brand;
+    }
+
     public String getGd_manufacturer() {
         return gd_manufacturer;
     }
@@ -123,20 +185,20 @@ public class GoodsBean {
         this.gd_manufacturer = gd_manufacturer;
     }
 
+    public String getGd_saleunit() {
+        return gd_saleunit;
+    }
+
+    public void setGd_saleunit(String gd_saleunit) {
+        this.gd_saleunit = gd_saleunit;
+    }
+
     public String getGd_barcode() {
         return gd_barcode;
     }
 
     public void setGd_barcode(String gd_barcode) {
         this.gd_barcode = gd_barcode;
-    }
-
-    public String getGd_class() {
-        return gd_class;
-    }
-
-    public void setGd_class(String gd_class) {
-        this.gd_class = gd_class;
     }
 
     public Long getGd_sale_price() {
@@ -233,6 +295,54 @@ public class GoodsBean {
 
     public void setGd_desc(String gd_desc) {
         this.gd_desc = gd_desc;
+    }
+
+    public String getGd_url() {
+        return gd_url;
+    }
+
+    public void setGd_url(String gd_url) {
+        this.gd_url = gd_url;
+    }
+
+    public String getGd_desc1() {
+        return gd_desc1;
+    }
+
+    public void setGd_desc1(String gd_desc1) {
+        this.gd_desc1 = gd_desc1;
+    }
+
+    public String getGd_desc2() {
+        return gd_desc2;
+    }
+
+    public void setGd_desc2(String gd_desc2) {
+        this.gd_desc2 = gd_desc2;
+    }
+
+    public String getGd_desc3() {
+        return gd_desc3;
+    }
+
+    public void setGd_desc3(String gd_desc3) {
+        this.gd_desc3 = gd_desc3;
+    }
+
+    public String getGd_desc4() {
+        return gd_desc4;
+    }
+
+    public void setGd_desc4(String gd_desc4) {
+        this.gd_desc4 = gd_desc4;
+    }
+
+    public String getGd_desc5() {
+        return gd_desc5;
+    }
+
+    public void setGd_desc5(String gd_desc5) {
+        this.gd_desc5 = gd_desc5;
     }
 
     public String getMer_no() {

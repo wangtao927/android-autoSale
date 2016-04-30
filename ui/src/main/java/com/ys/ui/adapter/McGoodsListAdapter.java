@@ -73,6 +73,7 @@ public class McGoodsListAdapter extends RecyclerView.Adapter<McGoodsListAdapter.
     @Override
     public void onBindViewHolder(McGoodsListAdapter.Holder holder, int position) {
         final McGoodsBean goodsView = data.get(position);
+        //final McGoodsBean goodsView = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().load(tmpGoods.getMg_channo());
         //将数据保存在itemView的Tag中，以便点击时进行获取
         holder.channo.setTag(goodsView);
         holder.channo.setText(goodsView.getMg_channo());
@@ -151,7 +152,8 @@ public class McGoodsListAdapter extends RecyclerView.Adapter<McGoodsListAdapter.
             // 弹出一个输入框， 修改库存
             final EditText inputServer = new EditText(context);
             final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("修改库存").setIcon(android.R.drawable.ic_dialog_info).setView(inputServer)
+
+            builder.setTitle("修改货道：" +  goodsBean.getMg_channo() + "库存").setIcon(android.R.drawable.ic_dialog_info).setView(inputServer)
                     .setNegativeButton("返回", null);
             builder.setPositiveButton("修改", new DialogInterface.OnClickListener() {
 

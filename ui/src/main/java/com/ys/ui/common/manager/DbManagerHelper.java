@@ -9,7 +9,13 @@ import com.ys.data.bean.McAdminBean;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.McParamsBean;
 import com.ys.data.bean.McStatusBean;
+import com.ys.data.bean.McStoreUpdateVO;
+import com.ys.data.dao.McGoodsBeanDao;
 import com.ys.ui.base.App;
+import com.ys.ui.common.constants.ChanStatusEnum;
+import com.ys.ui.common.constants.SlOutStatusEnum;
+import com.ys.ui.common.constants.SlPayStatusEnum;
+import com.ys.ui.common.constants.SlSendStatusEnum;
 import com.ys.ui.utils.StringUtils;
 
 import java.util.Date;
@@ -91,5 +97,50 @@ public class DbManagerHelper {
         if (lists != null && !lists.isEmpty()){
             App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateInTx(lists);
         }
+    }
+
+    public static void updateMcStore(List<McStoreUpdateVO> lists) {
+        if (lists != null && !lists.isEmpty()) {
+            McGoodsBeanDao dao = App.getDaoSession(App.getContext()).getMcGoodsBeanDao();
+            for (McStoreUpdateVO storeUpdateVO : lists) {
+                dao.updateChanStatusByChanno(storeUpdateVO.getMg_channo(), Long.valueOf(storeUpdateVO.getChanStatus()));
+
+            }
+        }
+    }
+
+    /**
+     * 根据商户编号，获取出货信息
+     * @param gdNo
+     * @return
+     */
+    public static McGoodsBean getOutGoods(String gdNo) {
+        List<McGoodsBean> mcGoodsBeanList = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().queryBuilder()
+                .where(McGoodsBeanDao.Properties.Gd_no.eq(gdNo)).where(McGoodsBeanDao.Properties.ChanStatus.eq(ChanStatusEnum.NORMAL.getIndex()))
+                .where(McGoodsBeanDao.Properties.Mg_gnum.gt(0)).list();
+
+        if (mcGoodsBeanList != null && !mcGoodsBeanList.isEmpty()) {
+            return mcGoodsBeanList.get(0);
+        } else {
+            return null;
+        }
+
+    }
+
+
+    public static void updateSendStatus(String slNo, SlSendStatusEnum slSendStatus) {
+        App.getDaoSession(App.getContext()).getSaleListBeanDao().updateSendStatus(slNo, slSendStatus);
+    }
+
+    public static void updatePayStatus(String slNo, SlPayStatusEnum slPayStatus) {
+
+        App.getDaoSession(App.getContext()).getSaleListBeanDao().updatePayStatus(slNo, slPayStatus);
+
+    }
+
+    public static void updateOutStatus(String slNo, SlOutStatusEnum slOutStatus) {
+
+        App.getDaoSession(App.getContext()).getSaleListBeanDao().updateOutStatus(slNo, slOutStatus);
+
     }
 }

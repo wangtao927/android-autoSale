@@ -5,6 +5,7 @@ import com.ys.data.bean.McAdminBean;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.McParamsBean;
 import com.ys.data.bean.McStatusBean;
+import com.ys.data.bean.McStoreUpdateVO;
 
 import java.io.Serializable;
 import java.util.List;
@@ -25,6 +26,9 @@ public class TermInitResult implements Serializable {
     McStatusBean machine;
 
     // 广告数据 TODO:
+
+    // 终端库存
+    List<McStoreUpdateVO> mcstore;
 
 
     public TermInitResult() {
@@ -68,5 +72,13 @@ public class TermInitResult implements Serializable {
 
     public void setMachine(McStatusBean machine) {
         this.machine = machine;
+    }
+
+    public List<McStoreUpdateVO> getMcstore() {
+        return mcstore;
+    }
+
+    public void setMcstore(List<McStoreUpdateVO> mcstore) {
+        this.mcstore = mcstore;
     }
 }

@@ -13,15 +13,15 @@ public class McGoodsBean {
     private String gd_approve_code;
     private String gd_batch_no;
     private String gd_des_code;
-    private java.util.Date gd_mf_date;
-    private java.util.Date gd_exp_date;
-    private Long mg_gvol=0L;
-    private Long mg_gnum =0L;
+    private String gd_mf_date;
+    private String gd_exp_date;
+    private Long mg_gvol;
+    private Long mg_gnum = 0L;
     private Long prePrice;
     private Long scorePrice;
     private Long mg_vip_price;
     private Long mg_price;
-    private Long chanStatus = 0L;
+    private Long chanStatus;
     private java.util.Date addtime;
     private java.util.Date updatetime;
 
@@ -32,7 +32,7 @@ public class McGoodsBean {
         this.mg_channo = mg_channo;
     }
 
-    public McGoodsBean(String mc_no, String mg_channo, String gd_no, String gd_type, String gd_approve_code, String gd_batch_no, String gd_des_code, java.util.Date gd_mf_date, java.util.Date gd_exp_date, Long mg_gvol, Long mg_gnum, Long prePrice, Long scorePrice, Long mg_vip_price, Long mg_price, Long chanStatus, java.util.Date addtime, java.util.Date updatetime) {
+    public McGoodsBean(String mc_no, String mg_channo, String gd_no, String gd_type, String gd_approve_code, String gd_batch_no, String gd_des_code, String gd_mf_date, String gd_exp_date, Long mg_gvol, Long mg_gnum, Long prePrice, Long scorePrice, Long mg_vip_price, Long mg_price, Long chanStatus, java.util.Date addtime, java.util.Date updatetime) {
         this.mc_no = mc_no;
         this.mg_channo = mg_channo;
         this.gd_no = gd_no;
@@ -109,19 +109,19 @@ public class McGoodsBean {
         this.gd_des_code = gd_des_code;
     }
 
-    public java.util.Date getGd_mf_date() {
+    public String getGd_mf_date() {
         return gd_mf_date;
     }
 
-    public void setGd_mf_date(java.util.Date gd_mf_date) {
+    public void setGd_mf_date(String gd_mf_date) {
         this.gd_mf_date = gd_mf_date;
     }
 
-    public java.util.Date getGd_exp_date() {
+    public String getGd_exp_date() {
         return gd_exp_date;
     }
 
-    public void setGd_exp_date(java.util.Date gd_exp_date) {
+    public void setGd_exp_date(String gd_exp_date) {
         this.gd_exp_date = gd_exp_date;
     }
 

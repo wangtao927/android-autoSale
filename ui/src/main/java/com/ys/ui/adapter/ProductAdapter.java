@@ -53,7 +53,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
         holder.productName.setTag(bean);
         holder.productName.setText(bean.getGd_name());
 
-        String url = PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(bean.getGd_img1());
+        String url = PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(bean.getGd_img_s());
         Log.d("url:", url);
         Glide.with(context)
                 .load(url)

@@ -9,7 +9,7 @@ public class SaleListBean {
     private Long sl_id;
     private String sl_no;
     private String sl_batch_no;
-    private java.util.Date sl_time;
+    private String sl_time;
     private String mc_no;
     private String sl_gd_no;
     private String sl_gd_name;
@@ -26,12 +26,13 @@ public class SaleListBean {
     private Long sl_num;
     private String sl_type;
     private String sl_isvip;
-    private String sl_status;
     private String sl_err_msg;
     private String sl_acc_no;
     private Long sl_bf_amt;
     private Long sl_af_amt;
     private Long sl_send_status;
+    private String sl_pay_status;
+    private String sl_out_status;
 
     public SaleListBean() {
     }
@@ -40,7 +41,7 @@ public class SaleListBean {
         this.sl_id = sl_id;
     }
 
-    public SaleListBean(Long sl_id, String sl_no, String sl_batch_no, java.util.Date sl_time, String mc_no, String sl_gd_no, String sl_gd_name, Long sl_pre_price, Long sl_disc_price, Long sl_vip_price, Long sl_amt, Long sl_score, Long sl_cash_in, Long sl_cash_out, String sl_coin_in, String sl_coin_out, String sl_chann, Long sl_num, String sl_type, String sl_isvip, String sl_status, String sl_err_msg, String sl_acc_no, Long sl_bf_amt, Long sl_af_amt, Long sl_send_status) {
+    public SaleListBean(Long sl_id, String sl_no, String sl_batch_no, String sl_time, String mc_no, String sl_gd_no, String sl_gd_name, Long sl_pre_price, Long sl_disc_price, Long sl_vip_price, Long sl_amt, Long sl_score, Long sl_cash_in, Long sl_cash_out, String sl_coin_in, String sl_coin_out, String sl_chann, Long sl_num, String sl_type, String sl_isvip, String sl_err_msg, String sl_acc_no, Long sl_bf_amt, Long sl_af_amt, Long sl_send_status, String sl_pay_status, String sl_out_status) {
         this.sl_id = sl_id;
         this.sl_no = sl_no;
         this.sl_batch_no = sl_batch_no;
@@ -61,12 +62,13 @@ public class SaleListBean {
         this.sl_num = sl_num;
         this.sl_type = sl_type;
         this.sl_isvip = sl_isvip;
-        this.sl_status = sl_status;
         this.sl_err_msg = sl_err_msg;
         this.sl_acc_no = sl_acc_no;
         this.sl_bf_amt = sl_bf_amt;
         this.sl_af_amt = sl_af_amt;
         this.sl_send_status = sl_send_status;
+        this.sl_pay_status = sl_pay_status;
+        this.sl_out_status = sl_out_status;
     }
 
     public Long getSl_id() {
@@ -93,11 +95,11 @@ public class SaleListBean {
         this.sl_batch_no = sl_batch_no;
     }
 
-    public java.util.Date getSl_time() {
+    public String getSl_time() {
         return sl_time;
     }
 
-    public void setSl_time(java.util.Date sl_time) {
+    public void setSl_time(String sl_time) {
         this.sl_time = sl_time;
     }
 
@@ -229,14 +231,6 @@ public class SaleListBean {
         this.sl_isvip = sl_isvip;
     }
 
-    public String getSl_status() {
-        return sl_status;
-    }
-
-    public void setSl_status(String sl_status) {
-        this.sl_status = sl_status;
-    }
-
     public String getSl_err_msg() {
         return sl_err_msg;
     }
@@ -275,6 +269,22 @@ public class SaleListBean {
 
     public void setSl_send_status(Long sl_send_status) {
         this.sl_send_status = sl_send_status;
+    }
+
+    public String getSl_pay_status() {
+        return sl_pay_status;
+    }
+
+    public void setSl_pay_status(String sl_pay_status) {
+        this.sl_pay_status = sl_pay_status;
+    }
+
+    public String getSl_out_status() {
+        return sl_out_status;
+    }
+
+    public void setSl_out_status(String sl_out_status) {
+        this.sl_out_status = sl_out_status;
     }
 
 }

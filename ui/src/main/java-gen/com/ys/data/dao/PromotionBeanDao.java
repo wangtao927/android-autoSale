@@ -28,8 +28,8 @@ public class PromotionBeanDao extends AbstractDao<PromotionBean, Long> {
         public final static Property Pt_msg = new Property(2, String.class, "pt_msg", false, "PT_MSG");
         public final static Property Pt_desc = new Property(3, String.class, "pt_desc", false, "PT_DESC");
         public final static Property Pt_status = new Property(4, String.class, "pt_status", false, "PT_STATUS");
-        public final static Property Pt_starttime = new Property(5, java.util.Date.class, "pt_starttime", false, "PT_STARTTIME");
-        public final static Property Pt_endtime = new Property(6, java.util.Date.class, "pt_endtime", false, "PT_ENDTIME");
+        public final static Property Pt_starttime = new Property(5, String.class, "pt_starttime", false, "PT_STARTTIME");
+        public final static Property Pt_endtime = new Property(6, String.class, "pt_endtime", false, "PT_ENDTIME");
         public final static Property Pt_range = new Property(7, String.class, "pt_range", false, "PT_RANGE");
         public final static Property Pt_rangeparam = new Property(8, String.class, "pt_rangeparam", false, "PT_RANGEPARAM");
         public final static Property Pt_goods = new Property(9, String.class, "pt_goods", false, "PT_GOODS");
@@ -61,8 +61,8 @@ public class PromotionBeanDao extends AbstractDao<PromotionBean, Long> {
                 "'PT_MSG' TEXT," + // 2: pt_msg
                 "'PT_DESC' TEXT," + // 3: pt_desc
                 "'PT_STATUS' TEXT," + // 4: pt_status
-                "'PT_STARTTIME' INTEGER," + // 5: pt_starttime
-                "'PT_ENDTIME' INTEGER," + // 6: pt_endtime
+                "'PT_STARTTIME' TEXT," + // 5: pt_starttime
+                "'PT_ENDTIME' TEXT," + // 6: pt_endtime
                 "'PT_RANGE' TEXT," + // 7: pt_range
                 "'PT_RANGEPARAM' TEXT," + // 8: pt_rangeparam
                 "'PT_GOODS' TEXT," + // 9: pt_goods
@@ -112,14 +112,14 @@ public class PromotionBeanDao extends AbstractDao<PromotionBean, Long> {
             stmt.bindString(5, pt_status);
         }
  
-        java.util.Date pt_starttime = entity.getPt_starttime();
+        String pt_starttime = entity.getPt_starttime();
         if (pt_starttime != null) {
-            stmt.bindLong(6, pt_starttime.getTime());
+            stmt.bindString(6, pt_starttime);
         }
  
-        java.util.Date pt_endtime = entity.getPt_endtime();
+        String pt_endtime = entity.getPt_endtime();
         if (pt_endtime != null) {
-            stmt.bindLong(7, pt_endtime.getTime());
+            stmt.bindString(7, pt_endtime);
         }
  
         String pt_range = entity.getPt_range();
@@ -193,8 +193,8 @@ public class PromotionBeanDao extends AbstractDao<PromotionBean, Long> {
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // pt_msg
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // pt_desc
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // pt_status
-            cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)), // pt_starttime
-            cursor.isNull(offset + 6) ? null : new java.util.Date(cursor.getLong(offset + 6)), // pt_endtime
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // pt_starttime
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // pt_endtime
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // pt_range
             cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // pt_rangeparam
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // pt_goods
@@ -218,8 +218,8 @@ public class PromotionBeanDao extends AbstractDao<PromotionBean, Long> {
         entity.setPt_msg(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setPt_desc(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setPt_status(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setPt_starttime(cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)));
-        entity.setPt_endtime(cursor.isNull(offset + 6) ? null : new java.util.Date(cursor.getLong(offset + 6)));
+        entity.setPt_starttime(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setPt_endtime(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setPt_range(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
         entity.setPt_rangeparam(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
         entity.setPt_goods(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));

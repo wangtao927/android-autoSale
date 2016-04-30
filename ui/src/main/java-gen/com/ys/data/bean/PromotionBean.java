@@ -11,8 +11,8 @@ public class PromotionBean {
     private String pt_msg;
     private String pt_desc;
     private String pt_status;
-    private java.util.Date pt_starttime;
-    private java.util.Date pt_endtime;
+    private String pt_starttime;
+    private String pt_endtime;
     private String pt_range;
     private String pt_rangeparam;
     private String pt_goods;
@@ -32,7 +32,7 @@ public class PromotionBean {
         this.pt_id = pt_id;
     }
 
-    public PromotionBean(Long pt_id, String pt_name, String pt_msg, String pt_desc, String pt_status, java.util.Date pt_starttime, java.util.Date pt_endtime, String pt_range, String pt_rangeparam, String pt_goods, String pt_goodsparam, String pt_condition, String pt_conditionparam, String pt_type, String pt_typeparam, String remark, String addtime, String updatetime) {
+    public PromotionBean(Long pt_id, String pt_name, String pt_msg, String pt_desc, String pt_status, String pt_starttime, String pt_endtime, String pt_range, String pt_rangeparam, String pt_goods, String pt_goodsparam, String pt_condition, String pt_conditionparam, String pt_type, String pt_typeparam, String remark, String addtime, String updatetime) {
         this.pt_id = pt_id;
         this.pt_name = pt_name;
         this.pt_msg = pt_msg;
@@ -93,19 +93,19 @@ public class PromotionBean {
         this.pt_status = pt_status;
     }
 
-    public java.util.Date getPt_starttime() {
+    public String getPt_starttime() {
         return pt_starttime;
     }
 
-    public void setPt_starttime(java.util.Date pt_starttime) {
+    public void setPt_starttime(String pt_starttime) {
         this.pt_starttime = pt_starttime;
     }
 
-    public java.util.Date getPt_endtime() {
+    public String getPt_endtime() {
         return pt_endtime;
     }
 
-    public void setPt_endtime(java.util.Date pt_endtime) {
+    public void setPt_endtime(String pt_endtime) {
         this.pt_endtime = pt_endtime;
     }
 

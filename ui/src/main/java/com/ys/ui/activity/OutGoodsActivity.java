@@ -8,6 +8,8 @@ import com.ys.BytesUtil;
 import com.ys.GetBytesUtils;
 import com.ys.RobotEvent;
 import com.ys.RobotEventArg;
+import com.ys.ui.common.constants.SlOutStatusEnum;
+import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.sample.SerialPortActivity;
 import com.ys.ui.utils.PropertyUtils;
 
@@ -35,16 +37,21 @@ public class OutGoodsActivity extends SerialPortActivity {
     private Queue<RobotEventArg> queue = new LinkedBlockingQueue<>();
     private long startTime = 0L;
 
+    private String channo = "";
+    private String slNo = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         startTime = System.currentTimeMillis();
-
-        // 发送选货请求
-        byte b = 11;
+        Bundle datas = getIntent().getExtras();
+        slNo = datas.getString("slNo");
+        channo = datas.getString("channo");
+         // 发送选货请求
+        byte b = Byte.parseByte(channo);
         mBuffer = GetBytesUtils.goodsSelect(b);
-        SendingThread mSendingThread = new SendingThread();
+        mSendingThread = new SendingThread();
         mSendingThread.start();
         this.consumer();
     }
@@ -68,16 +75,16 @@ public class OutGoodsActivity extends SerialPortActivity {
                                     break; // 正常
                                 case 0x13:
                                     queue.add(new RobotEventArg(3, 1, "扫描中"));
-                                    break; // 스캔중
+                                    break;
                                 case 0x14:
                                     queue.add(new RobotEventArg(3, 1, "扫描完毕"));
-                                    break; // 스캔완료
+                                    break;
                                 case 0x01:
                                     queue.add(new RobotEventArg(3, 1, "扫描中 Time Over 发生错误"));
-                                    break; // 스캔중 타임오버
+                                    break;
                                 case 0x0F:
                                     queue.add(new RobotEventArg(3, 1, "扫描中 ERROR"));
-                                    break; // 스캔중 에러
+                                    break;
                                 case 0x0C:
                                     queue.add(new RobotEventArg(3, 2, "TEST MODE 1"));
                                     break;
@@ -86,19 +93,19 @@ public class OutGoodsActivity extends SerialPortActivity {
                                     break;
                                 case 0x20:
                                     queue.add(new RobotEventArg(3, 3, "硬币机制 发生错误"));
-                                    break; // 코인메카 에러
+                                    break;
                                 case 0x21:
                                     queue.add(new RobotEventArg(3, 4, "纸币被卡到 发生错误"));
-                                    break; // 지폐걸림
+                                    break;
                                 case 0x22:
                                     queue.add(new RobotEventArg(3, 4, "纸币感应器 发生问题"));
-                                    break; // 지폐센서에러
+                                    break;
                                 case 0x23:
                                     queue.add(new RobotEventArg(3, 4, "纸币马达 发生问题"));
-                                    break; // 지폐모터에러
+                                    break;
                                 case 0x24:
                                     queue.add(new RobotEventArg(3, 4, "纸币ROM 发生问题"));
-                                    break; // 지폐ROM에러
+                                    break;
                             }
                             break;
                         case 0x26: // --缺货确认
@@ -109,9 +116,9 @@ public class OutGoodsActivity extends SerialPortActivity {
                         case 0x00: // 待机------------------------------------------------------------------ RESET
                             switch (buff[3]) {
                                 case 0x00:
-                                    break; // 정상수신[ACK]
+                                    break; //  [ACK]
                                 case (byte) 0xFF:
-                                    break; // 수신에러[NAK]
+                                    break; //  [NAK]
                                 case (byte) 0xAA:
                                     //this.RESET();
                                     break;
@@ -184,11 +191,17 @@ public class OutGoodsActivity extends SerialPortActivity {
                          SendingThread mSendingThread = new SendingThread();
                          mSendingThread.start();
                      } else if (robotEvent.getiMsgCode() == 6) {
-                        // 出货完成  结束
+                        // 出货成功  结束
+                        outGoodsSuc();
+                        break;
+
+
 
                      } else {
                          // 出货失败  结束
 
+                         outGoodsFail();
+                         break;
                      }
 
                 }
@@ -196,11 +209,21 @@ public class OutGoodsActivity extends SerialPortActivity {
             }
             if ((System.currentTimeMillis() - startTime) > PropertyUtils.getInstance().getTransTimeout()*1000) {
                 //出货超时
+
                 break;
             }
         }
     }
 
+    private void outGoodsSuc() {
+        // 支付成功才会 走到出货
+        DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FINISH);
+    }
+
+    private void outGoodsFail() {
+        // 出货失败， 考虑退款
+        DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
+    }
 
     private class SendingThread extends Thread {
         @Override
