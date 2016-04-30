@@ -1,17 +1,23 @@
 package com.ys.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.ys.BufferData;
 import com.ys.BytesUtil;
 import com.ys.GetBytesUtils;
 import com.ys.RobotEvent;
 import com.ys.RobotEventArg;
+import com.ys.ui.R;
 import com.ys.ui.common.constants.SlOutStatusEnum;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.sample.SerialPortActivity;
 import com.ys.ui.utils.PropertyUtils;
+import com.ys.ui.utils.ToastUtils;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -33,6 +39,8 @@ public class OutGoodsActivity extends SerialPortActivity {
 
     protected String path = "/dev/ttyES1";
 
+    TextView transStatus;
+
     // 定义一个queue, 往queue
     private Queue<RobotEventArg> queue = new LinkedBlockingQueue<>();
     private long startTime = 0L;
@@ -43,6 +51,9 @@ public class OutGoodsActivity extends SerialPortActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.out_goods_main);
+        transStatus = (TextView) findViewById(R.id.tranStatus);
+
 
         startTime = System.currentTimeMillis();
         Bundle datas = getIntent().getExtras();
@@ -193,6 +204,10 @@ public class OutGoodsActivity extends SerialPortActivity {
                      } else if (robotEvent.getiMsgCode() == 6) {
                         // 出货成功  结束
                         outGoodsSuc();
+                         transStatus.setText("出货完成");
+                        ToastUtils.showShortMessage("交易成功");
+
+                        //startActivity(new Intent(OutGoodsActivity.this, MainActivity.class));
                         break;
 
 
@@ -201,6 +216,10 @@ public class OutGoodsActivity extends SerialPortActivity {
                          // 出货失败  结束
 
                          outGoodsFail();
+                         transStatus.setText("出货失败");
+
+                         ToastUtils.showShortMessage("交易失败");
+
                          break;
                      }
 
@@ -209,6 +228,7 @@ public class OutGoodsActivity extends SerialPortActivity {
             }
             if ((System.currentTimeMillis() - startTime) > PropertyUtils.getInstance().getTransTimeout()*1000) {
                 //出货超时
+                ToastUtils.showShortMessage("交易超时");
 
                 break;
             }
