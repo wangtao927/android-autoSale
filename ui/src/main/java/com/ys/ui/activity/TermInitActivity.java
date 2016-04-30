@@ -96,6 +96,7 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.btn_save:
                 check();
+                initSerial();
                 break;
 
         }
@@ -167,6 +168,9 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+    public void initSerial(){
+
+    }
 
     public void showProgress() {
         mPbLoading.setVisibility(View.VISIBLE);

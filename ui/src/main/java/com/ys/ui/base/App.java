@@ -9,6 +9,7 @@ import com.ys.SerialPort;
 import com.ys.SerialPortFinder;
 import com.ys.data.dao.DaoMaster;
 import com.ys.data.dao.DaoSession;
+import com.ys.ui.service.MyService;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,6 +29,16 @@ public class App extends Application {
 //    //private int port = 0;
 //    private String path = "/dev/ttyES1";
 
+    private int minipos_baudrate = 19200;
+    private String minipos_path = "";
+
+    private int print_baudrate = 38400;
+    private String print_path = "";
+
+
+    private int sale_baudrate = 19200;
+    private String sale_path = "";
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -39,7 +50,7 @@ public class App extends Application {
                         .enableWebKitInspector(
                                 Stetho.defaultInspectorModulesProvider(this))
                         .build());
-
+        // 初始化串口的端口
 
     }
 
@@ -48,30 +59,30 @@ public class App extends Application {
         return ctx;
     }
 
-    public SerialPort getSerialPort(String path, int baudrate) throws SecurityException, IOException, InvalidParameterException {
-        if (mSerialPort == null) {
-			/* Read serial port parameters */
-            SharedPreferences sp = getSharedPreferences("android_serialport_api.sample_preferences", MODE_PRIVATE);
-            //String path = sp.getString("DEVICE", "");
-            //int baudrate = Integer.decode(sp.getString("BAUDRATE", "-1"));
-
-			/* Check parameters */
-            if ( (path.length() == 0) || (baudrate == -1)) {
-                throw new InvalidParameterException();
-            }
-
-			/* Open the serial port */
-            mSerialPort = new SerialPort(new File(path), baudrate, 0);
-        }
-        return mSerialPort;
-    }
-
-    public void closeSerialPort() {
-        if (mSerialPort != null) {
-            mSerialPort.close();
-            mSerialPort = null;
-        }
-    }
+//    public SerialPort getSerialPort(String path, int baudrate) throws SecurityException, IOException, InvalidParameterException {
+//        if (mSerialPort == null) {
+//			/* Read serial port parameters */
+//            SharedPreferences sp = getSharedPreferences("android_serialport_api.sample_preferences", MODE_PRIVATE);
+//            //String path = sp.getString("DEVICE", "");
+//            //int baudrate = Integer.decode(sp.getString("BAUDRATE", "-1"));
+//
+//			/* Check parameters */
+//            if ( (path.length() == 0) || (baudrate == -1)) {
+//                throw new InvalidParameterException();
+//            }
+//
+//			/* Open the serial port */
+//            mSerialPort = new SerialPort(new File(path), baudrate, 0);
+//        }
+//        return mSerialPort;
+//    }
+//
+//    public void closeSerialPort() {
+//        if (mSerialPort != null) {
+//            mSerialPort.close();
+//            mSerialPort = null;
+//        }
+//    }
 
 
     public static DaoMaster getDaoMaster(Context context) {
@@ -96,5 +107,53 @@ public class App extends Application {
             daoSession = daoMaster.newSession();
         }
         return daoSession;
+    }
+
+    public int getMinipos_baudrate() {
+        return minipos_baudrate;
+    }
+
+    public void setMinipos_baudrate(int minipos_baudrate) {
+        this.minipos_baudrate = minipos_baudrate;
+    }
+
+    public String getMinipos_path() {
+        return minipos_path;
+    }
+
+    public void setMinipos_path(String minipos_path) {
+        this.minipos_path = minipos_path;
+    }
+
+    public int getPrint_baudrate() {
+        return print_baudrate;
+    }
+
+    public void setPrint_baudrate(int print_baudrate) {
+        this.print_baudrate = print_baudrate;
+    }
+
+    public String getPrint_path() {
+        return print_path;
+    }
+
+    public void setPrint_path(String print_path) {
+        this.print_path = print_path;
+    }
+
+    public int getSale_baudrate() {
+        return sale_baudrate;
+    }
+
+    public void setSale_baudrate(int sale_baudrate) {
+        this.sale_baudrate = sale_baudrate;
+    }
+
+    public String getSale_path() {
+        return sale_path;
+    }
+
+    public void setSale_path(String sale_path) {
+        this.sale_path = sale_path;
     }
 }
