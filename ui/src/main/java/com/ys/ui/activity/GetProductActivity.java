@@ -8,10 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.ys.GetBytesUtils;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.McStatusBean;
-import com.ys.data.dao.McGoodsBeanDao;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
@@ -21,12 +19,9 @@ import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateOrderResult;
-import com.ys.ui.common.response.TermInitResult;
-import com.ys.ui.common.sign.MD5;
 import com.ys.ui.utils.ToastUtils;
 
 import java.util.List;
-import java.util.TimerTask;
 
 import butterknife.Bind;
 import rx.android.schedulers.AndroidSchedulers;
@@ -138,8 +133,9 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
                                 intent.putExtra("slNo", response.getExt_data().getSlNo());
 
                                 intent.putExtra("channo", mcGoodsBean.getMg_channo());
-                                GetProductActivity.this.finish();
+
                                 startActivity(intent);
+                                finish();
                             }
                         }
                         ToastUtils.showError("提货码无效", GetProductActivity.this);

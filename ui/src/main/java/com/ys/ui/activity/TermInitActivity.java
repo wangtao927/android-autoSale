@@ -166,6 +166,7 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
         // 5.更新管理员
         DbManagerHelper.initAdmin(response.getExt_data().getMcadmin());
 
+        // 初始化
     }
 
     public void initSerial(){

@@ -15,13 +15,6 @@
         android:layout_marginTop="48dp"
         android:layout_alignParentRight="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="选货"
-        android:id="@+id/btn_select"
-        android:layout_alignTop="@+id/text_recive"
-        android:layout_alignParentStart="true" />
 
     <TextView
         android:text="接收数据"
@@ -43,13 +36,13 @@
         android:layout_height="fill_parent"
         android:editable="false"
         android:layout_weight="1.0"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/btn_out" />
+        android:layout_alignTop="@+id/btn_out"
+        android:layout_toRightOf="@+id/btn_out"
+        android:layout_toEndOf="@+id/btn_out" />
 
     <EditText
         android:id="@+id/text_send"
         android:layout_below="@+id/editText"
-        android:layout_alignParentLeft="true"
         android:gravity="top"
         android:clickable="false"
         android:longClickable="false"
@@ -57,7 +50,9 @@
         android:layout_height="fill_parent"
         android:editable="false"
         android:layout_weight="1.0"
-        android:layout_above="@+id/btn_select" />
+        android:layout_above="@+id/btn_select"
+        android:layout_toRightOf="@+id/btn_out"
+        android:layout_toEndOf="@+id/btn_out" />
 
    <!-- <Button
         android:layout_width="wrap_content"
@@ -77,12 +72,23 @@
         android:layout_alignLeft="@+id/btn_billoff" />
 -->
     <Button
+        android:id="@+id/btn_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="选货"
+        android:layout_alignTop="@+id/text_recive"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentLeft="true"
+        />
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="出货"
         android:id="@+id/btn_out"
         android:layout_marginBottom="168dp"
         android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/btn_select" />
+        android:layout_toEndOf="@+id/btn_select"
+        android:layout_toRightOf="@+id/btn_select"/>
 
 </RelativeLayout>

@@ -30,6 +30,9 @@ public class SerialPortHelper {
         ports.add(19200);
         ports.add(38400);
     }
+    // flag = 0  标识是售货机  1 打印机
+    private int flag = 0;
+
     private SerialPortTest test = null;
     private SerialPort serialPort = null;
 
@@ -70,6 +73,7 @@ public class SerialPortHelper {
     //获取 打印机串口信息
 
     private void getPrintSerial() {
+        flag = 1;
         this.getSerial("");
     }
     // 获取银联支付串口

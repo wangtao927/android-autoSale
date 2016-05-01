@@ -75,8 +75,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".activity.ProductDetailActivity"
-            android:label="商品详情"
+         <activity android:name=".activity.OutGoodsActivity"
+            android:label="出货"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -86,10 +86,15 @@
         <activity android:name=".sample.SelectGoodsActivity" />
         <activity android:name=".sample.MainMenu" />
 
+
+        <!--打印机测试-->
+        <!-- <activity android:name="com.ys.test.activity.SerialPortActivity"/>-->
+
         <service android:name=".service.MyService" />
         <service android:name=".service.TimerService" />
 
         <receiver android:name=".service.AlarmReceiver" />
+
 
     </application>
 

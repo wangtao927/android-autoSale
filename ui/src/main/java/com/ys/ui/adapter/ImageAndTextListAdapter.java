@@ -67,7 +67,7 @@ public class ImageAndTextListAdapter extends ArrayAdapter<GoodsGridViewItem> {
                 }
             });
             if (cachedImage == null) {
-                imageView.setImageResource(R.drawable.icon);
+                imageView.setImageResource(R.drawable.sun);
             }else{
                 imageView.setImageDrawable(cachedImage);
             }

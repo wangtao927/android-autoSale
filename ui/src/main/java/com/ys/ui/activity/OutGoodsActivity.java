@@ -1,8 +1,9 @@
 package com.ys.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ys.BufferData;
@@ -17,10 +18,7 @@ import com.ys.ui.sample.SerialPortActivity;
 import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.ToastUtils;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -31,6 +29,7 @@ public class OutGoodsActivity extends SerialPortActivity {
 
     private RobotEvent robotEvent = RobotEvent.getInstance();
 
+
     private BufferData bufferData;
     SendingThread mSendingThread;
 
@@ -40,6 +39,7 @@ public class OutGoodsActivity extends SerialPortActivity {
     protected String path = "/dev/ttyES1";
 
     TextView transStatus;
+     ContentLoadingProgressBar mPbLoading;
 
     // 定义一个queue, 往queue
     private Queue<RobotEventArg> queue = new LinkedBlockingQueue<>();
@@ -50,29 +50,35 @@ public class OutGoodsActivity extends SerialPortActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.out_goods_main);
         transStatus = (TextView) findViewById(R.id.tranStatus);
-
-
-        startTime = System.currentTimeMillis();
+        mPbLoading = (ContentLoadingProgressBar)findViewById(R.id.pb_loading);
         Bundle datas = getIntent().getExtras();
         slNo = datas.getString("slNo");
         channo = datas.getString("channo");
-         // 发送选货请求
+        // 发送选货请求
         byte b = Byte.parseByte(channo);
         mBuffer = GetBytesUtils.goodsSelect(b);
+        ToastUtils.showShortMessage("sendData:" + mBuffer);
+
+        startTime = System.currentTimeMillis();
+
         mSendingThread = new SendingThread();
         mSendingThread.start();
+        showProgress();
         this.consumer();
     }
 
     @Override
-    protected void onDataReceived(final byte[] buffer, int size) {
+    protected  void onDataReceived(final byte[] buffer)  {
 
         runOnUiThread(new Runnable() {
             public void run() {
                 // 是正确的返回结果
+                ToastUtils.showShortMessage("resultData:" + BytesUtil.bytes2Hex(buffer));
+
                 bufferData = new BufferData();
                 bufferData.add(buffer);
                 if (bufferData.match((byte) 0x02, (byte) 0x03)) {
@@ -140,10 +146,15 @@ public class OutGoodsActivity extends SerialPortActivity {
                             if (buff[2] == 0xF3) buff[2] = 0x03;
                             switch (buff[3]) {
                                 case 0x00:
-                                    queue.add(new RobotEventArg(2, 2, Integer.valueOf(buff[2]).toString()));
+                                    //queue.add(new RobotEventArg(2, 2, Integer.valueOf(buff[2]).toString()));
                                     break; // 提取中
                                 case 0x55:
-                                    queue.add(new RobotEventArg(2, 3, Integer.valueOf(buff[2]).toString()));
+                                    //queue.add(new RobotEventArg(2, 3, Integer.valueOf(buff[2]).toString()));
+                                    // 选货结束  发送出货命令
+                                    mBuffer = GetBytesUtils.goodsOuter();
+
+                                    SendingThread mSendingThread = new SendingThread();
+                                    mSendingThread.start();
                                     break; // 提取完毕
                                 case (byte) 0xFF:
                                     queue.add(new RobotEventArg(2, 4, Integer.valueOf(buff[2]).toString()));
@@ -161,7 +172,11 @@ public class OutGoodsActivity extends SerialPortActivity {
                                     break;
                                 case 0x55:
                                     // 出货完成    结束出货流程
-                                    queue.add(new RobotEventArg(2, 6, "排放完毕"));
+                                    //queue.add(new RobotEventArg(2, 6, "排放完毕"));
+                                    // 出货成功  结束
+                                    outGoodsSuc();
+                                    transStatus.setText("出货完成");
+                                    ToastUtils.showShortMessage("交易成功");
                                     break;
                                 case (byte) 0xFF:
                                     // 出货失败，结束出货流程
@@ -204,32 +219,19 @@ public class OutGoodsActivity extends SerialPortActivity {
                      } else if (robotEvent.getiMsgCode() == 6) {
                         // 出货成功  结束
                         outGoodsSuc();
-                         transStatus.setText("出货完成");
-                        ToastUtils.showShortMessage("交易成功");
-
                         //startActivity(new Intent(OutGoodsActivity.this, MainActivity.class));
                         break;
-
-
-
                      } else {
                          // 出货失败  结束
-
                          outGoodsFail();
-                         transStatus.setText("出货失败");
-
-                         ToastUtils.showShortMessage("交易失败");
-
                          break;
                      }
-
                 }
-
             }
             if ((System.currentTimeMillis() - startTime) > PropertyUtils.getInstance().getTransTimeout()*1000) {
                 //出货超时
                 ToastUtils.showShortMessage("交易超时");
-
+                hideProgress();
                 break;
             }
         }
@@ -238,11 +240,17 @@ public class OutGoodsActivity extends SerialPortActivity {
     private void outGoodsSuc() {
         // 支付成功才会 走到出货
         DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FINISH);
+        hideProgress();
+        transStatus.setText("出货完成");
+        ToastUtils.showShortMessage("交易成功, 欢迎下次光临");
     }
 
     private void outGoodsFail() {
         // 出货失败， 考虑退款
         DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
+        hideProgress();
+        transStatus.setText("出货失败");
+        ToastUtils.showShortMessage("交易失败");
     }
 
     private class SendingThread extends Thread {
@@ -261,6 +269,13 @@ public class OutGoodsActivity extends SerialPortActivity {
                 }
             }
         }
+    }
+    public void showProgress() {
+        mPbLoading.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgress() {
+        mPbLoading.setVisibility(View.GONE);
     }
 
 }

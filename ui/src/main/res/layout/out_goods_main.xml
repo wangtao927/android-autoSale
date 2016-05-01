@@ -10,8 +10,9 @@
     <TextView android:id="@+id/tranStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="出货中"
+        android:text="出货中..."
         />
 
+    <include layout="@layout/include_loading" />
 
 </RelativeLayout>

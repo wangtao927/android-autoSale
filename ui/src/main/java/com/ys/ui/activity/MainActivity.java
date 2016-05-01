@@ -12,6 +12,7 @@ import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
 import com.ys.ui.sample.MainMenu;
+import com.ys.ui.sample.SelectGoodsActivity;
 import com.ys.ui.service.TimerService;
 import com.ys.ui.utils.ToastUtils;
 
@@ -95,10 +96,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(new Intent(MainActivity.this, ProductActivity.class));
                 break;
             case R.id.btn_sample:
-                startActivity(new Intent(MainActivity.this, MainMenu.class));
+                startActivity(new Intent(MainActivity.this, SelectGoodsActivity.class));
                 break;
             case R.id.btn_print:
-                startActivity(new Intent(MainActivity.this, PrintActivity.class));
+//                startActivity(new Intent(MainActivity.this, com.ys.test.activity.MainMenu.class));
                 break;
             case R.id.btn_admin:
                 startActivity(new Intent(MainActivity.this, AdminActivity.class));
