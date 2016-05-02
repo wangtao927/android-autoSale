@@ -14,7 +14,7 @@
  * limitations under the License. 
  */
 
-package com.ys.ui.sample;
+package com.ys.ui.serial.salemachine;
 
 import android.os.Bundle;
 import android.preference.ListPreference;

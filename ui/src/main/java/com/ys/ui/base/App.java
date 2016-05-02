@@ -57,6 +57,7 @@ public class App extends Application {
         new CrashHandler().init(this);
         // 初始化串口的端口
 
+
     }
 
     // 获取ApplicationContext

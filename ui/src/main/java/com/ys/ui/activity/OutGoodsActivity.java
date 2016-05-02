@@ -1,20 +1,26 @@
 package com.ys.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ys.BufferData;
-import com.ys.BytesUtil;
 import com.ys.GetBytesUtils;
 import com.ys.RobotEvent;
 import com.ys.RobotEventArg;
+import com.ys.data.bean.SaleListBean;
 import com.ys.ui.R;
 import com.ys.ui.common.constants.SlOutStatusEnum;
+import com.ys.ui.common.constants.SlTypeEnum;
+import com.ys.ui.common.http.RetrofitManager;
 import com.ys.ui.common.manager.DbManagerHelper;
-import com.ys.ui.sample.SerialPortActivity;
+import com.ys.ui.common.response.CommonResponse;
+import com.ys.ui.common.response.TermInitResult;
+import com.ys.ui.serial.salemachine.SerialMachineActivity;
 import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.ToastUtils;
 
@@ -22,10 +28,15 @@ import java.io.IOException;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
+
 /**
  * Created by wangtao on 2016/4/18.
  */
-public class OutGoodsActivity extends SerialPortActivity {
+public class OutGoodsActivity extends SerialMachineActivity {
 
     private RobotEvent robotEvent = RobotEvent.getInstance();
 
@@ -68,79 +79,18 @@ public class OutGoodsActivity extends SerialPortActivity {
         mSendingThread = new SendingThread();
         mSendingThread.start();
         showProgress();
-        this.consumer();
+        //this.consumer();
     }
 
     @Override
-    protected  void onDataReceived(final byte[] buffer)  {
+    protected  void onDataReceived(final byte[] buff )  {
 
         runOnUiThread(new Runnable() {
             public void run() {
                 // 是正确的返回结果
-                ToastUtils.showShortMessage("resultData:" + BytesUtil.bytes2Hex(buffer));
 
-                bufferData = new BufferData();
-                bufferData.add(buffer);
-                if (bufferData.match((byte) 0x02, (byte) 0x03)) {
-                    // 记录返回数据
-                    byte[] buff = bufferData.getMatchedBytes();
                     switch (buff[1]) {
-                        case 0x09:  // ---检查当前的状态。
-                            switch (buff[2]) {
-                                case 0x00:
-                                    queue.add(new RobotEventArg(3, 0, ""));
-                                    break; // 正常
-                                case 0x13:
-                                    queue.add(new RobotEventArg(3, 1, "扫描中"));
-                                    break;
-                                case 0x14:
-                                    queue.add(new RobotEventArg(3, 1, "扫描完毕"));
-                                    break;
-                                case 0x01:
-                                    queue.add(new RobotEventArg(3, 1, "扫描中 Time Over 发生错误"));
-                                    break;
-                                case 0x0F:
-                                    queue.add(new RobotEventArg(3, 1, "扫描中 ERROR"));
-                                    break;
-                                case 0x0C:
-                                    queue.add(new RobotEventArg(3, 2, "TEST MODE 1"));
-                                    break;
-                                case 0x0D:
-                                    queue.add(new RobotEventArg(3, 2, "TEST MODE 2"));
-                                    break;
-                                case 0x20:
-                                    queue.add(new RobotEventArg(3, 3, "硬币机制 发生错误"));
-                                    break;
-                                case 0x21:
-                                    queue.add(new RobotEventArg(3, 4, "纸币被卡到 发生错误"));
-                                    break;
-                                case 0x22:
-                                    queue.add(new RobotEventArg(3, 4, "纸币感应器 发生问题"));
-                                    break;
-                                case 0x23:
-                                    queue.add(new RobotEventArg(3, 4, "纸币马达 发生问题"));
-                                    break;
-                                case 0x24:
-                                    queue.add(new RobotEventArg(3, 4, "纸币ROM 发生问题"));
-                                    break;
-                            }
-                            break;
-                        case 0x26: // --缺货确认
-                            String goodsNo = BytesUtil.byteToHexString(buffer[2]);
 
-                            queue.add(new RobotEventArg(4, 0, goodsNo));
-                            break;
-                        case 0x00: // 待机------------------------------------------------------------------ RESET
-                            switch (buff[3]) {
-                                case 0x00:
-                                    break; //  [ACK]
-                                case (byte) 0xFF:
-                                    break; //  [NAK]
-                                case (byte) 0xAA:
-                                    //this.RESET();
-                                    break;
-                            }
-                            break;
                         case 0x0E: // ------------------------------------------------------------------------------- 提货
                             if (buff[2] == 0xF2) buff[2] = 0x02;
                             if (buff[2] == 0xF3) buff[2] = 0x03;
@@ -157,10 +107,12 @@ public class OutGoodsActivity extends SerialPortActivity {
                                     mSendingThread.start();
                                     break; // 提取完毕
                                 case (byte) 0xFF:
-                                    queue.add(new RobotEventArg(2, 4, Integer.valueOf(buff[2]).toString()));
+                                    outGoodsFail();
+                                    //queue.add(new RobotEventArg(2, 4, Integer.valueOf(buff[2]).toString()));
                                     break; // 提取失败
                                 case (byte) 0xEE:
-                                    queue.add(new RobotEventArg(2, 4, "提取错误"));
+                                    outGoodsFail();
+                                   //queue.add(new RobotEventArg(2, 4, "提取错误"));
                                     break; // 提取错误
                             }
                             break;
@@ -168,7 +120,7 @@ public class OutGoodsActivity extends SerialPortActivity {
                             switch (buff[2]) {
                                 case 0x00:
                                     // 出货中    等待
-                                    queue.add(new RobotEventArg(2, 5, "排放中"));
+                                   // queue.add(new RobotEventArg(2, 5, "排放中"));
                                     break;
                                 case 0x55:
                                     // 出货完成    结束出货流程
@@ -181,12 +133,13 @@ public class OutGoodsActivity extends SerialPortActivity {
                                 case (byte) 0xFF:
                                     // 出货失败，结束出货流程
                                     // 出货失败：
-                                    queue.add(new RobotEventArg(2, 7, "排放失败"));
+                                    outGoodsFail();
+                                   // queue.add(new RobotEventArg(2, 7, "排放失败"));
                                     break;
                                 case (byte) 0xEE:
                                     // 出货错误
-
-                                    queue.add(new RobotEventArg(2, 7, "排放错误"));
+                                    outGoodsFail();
+                                   // queue.add(new RobotEventArg(2, 7, "排放错误"));
                                     break;
                                 default:
                                     break;
@@ -196,12 +149,13 @@ public class OutGoodsActivity extends SerialPortActivity {
 
                     }
                 }
-                Log.d("result :", buffer.toString());
-            }
+
 
 
         });
     }
+
+
     public void consumer() {
 
         while (true) {
@@ -240,9 +194,14 @@ public class OutGoodsActivity extends SerialPortActivity {
     private void outGoodsSuc() {
         // 支付成功才会 走到出货
         DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FINISH);
+        DbManagerHelper.reduceStore(channo);
         hideProgress();
         transStatus.setText("出货完成");
         ToastUtils.showShortMessage("交易成功, 欢迎下次光临");
+        finish();
+        // 出货成功， 跳转到首页
+        startActivity(new Intent(OutGoodsActivity.this, MainActivity.class));
+
     }
 
     private void outGoodsFail() {
@@ -251,12 +210,58 @@ public class OutGoodsActivity extends SerialPortActivity {
         hideProgress();
         transStatus.setText("出货失败");
         ToastUtils.showShortMessage("交易失败");
+
+        // 先判断下是否是微信或者支付宝支付， 如果是就退款
+        SaleListBean saleListBean = DbManagerHelper.getSaleRecord(slNo);
+        if (saleListBean.getSl_type().equals(SlTypeEnum.ALIPAY.getIndex())
+                || saleListBean.getSl_type().equals(SlTypeEnum.WX.getIndex())) {
+            // 退款
+            this.refund(slNo);
+        }
+
+        finish();
+        // 跳转
+        startActivity(new Intent(OutGoodsActivity.this, MainActivity.class));
+
+    }
+
+    private void refund(String slNo) {
+        RetrofitManager.builder().refund(slNo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showProgress();
+
+                    }
+                })
+                .subscribe(new Action1<CommonResponse<String>>() {
+                    @Override
+                    public void call(CommonResponse<String> response) {
+                        Log.d("result", response.toString());
+                        if (response.isSuccess()) {
+                            Toast.makeText(OutGoodsActivity.this, "退款请求已成功发送", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(OutGoodsActivity.this, "退款请求发送失败", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        hideProgress();
+                        Toast.makeText(OutGoodsActivity.this, "退款失败，请联系工作人员", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
     }
 
     private class SendingThread extends Thread {
         @Override
         public void run() {
-            while (!isInterrupted()) {
+           // while (!isInterrupted()) {
                 try {
                     if (mOutputStream != null) {
                         mOutputStream.write(mBuffer, 0, mBuffer.length);
@@ -267,7 +272,7 @@ public class OutGoodsActivity extends SerialPortActivity {
                     e.printStackTrace();
                     return;
                 }
-            }
+            //}
         }
     }
     public void showProgress() {

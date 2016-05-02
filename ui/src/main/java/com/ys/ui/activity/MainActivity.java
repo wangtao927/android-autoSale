@@ -99,7 +99,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(new Intent(MainActivity.this, SelectGoodsActivity.class));
                 break;
             case R.id.btn_print:
-//                startActivity(new Intent(MainActivity.this, com.ys.test.activity.MainMenu.class));
+                startActivity(new Intent(MainActivity.this, com.ys.ui.serial.print.activity.MainMenu.class));
                 break;
             case R.id.btn_admin:
                 startActivity(new Intent(MainActivity.this, AdminActivity.class));

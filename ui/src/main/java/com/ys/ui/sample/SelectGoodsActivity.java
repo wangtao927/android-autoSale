@@ -29,6 +29,7 @@ import com.ys.BytesUtil;
 import com.ys.GetBytesUtils;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
+import com.ys.ui.serial.salemachine.SerialMachineActivity;
 import com.ys.ui.utils.ToastUtils;
 
 import java.io.IOException;
@@ -39,7 +40,7 @@ import java.util.TimerTask;
 /**
  * 出货
  */
-public class SelectGoodsActivity extends SerialPortActivity {
+public class SelectGoodsActivity extends SerialMachineActivity {
 
 	SendingThread mSendingThread;
 	byte[] mBuffer;
@@ -126,8 +127,7 @@ public class SelectGoodsActivity extends SerialPortActivity {
 				mSendingThread = new SendingThread();
 				mSendingThread.start();
 			}
-			startTimer();
-		}
+ 		}
 	};
 	View.OnClickListener listener4 = new View.OnClickListener() {
 		public void onClick(View v) {
@@ -145,8 +145,7 @@ public class SelectGoodsActivity extends SerialPortActivity {
 				mSendingThread = new SendingThread();
 				mSendingThread.start();
 			}
-			startTimer();
-		}
+ 		}
 	};
 
 	private class SendingThread extends Thread {
@@ -166,63 +165,63 @@ public class SelectGoodsActivity extends SerialPortActivity {
 //			}
 		}
 	}
-
-	private void startTimer() {
 //
-//		long startTime = System.currentTimeMillis();
+//	private void startTimer() {
+////
+////		long startTime = System.currentTimeMillis();
+////
+////		while (true) {
+////
+//////			if (System.currentTimeMillis() - startTime > 20000) {
+//////				break;
+//////			} else {
+//////				dataSend.append("[timer]:"+ timer +"timer1="+timer1 + "timer2="+timer2 +"timer3="+timer3 + "timer43="+conTimer + " \n");
+//////				try {
+//////					Thread.sleep(500);
+//////				} catch (InterruptedException e) {
+//////					e.printStackTrace();
+//////				}
+//////			}
+////
+////		}
+//		try {
+//			Thread.sleep(15000);
+//			int i =  list.size()<10000 ? list.size() : 10000;
 //
-//		while (true) {
+//			for (int j=0; j<list.size(); j++) {
+//				if (j > 0 && equals(list.get(j), list.get(j-1)) ) {
+//					continue;
+//				}
+//				dataSend.append("[rev-HEX]:" + BytesUtil.bytesToHexString(list.get(j)) +"\n");
+//				if(timer++>1000)
+//				{
 //
-////			if (System.currentTimeMillis() - startTime > 20000) {
-////				break;
-////			} else {
-////				dataSend.append("[timer]:"+ timer +"timer1="+timer1 + "timer2="+timer2 +"timer3="+timer3 + "timer43="+conTimer + " \n");
-////				try {
-////					Thread.sleep(500);
-////				} catch (InterruptedException e) {
-////					e.printStackTrace();
-////				}
-////			}
+//					dataSend.append("[rev-HEX]:" + BytesUtil.bytesToHexString(list.get(list.size()-1)) +"\n");
+//					dataSend.append("[rev-HEX]:" + BytesUtil.bytesToHexString(list.get(list.size()-2)) +"\n");
+//					break;
+//				}
+//			}
+//			dataSend.append("[rev-HEX]:" + list.size() + "timer:" + timer +"\n");
 //
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
 //		}
-		try {
-			Thread.sleep(15000);
-			int i =  list.size()<10000 ? list.size() : 10000;
+//	}
 
-			for (int j=0; j<list.size(); j++) {
-				if (j > 0 && equals(list.get(j), list.get(j-1)) ) {
-					continue;
-				}
-				dataSend.append("[rev-HEX]:" + BytesUtil.bytesToHexString(list.get(j)) +"\n");
-				if(timer++>1000)
-				{
-
-					dataSend.append("[rev-HEX]:" + BytesUtil.bytesToHexString(list.get(list.size()-1)) +"\n");
-					dataSend.append("[rev-HEX]:" + BytesUtil.bytesToHexString(list.get(list.size()-2)) +"\n");
-					break;
-				}
-			}
-			dataSend.append("[rev-HEX]:" + list.size() + "timer:" + timer +"\n");
-
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private boolean equals(byte[] list1, byte[] list2) {
-
-		int size = list1.length;
-		int size2 = list2.length;
-		if (size != size2) {
-			return false;
-		}
-		for (int i = 0; i< size ; i++) {
-			if (list1[i] != list2[i]) {
-				return false;
-			}
-		}
-		return true;
-	}
+//	private boolean equals(byte[] list1, byte[] list2) {
+//
+//		int size = list1.length;
+//		int size2 = list2.length;
+//		if (size != size2) {
+//			return false;
+//		}
+//		for (int i = 0; i< size ; i++) {
+//			if (list1[i] != list2[i]) {
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
 
 
 }

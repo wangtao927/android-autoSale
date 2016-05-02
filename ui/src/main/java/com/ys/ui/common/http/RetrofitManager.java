@@ -196,7 +196,7 @@ public class RetrofitManager {
 
     }
 
-    Observable<CommonResponse<String>> refund(String slNo) {
+    public Observable<CommonResponse<String>> refund(String slNo) {
         long time = System.currentTimeMillis();
         Map map = new HashMap<>();
 

@@ -10,7 +10,9 @@ import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.McParamsBean;
 import com.ys.data.bean.McStatusBean;
 import com.ys.data.bean.McStoreUpdateVO;
+import com.ys.data.bean.SaleListBean;
 import com.ys.data.dao.McGoodsBeanDao;
+import com.ys.data.dao.SaleListBeanDao;
 import com.ys.ui.base.App;
 import com.ys.ui.common.constants.ChanStatusEnum;
 import com.ys.ui.common.constants.SlOutStatusEnum;
@@ -127,6 +129,9 @@ public class DbManagerHelper {
 
     }
 
+    public static void reduceStore(String channo) {
+        App.getDaoSession(App.getContext()).getMcGoodsBeanDao().reduceMcStore(channo);
+    }
 
     public static void updateSendStatus(String slNo, SlSendStatusEnum slSendStatus) {
         App.getDaoSession(App.getContext()).getSaleListBeanDao().updateSendStatus(slNo, slSendStatus);
@@ -142,5 +147,18 @@ public class DbManagerHelper {
 
         App.getDaoSession(App.getContext()).getSaleListBeanDao().updateOutStatus(slNo, slOutStatus);
 
+    }
+
+
+
+    public static SaleListBean getSaleRecord(String slNo) {
+        return  App.getDaoSession(App.getContext()).getSaleListBeanDao().queryBuilder().where(SaleListBeanDao.Properties.Sl_no.eq(slNo)).unique();
+    }
+
+    public static void updateSendStatus(List<SaleListBean> saleListBeans) {
+
+         for (SaleListBean saleListBean: saleListBeans) {
+             updateSendStatus(saleListBean.getSl_no(), SlSendStatusEnum.FINISH);
+        }
     }
 }

@@ -120,7 +120,11 @@ public class TimerService extends Service {
                             // 判断数据，并更新
                             updateInfo(response.getExt_data().getOprcode(), response.getExt_data().getOprdata());
 
+                            DbManagerHelper.updateSendStatus(saleListBeans);
                         }
+                        // 修改交易流水为上报成功
+
+
                     }
                 }, new Action1<Throwable>() {
                     @Override

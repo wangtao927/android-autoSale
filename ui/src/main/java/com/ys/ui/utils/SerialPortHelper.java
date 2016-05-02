@@ -2,7 +2,6 @@ package com.ys.ui.utils;
 
 import android.util.Log;
 
-import com.ys.SerialPort;
 import com.ys.SerialPortFinder;
 import com.ys.SerialPortTest;
 
@@ -12,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import android_serialport_api.SerialPort;
 
 /**
  * Created by wangtao on 2016/3/26.
@@ -29,6 +30,8 @@ public class SerialPortHelper {
         ports.add(9600);
         ports.add(19200);
         ports.add(38400);
+        ports.add(57600);
+        ports.add(115200);
     }
     // flag = 0  标识是售货机  1 打印机
     private int flag = 0;
@@ -57,6 +60,7 @@ public class SerialPortHelper {
                 serialMap.put(path, String.valueOf(port));
                 Log.d(TAG, String.format("onDataReceive: path:%s,port:%s", path, port));
 
+                test.setIsStop(true);
                 test.closeSerialPort();
 
             }

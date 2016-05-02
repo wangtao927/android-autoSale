@@ -14,19 +14,14 @@
  * limitations under the License. 
  */
 
-package com.ys.ui.sample;
+package com.ys.ui.serial.salemachine;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.widget.EditText;
-
 
 import com.ys.ui.base.App;
 import com.ys.ui.utils.ToastUtils;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.InvalidParameterException;
@@ -35,7 +30,7 @@ import java.util.List;
 
 import android_serialport_api.SerialPort;
 
-public abstract class SerialPortActivity extends Activity {
+public abstract class SerialMachineActivity extends Activity {
 
 
 	protected App mApplication;
@@ -44,14 +39,6 @@ public abstract class SerialPortActivity extends Activity {
 	private InputStream mInputStream;
 	private ReadThread mReadThread;
 	protected int baudrate  = 19200;
-
-	int timer = 0;
-	int timer1 = 0;
-	int timer2 = 0;
-	int timer3=0;
-	int conTimer =0;
-
-	List<byte[]> list = new ArrayList<>();
 
 	protected String path = "/dev/ttyES1";
 
@@ -68,7 +55,7 @@ public abstract class SerialPortActivity extends Activity {
 			super.run();
 
 			// 定义一个包的最大长度
-			int maxLength = 1024;
+			int maxLength = 32;
 			//byte[] buffer = new byte[maxLength];
 			// 每次收到实际长度
 			int available = 0;
@@ -108,16 +95,31 @@ public abstract class SerialPortActivity extends Activity {
 
 							if(buffer[i]==0x03)
 							{
+
+								// 需要兼容 02  和下面的包分开的情况
+
+                                if (!begin && end) {
+
+									byte[] temp2=new byte[temp.size()+1];
+									temp2[0] = 0x02;
+									for (int k = 1; k< temp.size()+1 ; k++) {
+										temp2[k] = temp.get(k);
+									}
+									onDataReceived(buffer);
+
+								} else {
+									byte[] temp2=new byte[temp.size()];
+									for (int k = 0; k< temp.size() ; k++) {
+										temp2[k] = temp.get(k);
+									}
+
+ 									onDataReceived(buffer);
+								}
+
+								temp.clear();
 								end=true;
 								begin = false;
 
-								byte[] temp2=new byte[temp.size()];
-								for (int k = 0; k< temp.size() ; k++) {
-									temp2[k] = temp.get(k);
-								}
-								list.add(temp2);
-								onDataReceived(buffer);
-								temp.clear();
 							}
 
 

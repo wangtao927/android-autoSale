@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import android_serialport_api.SerialPort;
+
 /**
  * Created by wangtao on 2016/3/28.
  */
@@ -18,7 +20,15 @@ public class SerialPortTest {
     private ReadThread mReadThread;
     private static SerialPortTest portTest;
     private OnDataReceiveListener onDataReceiveListener = null;
-    private boolean isStop = false;
+    boolean isStop = false;
+
+    public boolean isStop() {
+        return isStop;
+    }
+
+    public void setIsStop(boolean isStop) {
+        this.isStop = isStop;
+    }
 
     public interface OnDataReceiveListener {
         public void onDataReceive(byte[] buffer, int size);
@@ -119,7 +129,7 @@ public class SerialPortTest {
                 try {
                     if (mInputStream == null)
                         return;
-                    byte[] buffer = new byte[2048];
+                    byte[] buffer = new byte[16];
                     size = mInputStream.read(buffer);
                     if (size > 0) {
 //                        if(MyLog.isDyeLevel()){
