@@ -36,7 +36,7 @@ public class App extends Application {
     private String minipos_path = "";
 
     private int print_baudrate = 38400;
-    private String print_path = "";
+    private String print_path = "/dev/ttyS2";
 
 
     private int sale_baudrate = 19200;
@@ -103,6 +103,25 @@ public class App extends Application {
             mSerialPort = new SerialPort(new File(path), baudrate, 0);
         }
         ToastUtils.showShortMessage("init serial port :" + path + baudrate);
+        return mSerialPort;
+    }
+    public SerialPort getPrintSerial() throws SecurityException, IOException, InvalidParameterException {
+        if (mSerialPort == null) {
+			/* Read serial port parameters */
+//            SharedPreferences sp = getSharedPreferences("android_serialport_api.sample_preferences", MODE_PRIVATE);
+//            String path = sp.getString("DEVICE", "");
+//            int baudrate = Integer.decode(sp.getString("BAUDRATE", "-1"));
+
+			/* Check parameters */
+            if ( (print_path.length() == 0) || (print_baudrate == -1)) {
+                ToastUtils.showError("baudarete is error ：" + print_baudrate, this.getApplicationContext());
+               // throw new InvalidParameterException();
+            }
+
+			/* Open the serial port */
+            mSerialPort = new SerialPort(new File(print_path), print_baudrate, 0);
+        }
+        ToastUtils.showShortMessage("init serial port :" + print_baudrate + print_baudrate);
         return mSerialPort;
     }
 

@@ -33,6 +33,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.ys.ui.R;
+import com.ys.ui.common.constants.PrintConstants;
 
 public class MainMenu extends SerialPortActivity
 {
@@ -171,8 +172,12 @@ public class MainMenu extends SerialPortActivity
 			}
 			if(v==mPrintBtn)
 			{
+
 				iPriNum=Integer.parseInt(mPriNumEdit.getText().toString());
-				String mSendData = mSendEditText.getText().toString();
+				//String mSendData = mSendEditText.getText().toString();
+
+				String mSendData =String.format(PrintConstants.content, "12345678", "2016-05-03",
+						"88888888", "测试测试商品名称", "一盒/6只", "10.00", "9.00", "10.00", "10.00");
 				if(mSendData.length()==0)
 				{
 					if(bChinese)

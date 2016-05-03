@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.security.InvalidParameterException;
 
- import android.app.Activity;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -32,87 +32,69 @@ import com.ys.ui.base.App;
 
 import android_serialport_api.SerialPort;
 
-public abstract class SerialPortActivity extends Activity 
-{
+public abstract class SerialPortActivity extends Activity {
 
-	public App mApplication;
-	public SerialPort mSerialPort=null;
-	public OutputStream mOutputStream;
+    public App mApplication;
+    public SerialPort mSerialPort = null;
+    public OutputStream mOutputStream;
 
-	private void DisplayError(int resourceId) 
-	{
-		AlertDialog.Builder b = new AlertDialog.Builder(this);
-		b.setTitle("Error");
-		b.setMessage(resourceId);
-		b.setPositiveButton("OK", new OnClickListener() 
-		{
-			public void onClick(DialogInterface dialog, int which) 
-			{
-				//SerialPortActivity.this.finish();
-			}
-		});
-		b.show();
-	}
+    private void DisplayError(int resourceId) {
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setTitle("Error");
+        b.setMessage(resourceId);
+        b.setPositiveButton("OK", new OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                //SerialPortActivity.this.finish();
+            }
+        });
+        b.show();
+    }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) 
-	{
-		super.onCreate(savedInstanceState);
-	//	InitCom();
-	}
-	public void InitCom()
-	{
-		mApplication = (App) getApplication();
-		try 
-		{
-			mSerialPort = mApplication.getSerialPort();
-			mOutputStream = mSerialPort.getOutputStream();
-		} catch (SecurityException e) 
-		{
-			DisplayError(R.string.error_security);
-		} catch (IOException e) 
-		{
-			DisplayError(R.string.error_unknown);
-		} catch (InvalidParameterException e) 
-		{
-			DisplayError(R.string.error_configuration);
-		}	
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //InitCom();
+    }
 
-	public void SendData(byte[] bytedata)
-	{
-		if (mSerialPort != null)
-		{
-			try
-			{
-				if (mOutputStream != null)
-				{
-					mOutputStream.write(bytedata);
-				} else
-				{
-				}
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		else
-		{
-			Toast.makeText(SerialPortActivity.this,"请先打开串口", Toast.LENGTH_SHORT).show();
-		}
-	}
-	public void CloseCom()
-	{
-		mApplication.closeSerialPort();
-		mSerialPort = null;
-	}
-	
-	protected abstract void onDataReceived(final byte[] buffer, final int size);
+    public void InitCom() {
+        mApplication = (App) getApplication();
+        try {
+            mSerialPort = mApplication.getPrintSerial();
+            mOutputStream = mSerialPort.getOutputStream();
+        } catch (SecurityException e) {
+            DisplayError(R.string.error_security);
+        } catch (IOException e) {
+            DisplayError(R.string.error_unknown);
+        } catch (InvalidParameterException e) {
+            DisplayError(R.string.error_configuration);
+        }
+    }
 
-	@Override
-	protected void onDestroy() 
-	{
-		super.onDestroy();
-		//CloseCom();
-	}
+    public void SendData(byte[] bytedata) {
+        if (mSerialPort != null) {
+            try {
+                if (mOutputStream != null) {
+                    mOutputStream.write(bytedata);
+                } else {
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(SerialPortActivity.this, "请先打开串口", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void CloseCom() {
+        mApplication.closeSerialPort();
+        mSerialPort = null;
+    }
+
+    protected abstract void onDataReceived(final byte[] buffer, final int size);
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //CloseCom();
+    }
 }
