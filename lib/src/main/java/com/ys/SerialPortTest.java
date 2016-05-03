@@ -132,7 +132,7 @@ public class SerialPortTest {
                     }
                     Thread.sleep(10);
                 } catch (Exception e) {
-                    e.printStackTrace();
+
                     return;
                 }
             }

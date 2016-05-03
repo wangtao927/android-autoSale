@@ -16,7 +16,7 @@ public class DaoGenerate {
         addMCGoods(schema);
         addMCParams(schema);
         addMCStatus(schema);
-           addMcAdmin(schema);
+        addMcAdmin(schema);
         addPromotion(schema);
         addSaleList(schema);
 
@@ -26,7 +26,7 @@ public class DaoGenerate {
     private static void addMcAdmin(Schema schema) {
         Entity mcParamBean = schema.addEntity("McAdminBean");
         mcParamBean.setTableName("mcadmin");
-        mcParamBean.addStringProperty("u_no").primaryKey();//æœºèº«å·
+        mcParamBean.addStringProperty("u_no").primaryKey();//»úÉíºÅ
         mcParamBean.addStringProperty("u_pwd");
 
     }
@@ -35,23 +35,29 @@ public class DaoGenerate {
      * @param schema
      */
     private static void addGoods(Schema schema) {
-        // ä¸€ä¸ªå®ä½“ï¼ˆç±»ï¼‰å°±å…³è”åˆ°æ•°æ®åº“ä¸­çš„ä¸€å¼ è¡¨ï¼Œæ­¤å¤„è¡¨åä¸ºã€ŒNoteã€ï¼ˆæ—¢ç±»åï¼‰
+        // Ò»¸öÊµÌå£¨Àà£©¾Í¹ØÁªµ½Êı¾İ¿âÖĞµÄÒ»ÕÅ±í£¬´Ë´¦±íÃûÎª¡¸Note¡¹£¨¼ÈÀàÃû£©
         Entity goodsBean = schema.addEntity("GoodsBean");
         goodsBean.setTableName("goods");
-        // ä½ ä¹Ÿå¯ä»¥é‡æ–°ç»™è¡¨å‘½å
+        // ÄãÒ²¿ÉÒÔÖØĞÂ¸ø±íÃüÃû
         // note.setTableName("NODE");
 
-        // greenDAO ä¼šè‡ªåŠ¨æ ¹æ®å®ä½“ç±»çš„å±æ€§å€¼æ¥åˆ›å»ºè¡¨å­—æ®µï¼Œå¹¶èµ‹äºˆé»˜è®¤å€¼
-        // æ¥ä¸‹æ¥ä½ ä¾¿å¯ä»¥è®¾ç½®è¡¨ä¸­çš„å­—æ®µï¼š
+        // greenDAO »á×Ô¶¯¸ù¾İÊµÌåÀàµÄÊôĞÔÖµÀ´´´½¨±í×Ö¶Î£¬²¢¸³ÓèÄ¬ÈÏÖµ
+        // ½ÓÏÂÀ´Äã±ã¿ÉÒÔÉèÖÃ±íÖĞµÄ×Ö¶Î£º
         goodsBean.addStringProperty("gd_no").primaryKey();
         goodsBean.addStringProperty("gd_code");
+        goodsBean.addStringProperty("gd_short_name");
         goodsBean.addStringProperty("gd_name");
         goodsBean.addStringProperty("gd_type");
+        goodsBean.addStringProperty("gd_ty_class");
+        goodsBean.addStringProperty("gd_pm_class");
+        goodsBean.addStringProperty("gd_nm_class");
         goodsBean.addStringProperty("gd_approve_code");
         goodsBean.addStringProperty("gd_spec");
-        goodsBean.addStringProperty("gd_manufacturer");
+        goodsBean.addStringProperty("gd_brand");
+        goodsBean.addStringProperty("gd_manufacturer"); // Éú²ú³§¼Ò
+        goodsBean.addStringProperty("gd_saleunit");
         goodsBean.addStringProperty("gd_barcode");
-        goodsBean.addStringProperty("gd_class");
+
         goodsBean.addLongProperty("gd_sale_price");
         goodsBean.addLongProperty("gd_disc_price");
         goodsBean.addLongProperty("gd_vip_price");
@@ -64,6 +70,12 @@ public class DaoGenerate {
         goodsBean.addStringProperty("gd_img_s");
         goodsBean.addStringProperty("gd_instruction_file");
         goodsBean.addStringProperty("gd_desc");
+        goodsBean.addStringProperty("gd_url");
+        goodsBean.addStringProperty("gd_desc1"); // Åä·½
+        goodsBean.addStringProperty("gd_desc2");// ¹¦ÄÜÖ÷ÖÎ
+        goodsBean.addStringProperty("gd_desc3");// ÓÃ·¨ÓÃÁ¿
+        goodsBean.addStringProperty("gd_desc4");
+        goodsBean.addStringProperty("gd_desc5");
         goodsBean.addStringProperty("mer_no");
         goodsBean.addStringProperty("remark");
         goodsBean.addStringProperty("addtime");
@@ -80,22 +92,22 @@ public class DaoGenerate {
 
 //        mcGoodsBean.addLongProperty("mg_id").primaryKey();
 
-        mcGoodsBean.addStringProperty("mc_no");//ç»ˆç«¯å·
-        mcGoodsBean.addStringProperty("mg_channo").primaryKey();//è´§é“ç¼–å·
-        mcGoodsBean.addStringProperty("gd_no");//å•†å“ç¼–ç 
-        mcGoodsBean.addStringProperty("gd_type");//å•†å“ç±»å‹
+        mcGoodsBean.addStringProperty("mc_no");//ÖÕ¶ËºÅ
+        mcGoodsBean.addStringProperty("mg_channo").primaryKey();//»õµÀ±àºÅ
+        mcGoodsBean.addStringProperty("gd_no");//ÉÌÆ·±àÂë
+        mcGoodsBean.addStringProperty("gd_type");//ÉÌÆ·ÀàĞÍ
         mcGoodsBean.addStringProperty("gd_approve_code");
         mcGoodsBean.addStringProperty("gd_batch_no");
         mcGoodsBean.addStringProperty("gd_des_code");
         mcGoodsBean.addStringProperty("gd_mf_date");
         mcGoodsBean.addStringProperty("gd_exp_date");
-        mcGoodsBean.addLongProperty("mg_gvol");//å•†å“å®¹é‡
-        mcGoodsBean.addLongProperty("mg_gnum");//å•†å“å­˜é‡
+        mcGoodsBean.addLongProperty("mg_gvol");//ÉÌÆ·ÈİÁ¿
+        mcGoodsBean.addLongProperty("mg_gnum");//ÉÌÆ·´æÁ¿
         mcGoodsBean.addLongProperty("prePrice");
         mcGoodsBean.addLongProperty("scorePrice");
         mcGoodsBean.addLongProperty("mg_vip_price");
         mcGoodsBean.addLongProperty("mg_price");
-        mcGoodsBean.addLongProperty("chanStatus"); // é»˜è®¤ä¸å¡è´§   1 æ­£å¸¸  2 å¡è´§
+        mcGoodsBean.addLongProperty("chanStatus"); // Ä¬ÈÏ²»¿¨»õ   1 Õı³£  2 ¿¨»õ
         mcGoodsBean.addDateProperty("addtime");
         mcGoodsBean.addDateProperty("updatetime");
 
@@ -114,11 +126,11 @@ public class DaoGenerate {
     private static void addMCStatus(Schema schema) {
         Entity mcParamBean = schema.addEntity("McStatusBean");
         mcParamBean.setTableName("mcstatus");
-        mcParamBean.addStringProperty("mc_no").primaryKey();//ç»ˆç«¯å·
-        mcParamBean.addStringProperty("mc_serial_no");//æœºèº«å·
-        mcParamBean.addStringProperty("mr_coin_status");//DEFAULT '0' COMMENT 'ç¡¬å¸å™¨çŠ¶æ€ï¼š''0''-æ­£å¸¸ï¼Œ''1''-å¼‚å¸¸ã€‚',
-        mcParamBean.addStringProperty("mr_coin_short");//DEFAULT NULL COMMENT 'ç¡¬å¸é¢„è­¦',
-        mcParamBean.addStringProperty("mr_bill_status");//DEFAULT '0' COMMENT 'çº¸å¸å™¨çŠ¶æ€ï¼š''0''-æ­£å¸¸ï¼Œ''1''-å¼‚å¸¸ã€‚',
+        mcParamBean.addStringProperty("mc_no").primaryKey();//ÖÕ¶ËºÅ
+        mcParamBean.addStringProperty("mc_serial_no");//»úÉíºÅ
+        mcParamBean.addStringProperty("mr_coin_status");//DEFAULT '0' COMMENT 'Ó²±ÒÆ÷×´Ì¬£º''0''-Õı³££¬''1''-Òì³£¡£',
+        mcParamBean.addStringProperty("mr_coin_short");//DEFAULT NULL COMMENT 'Ó²±ÒÔ¤¾¯',
+        mcParamBean.addStringProperty("mr_bill_status");//DEFAULT '0' COMMENT 'Ö½±ÒÆ÷×´Ì¬£º''0''-Õı³££¬''1''-Òì³£¡£',
         mcParamBean.addStringProperty("mr_bill_short");
         mcParamBean.addStringProperty("mr_uppos_status");
         mcParamBean.addStringProperty("mr_scpos_status");
@@ -166,32 +178,34 @@ public class DaoGenerate {
         Entity mcParamBean = schema.addEntity("SaleListBean");
         mcParamBean.setTableName("salelist");
         mcParamBean.addLongProperty("sl_id").primaryKey().autoincrement();
-        mcParamBean.addStringProperty("sl_no"); //ç»ˆç«¯å·
-        mcParamBean.addStringProperty("sl_batch_no");// æ‰¹æ¬¡å·
-        mcParamBean.addStringProperty("sl_time");//äº¤æ˜“æ—¶é—´
-        mcParamBean.addStringProperty("mc_no");// ç»ˆç«¯å·
-        mcParamBean.addStringProperty("sl_gd_no");// å•†å“ç¼–ç 
-        mcParamBean.addStringProperty("sl_gd_name");//å•†å“åç§°
-        mcParamBean.addLongProperty("sl_pre_price");//åŸä»·
-        mcParamBean.addLongProperty("sl_disc_price");// æŠ˜æ‰£ä»·
-        mcParamBean.addLongProperty("sl_vip_price");//ä¼šå‘˜ä»·
+        mcParamBean.addStringProperty("sl_no"); //ÖÕ¶ËºÅ
+        mcParamBean.addStringProperty("sl_batch_no");// Åú´ÎºÅ
+        mcParamBean.addStringProperty("sl_time");//½»Ò×Ê±¼ä
+        mcParamBean.addStringProperty("mc_no");// ÖÕ¶ËºÅ
+        mcParamBean.addStringProperty("sl_gd_no");// ÉÌÆ·±àÂë
+        mcParamBean.addStringProperty("sl_gd_name");//ÉÌÆ·Ãû³Æ
+        mcParamBean.addLongProperty("sl_pre_price");//Ô­¼Û
+        mcParamBean.addLongProperty("sl_disc_price");// ÕÛ¿Û¼Û
+        mcParamBean.addLongProperty("sl_vip_price");//»áÔ±¼Û
 
-        mcParamBean.addLongProperty("sl_amt");//äº¤æ˜“é‡‘é¢
-        mcParamBean.addLongProperty("sl_score");//å°è´¹ç§¯åˆ†
-        mcParamBean.addLongProperty("sl_cash_in");//æŠ•çº¸å¸é‡‘é¢
-        mcParamBean.addLongProperty("sl_cash_out");//æ‰¾é›¶çº¸å¸é‡‘é¢
+        mcParamBean.addLongProperty("sl_amt");//½»Ò×½ğ¶î
+        mcParamBean.addLongProperty("sl_score");//Ğ¡·Ñ»ı·Ö
+        mcParamBean.addLongProperty("sl_cash_in");//Í¶Ö½±Ò½ğ¶î
+        mcParamBean.addLongProperty("sl_cash_out");//ÕÒÁãÖ½±Ò½ğ¶î
         mcParamBean.addStringProperty("sl_coin_in");
         mcParamBean.addStringProperty("sl_coin_out");
-        mcParamBean.addStringProperty("sl_chann");//è´§é“ç¼–å·
-        mcParamBean.addLongProperty("sl_num"); //é”€å”®æ•°é‡
-        mcParamBean.addStringProperty("sl_type");//ä»˜æ¬¾æ–¹å¼ï¼š1-ç°é‡‘ã€2-é“¶è¡Œå¡ã€3-å¾®ä¿¡æ”¯ä»˜ï¼Œ4-æ”¯ä»˜å®ï¼Œ5-ç§¯åˆ†å…‘æ¢ï¼Œ6-æè´§ç 
-        mcParamBean.addStringProperty("sl_isvip");// æ˜¯å¦ä¼šå‘˜ï¼Œ0-å¦ï¼Œ1-æ˜¯
-        mcParamBean.addStringProperty("sl_status");//äº¤æ˜“çŠ¶æ€ï¼š1-å·²ä¸‹å•ï¼Œ2-å·²æ”¯ä»˜ï¼Œ3-å·²å‡ºè´§ï¼Œ4-å·²é€€æ¬¾ï¼Œ5-æ”¯ä»˜å¤±è´¥ï¼Œ6-å‡ºè´§å¤±è´¥
+        mcParamBean.addStringProperty("sl_chann");//»õµÀ±àºÅ
+        mcParamBean.addLongProperty("sl_num"); //ÏúÊÛÊıÁ¿
+        mcParamBean.addStringProperty("sl_type");//¸¶¿î·½Ê½£º1-ÏÖ½ğ¡¢2-ÒøĞĞ¿¨¡¢3-Î¢ĞÅÖ§¸¶£¬4-Ö§¸¶±¦£¬5-»ı·Ö¶Ò»»£¬6-Ìá»õÂë
+        mcParamBean.addStringProperty("sl_isvip");// ÊÇ·ñ»áÔ±£¬0-·ñ£¬1-ÊÇ
+        //mcParamBean.addStringProperty("sl_status");//½»Ò××´Ì¬£º1-ÒÑÏÂµ¥£¬2-ÒÑÖ§¸¶£¬3-ÒÑ³ö»õ£¬4-ÒÑÍË¿î£¬5-Ö§¸¶Ê§°Ü£¬6-³ö»õÊ§°Ü
         mcParamBean.addStringProperty("sl_err_msg");
         mcParamBean.addStringProperty("sl_acc_no");
         mcParamBean.addLongProperty("sl_bf_amt");
         mcParamBean.addLongProperty("sl_af_amt");
-        mcParamBean.addLongProperty("sl_send_status");//ä¸ŠæŠ¥çŠ¶æ€ 0 æœªä¸ŠæŠ¥ 1 å·²ä¸ŠæŠ¥
+        mcParamBean.addLongProperty("sl_send_status");//ÉÏ±¨×´Ì¬ 0 Î´ÉÏ±¨ 1 ÒÑÉÏ±¨
+        mcParamBean.addStringProperty("sl_pay_status");//Ö§¸¶×´Ì¬£º1-´ıÖ§¸¶£¬2-Ö§¸¶ÖĞ£¬3-Ö§¸¶³É¹¦£¬4-Ö§¸¶Ê§°Ü£¬5-ÒÑÍË¿î£¬6-¶©µ¥³·Ïú
+        mcParamBean.addStringProperty("sl_out_status");//³ö»õ×´Ì¬£º1-´ı³ö»õ£¬2-³ö»õ³É¹¦£¬3-³ö»õÊ§°Ü
 
     }
 

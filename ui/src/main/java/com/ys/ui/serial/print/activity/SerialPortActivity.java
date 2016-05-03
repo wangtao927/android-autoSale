@@ -78,26 +78,27 @@ public abstract class SerialPortActivity extends Activity
 			DisplayError(R.string.error_configuration);
 		}	
 	}
+
 	public void SendData(byte[] bytedata)
 	{
-		if (mSerialPort != null) 
+		if (mSerialPort != null)
 		{
-			try 
+			try
 			{
-				if (mOutputStream != null) 
+				if (mOutputStream != null)
 				{
 					mOutputStream.write(bytedata);
-				} else 
+				} else
 				{
 				}
-			} catch (IOException e) 
+			} catch (IOException e)
 			{
 				e.printStackTrace();
 			}
 		}
 		else
 		{
-			Toast.makeText(SerialPortActivity.this,"���ȴ򿪴���", Toast.LENGTH_SHORT).show();
+			Toast.makeText(SerialPortActivity.this,"请先打开串口", Toast.LENGTH_SHORT).show();
 		}
 	}
 	public void CloseCom()
