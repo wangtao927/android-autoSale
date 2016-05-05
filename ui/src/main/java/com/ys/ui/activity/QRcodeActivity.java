@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -24,10 +25,12 @@ import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
 import com.ys.ui.common.constants.SlTypeEnum;
 import com.ys.ui.common.http.RetrofitManager;
+import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateOrderResult;
 import com.ys.ui.common.response.SaleListResult;
+import com.ys.ui.utils.ImageUtils;
 import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.ToastUtils;
 
@@ -49,15 +52,26 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
     @Bind(R.id.iv_wx_qrcode)
     ImageView wxQrcodeImage;
 
+    @Bind(R.id.gd_detail_image)
+    ImageView gdDetailImage;
     @Bind(R.id.wx_pay)
     Button wxPay;
 
     @Bind(R.id.ali_pay)
     Button aliPay;
 
+
+    @Bind(R.id.gd_name)
+    TextView gdName;
+
+    @Bind(R.id.gd_detail)
+    TextView gdDetail;
+
     private GoodsBean goodsBean;
     private McGoodsBean mcGoodsBean;
     private McStatusBean statusBean;
+
+    private String gdNo = "";
     /**
      * 用字符串生成二维码
      * @param str
@@ -94,13 +108,24 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void create(Bundle savedInstanceState) {
         //调用接口获取地址
+        Bundle datas = getIntent().getExtras();
+        gdNo = datas.getString("gdNo");
 
         statusBean =  App.getDaoSession(App.getContext()).getMcStatusBeanDao().queryBuilder().unique();
 
-        mcGoodsBean =App.getDaoSession(App.getContext()).getMcGoodsBeanDao().queryBuilder().limit(1).unique();
-        String gdNo = mcGoodsBean.getGd_no();
-        goodsBean =  App.getDaoSession(App.getContext()).getGoodsBeanDao().queryBuilder().where(GoodsBeanDao.Properties.Gd_no.eq(gdNo)).unique();
+        //mcGoodsBean =App.getDaoSession(App.getContext()).getMcGoodsBeanDao().queryBuilder().limit(1).unique();
+        //gdNo = mcGoodsBean.getGd_no();
+        goodsBean = DbManagerHelper.getGoodsInfo(gdNo);
+
+        mcGoodsBean = DbManagerHelper.getOutGoods(gdNo);
+        //goodsBean =  App.getDaoSession(App.getContext()).getGoodsBeanDao().queryBuilder().where(GoodsBeanDao.Properties.Gd_no.eq(gdNo)).unique();
         //createOrder();
+         Glide.with(App.getContext())
+                .load(PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(goodsBean.getGd_img_s()))
+                .into(gdDetailImage);
+
+        gdName.append(goodsBean.getGd_short_name());
+        gdDetail.append(goodsBean.getGd_desc());
 
         wxPay.setOnClickListener(this);
         aliPay.setOnClickListener(this);

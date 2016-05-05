@@ -111,6 +111,10 @@ public class DbManagerHelper {
         }
     }
 
+
+    public static GoodsBean getGoodsInfo(String gdNo) {
+        return App.getDaoSession(App.getContext()).getGoodsBeanDao().load(gdNo);
+    }
     /**
      * 根据商户编号，获取出货信息
      * @param gdNo

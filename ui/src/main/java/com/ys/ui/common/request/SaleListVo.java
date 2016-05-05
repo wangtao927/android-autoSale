@@ -38,7 +38,7 @@ public class SaleListVo implements Serializable {
     private String slAccNo;
     @SerializedName("ec_no")
     private String slThCardno;
-    @SerializedName("ec_pwd")
+    @SerializedName("ec_mobile")
     private String slThPwd;
 
     public String getSlNo() {

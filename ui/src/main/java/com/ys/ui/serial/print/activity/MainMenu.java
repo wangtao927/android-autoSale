@@ -33,7 +33,9 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.ys.ui.R;
+import com.ys.ui.base.App;
 import com.ys.ui.common.constants.PrintConstants;
+import com.ys.ui.utils.ToastUtils;
 
 public class MainMenu extends SerialPortActivity
 {
@@ -127,8 +129,16 @@ public class MainMenu extends SerialPortActivity
 	}// end onCreate
 
 	@Override
-	protected void onDataReceived(byte[] buffer, int size)
+	protected void onDataReceived(final byte[] buffer, int size)
 	{
+		final byte[] bs = buffer;
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+
+				ToastUtils.showShortMessage(new String(bs));
+			}
+		});
 		// TODO Auto-generated method stub
 
 	}

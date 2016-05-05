@@ -66,7 +66,6 @@ public class App extends Application {
     }
 
     public SerialPort getSerialPort(String path, int baudrate) throws SecurityException, IOException, InvalidParameterException {
-        ToastUtils.showShortMessage("app:path:" + path);
 
         if (mSerialPort == null) {
 			/* Read serial port parameters */
@@ -121,7 +120,7 @@ public class App extends Application {
 			/* Open the serial port */
             mSerialPort = new SerialPort(new File(print_path), print_baudrate, 0);
         }
-        ToastUtils.showShortMessage("init serial port :" + print_baudrate + print_baudrate);
+        ToastUtils.showShortMessage("init serial port :" + print_path + print_baudrate);
         return mSerialPort;
     }
 
