@@ -44,6 +44,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.btn_buy)
     Button btn_buy;
 
+    @Bind(R.id.btn_home)
+    Button btnHome;
+
 
     @Override
     protected int getLayoutId() {
@@ -59,6 +62,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         btn_admin.setOnClickListener(this);
         btn_qrcode.setOnClickListener(this);
         btn_buy.setOnClickListener(this);
+        btnHome.setOnClickListener(this);
         // 如果终端号不存在， 则跳转到设置终端信息界面
         if (!isInit()) {
             // 弹出层，输入终端号，初始化机器
@@ -106,6 +110,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.btn_qrcode:
                 startActivity(new Intent(MainActivity.this, QRcodeActivity.class));
+                break;
+            case R.id.btn_home:
+                startActivity(new Intent(MainActivity.this, HomeActivity.class));
                 break;
 
         }

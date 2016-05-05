@@ -48,7 +48,7 @@ public class ArrayUtils {
      * @param sourceArray
      * @param value value of target element
      * @param defaultValue default return value
-     * @param isCircle whether is circle
+     * @param isCircle whether is circle.xml
      * @return
      */
     public static <V> V getLast(V[] sourceArray, V value, V defaultValue, boolean isCircle) {
@@ -87,7 +87,7 @@ public class ArrayUtils {
      * @param sourceArray
      * @param value value of target element
      * @param defaultValue default return value
-     * @param isCircle whether is circle
+     * @param isCircle whether is circle.xml
      * @return
      */
     public static <V> V getNext(V[] sourceArray, V value, V defaultValue, boolean isCircle) {
