@@ -3,8 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="bg_deep">#001e56</color>
-    <color name="bg">#00499a</color>
+    <color name="bg_deep">#000222</color>
+    <color name="bg">#000222</color>
+    <color name="bg_btn">#00243b</color>
     <color name="red">#e30a20</color>
     <color name="price">#00499a</color>
+    <color name="white">#ffffff</color>
 </resources>
