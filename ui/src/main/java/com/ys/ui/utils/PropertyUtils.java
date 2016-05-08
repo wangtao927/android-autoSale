@@ -33,8 +33,8 @@ public class PropertyUtils {
      * @return
      */
     public int getOnlineSendSplit() {
-        return 10;
-//       return Integer.valueOf(getValue(ParamEnum.ONLINE_SEND_SPLIT));
+//        return 1;
+       return Integer.valueOf(getValue(ParamEnum.ONLINE_SEND_SPLIT));
     }
 
     public String getFastDfsUrl() {

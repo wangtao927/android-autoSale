@@ -28,6 +28,7 @@ public class App extends Application {
 
     public SerialPortFinder mSerialPortFinder = new SerialPortFinder();
     private SerialPort mSerialPort = null;
+    private SerialPort mPrintSerialPort = null;
     private int baudrate  = 19200;
 //    //private int port = 0;
     private String path = "/dev/ttyES1";
@@ -66,7 +67,6 @@ public class App extends Application {
     }
 
     public SerialPort getSerialPort(String path, int baudrate) throws SecurityException, IOException, InvalidParameterException {
-        ToastUtils.showShortMessage("app:path:" + path);
 
         if (mSerialPort == null) {
 			/* Read serial port parameters */
@@ -106,7 +106,7 @@ public class App extends Application {
         return mSerialPort;
     }
     public SerialPort getPrintSerial() throws SecurityException, IOException, InvalidParameterException {
-        if (mSerialPort == null) {
+        if (mPrintSerialPort == null) {
 			/* Read serial port parameters */
 //            SharedPreferences sp = getSharedPreferences("android_serialport_api.sample_preferences", MODE_PRIVATE);
 //            String path = sp.getString("DEVICE", "");
@@ -119,16 +119,23 @@ public class App extends Application {
             }
 
 			/* Open the serial port */
-            mSerialPort = new SerialPort(new File(print_path), print_baudrate, 0);
+            mPrintSerialPort = new SerialPort(new File(print_path), print_baudrate, 0);
         }
-        ToastUtils.showShortMessage("init serial port :" + print_baudrate + print_baudrate);
-        return mSerialPort;
+        ToastUtils.showShortMessage("init serial port :" + print_path + print_baudrate);
+        return mPrintSerialPort;
     }
 
     public void closeSerialPort() {
         if (mSerialPort != null) {
             mSerialPort.close();
             mSerialPort = null;
+        }
+    }
+
+    public void closePrintSerialPort() {
+        if (mPrintSerialPort != null) {
+            mPrintSerialPort.close();
+            mPrintSerialPort= null;
         }
     }
 

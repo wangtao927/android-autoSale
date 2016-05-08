@@ -86,7 +86,7 @@ public abstract class SerialPortActivity extends Activity {
     }
 
     public void CloseCom() {
-        mApplication.closeSerialPort();
+        mApplication.closePrintSerialPort();
         mSerialPort = null;
     }
 

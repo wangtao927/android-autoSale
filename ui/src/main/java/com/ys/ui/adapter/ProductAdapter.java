@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.ys.data.bean.GoodsBean;
 import com.ys.ui.R;
 import com.ys.ui.activity.ProductDetailActivity;
+import com.ys.ui.activity.QRcodeActivity;
 import com.ys.ui.utils.ImageUtils;
 import com.ys.ui.utils.PropertyUtils;
 
@@ -54,7 +55,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
         holder.productName.setText(bean.getGd_name());
 
         String url = PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(bean.getGd_img_s());
-        Log.d("url:", url);
+
         Glide.with(context)
                 .load(url)
                 .centerCrop()
@@ -78,8 +79,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
         @OnClick(R.id.iv_picon)
         void itemClick() {
             final GoodsBean goodsBean = (GoodsBean) productName.getTag();
-            Intent intent = new Intent(context, ProductDetailActivity.class);
-            intent.putExtra("gd_no", goodsBean.getGd_no());
+            Intent intent = new Intent(context, QRcodeActivity.class);
+            intent.putExtra("gdNo", goodsBean.getGd_no());
             context.startActivity(intent);
         }
 

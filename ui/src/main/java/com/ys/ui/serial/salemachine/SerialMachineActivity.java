@@ -209,8 +209,7 @@ public abstract class SerialMachineActivity extends Activity {
 
 			baudrate = mApplication.getSale_baudrate();
 
-			ToastUtils.showShortMessage("path:" + path + "baudrate:" + baudrate);
-			mSerialPort = mApplication.getSerialPort(path, baudrate);
+ 			mSerialPort = mApplication.getSerialPort(path, baudrate);
 
 			mOutputStream = mSerialPort.getOutputStream();
 			mInputStream = mSerialPort.getInputStream();

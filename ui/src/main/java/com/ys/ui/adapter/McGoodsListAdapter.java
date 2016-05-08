@@ -4,17 +4,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.ys.data.bean.GoodsBean;
@@ -23,7 +17,6 @@ import com.ys.data.dao.GoodsBeanDao;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.utils.ToastUtils;
-import com.ys.ui.view.McGoodsView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -87,10 +80,10 @@ public class McGoodsListAdapter extends RecyclerView.Adapter<McGoodsListAdapter.
         if (goodsView.getMg_gnum() != null) {
             holder.gnum.setText(String.valueOf(goodsView.getMg_gnum()));
         }
-        if (goodsView.getChanStatus() != null) {
+        if (goodsView.getMg_chann_status() != null) {
 
             boolean isError = false;
-            if (2 == goodsView.getChanStatus().intValue()) {
+            if (2 == goodsView.getMg_chann_status().intValue()) {
 
                 isError = true;
             }
@@ -109,7 +102,7 @@ public class McGoodsListAdapter extends RecyclerView.Adapter<McGoodsListAdapter.
 
                 // 去修改数据库
                 McGoodsBean bean = goodsView;
-                bean.setChanStatus(checkBox.isChecked() ? 2L : 1L);
+                bean.setMg_chann_status(checkBox.isChecked() ? 2L : 1L);
 //                bean.setMg_gvol(goodsView.getMg_gvol());
 //                bean.setMg_gnum(goodsView.getMg_gnum());
                 App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChannelStatusByPK(bean);
@@ -142,7 +135,7 @@ public class McGoodsListAdapter extends RecyclerView.Adapter<McGoodsListAdapter.
         @Bind(R.id.gnum)
         TextView gnum;
 
-        @Bind(R.id.chanStatus)
+        @Bind(R.id.mg_chann_status)
         CheckBox chanStatus;
 
         @OnClick(R.id.ll_item)

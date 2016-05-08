@@ -77,9 +77,6 @@ public class SelectGoodsActivity extends SerialMachineActivity {
 			return;
 		}
 		//  打开串口
-
-
-
 	}
 
 

@@ -17,11 +17,16 @@
 package com.ys.ui.serial.print.activity;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,7 +38,9 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.ys.ui.R;
+import com.ys.ui.base.App;
 import com.ys.ui.common.constants.PrintConstants;
+import com.ys.ui.utils.ToastUtils;
 
 public class MainMenu extends SerialPortActivity
 {
@@ -114,6 +121,53 @@ public class MainMenu extends SerialPortActivity
 	}
 
 
+	public void gdPrint(String orderNo, String termNo, String gdName, String gdType, String price, String vipPrice, String actualPrice) {
+		// 初始化串口
+		InitCom();
+
+		// 打印条形码
+		printCode39();
+
+		// 打印内容
+		print(orderNo, termNo, gdName, gdType, price, vipPrice, actualPrice);
+
+		// 切纸
+		printCut();
+
+		CloseCom();
+
+	}
+
+	private void printCode39() {
+		byte SendBuf[]={0X0D, 0X0A, 0X1D, 0X48, 0X02, 0X1D, 0X68, (byte) 0X80, 0X1D, 0X77, 0X02, 0X1D, 0X6B, 0X45, 0X09, 0X30, 0X31, 0X32, 0X33, 0X34, 0X35, 0X36, 0X37, 0X38, 0X0D, 0X0A};
+		SendData(SendBuf);
+
+	}
+
+	private void print(String orderNo, String termNo, String gdName, String gdType, String price, String vipPrice, String actualPrice) {
+
+		String mSendData =String.format(PrintConstants.content, orderNo, new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()),
+				termNo, gdName, gdType, price, vipPrice, actualPrice);
+
+		byte SendBuf[]={0x1b,0x40};
+		SendData(SendBuf);
+
+		try {
+			byte[] send = null;
+			send = mSendData.getBytes("GBK");
+			SendData(send);
+
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void printCut() {
+
+		byte SendBuf[]={0x0a,0x0a,0x0a,0x0a,0x0a,0x0a,0x0a,0x0a,0x0a,0x0a,0x0a,0x0a,0x0a,0x1b,0x69};
+		SendData(SendBuf);
+	}
 
 	/** Called when the activity is first created. */
 	@Override
@@ -127,8 +181,16 @@ public class MainMenu extends SerialPortActivity
 	}// end onCreate
 
 	@Override
-	protected void onDataReceived(byte[] buffer, int size)
+	protected void onDataReceived(final byte[] buffer, int size)
 	{
+		final byte[] bs = buffer;
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+
+				ToastUtils.showShortMessage(new String(bs));
+			}
+		});
 		// TODO Auto-generated method stub
 
 	}
