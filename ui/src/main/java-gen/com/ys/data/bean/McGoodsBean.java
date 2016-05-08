@@ -17,11 +17,11 @@ public class McGoodsBean {
     private String gd_exp_date;
     private Long mg_gvol;
     private Long mg_gnum = 0L;
-    private Long prePrice;
+    private Long mg_pre_price;
     private Long scorePrice;
     private Long mg_vip_price;
     private Long mg_price;
-    private Long chanStatus;
+    private Long mg_chann_status;
     private java.util.Date addtime;
     private java.util.Date updatetime;
 
@@ -32,7 +32,7 @@ public class McGoodsBean {
         this.mg_channo = mg_channo;
     }
 
-    public McGoodsBean(String mc_no, String mg_channo, String gd_no, String gd_type, String gd_approve_code, String gd_batch_no, String gd_des_code, String gd_mf_date, String gd_exp_date, Long mg_gvol, Long mg_gnum, Long prePrice, Long scorePrice, Long mg_vip_price, Long mg_price, Long chanStatus, java.util.Date addtime, java.util.Date updatetime) {
+    public McGoodsBean(String mc_no, String mg_channo, String gd_no, String gd_type, String gd_approve_code, String gd_batch_no, String gd_des_code, String gd_mf_date, String gd_exp_date, Long mg_gvol, Long mg_gnum, Long mg_pre_price, Long scorePrice, Long mg_vip_price, Long mg_price, Long mg_chann_status, java.util.Date addtime, java.util.Date updatetime) {
         this.mc_no = mc_no;
         this.mg_channo = mg_channo;
         this.gd_no = gd_no;
@@ -44,11 +44,11 @@ public class McGoodsBean {
         this.gd_exp_date = gd_exp_date;
         this.mg_gvol = mg_gvol;
         this.mg_gnum = mg_gnum;
-        this.prePrice = prePrice;
+        this.mg_pre_price = mg_pre_price;
         this.scorePrice = scorePrice;
         this.mg_vip_price = mg_vip_price;
         this.mg_price = mg_price;
-        this.chanStatus = chanStatus;
+        this.mg_chann_status = mg_chann_status;
         this.addtime = addtime;
         this.updatetime = updatetime;
     }
@@ -141,12 +141,12 @@ public class McGoodsBean {
         this.mg_gnum = mg_gnum;
     }
 
-    public Long getPrePrice() {
-        return prePrice;
+    public Long getMg_pre_price() {
+        return mg_pre_price;
     }
 
-    public void setPrePrice(Long prePrice) {
-        this.prePrice = prePrice;
+    public void setMg_pre_price(Long mg_pre_price) {
+        this.mg_pre_price = mg_pre_price;
     }
 
     public Long getScorePrice() {
@@ -173,12 +173,12 @@ public class McGoodsBean {
         this.mg_price = mg_price;
     }
 
-    public Long getChanStatus() {
-        return chanStatus;
+    public Long getMg_chann_status() {
+        return mg_chann_status;
     }
 
-    public void setChanStatus(Long chanStatus) {
-        this.chanStatus = chanStatus;
+    public void setMg_chann_status(Long mg_chann_status) {
+        this.mg_chann_status = mg_chann_status;
     }
 
     public java.util.Date getAddtime() {

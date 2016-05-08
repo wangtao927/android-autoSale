@@ -201,6 +201,19 @@ public class TimerService extends Service {
                          break;
                      case "05"://广告 全部删除 再插入
 
+                         if (result.getMcadv() != null && !result.getMcadv().isEmpty()) {
+
+                             try {
+                                 DbManagerHelper.initAdv(result.getMcadv());
+                                 map.put("05", "0");// 0 成功 1 失败
+                             } catch (Exception e) {
+                                 map.put("05", "1");// 0 成功 1 失败
+                             }
+
+                         } else {
+                             map.put("05", "1");// 0 成功 1 失败
+
+                         }
                          break;
                      case "06": // 下载商品信息， 全部删除再插入
                           if (result.getGoods() != null && !result.getGoods().isEmpty()) {

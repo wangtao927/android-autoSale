@@ -1,9 +1,6 @@
 package com.ys.ui.common.manager;
 
-import android.content.Context;
-import android.location.Location;
-import android.location.LocationManager;
-
+import com.ys.data.bean.AdvBean;
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McAdminBean;
 import com.ys.data.bean.McGoodsBean;
@@ -18,9 +15,7 @@ import com.ys.ui.common.constants.ChanStatusEnum;
 import com.ys.ui.common.constants.SlOutStatusEnum;
 import com.ys.ui.common.constants.SlPayStatusEnum;
 import com.ys.ui.common.constants.SlSendStatusEnum;
-import com.ys.ui.utils.StringUtils;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -95,17 +90,26 @@ public class DbManagerHelper {
         }
     }
 
+    public static void initAdv(List<AdvBean> mcAdvs) {
+        if (mcAdvs != null && !mcAdvs.isEmpty()) {
+            App.getDaoSession(App.getContext()).getAdvBeanDao().deleteAll();
+            App.getDaoSession(App.getContext()).getAdvBeanDao().insertOrReplaceInTx(mcAdvs);
+        }
+    }
+
     public static void updateMcGoods(List<McGoodsBean> lists) {
         if (lists != null && !lists.isEmpty()){
             App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateInTx(lists);
         }
     }
 
+
+
     public static void updateMcStore(List<McStoreUpdateVO> lists) {
         if (lists != null && !lists.isEmpty()) {
             McGoodsBeanDao dao = App.getDaoSession(App.getContext()).getMcGoodsBeanDao();
             for (McStoreUpdateVO storeUpdateVO : lists) {
-                dao.updateChanStatusByChanno(storeUpdateVO.getMg_channo(), Long.valueOf(storeUpdateVO.getChanStatus()));
+                dao.updateChanStatusByChanno(storeUpdateVO.getMg_channo(), storeUpdateVO.getMg_gnum(), Long.valueOf(storeUpdateVO.getMg_chann_status()));
 
             }
         }
@@ -121,8 +125,12 @@ public class DbManagerHelper {
      * @return
      */
     public static McGoodsBean getOutGoods(String gdNo) {
+
+        List<McGoodsBean> list = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().queryBuilder()
+                .where(McGoodsBeanDao.Properties.Gd_no.eq(gdNo)).list();
+
         List<McGoodsBean> mcGoodsBeanList = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().queryBuilder()
-                .where(McGoodsBeanDao.Properties.Gd_no.eq(gdNo)).where(McGoodsBeanDao.Properties.ChanStatus.eq(ChanStatusEnum.NORMAL.getIndex()))
+                .where(McGoodsBeanDao.Properties.Gd_no.eq(gdNo)).where(McGoodsBeanDao.Properties.Mg_chann_status.eq(ChanStatusEnum.NORMAL.getIndex()))
                 .where(McGoodsBeanDao.Properties.Mg_gnum.gt(0)).list();
 
         if (mcGoodsBeanList != null && !mcGoodsBeanList.isEmpty()) {

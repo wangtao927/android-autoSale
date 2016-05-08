@@ -23,6 +23,7 @@ import com.ys.data.dao.GoodsBeanDao;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
+import com.ys.ui.common.constants.SlPayStatusEnum;
 import com.ys.ui.common.constants.SlTypeEnum;
 import com.ys.ui.common.http.RetrofitManager;
 import com.ys.ui.common.manager.DbManagerHelper;
@@ -30,6 +31,7 @@ import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateOrderResult;
 import com.ys.ui.common.response.SaleListResult;
+import com.ys.ui.serial.print.activity.PrintHelper;
 import com.ys.ui.utils.ImageUtils;
 import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.ToastUtils;
@@ -118,6 +120,10 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
         goodsBean = DbManagerHelper.getGoodsInfo(gdNo);
 
         mcGoodsBean = DbManagerHelper.getOutGoods(gdNo);
+        if (mcGoodsBean == null) {
+            // 无货
+            ToastUtils.showError("该药品暂时无货，请选择其他药品购买", App.getContext());
+        }
         //goodsBean =  App.getDaoSession(App.getContext()).getGoodsBeanDao().queryBuilder().where(GoodsBeanDao.Properties.Gd_no.eq(gdNo)).unique();
         //createOrder();
          Glide.with(App.getContext())
@@ -237,28 +243,33 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
                     @Override
                     public void call(CommonResponse<SaleListResult> response) {
                         //hideProgress();
-                       Log.d("orderStatus", response.toString());
-                       if (response.getCode() == 0){
-                           //支付成功
-                           ToastUtils.showShortMessage("支付成功");
-                       } else {
-                           if (System.currentTimeMillis() - startTime  < timeout*1000) {
-                               try {
-                                   Thread.sleep(5000);
-                               } catch (InterruptedException e) {
-                                   e.printStackTrace();
-                               }
-                               getOrderStatus(slNo);
+                        Log.d("orderStatus", response.toString());
+                        if (response.getCode() == 0) {
+                            if (String.valueOf(SlPayStatusEnum.FINISH.getIndex()).equals(response.getExt_data().getSl_pay_status())) {
+                                //支付成功
+                                ToastUtils.showShortMessage("支付成功");
+                                printPayNote(slNo);
+                                refund(slNo);
+                                finish();
+                                startActivity(new Intent(QRcodeActivity.this, HomeActivity.class));
+                            } else {
+                                if (System.currentTimeMillis() - startTime < timeout * 1000) {
+                                    try {
+                                        Thread.sleep(2000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                    getOrderStatus(slNo);
+                                } else {
+                                    finish();
+                                    startActivity(new Intent(QRcodeActivity.this, HomeActivity.class));
+                                    ToastUtils.showError("未支付或者支付失败", QRcodeActivity.this);
 
+                                }
 
-                           } else {
-                               finish();
-                               startActivity(new Intent(QRcodeActivity.this, MainActivity.class));
-                               ToastUtils.showError("未支付或者支付失败", QRcodeActivity.this);
+                            }
+                        }
 
-                           }
-
-                       }
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -270,4 +281,42 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
                 });
 
      }
+
+    private void printPayNote(String slNo) {
+        PrintHelper.getInstance().gdPrint(slNo, statusBean.getMc_no(), goodsBean.getGd_name(),
+                goodsBean.getGd_desc(), String.valueOf(mcGoodsBean.getMg_price()),
+                String.valueOf(mcGoodsBean.getMg_vip_price()), String.valueOf(mcGoodsBean.getMg_price()));
+    }
+    private void refund(String slNo) {
+        RetrofitManager.builder().refund(slNo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        //showProgress();
+                    }
+                })
+                .subscribe(new Action1<CommonResponse<String>>() {
+                    @Override
+                    public void call(CommonResponse<String> response) {
+                        //hideProgress();
+                        Log.d("orderStatus", response.toString());
+                        if (response.getCode() == 0) {
+                            Toast.makeText(QRcodeActivity.this, "退款成功", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        //hideProgress();
+                        Toast.makeText(QRcodeActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+
+    }
 }

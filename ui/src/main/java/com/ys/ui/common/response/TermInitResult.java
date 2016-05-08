@@ -1,5 +1,6 @@
 package com.ys.ui.common.response;
 
+import com.ys.data.bean.AdvBean;
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McAdminBean;
 import com.ys.data.bean.McGoodsBean;
@@ -26,6 +27,7 @@ public class TermInitResult implements Serializable {
     McStatusBean machine;
 
     // 广告数据 TODO:
+    List<AdvBean> mcadv;
 
     // 终端库存
     List<McStoreUpdateVO> mcstore;
@@ -80,5 +82,13 @@ public class TermInitResult implements Serializable {
 
     public void setMcstore(List<McStoreUpdateVO> mcstore) {
         this.mcstore = mcstore;
+    }
+
+    public List<AdvBean> getMcadv() {
+        return mcadv;
+    }
+
+    public void setMcadv(List<AdvBean> mcadv) {
+        this.mcadv = mcadv;
     }
 }

@@ -6,8 +6,12 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.ys.data.bean.AdvBean;
 import com.ys.ui.R;
+import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
+
+import java.util.List;
 
 import butterknife.Bind;
 
@@ -44,6 +48,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     protected void create(Bundle savedInstanceState) {
         btnGetDrug.setOnClickListener(this);
         btnBuy.setOnClickListener(this);
+
+        List<AdvBean> list = App.getDaoSession(App.getContext()).getAdvBeanDao().loadAll();
     }
 
 

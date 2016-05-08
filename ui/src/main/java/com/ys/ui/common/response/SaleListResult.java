@@ -14,7 +14,9 @@ public class SaleListResult implements Serializable {
     private String mc_no;
     private String sl_gd_no;
     private String sl_gd_name;
-    private String sl_status;
+    //private String sl_status;
+    private String sl_pay_status;
+    private String sl_out_status;
 
     public String getSl_no() {
         return sl_no;
@@ -57,11 +59,20 @@ public class SaleListResult implements Serializable {
         this.sl_gd_name = sl_gd_name;
     }
 
-    public String getSl_status() {
-        return sl_status;
+
+    public String getSl_pay_status() {
+        return sl_pay_status;
     }
 
-    public void setSl_status(String sl_status) {
-        this.sl_status = sl_status;
+    public void setSl_pay_status(String sl_pay_status) {
+        this.sl_pay_status = sl_pay_status;
+    }
+
+    public String getSl_out_status() {
+        return sl_out_status;
+    }
+
+    public void setSl_out_status(String sl_out_status) {
+        this.sl_out_status = sl_out_status;
     }
 }

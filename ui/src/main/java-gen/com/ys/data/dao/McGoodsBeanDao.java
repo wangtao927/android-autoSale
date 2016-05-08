@@ -36,11 +36,11 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
         public final static Property Gd_exp_date = new Property(8, String.class, "gd_exp_date", false, "GD_EXP_DATE");
         public final static Property Mg_gvol = new Property(9, Long.class, "mg_gvol", false, "MG_GVOL");
         public final static Property Mg_gnum = new Property(10, Long.class, "mg_gnum", false, "MG_GNUM");
-        public final static Property PrePrice = new Property(11, Long.class, "prePrice", false, "PRE_PRICE");
+        public final static Property Mg_pre_price = new Property(11, Long.class, "Mg_pre_price", false, "MG_PRE_PRICE");
         public final static Property ScorePrice = new Property(12, Long.class, "scorePrice", false, "SCORE_PRICE");
         public final static Property Mg_vip_price = new Property(13, Long.class, "mg_vip_price", false, "MG_VIP_PRICE");
         public final static Property Mg_price = new Property(14, Long.class, "mg_price", false, "MG_PRICE");
-        public final static Property ChanStatus = new Property(15, Long.class, "chanStatus", false, "CHAN_STATUS");
+        public final static Property Mg_chann_status = new Property(15, Long.class, "mg_chann_status", false, "MG_CHANN_STATUS");
         public final static Property Addtime = new Property(16, java.util.Date.class, "addtime", false, "ADDTIME");
         public final static Property Updatetime = new Property(17, java.util.Date.class, "updatetime", false, "UPDATETIME");
     };
@@ -69,11 +69,11 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
                 "'GD_EXP_DATE' TEXT," + // 8: gd_exp_date
                 "'MG_GVOL' INTEGER," + // 9: mg_gvol
                 "'MG_GNUM' INTEGER," + // 10: mg_gnum
-                "'PRE_PRICE' INTEGER," + // 11: prePrice
+                "'MG_PRE_PRICE' INTEGER," + // 11: prePrice
                 "'SCORE_PRICE' INTEGER," + // 12: scorePrice
                 "'MG_VIP_PRICE' INTEGER," + // 13: mg_vip_price
                 "'MG_PRICE' INTEGER," + // 14: mg_price
-                "'CHAN_STATUS' INTEGER," + // 15: chanStatus
+                "'MG_CHANN_STATUS' INTEGER," + // 15: MG_CHANN_STATUS
                 "'ADDTIME' INTEGER," + // 16: addtime
                 "'UPDATETIME' INTEGER);"); // 17: updatetime
     }
@@ -86,13 +86,13 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
 
 
     public void clearChanStatus(List<McGoodsBean> lists) {
-        String sql = "UPDATE mcgoods SET CHAN_STATUS=1";
+        String sql = "UPDATE mcgoods SET MG_CHANN_STATUS=1";
         SQLiteStatement stmt = db.compileStatement(sql);
         if (db.isDbLockedByCurrentThread()) {
             synchronized (stmt) {
                 stmt.execute();
                 for (McGoodsBean bean : lists) {
-                    bean.setChanStatus(1L);
+                    bean.setMg_chann_status(1L);
                     attachEntity(bean.getMg_channo(), bean, true);
                 }
             }
@@ -103,7 +103,7 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
                 synchronized (stmt) {
                     stmt.execute();
                     for (McGoodsBean bean : lists) {
-                        bean.setChanStatus(1L);
+                        bean.setMg_chann_status(1L);
                         attachEntity(bean.getMg_channo(), bean, true);
                     }
                 }
@@ -169,13 +169,14 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
         }
     }
 
-    public void updateChanStatusByChanno(String channo, Long chanStatus) {
-        String sql = "UPDATE mcgoods SET CHAN_STATUS = ? WHERE mg_channo=?";
+    public void updateChanStatusByChanno(String channo, Long mg_gnum, Long chanStatus) {
+        String sql = "UPDATE mcgoods SET MG_CHANN_STATUS = ?, MG_GNUM =? WHERE mg_channo=? ";
         SQLiteStatement stmt = db.compileStatement(sql);
         if (db.isDbLockedByCurrentThread()) {
             synchronized (stmt) {
                 stmt.bindLong(1, chanStatus);
-                stmt.bindString(2, channo);
+                stmt.bindLong(2, mg_gnum);
+                stmt.bindString(3, channo);
                 stmt.execute();
             }
         } else {
@@ -184,7 +185,8 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
             try {
                 synchronized (stmt) {
                     stmt.bindLong(1, chanStatus);
-                    stmt.bindString(2, channo);
+                    stmt.bindLong(2, mg_gnum);
+                    stmt.bindString(3, channo);
                     stmt.execute();
                 }
                 db.setTransactionSuccessful();
@@ -195,11 +197,11 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
     }
 
     public void updateChannelStatusByPK(McGoodsBean bean) {
-        String sql = "UPDATE mcgoods SET CHAN_STATUS = ? WHERE mg_channo=?";
+        String sql = "UPDATE mcgoods SET MG_CHANN_STATUS = ? WHERE mg_channo=?";
         SQLiteStatement stmt = db.compileStatement(sql);
         if (db.isDbLockedByCurrentThread()) {
             synchronized (stmt) {
-                stmt.bindLong(1, bean.getChanStatus());
+                stmt.bindLong(1, bean.getMg_chann_status());
                 stmt.bindString(2, bean.getMg_channo());
                 stmt.execute();
                 attachEntity(bean.getMg_channo(), bean, true);
@@ -209,7 +211,7 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
             db.beginTransaction();
             try {
                 synchronized (stmt) {
-                    stmt.bindLong(1, bean.getChanStatus());
+                    stmt.bindLong(1, bean.getMg_chann_status());
                     stmt.bindString(2, bean.getMg_channo());
                     stmt.execute();
                     attachEntity(bean.getMg_channo(), bean, true);
@@ -313,9 +315,9 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
             stmt.bindLong(11, mg_gnum);
         }
  
-        Long prePrice = entity.getPrePrice();
-        if (prePrice != null) {
-            stmt.bindLong(12, prePrice);
+        Long mg_pre_price = entity.getMg_pre_price();
+        if (mg_pre_price != null) {
+            stmt.bindLong(12, mg_pre_price);
         }
  
         Long scorePrice = entity.getScorePrice();
@@ -333,7 +335,7 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
             stmt.bindLong(15, mg_price);
         }
  
-        Long chanStatus = entity.getChanStatus();
+        Long chanStatus = entity.getMg_chann_status();
         if (chanStatus != null) {
             stmt.bindLong(16, chanStatus);
         }
@@ -370,7 +372,7 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
             cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // gd_exp_date
             cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9), // mg_gvol
             cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10), // mg_gnum
-            cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11), // prePrice
+            cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11), // mg_pre_price
             cursor.isNull(offset + 12) ? null : cursor.getLong(offset + 12), // scorePrice
             cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13), // mg_vip_price
             cursor.isNull(offset + 14) ? null : cursor.getLong(offset + 14), // mg_price
@@ -395,11 +397,11 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
         entity.setGd_exp_date(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
         entity.setMg_gvol(cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9));
         entity.setMg_gnum(cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10));
-        entity.setPrePrice(cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11));
+        entity.setMg_pre_price(cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11));
         entity.setScorePrice(cursor.isNull(offset + 12) ? null : cursor.getLong(offset + 12));
         entity.setMg_vip_price(cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13));
         entity.setMg_price(cursor.isNull(offset + 14) ? null : cursor.getLong(offset + 14));
-        entity.setChanStatus(cursor.isNull(offset + 15) ? null : cursor.getLong(offset + 15));
+        entity.setMg_chann_status(cursor.isNull(offset + 15) ? null : cursor.getLong(offset + 15));
         entity.setAddtime(cursor.isNull(offset + 16) ? null : new java.util.Date(cursor.getLong(offset + 16)));
         entity.setUpdatetime(cursor.isNull(offset + 17) ? null : new java.util.Date(cursor.getLong(offset + 17)));
      }
