@@ -155,6 +155,7 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
     }
 
 
+    // 普通支付  取折扣价   会员支付取 会员价
     private void createOrder(String type) {
 
         SaleListVo saleListVo = new SaleListVo();
@@ -162,7 +163,7 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
         saleListVo.setSlType(type);
         saleListVo.setSlGdName(goodsBean.getGd_name());
         saleListVo.setSlGdNo(goodsBean.getGd_no());
-        saleListVo.setSlAmt(goodsBean.getGd_sale_price());
+        saleListVo.setSlAmt(mcGoodsBean.getMg_pre_price());
 
         RetrofitManager.builder().createOrder(saleListVo.getMcNo(), saleListVo)
                 .subscribeOn(Schedulers.io())
@@ -249,7 +250,14 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
                                 //支付成功
                                 ToastUtils.showShortMessage("支付成功");
                                 printPayNote(slNo);
-                                refund(slNo);
+                                try {
+                                    refund(slNo);
+
+                                    Thread.sleep(2000);
+
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                                 finish();
                                 startActivity(new Intent(QRcodeActivity.this, HomeActivity.class));
                             } else {

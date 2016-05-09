@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import com.ys.ui.base.App;
 import com.ys.ui.common.request.CommonRequest;
 import com.ys.ui.common.request.McDataVo;
+import com.ys.ui.common.request.ReFundVo;
 import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateOrderResult;
@@ -204,7 +205,8 @@ public class RetrofitManager {
         map.put("time", time);
         String sign = Signature.getSign(map);
 
-        return orderApi.refund(slNo, time, sign);
+        ReFundVo reFundVo = new ReFundVo(time, sign, slNo);
+        return orderApi.refund(reFundVo);
     }
 
 

@@ -16,10 +16,11 @@ public class McGoodsBean {
     private String gd_mf_date;
     private String gd_exp_date;
     private Long mg_gvol;
-    private Long mg_gnum = 0L;
+    private Long mg_gnum= 0L;
     private Long mg_pre_price;
-    private Long scorePrice;
+    private Long mg_score_price;
     private Long mg_vip_price;
+    private Long mg_disc_price;
     private Long mg_price;
     private Long mg_chann_status;
     private java.util.Date addtime;
@@ -32,7 +33,8 @@ public class McGoodsBean {
         this.mg_channo = mg_channo;
     }
 
-    public McGoodsBean(String mc_no, String mg_channo, String gd_no, String gd_type, String gd_approve_code, String gd_batch_no, String gd_des_code, String gd_mf_date, String gd_exp_date, Long mg_gvol, Long mg_gnum, Long mg_pre_price, Long scorePrice, Long mg_vip_price, Long mg_price, Long mg_chann_status, java.util.Date addtime, java.util.Date updatetime) {
+
+    public McGoodsBean(String mc_no, String mg_channo, String gd_no, String gd_type, String gd_approve_code, String gd_batch_no, String gd_des_code, String gd_mf_date, String gd_exp_date, Long mg_gvol, Long mg_gnum, Long mg_pre_price, Long mg_score_price, Long mg_vip_price, Long mg_disc_price, Long mg_price, Long mg_chann_status, java.util.Date addtime, java.util.Date updatetime) {
         this.mc_no = mc_no;
         this.mg_channo = mg_channo;
         this.gd_no = gd_no;
@@ -45,8 +47,9 @@ public class McGoodsBean {
         this.mg_gvol = mg_gvol;
         this.mg_gnum = mg_gnum;
         this.mg_pre_price = mg_pre_price;
-        this.scorePrice = scorePrice;
+        this.mg_score_price = mg_score_price;
         this.mg_vip_price = mg_vip_price;
+        this.mg_disc_price = mg_disc_price;
         this.mg_price = mg_price;
         this.mg_chann_status = mg_chann_status;
         this.addtime = addtime;
@@ -149,12 +152,12 @@ public class McGoodsBean {
         this.mg_pre_price = mg_pre_price;
     }
 
-    public Long getScorePrice() {
-        return scorePrice;
+    public Long getMg_score_price() {
+        return mg_score_price;
     }
 
-    public void setScorePrice(Long scorePrice) {
-        this.scorePrice = scorePrice;
+    public void setMg_score_price(Long mg_score_price) {
+        this.mg_score_price = mg_score_price;
     }
 
     public Long getMg_vip_price() {
@@ -163,6 +166,14 @@ public class McGoodsBean {
 
     public void setMg_vip_price(Long mg_vip_price) {
         this.mg_vip_price = mg_vip_price;
+    }
+
+    public Long getMg_disc_price() {
+        return mg_disc_price;
+    }
+
+    public void setMg_disc_price(Long mg_disc_price) {
+        this.mg_disc_price = mg_disc_price;
     }
 
     public Long getMg_price() {

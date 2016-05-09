@@ -126,9 +126,6 @@ public class DbManagerHelper {
      */
     public static McGoodsBean getOutGoods(String gdNo) {
 
-        List<McGoodsBean> list = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().queryBuilder()
-                .where(McGoodsBeanDao.Properties.Gd_no.eq(gdNo)).list();
-
         List<McGoodsBean> mcGoodsBeanList = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().queryBuilder()
                 .where(McGoodsBeanDao.Properties.Gd_no.eq(gdNo)).where(McGoodsBeanDao.Properties.Mg_chann_status.eq(ChanStatusEnum.NORMAL.getIndex()))
                 .where(McGoodsBeanDao.Properties.Mg_gnum.gt(0)).list();

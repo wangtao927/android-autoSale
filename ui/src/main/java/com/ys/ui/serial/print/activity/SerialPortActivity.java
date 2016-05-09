@@ -17,6 +17,7 @@
 package com.ys.ui.serial.print.activity;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.InvalidParameterException;
 
@@ -37,6 +38,9 @@ public abstract class SerialPortActivity extends Activity {
     public App mApplication;
     public SerialPort mSerialPort = null;
     public OutputStream mOutputStream;
+
+    private InputStream mInputStream;
+    private ReadThread mReadThread;
 
     private void DisplayError(int resourceId) {
         AlertDialog.Builder b = new AlertDialog.Builder(this);
@@ -61,6 +65,11 @@ public abstract class SerialPortActivity extends Activity {
         try {
             mSerialPort = mApplication.getPrintSerial();
             mOutputStream = mSerialPort.getOutputStream();
+
+            mInputStream = mSerialPort.getInputStream();
+
+            mReadThread = new ReadThread();
+            mReadThread.start();
         } catch (SecurityException e) {
             DisplayError(R.string.error_security);
         } catch (IOException e) {
@@ -69,7 +78,42 @@ public abstract class SerialPortActivity extends Activity {
             DisplayError(R.string.error_configuration);
         }
     }
+    private class ReadThread extends Thread {
 
+        @Override
+        public void run() {
+            super.run();
+
+            // 定义一个包的最大长度
+            int maxLength = 32;
+            //byte[] buffer = new byte[maxLength];
+            // 每次收到实际长度
+            int available = 0;
+            // 当前已经收到包的总长度
+            int currentLength = 0;
+            // 协议头长度4个字节（开始符1，类型1，长度2）
+            int headerLength = 4;
+
+            while (!isInterrupted()) {
+                byte[] buffer = new byte[maxLength];
+                try {
+                    available = mInputStream.available();
+                    if (available > 0) {
+                        // 防止超出数组最大长度导致溢出
+                        if (available > maxLength - currentLength) {
+                            available = maxLength - currentLength;
+                        }
+                        mInputStream.read(buffer, currentLength, available);
+                        onDataReceived(buffer, available);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
     public void SendData(byte[] bytedata) {
         if (mSerialPort != null) {
             try {
@@ -86,8 +130,11 @@ public abstract class SerialPortActivity extends Activity {
     }
 
     public void CloseCom() {
+        mReadThread.interrupt();
         mApplication.closePrintSerialPort();
+
         mSerialPort = null;
+
     }
 
     protected abstract void onDataReceived(final byte[] buffer, final int size);

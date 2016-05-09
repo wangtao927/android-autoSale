@@ -2,6 +2,7 @@ package com.ys.ui.common.http;
 
 import com.ys.data.bean.SaleListBean;
 import com.ys.ui.common.request.CommonRequest;
+import com.ys.ui.common.request.ReFundVo;
 import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateOrderResult;
@@ -39,6 +40,6 @@ public interface OrderApi {
 
     @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_SHORT)
     @POST("refund")
-    Observable<CommonResponse<String>> refund(@Body String sl_no, @Body long time, @Body String sign);
+    Observable<CommonResponse<String>> refund(@Body ReFundVo reFundVo);
 
 }

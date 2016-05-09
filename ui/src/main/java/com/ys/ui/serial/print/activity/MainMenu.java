@@ -48,6 +48,7 @@ public class MainMenu extends SerialPortActivity
 	private Button mCutBtn ;
 	private Button mCode39Btn;
 	 private Button    mPrintBtn;
+	private Button closeBtn;
 	 	public void Init()
 	{
 		mBtnBtSwitch = (ToggleButton) this.findViewById(R.id.tbtnSwitch);
@@ -60,6 +61,9 @@ public class MainMenu extends SerialPortActivity
 		mCutBtn.setOnClickListener(new BtnListener());
 		mCode39Btn= (Button) findViewById(R.id.Code39);
 		mCode39Btn.setOnClickListener(new BtnListener());
+
+        closeBtn= (Button) findViewById(R.id.CloseBtn);
+		closeBtn.setOnClickListener(new BtnListener());
 
 
 	}
@@ -116,6 +120,9 @@ public class MainMenu extends SerialPortActivity
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}
+			if (v == closeBtn) {
+				CloseCom();
 			}
 		}
 	}
@@ -189,6 +196,7 @@ public class MainMenu extends SerialPortActivity
 			public void run() {
 
 				ToastUtils.showShortMessage(new String(bs));
+
 			}
 		});
 		// TODO Auto-generated method stub

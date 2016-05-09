@@ -8,13 +8,17 @@ import android.widget.Toast;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.common.constants.PrintConstants;
+import com.ys.ui.utils.ToastUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import android_serialport_api.SerialPort;
 
@@ -29,6 +33,8 @@ public class PrintHelper {
     public SerialPort mSerialPort = null;
     public OutputStream mOutputStream;
 
+    private InputStream mInputStream;
+    private ReadThread mReadThread;
     public static PrintHelper printHelper;
 
     public static PrintHelper getInstance() {
@@ -52,18 +58,34 @@ public class PrintHelper {
 
     public void gdPrint(String orderNo, String termNo, String gdName, String gdType, String price, String vipPrice, String actualPrice) {
         // 初始化串口
-        InitCom();
+        try {
+            InitCom();
 
-        // 打印条形码
-        printCode39();
 
-        // 打印内容
-        print(orderNo, termNo, gdName, gdType, price, vipPrice, actualPrice);
+            // 打印条形码
+            Thread.sleep(1000);
 
-        // 切纸
-        printCut();
+            printCode39();
 
-        CloseCom();
+
+            // 打印内容
+            Thread.sleep(2000);
+
+            print(orderNo, termNo, gdName, gdType, price, vipPrice, actualPrice);
+
+            // 切纸
+
+            Thread.sleep(3000);
+
+            printCut();
+
+
+            Thread.sleep(2000);
+            CloseCom();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -73,6 +95,11 @@ public class PrintHelper {
         try {
             mSerialPort = mApplication.getPrintSerial();
             mOutputStream = mSerialPort.getOutputStream();
+
+            mInputStream = mSerialPort.getInputStream();
+
+            mReadThread = new ReadThread();
+            mReadThread.start();
         } catch (SecurityException e) {
             DisplayError(R.string.error_security);
         } catch (IOException e) {
@@ -130,12 +157,50 @@ public class PrintHelper {
     }
 
     private void CloseCom() {
+        mReadThread.interrupt();
         mApplication.closePrintSerialPort();
         mSerialPort = null;
     }
 
+    private class ReadThread extends Thread {
+
+        @Override
+        public void run() {
+            super.run();
+
+            // 定义一个包的最大长度
+            int maxLength = 32;
+            //byte[] buffer = new byte[maxLength];
+            // 每次收到实际长度
+            int available = 0;
+            // 当前已经收到包的总长度
+            int currentLength = 0;
+            // 协议头长度4个字节（开始符1，类型1，长度2）
+            int headerLength = 4;
+
+            while (!isInterrupted()) {
+                byte[] buffer = new byte[maxLength];
+                try {
+                    available = mInputStream.available();
+                    if (available > 0) {
+                        // 防止超出数组最大长度导致溢出
+                        if (available > maxLength - currentLength) {
+                            available = maxLength - currentLength;
+                        }
+                        mInputStream.read(buffer, currentLength, available);
+                        onDataReceived(buffer, available);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
     protected  void onDataReceived(final byte[] buffer, final int size) {
         // do nothing
+        ToastUtils.showShortMessage(new String(buffer));
     }
 
 

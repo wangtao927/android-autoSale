@@ -48,8 +48,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     protected void create(Bundle savedInstanceState) {
         btnGetDrug.setOnClickListener(this);
         btnBuy.setOnClickListener(this);
-
-        List<AdvBean> list = App.getDaoSession(App.getContext()).getAdvBeanDao().loadAll();
     }
 
 
