@@ -49,7 +49,7 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_get_product;
+        return R.layout.activity_get;
     }
 
     @Override
@@ -93,7 +93,6 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
         }
 
 
-
     }
 
     public void showProgress() {
@@ -119,12 +118,12 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
                     public void call(CommonResponse<CreateOrderResult> response) {
                         hideProgress();
                         if (response.isSuccess()) {
-                           // 调用出货
+                            // 调用出货
 
                             String gdNo = response.getExt_data().getSlGdNo();
                             // 根据商品编码查询机器是否有该商品
                             McGoodsBean mcGoodsBean = DbManagerHelper.getOutGoods(gdNo);
-                            if (mcGoodsBean == null ) {
+                            if (mcGoodsBean == null) {
                                 ToastUtils.showError("该终端没有对应的药品", GetProductActivity.this);
 
                                 return;
