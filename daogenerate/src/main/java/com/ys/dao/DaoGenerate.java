@@ -9,18 +9,34 @@ import de.greenrobot.daogenerator.Schema;
 public class DaoGenerate {
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(1, "com.ys.data.bean");
-        schema.setDefaultJavaPackageDao("com.ys.data.dao");
+        Schema schema = new Schema(1, "com.ys.gen.data.bean");
+        schema.setDefaultJavaPackageDao("com.ys.gen.data.dao");
 
-        addGoods(schema);
+//        addAd(schema);
+//        addGoods(schema);
         addMCGoods(schema);
-        addMCParams(schema);
-        addMCStatus(schema);
-        addMcAdmin(schema);
-        addPromotion(schema);
-        addSaleList(schema);
+//        addMCParams(schema);
+//        addMCStatus(schema);
+//        addMcAdmin(schema);
+//        addPromotion(schema);
+//        addSaleList(schema);
 
-         new DaoGenerator().generateAll(schema, "E:/code/github/android-autoSale/ui/src/main/java-gen");
+
+        new DaoGenerator().generateAll(schema, "E:/code/github/android-autoSale/ui/src/main/java-gen");
+    }
+
+    private static void addAd(Schema schema) {
+        Entity adv = schema.addEntity("AdvBean");
+
+        adv.setTableName("adv");
+        adv.addStringProperty("ai_id").primaryKey();
+        adv.addStringProperty("ai_file_id");// 文件名称
+        adv.addStringProperty("ai_file_name");
+        adv.addStringProperty("ai_type");
+        adv.addStringProperty("ai_gd_no");
+
+
+
     }
 
     private static void addMcAdmin(Schema schema) {
@@ -103,11 +119,13 @@ public class DaoGenerate {
         mcGoodsBean.addStringProperty("gd_exp_date");
         mcGoodsBean.addLongProperty("mg_gvol");//商品容量
         mcGoodsBean.addLongProperty("mg_gnum");//商品存量
-        mcGoodsBean.addLongProperty("prePrice");
-        mcGoodsBean.addLongProperty("scorePrice");
-        mcGoodsBean.addLongProperty("mg_vip_price");
-        mcGoodsBean.addLongProperty("mg_price");
-        mcGoodsBean.addLongProperty("chanStatus"); // 默认不卡货   1 正常  2 卡货
+        mcGoodsBean.addLongProperty("mg_pre_price"); // prePrice 原价
+        mcGoodsBean.addLongProperty("mg_score_price"); // 积分价
+        mcGoodsBean.addLongProperty("mg_vip_price");  // 会员价
+        mcGoodsBean.addLongProperty("mg_disc_price"); // 折扣价
+
+        mcGoodsBean.addLongProperty("mg_price"); // 销售单价
+        mcGoodsBean.addLongProperty("mg_chann_status"); // 默认不卡货   1 正常  2 卡货
         mcGoodsBean.addDateProperty("addtime");
         mcGoodsBean.addDateProperty("updatetime");
 

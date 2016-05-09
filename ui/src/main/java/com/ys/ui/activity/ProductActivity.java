@@ -34,7 +34,7 @@ public class ProductActivity extends BaseActivity implements LMRecyclerView.Load
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_product;
+        return R.layout.activity_buy;
     }
 
 
