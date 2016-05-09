@@ -1,10 +1,15 @@
 package com.ys.ui.serial.print.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.ys.SerialPortFinder;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.common.constants.PrintConstants;
@@ -37,6 +42,9 @@ public class PrintHelper {
     private ReadThread mReadThread;
     public static PrintHelper printHelper;
 
+    private String printPath = "";
+    private String tmpPath = "";
+
     public static PrintHelper getInstance() {
         if (printHelper == null) {
             return new PrintHelper();
@@ -61,7 +69,6 @@ public class PrintHelper {
         try {
             InitCom();
 
-
             // 打印条形码
             Thread.sleep(1000);
 
@@ -69,13 +76,13 @@ public class PrintHelper {
 
 
             // 打印内容
-            Thread.sleep(2000);
+            Thread.sleep(1000);
 
             print(orderNo, termNo, gdName, gdType, price, vipPrice, actualPrice);
 
             // 切纸
 
-            Thread.sleep(3000);
+            Thread.sleep(2000);
 
             printCut();
 
@@ -89,6 +96,13 @@ public class PrintHelper {
 
     }
 
+
+    public void getStatus() {
+        InitCom();
+        byte SendBuf[]={0X10, 0X04, 0x01};
+        SendData(SendBuf);
+
+    }
 
     private void InitCom() {
         mApplication = (App) App.getContext();
@@ -198,10 +212,89 @@ public class PrintHelper {
             }
         }
     }
+
+
     protected  void onDataReceived(final byte[] buffer, final int size) {
         // do nothing
+        Log.d("return", new String(buffer));
+        mReadThread.interrupt();
+
+        tmpPath = printPath;
+        SharedPreferences mySharedPreferences= App.getContext().getSharedPreferences("printSerial",
+                Activity.MODE_PRIVATE);
+        //实例化SharedPreferences.Editor对象（第二步）
+        SharedPreferences.Editor editor = mySharedPreferences.edit();
+        //用putString的方法保存数据
+        editor.putString("print_baudrate", String.valueOf(mApplication.getPrint_baudrate()));
+        editor.putString("print_path", tmpPath);
+        //提交当前数据
+        editor.commit();
+
         ToastUtils.showShortMessage(new String(buffer));
     }
 
+
+    public void initPrint() {
+
+        SerialPortFinder mSerialPortFinder = new SerialPortFinder();
+
+        String[] paths = mSerialPortFinder.getAllDevicesPath();
+
+        mApplication = (App) App.getContext();
+        byte SendBuf[]={0X10, 0X04, 0x01};
+        for (String path : paths) {
+            if (!TextUtils.isEmpty(tmpPath) ) {
+                break;
+            }
+            printPath = path;
+
+            try {
+                mSerialPort = mApplication.getSerialPort(path, mApplication.getPrint_baudrate());
+                mOutputStream = mSerialPort.getOutputStream();
+
+                mInputStream = mSerialPort.getInputStream();
+
+                mReadThread = new ReadThread();
+                mReadThread.start();
+                SendData(SendBuf);
+            } catch (Exception e) {
+
+                continue;
+            }
+            try {
+                Thread.sleep(2000);
+                mReadThread.interrupt();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+        ToastUtils.showShortMessage("path:" + tmpPath);
+    }
+
+    private boolean openCom(String path,  int bodurate) {
+        mApplication = (App) App.getContext();
+        try {
+            mSerialPort = mApplication.getSerialPort(path, bodurate);
+            mOutputStream = mSerialPort.getOutputStream();
+
+            mInputStream = mSerialPort.getInputStream();
+
+            mReadThread = new ReadThread();
+            mReadThread.start();
+            return true;
+        } catch (SecurityException e) {
+            //DisplayError(R.string.error_security);
+            return false;
+        } catch (IOException e) {
+            //DisplayError(R.string.error_unknown);
+            return false;
+        } catch (InvalidParameterException e) {
+            //DisplayError(R.string.error_configuration);
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
 }

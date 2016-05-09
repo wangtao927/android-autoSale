@@ -63,7 +63,8 @@ public abstract class SerialPortActivity extends Activity {
     public void InitCom() {
         mApplication = (App) getApplication();
         try {
-            mSerialPort = mApplication.getPrintSerial();
+//            mSerialPort = mApplication.getPrintSerial();
+            mSerialPort = mApplication.getSerialPort("/dev/ttyS1", 38400);
             mOutputStream = mSerialPort.getOutputStream();
 
             mInputStream = mSerialPort.getInputStream();

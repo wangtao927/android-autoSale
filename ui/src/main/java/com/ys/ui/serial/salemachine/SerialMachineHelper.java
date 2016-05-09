@@ -1,7 +1,11 @@
 package com.ys.ui.serial.salemachine;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.ys.SerialPortFinder;
 import com.ys.SerialPortTest;
@@ -34,7 +38,8 @@ public class SerialMachineHelper {
     protected OutputStream mOutputStream;
     private InputStream mInputStream;
     private ReadThread mReadThread;
-    private static List<Integer> ports;
+    SendingThread mSendingThread;
+    byte[] mBuffer;
 
     static SerialMachineHelper helper = null;
     public static SerialMachineHelper getInstance() {
@@ -66,6 +71,9 @@ public class SerialMachineHelper {
                 try {
                     if (buffer != null && buffer.length > 0) {
 
+                        if (buffer[0] == 0x02) {
+                            onDataReceive(buffer,buffer.length);
+                        }
                         break;
                     }
 
@@ -77,118 +85,88 @@ public class SerialMachineHelper {
     }
 
 
-    void init() {
-
-        mApplication = (App)App.getContext();
-
-        try {
-//            path = mApplication.getSale_path();
-//
-//            baudrate = mApplication.getSale_baudrate();
-//
-//            mSerialPort = mApplication.getSerialPort(path, baudrate);
-
-            mOutputStream = mSerialPort.getOutputStream();
-            mInputStream = mSerialPort.getInputStream();
- /*Create a receiving thread */
-
-            mReadThread = new ReadThread();
-            mReadThread.start();
-        } catch (SecurityException e) {
-            //DisplayError(R.string.error_security);
-         } catch (InvalidParameterException e) {
-         } catch (Exception e) {
-
-        }
-    }
-
-
-    protected void onDestroy() {
-        if (mReadThread != null) {
-            mReadThread.interrupt();
-        }
-        mApplication.closeSerialPort();
-        mSerialPort = null;
-     }
-
-
     private static SerialPortFinder finder = new SerialPortFinder();
-    static {
-        ports = new ArrayList<>();
-        ports.add(4800);
-        ports.add(9600);
-        ports.add(19200);
-        ports.add(38400);
-    }
-    private SerialPortTest test = null;
-    private SerialPort serialPort = null;
 
-    private String path;
-
-    private int port;
-
-    private Map<String, String> serialMap = new HashMap();
-    SerialPortTest.OnDataReceiveListener  listener = new SerialPortTest.OnDataReceiveListener() {
-        @Override
-        public void onDataReceive(byte[] buffer, int size) {
-
-            if (test != null) {
-                // 存储 path 和port
-                // 写到公共缓存中，或者 sqllite
-
-                // 售货机 020B0003
-
-                // 打印机
-
-                // pos
-
-                serialMap.put(path, String.valueOf(port));
-
-                test.closeSerialPort();
-
-            }
-        }
-    };
+    private String tmpPath;
+    private String salePath="";
 
 
-    //获取售货机串口  名字 和端口
-    public void getSaleSerial() {
-        this.getSerial("020B0B03");
+    public void onDataReceive(byte[] buffer, int size) {
+
+            // 存储 path 和port
+            // 售货机 020B0003  将path 写到sharePre
+            salePath = tmpPath;
+
+            mSendingThread.interrupt();
+            SharedPreferences mySharedPreferences= App.getContext().getSharedPreferences("saleSerial",
+                    Activity.MODE_PRIVATE);
+            //实例化SharedPreferences.Editor对象（第二步）
+            SharedPreferences.Editor editor = mySharedPreferences.edit();
+            //用putString的方法保存数据
+                        editor.putString("sale_baudrate", String.valueOf(mApplication.getSale_baudrate()));
+                        editor.putString("sale_path", salePath);
+            //提交当前数据
+            editor.commit();
+            //使用toast信息提示框提示成功写入数据
+
     }
 
 
-    //获取 打印机串口信息
+    private void getSerial() {
 
-    private void getPrintSerial() {
-        this.getSerial("");
-    }
-    // 获取银联支付串口
-
-    private void getSerial(String cmds) {
         String[] driverPaths = finder.getAllDevicesPath();
 
         for (String path : driverPaths) {
-            if (serialMap.containsKey(path)) {
+
+            tmpPath = path;
+            try {
+
+                mSerialPort = mApplication.getSerialPort(path, mApplication.getSale_baudrate());
+
+                mOutputStream = mSerialPort.getOutputStream();
+                mInputStream = mSerialPort.getInputStream();
+			/* Create a receiving thread */
+                mReadThread = new ReadThread();
+                mReadThread.start();
+
+                sendCmds();
+            } catch (Exception e) {
                 continue;
             }
-            for (int port : ports) {
-                try {
-                    try {
-                        serialPort = new SerialPort(new File(path), port, 0);
-
-                    } catch (IOException e) {
-                        // 打开串口失败
-
-                        continue;
-                    }
-                    this.path = path;
-                    this.port = port;
-
-                } catch (SecurityException e) {
-                    continue;
+            try {
+                Thread.sleep(2000);
+                mReadThread.interrupt();
+                if (!TextUtils.isEmpty(salePath)) {
+                    break;
                 }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+
         }
     }
 
+    private void sendCmds() {
+
+        mBuffer =new byte[] {0x02, 0x0B, 0x0B, 0x03};
+        mSendingThread = new SendingThread();
+        mSendingThread.start();
+
+    }
+    private class SendingThread extends Thread {
+        @Override
+        public void run() {
+             try {
+                if (mOutputStream != null) {
+                    mOutputStream.write(mBuffer, 0, mBuffer.length);
+                } else {
+                    return;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+
+        }
+    }
 }

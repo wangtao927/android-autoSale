@@ -47,6 +47,18 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:text="关闭" />
+        <Button
+            android:id="@+id/ttyS0"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="ttyS0" />
+        <Button
+            android:id="@+id/ttyS1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="ttyS1" />
     </LinearLayout>
 
 

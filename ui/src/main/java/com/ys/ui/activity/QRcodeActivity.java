@@ -37,6 +37,7 @@ import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.ToastUtils;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.TimerTask;
 
@@ -291,9 +292,21 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
      }
 
     private void printPayNote(String slNo) {
+        Long vipPrice = 0L;
+        if (mcGoodsBean.getMg_vip_price() != null) {
+            vipPrice  = mcGoodsBean.getMg_vip_price();
+        }
         PrintHelper.getInstance().gdPrint(slNo, statusBean.getMc_no(), goodsBean.getGd_name(),
-                goodsBean.getGd_desc(), String.valueOf(mcGoodsBean.getMg_price()),
-                String.valueOf(mcGoodsBean.getMg_vip_price()), String.valueOf(mcGoodsBean.getMg_price()));
+                goodsBean.getGd_desc(), getPrice(mcGoodsBean.getMg_pre_price()),
+                getPrice(vipPrice), getPrice(mcGoodsBean.getMg_pre_price()));
+    }
+
+    private String getPrice(Long price) {
+
+        if (price == null) {
+            return "0";
+        }
+        return new BigDecimal(price).divide(new BigDecimal(100)).setScale(2).toString();
     }
     private void refund(String slNo) {
         RetrofitManager.builder().refund(slNo)

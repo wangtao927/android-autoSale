@@ -49,6 +49,8 @@ public class MainMenu extends SerialPortActivity
 	private Button mCode39Btn;
 	 private Button    mPrintBtn;
 	private Button closeBtn;
+	private Button ttyS0;
+	private Button ttyS1;
 	 	public void Init()
 	{
 		mBtnBtSwitch = (ToggleButton) this.findViewById(R.id.tbtnSwitch);
@@ -64,6 +66,10 @@ public class MainMenu extends SerialPortActivity
 
         closeBtn= (Button) findViewById(R.id.CloseBtn);
 		closeBtn.setOnClickListener(new BtnListener());
+		ttyS0= (Button) findViewById(R.id.ttyS0);
+		ttyS0.setOnClickListener(new BtnListener());
+		ttyS1= (Button) findViewById(R.id.ttyS1);
+		ttyS1.setOnClickListener(new BtnListener());
 
 
 	}
@@ -102,6 +108,9 @@ public class MainMenu extends SerialPortActivity
 
  				//String mSendData = mSendEditText.getText().toString();
 
+//				PrintHelper.getInstance().gdPrint("12345678",
+//						"88888888", "测试测试商品名称", "一盒/6只", "10.00", "9.00", "10.00");
+
 				String mSendData =String.format(PrintConstants.content, "12345678", "2016-05-03",
 						"88888888", "测试测试商品名称", "一盒/6只", "10.00", "9.00", "10.00元", "");
 
@@ -123,7 +132,14 @@ public class MainMenu extends SerialPortActivity
 			}
 			if (v == closeBtn) {
 				CloseCom();
+				//PrintHelper.getInstance().initPrint();
 			}
+//			if (v == ttyS0) {
+//                PrintHelper.getInstance().ttyS0();
+//			}
+//			if (v == ttyS1) {
+//				PrintHelper.getInstance().ttyS1();
+//			}
 		}
 	}
 

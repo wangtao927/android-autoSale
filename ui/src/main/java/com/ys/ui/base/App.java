@@ -29,9 +29,9 @@ public class App extends Application {
     public SerialPortFinder mSerialPortFinder = new SerialPortFinder();
     private SerialPort mSerialPort = null;
     private SerialPort mPrintSerialPort = null;
-    private int baudrate  = 19200;
-//    //private int port = 0;
-    private String path = "/dev/ttyES1";
+//    private int baudrate  = 19200;
+////    //private int port = 0;
+//    private String path = "/dev/ttyES1";
 
     private int minipos_baudrate = 19200;
     private String minipos_path = "";
@@ -70,7 +70,7 @@ public class App extends Application {
 
         if (mSerialPort == null) {
 			/* Read serial port parameters */
-            //SharedPreferences sp = getSharedPreferences("android_serialport_api.sample_preferences", MODE_PRIVATE);
+            SharedPreferences sp = getSharedPreferences("android_serialport_api.sample_preferences", MODE_PRIVATE);
             //String path = sp.getString("DEVICE", "");
             //int baudrate = Integer.decode(sp.getString("BAUDRATE", "-1"));
 
@@ -89,9 +89,9 @@ public class App extends Application {
     public SerialPort getSerialPort() throws SecurityException, IOException, InvalidParameterException {
         if (mSerialPort == null) {
 			/* Read serial port parameters */
-//            SharedPreferences sp = getSharedPreferences("android_serialport_api.sample_preferences", MODE_PRIVATE);
-//            String path = sp.getString("DEVICE", "");
-//            int baudrate = Integer.decode(sp.getString("BAUDRATE", "-1"));
+            SharedPreferences sp = getSharedPreferences("saleSerial", MODE_PRIVATE);
+            String path = sp.getString("sale_path", sale_path);
+            int baudrate = Integer.decode(sp.getString("sale_baudrate", String.valueOf(sale_baudrate)));
 
 			/* Check parameters */
             if ( (path.length() == 0) || (baudrate == -1)) {
@@ -102,27 +102,25 @@ public class App extends Application {
 			/* Open the serial port */
             mSerialPort = new SerialPort(new File(path), baudrate, 0);
         }
-        ToastUtils.showShortMessage("init serial port :" + path + baudrate);
         return mSerialPort;
     }
     public SerialPort getPrintSerial() throws SecurityException, IOException, InvalidParameterException {
         if (mPrintSerialPort == null) {
 			/* Read serial port parameters */
-//            SharedPreferences sp = getSharedPreferences("android_serialport_api.sample_preferences", MODE_PRIVATE);
-//            String path = sp.getString("DEVICE", "");
-//            int baudrate = Integer.decode(sp.getString("BAUDRATE", "-1"));
+            SharedPreferences sp = getSharedPreferences("printSerial", MODE_PRIVATE);
+            String path = sp.getString("print_path", print_path);
+            int baudrate = Integer.decode(sp.getString("print_baudrate", String.valueOf(print_baudrate)));
 
 			/* Check parameters */
-            if ( (print_path.length() == 0) || (print_baudrate == -1)) {
-                ToastUtils.showError("baudarete is error ：" + print_baudrate, this.getApplicationContext());
+            if ( (path.length() == 0) || (baudrate == -1)) {
+                ToastUtils.showError("baudarete is error ：" + baudrate, this.getApplicationContext());
                // throw new InvalidParameterException();
             }
 
 			/* Open the serial port */
-            mPrintSerialPort = new SerialPort(new File(print_path), print_baudrate, 0);
+            mPrintSerialPort = new SerialPort(new File(path), baudrate, 0);
         }
-        ToastUtils.showShortMessage("init serial port :" + print_path + print_baudrate);
-        return mPrintSerialPort;
+         return mPrintSerialPort;
     }
 
     public void closeSerialPort() {
