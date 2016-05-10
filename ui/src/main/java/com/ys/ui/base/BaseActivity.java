@@ -1,23 +1,12 @@
 package com.ys.ui.base;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-
-import com.ys.data.bean.McStatusBean;
-import com.ys.data.dao.DaoMaster;
-import com.ys.data.dao.DaoSession;
-import com.ys.data.dao.McStatusBeanDao;
-import com.ys.ui.activity.MainActivity;
-import com.ys.ui.activity.TermInitActivity;
-
-import java.util.List;
 
 import butterknife.ButterKnife;
 

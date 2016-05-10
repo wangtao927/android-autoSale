@@ -2,10 +2,14 @@ package com.ys.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.ContentLoadingProgressBar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ys.data.bean.McGoodsBean;
@@ -19,9 +23,12 @@ import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateOrderResult;
+import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.ToastUtils;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import rx.android.schedulers.AndroidSchedulers;
@@ -42,36 +49,72 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
 
     @Bind(R.id.btn_back)
     ImageButton btnBack;
+    @Bind(R.id.btn_back_home)
+    ImageButton btnBackHome;
 
 
     @Bind(R.id.pb_loading)
     ContentLoadingProgressBar mPbLoading;
+
+    @Bind(R.id.tv_timer)
+    TextView tvTimer;
+
+    protected int minute;
+    protected int second;
 
     @Override
     protected int getLayoutId() {
         return R.layout.activity_get;
     }
 
-    @Override
-    protected void create(Bundle savedInstanceState) {
-        // 开始计时
 
-        btnConfirm.setOnClickListener(this);
-        btnBack.setOnClickListener(this);
-    }
+    private String getTime() {
+        if (minute == 0) {
+            if (second == 0) {
+//                if (timer != null) {
+//                    timer.cancel();
+//                    timer = null;
+//                }
+//                if (timerTask != null) {
+//                    timerTask = null;
+//                }
+                return null;
+            }else {
+                second--;
+                if (second >= 10) {
+                    return "0"+minute + ":" + second;
+                }else {
+                    return "0"+minute + ":0" + second;
+                }
+            }
+        }else {
+            if (second == 0) {
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_confirm:
-                getProductByCode();
-                break;
-            case R.id.btn_back:
-                //返回主界面
-                finish();
-                startActivity(new Intent(GetProductActivity.this, HomeActivity.class));
-                break;
+                second = 59;
+                minute--;
+                if (minute >= 10) {
+                    return minute + ":" + second;
+                } else {
+                    return "0" + minute + ":" + second;
+                }
+            } else {
+                second--;
+                if (second >= 10) {
+                    if (minute >= 10) {
+                        return minute + ":" + second;
+                    } else {
+                        return "0" + minute + ":" + second;
+                    }
+                } else {
+                    if (minute >= 10) {
+                        return minute + ":0" + second;
+                    } else {
+                        return "0" + minute + ":0" + second;
+                    }
+                }
+            }
         }
+
     }
 
     private void getProductByCode() {
@@ -94,6 +137,63 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
 
 
     }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_confirm:
+                getProductByCode();
+                break;
+            case R.id.btn_back:
+                //返回主界面
+                etProductCode.setText("");
+                etProductPwd.setText("");
+//                finish();
+//                startActivity(new Intent(GetProductActivity.this, HomeActivity.class));
+                break;
+            case R.id.btn_back_home:
+                startActivity(new Intent(this, HomeActivity.class));
+
+
+        }
+    }
+        @Override
+    protected void create(Bundle savedInstanceState) {
+
+        btnConfirm.setOnClickListener(this);
+        btnBack.setOnClickListener(this);
+        btnBackHome.setOnClickListener(this);
+
+        int timeout = PropertyUtils.getInstance().getTransTimeout();
+        minute = timeout/60;
+        second = timeout%60;
+
+        tvTimer.setText(getTime());
+
+        timerTask = new TimerTask() {
+
+            @Override
+            public void run() {
+                Message msg = new Message();
+                msg.what = 0;
+                handler.sendMessage(msg);
+            }
+        };
+
+        timer = new Timer();
+        timer.schedule(timerTask, 0, 1000);
+    }
+    Timer timer;
+    TimerTask timerTask;
+    Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            System.out.println("handle!");
+            String timer = getTime();
+            if (TextUtils.isEmpty(timer)) {
+                startActivity(new Intent(GetProductActivity.this, HomeActivity.class));
+            }
+            tvTimer.setText(timer);
+        }
+    };
 
     public void showProgress() {
         mPbLoading.setVisibility(View.VISIBLE);
