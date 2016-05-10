@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.ys.data.bean.McGoodsBean;
@@ -38,10 +38,10 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
     EditText etProductPwd;
 
     @Bind(R.id.btn_confirm)
-    Button btnConfirm;
+    ImageButton btnConfirm;
 
     @Bind(R.id.btn_back)
-    Button btnBack;
+    ImageButton btnBack;
 
 
     @Bind(R.id.pb_loading)
@@ -69,7 +69,7 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
             case R.id.btn_back:
                 //返回主界面
                 finish();
-                startActivity(new Intent(GetProductActivity.this, MainActivity.class));
+                startActivity(new Intent(GetProductActivity.this, HomeActivity.class));
                 break;
         }
     }
