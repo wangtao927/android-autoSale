@@ -170,4 +170,8 @@ public class DbManagerHelper {
              updateSendStatus(saleListBean.getSl_no(), SlSendStatusEnum.FINISH);
         }
     }
+
+    public static String getMcNo() {
+        return App.getDaoSession(App.getContext()).getMcStatusBeanDao().loadAll().get(0).getMc_no();
+    }
 }

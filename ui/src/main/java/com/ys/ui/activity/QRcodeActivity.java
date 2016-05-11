@@ -252,6 +252,8 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
                                 ToastUtils.showShortMessage("支付成功");
                                 printPayNote(slNo);
                                 try {
+                                    Thread.sleep(5000);
+
                                     refund(slNo);
 
                                     Thread.sleep(2000);

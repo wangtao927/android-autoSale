@@ -58,6 +58,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
     private String channo = "";
     private String slNo = "";
+    private String mcNo = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

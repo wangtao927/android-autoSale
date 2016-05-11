@@ -8,6 +8,8 @@ import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateOrderResult;
 import com.ys.ui.common.response.SaleListResult;
 
+import java.util.Map;
+
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -40,6 +42,6 @@ public interface OrderApi {
 
     @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_SHORT)
     @POST("refund")
-    Observable<CommonResponse<String>> refund(@Body ReFundVo reFundVo);
+    Observable<CommonResponse<String>> refund(@Body CommonRequest<Map<String, String>>  request);
 
 }

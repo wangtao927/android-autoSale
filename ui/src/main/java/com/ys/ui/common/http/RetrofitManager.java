@@ -5,6 +5,7 @@ import android.util.Log;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.GsonBuilder;
 import com.ys.ui.base.App;
+import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.request.CommonRequest;
 import com.ys.ui.common.request.McDataVo;
 import com.ys.ui.common.request.ReFundVo;
@@ -17,6 +18,7 @@ import com.ys.ui.common.response.TermInitResult;
 import com.ys.ui.common.sign.Signature;
 import com.ys.ui.utils.NetUtil;
 import com.ys.ui.utils.OrderUtils;
+import com.ys.ui.utils.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -198,6 +200,7 @@ public class RetrofitManager {
     }
 
     public Observable<CommonResponse<String>> refund(String slNo) {
+        String mcNo = DbManagerHelper.getMcNo();
         long time = System.currentTimeMillis();
         Map map = new HashMap<>();
 
@@ -205,8 +208,12 @@ public class RetrofitManager {
         map.put("time", time);
         String sign = Signature.getSign(map);
 
-        ReFundVo reFundVo = new ReFundVo(time, sign, slNo);
-        return orderApi.refund(reFundVo);
+        Map<String, String> data = new HashMap<>();
+        data.put("sl_no", slNo);
+
+        CommonRequest<Map<String, String>> request = new CommonRequest<>(mcNo, time, data);
+
+        return orderApi.refund(request);
     }
 
 
