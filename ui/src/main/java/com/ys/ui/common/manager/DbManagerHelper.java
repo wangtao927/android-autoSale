@@ -172,6 +172,8 @@ public class DbManagerHelper {
     }
 
     public static String getMcNo() {
-        return App.getDaoSession(App.getContext()).getMcStatusBeanDao().loadAll().get(0).getMc_no();
+        List<McStatusBean> list =  App.getDaoSession(App.getContext()).getMcStatusBeanDao().loadAll();
+        if(list==null || list.size()<=0) return null;
+        return list.get(0).getMc_no();
     }
 }

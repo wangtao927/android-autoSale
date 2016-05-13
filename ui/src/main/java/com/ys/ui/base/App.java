@@ -8,6 +8,7 @@ import com.facebook.stetho.Stetho;
 import com.ys.SerialPortFinder;
 import com.ys.data.dao.DaoMaster;
 import com.ys.data.dao.DaoSession;
+import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.service.MyService;
 import com.ys.ui.utils.ToastUtils;
 
@@ -43,6 +44,8 @@ public class App extends Application {
     private int sale_baudrate = 19200;
     private String sale_path = "/dev/ttyES1";
 
+    public static String mcNo;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -58,6 +61,7 @@ public class App extends Application {
         new CrashHandler().init(this);
         // 初始化串口的端口
 
+        mcNo = DbManagerHelper.getMcNo();
 
     }
 

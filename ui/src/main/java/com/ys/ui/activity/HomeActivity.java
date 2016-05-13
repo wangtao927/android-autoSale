@@ -48,6 +48,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     protected void create(Bundle savedInstanceState) {
         btnGetDrug.setOnClickListener(this);
         btnBuy.setOnClickListener(this);
+        btnAbout.setOnClickListener(this);
     }
 
 
@@ -60,6 +61,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             case R.id.btn_buy:
                 startActivity(new Intent(HomeActivity.this, ProductActivity.class));
                 break;
+            case R.id.btn_about:
+                startActivity(new Intent(HomeActivity.this, MainActivity.class));
+                break;
+
+
         }
     }
 

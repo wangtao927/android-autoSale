@@ -8,8 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.ys.data.dao.DaoMaster;
-import com.ys.ui.common.manager.DbManagerHelper;
+import com.ys.ui.utils.PropertyUtils;
 
 import java.math.BigDecimal;
 import java.util.Timer;
@@ -27,7 +26,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected TimerTask timerTask;
     private Window window;
 
-    protected String mcNo;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,9 +39,20 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
         setContentView(getLayoutId());
         ButterKnife.bind(this);
-        create(savedInstanceState);
 
-        mcNo = DbManagerHelper.getMcNo();
+        create(savedInstanceState);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        resetTimeOut();
+    }
+
+    protected void resetTimeOut() {
+        int timeout = PropertyUtils.getInstance().getTransTimeout();
+        minute = timeout / 60;
+        second = timeout % 60;
     }
 
     protected String getPrice(Long price) {
@@ -64,15 +74,15 @@ public abstract class BaseActivity extends AppCompatActivity {
 //                    timerTask = null;
 //                }
                 return null;
-            }else {
+            } else {
                 second--;
                 if (second >= 10) {
-                    return "0"+minute + ":" + second;
-                }else {
-                    return "0"+minute + ":0" + second;
+                    return "0" + minute + ":" + second;
+                } else {
+                    return "0" + minute + ":0" + second;
                 }
             }
-        }else {
+        } else {
             if (second == 0) {
 
                 second = 59;
@@ -113,11 +123,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void create(Bundle savedInstanceState);
 
     protected Context getCtx() {
-        return   App.getContext();
+        return App.getContext();
     }
 
     protected String getMcNo() {
-        return mcNo;
+        return App.mcNo;
     }
 
 }

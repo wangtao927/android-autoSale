@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.McStatusBean;
@@ -22,7 +21,6 @@ import com.ys.ui.common.constants.SlTypeEnum;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.utils.ImageUtils;
 import com.ys.ui.utils.PropertyUtils;
-import com.ys.ui.utils.ToastUtils;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -78,7 +76,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_buy_1;
+        return R.layout.activity_detail;
     }
 
     @Override
@@ -97,8 +95,8 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
     private void initTimer() {
         int timeout = PropertyUtils.getInstance().getTransTimeout();
-        minute = timeout/60;
-        second = timeout%60;
+        minute = timeout / 60;
+        second = timeout % 60;
 
         tvTimer.setText(getTime());
 
@@ -115,35 +113,31 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         timer = new Timer();
         timer.schedule(timerTask, 0, 1000);
     }
+
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
-            System.out.println("handle!");
-            String timer = getTime();
-            if (TextUtils.isEmpty(timer)) {
-                startActivity(new Intent(ProductDetailActivity.this, HomeActivity.class));
+            if (!isFinishing()) {
+                String timer = getTime();
+                if (TextUtils.isEmpty(timer)) {
+                    startActivity(new Intent(ProductDetailActivity.this, HomeActivity.class));
+                    finish();
+                    return;
+                }
+                tvTimer.setText(timer);
             }
-            tvTimer.setText(timer);
         }
     };
-    private void init () {
+
+    private void init() {
         //调用接口获取地址
         Bundle datas = getIntent().getExtras();
         gdNo = datas.getString("gdNo");
 
-        statusBean =  App.getDaoSession(App.getContext()).getMcStatusBeanDao().queryBuilder().unique();
+        statusBean = App.getDaoSession(App.getContext()).getMcStatusBeanDao().queryBuilder().unique();
 
 
         goodsBean = DbManagerHelper.getGoodsInfo(gdNo);
 
-        mcGoodsBean = DbManagerHelper.getOutGoods(gdNo);
-        if (mcGoodsBean == null) {
-            // 无货
-            ToastUtils.showError("该药品暂时无货，请选择其他药品购买", App.getContext());
-
-            finish();
-            startActivity(new Intent(this, HomeActivity.class));
-            return;
-        }
         Glide.with(App.getContext())
                 .load(PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(goodsBean.getGd_img_s()))
                 .into(gdDetailImage);
@@ -159,7 +153,6 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
 
             case R.id.btn_buy_wx:
 
@@ -185,6 +178,12 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 break;
 
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
     }
 
     private void startPay(SlTypeEnum slTypeEnum) {

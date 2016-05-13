@@ -5,18 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.ys.data.bean.McStatusBean;
 import com.ys.data.dao.DaoSession;
-import com.ys.data.dao.McStatusBeanDao;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
-import com.ys.ui.sample.MainMenu;
 import com.ys.ui.sample.SelectGoodsActivity;
 import com.ys.ui.service.TimerService;
 import com.ys.ui.utils.ToastUtils;
-
-import java.util.List;
 
 import butterknife.Bind;
 
@@ -77,14 +72,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
     private boolean isInit() {
         DaoSession session = App.getDaoSession(App.getContext());
-        McStatusBeanDao statusBeanDao = session.getMcStatusBeanDao();
-
-        List<McStatusBean> lists = statusBeanDao.loadAll();
-        if (null == lists || lists.isEmpty()) {
+       if(App.mcNo == null){
             return false;
         } else {
             // 展示 终端号
-            ToastUtils.showShortMessage(lists.get(0).getMc_no());
+            ToastUtils.showShortMessage(App.mcNo);
         }
         return true;
     }

@@ -110,7 +110,7 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
         Bundle datas = getIntent().getExtras();
         gdNo = datas.getString("gdNo");
 
-        mcNo = DbManagerHelper.getMcNo();
+        mcNo = App.mcNo;
 
         goodsBean = DbManagerHelper.getGoodsInfo(gdNo);
 

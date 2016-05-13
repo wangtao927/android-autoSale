@@ -1,10 +1,13 @@
 package com.ys.ui.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.util.Log;
 import android.view.View;
@@ -59,8 +62,8 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void getLocation() {
-        LocationManager manager= (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        List<String> providerList =  manager.getProviders(true);
+        LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        List<String> providerList = manager.getProviders(true);
         if (providerList.contains(LocationManager.GPS_PROVIDER)) {
             provider = LocationManager.GPS_PROVIDER;
         } else if (providerList.contains(LocationManager.NETWORK_PROVIDER)) {
@@ -68,6 +71,16 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
 
         } else {
             // 没有可用的位置服务
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
         }
         location = manager.getLastKnownLocation(provider);
     }
@@ -170,7 +183,7 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
         DbManagerHelper.initAdv(response.getExt_data().getMcadv());
 
         // 初始化
-
+        App.mcNo = mcStatusBean.getMc_no();
 
     }
 

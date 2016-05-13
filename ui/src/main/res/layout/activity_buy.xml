@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg"
-    android:orientation="vertical">
+    android:orientation="vertical"
+
+    >
 
     <include
         android:id="@+id/title"
@@ -16,8 +18,9 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/rl_page"
         android:layout_below="@+id/title"
+        android:padding="10dp"
         android:clipToPadding="false"
-        android:paddingBottom="20dp" />
+         />
 
     <RelativeLayout
         android:id="@+id/rl_page"
@@ -27,6 +30,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:padding="10dp"
         android:orientation="horizontal">
 
         <ImageView

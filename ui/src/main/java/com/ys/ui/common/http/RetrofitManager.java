@@ -200,7 +200,7 @@ public class RetrofitManager {
     }
 
     public Observable<CommonResponse<String>> refund(String slNo) {
-        String mcNo = DbManagerHelper.getMcNo();
+        String mcNo = App.mcNo;
         long time = System.currentTimeMillis();
         Map map = new HashMap<>();
 

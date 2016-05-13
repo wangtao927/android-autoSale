@@ -195,7 +195,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     private void createOrder(String type) {
 
         SaleListVo saleListVo = new SaleListVo();
-        saleListVo.setMcNo(mcNo);
+        saleListVo.setMcNo(App.mcNo);
         saleListVo.setSlType(type);
         saleListVo.setSlGdName(goodsBean.getGd_name());
         saleListVo.setSlGdNo(goodsBean.getGd_no());
@@ -333,7 +333,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         if (mcGoodsBean.getMg_vip_price() != null) {
             vipPrice  = mcGoodsBean.getMg_vip_price();
         }
-        PrintHelper.getInstance().gdPrint(slNo, mcNo, goodsBean.getGd_name(),
+        PrintHelper.getInstance().gdPrint(slNo, App.mcNo, goodsBean.getGd_name(),
                 goodsBean.getGd_desc(), getPrice(mcGoodsBean.getMg_pre_price()),
                 getPrice(vipPrice), getPrice(mcGoodsBean.getMg_pre_price()));
     }
