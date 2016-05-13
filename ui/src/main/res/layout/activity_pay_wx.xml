@@ -30,6 +30,7 @@
             android:padding="5dp">
 
             <ImageView
+                android:id="@+id/iv_gd_detail_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -43,6 +44,8 @@
 
 
                 <TextView
+                    android:id="@+id/tv_gd_name"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
@@ -51,6 +54,8 @@
                     android:textColor="@color/white" />
 
                 <TextView
+                    android:id="@+id/tv_price"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
@@ -58,6 +63,8 @@
                     android:textColor="@color/white" />
 
                 <TextView
+                    android:id="@+id/tv_vip_price"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
@@ -94,6 +101,7 @@
                 android:textSize="16sp" />
 
             <ImageView
+                android:id="@+id/im_qrcode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"

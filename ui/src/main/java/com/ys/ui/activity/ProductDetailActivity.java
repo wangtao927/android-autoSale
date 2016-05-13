@@ -63,7 +63,6 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
     private GoodsBean goodsBean;
     private McGoodsBean mcGoodsBean;
-    private McStatusBean statusBean;
 
     String gdNameValue = "商品名：%s";
     String gdPrice = "价格：%s 元";
@@ -117,9 +116,10 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     }
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
-            System.out.println("handle!");
+
             String timer = getTime();
             if (TextUtils.isEmpty(timer)) {
+                finish();
                 startActivity(new Intent(ProductDetailActivity.this, HomeActivity.class));
             }
             tvTimer.setText(timer);
@@ -129,9 +129,6 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         //调用接口获取地址
         Bundle datas = getIntent().getExtras();
         gdNo = datas.getString("gdNo");
-
-        statusBean =  App.getDaoSession(App.getContext()).getMcStatusBeanDao().queryBuilder().unique();
-
 
         goodsBean = DbManagerHelper.getGoodsInfo(gdNo);
 
@@ -197,5 +194,12 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         intent.putExtra("type", slTypeEnum.getIndex());
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        handler.removeCallbacksAndMessages(null);
     }
 }

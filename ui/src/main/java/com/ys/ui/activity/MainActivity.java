@@ -95,6 +95,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(new Intent(MainActivity.this, GetProductActivity.class));
                 break;
             case R.id.btn_query:
+                startActivity(new Intent(MainActivity.this, OutGoodsActivity.class));
+
                 break;
             case R.id.btn_buy:
                 startActivity(new Intent(MainActivity.this, ProductActivity.class));

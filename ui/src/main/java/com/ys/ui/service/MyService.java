@@ -4,6 +4,7 @@ package com.ys.ui.service;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
@@ -11,10 +12,14 @@ import android.util.Log;
 import com.landfoneapi.misposwa.E_REQ_RETURN;
 import com.landfoneapi.misposwa.ILfListener;
 import com.landfoneapi.misposwa.MyApi;
+import com.ys.ui.base.App;
+import com.ys.ui.utils.PropertyUtils;
+import com.ys.ui.utils.ToastUtils;
 
 public class MyService extends Service {
 
 	private MyBinder mBinder = new MyBinder();
+	PropertyUtils propertyUtils = PropertyUtils.getInstance();
 	private Context getServiceContext(){
 		return this;
 	}
@@ -69,10 +74,23 @@ public class MyService extends Service {
 			return mMyApi.isUseSynch();
 		}
 		public E_REQ_RETURN pos_init(){
+
+			App app = (App)App.getContext();
+			SharedPreferences sp = getSharedPreferences("posSerial", MODE_PRIVATE);
+			String path = sp.getString("pos_path", app.getMinipos_path());
+			int baudrate = Integer.decode(sp.getString("pos_baudrate", String.valueOf(app.getMinipos_baudrate())));
+
+			/* Check parameters */
+			if ( (path.length() == 0) || (baudrate == -1)) {
+				ToastUtils.showError("baudarete is error ：" + baudrate, App.getContext());
+				// throw new InvalidParameterException();
+			}
 			//设置串口接口
 			mMyApi.setPOSISerialPort(null);//null时使用android的串口jni，android_serialport_api.SerialPort
 			//设置透传ip、端口；POS的串口路径和波特率
-			return mMyApi.pos_init("211.147.64.198", 5800, "/dev/ttyS1", "9600");//"/dev/ttyS1"//lf
+
+			return mMyApi.pos_init(propertyUtils.getPosIp(), propertyUtils.getPosPort(),
+					path, String.valueOf(baudrate));//"/dev/ttyS1"//lf
 		}
 		public E_REQ_RETURN pos_init(String path, int port){
 			//设置串口接口

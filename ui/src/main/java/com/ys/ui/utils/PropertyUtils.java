@@ -64,6 +64,13 @@ public class PropertyUtils {
     }
 
 
+    public int getPosPort() {
+        return Integer.valueOf(getValue(ParamEnum.POS_PORT));
+
+    }
+    public String getPosIp() {
+        return getValue(ParamEnum.POS_IP);
+    }
 
 
     private String getValue(ParamEnum paramEnum) {

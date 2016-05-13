@@ -84,6 +84,14 @@
             android:label="出货"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+         <activity android:name=".activity.PayActivity"
+            android:label="预支付"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+     <activity android:name=".activity.QRcodePayActivity"
+                android:label="支付"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".activity.HomeActivity"

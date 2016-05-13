@@ -1,18 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:weightSum="1">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_bar2" />
+
+    <ImageView
+        android:id="@+id/ad"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+         android:layout_below="@+id/title"
+
+        android:background="@color/bg"
+        android:scaleType="fitXY"
+        android:src="@mipmap/adv_2" />
 
 
 
-    <TextView android:id="@+id/tranStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="出货中..."
-        />
+    <LinearLayout
+        android:id="@+id/desc"
+        android:layout_width="400dp"
+        android:layout_height="160dp"
+        android:background="@color/bg"
+        android:layout_above="@+id/rl_footer"
+        android:layout_centerHorizontal="true"
+        android:weightSum="1">
 
+        <TextView
+            android:id="@+id/transStatus"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:background="@color/bg"
+            android:gravity="center"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:text="出货中..."
+            android:textColor="@color/white"
+            android:layout_weight="1.11" />
+
+
+
+    </LinearLayout>
+
+
+
+    <include
+        android:id="@+id/rl_footer"
+        layout="@layout/footer_bar" />
     <include layout="@layout/include_loading" />
 
 </RelativeLayout>

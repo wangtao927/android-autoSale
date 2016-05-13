@@ -42,7 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         create(savedInstanceState);
 
-        mcNo = DbManagerHelper.getMcNo();
+        //mcNo = DbManagerHelper.getMcNo();
     }
 
     protected String getPrice(Long price) {
@@ -56,13 +56,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected String getTime() {
         if (minute == 0) {
             if (second == 0) {
-//                if (timer != null) {
-//                    timer.cancel();
-//                    timer = null;
-//                }
-//                if (timerTask != null) {
-//                    timerTask = null;
-//                }
                 return null;
             }else {
                 second--;

@@ -21,8 +21,8 @@ public enum ParamEnum {
     AD_START("33","广告开始时间",""),
     SERIAL_PATH("41","串口号",""),
     SERIAL_PORT("42","波特率",""),
-    POS_IP("43","银联POS后台IP",""),
-    POS_PORT("44","银联POS后台端口号",""),
+    POS_IP("43","银联POS后台IP","211.147.64.198"),
+    POS_PORT("44","银联POS后台端口号","5800"),
 
     ;
 
