@@ -34,6 +34,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/btn_gd_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
@@ -194,7 +195,7 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/btn_buy"
+            android:id="@+id/btn_buy_wx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -205,7 +206,7 @@
             android:text="@string/buy_drug" />
 
         <ImageButton
-            android:id="@+id/btn_get_drug"
+            android:id="@+id/btn_buy_zfb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -215,7 +216,7 @@
             android:src="@mipmap/payment_2" />
 
         <ImageButton
-            android:id="@+id/btn_smart"
+            android:id="@+id/btn_yl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -225,7 +226,7 @@
             android:src="@mipmap/payment_3" />
 
         <ImageButton
-            android:id="@+id/btn_shop"
+            android:id="@+id/btn_sf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"

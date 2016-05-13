@@ -74,6 +74,11 @@
             android:label="商品购买"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.ProductDetailActivity"
+            android:label="商品详情"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
          <activity android:name=".activity.OutGoodsActivity"
             android:label="出货"

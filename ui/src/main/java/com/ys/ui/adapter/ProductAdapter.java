@@ -79,7 +79,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
         @OnClick(R.id.iv_picon)
         void itemClick() {
             final GoodsBean goodsBean = (GoodsBean) productName.getTag();
-            Intent intent = new Intent(context, QRcodeActivity.class);
+            Intent intent = new Intent(context, ProductDetailActivity.class);
             intent.putExtra("gdNo", goodsBean.getGd_no());
             context.startActivity(intent);
         }
