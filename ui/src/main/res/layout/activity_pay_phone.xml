@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/title"
-        layout="@layout/title_bar" />
+        layout="@layout/title_bar2" />
 
 
     <LinearLayout
@@ -43,14 +43,15 @@
 
 
                 <TextView
+                    android:id="@+id/tv_gd_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginTop="20dp"
-                    android:text="天然维生素E胶囊"
+                    android:layout_margin="3dp"
+                    android:text="商品名："
                     android:textColor="@color/white" />
 
                 <TextView
+                    android:id="@+id/tv_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
@@ -58,6 +59,7 @@
                     android:textColor="@color/white" />
 
                 <TextView
+                    android:id="@+id/tv_vip_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
@@ -78,6 +80,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_pay_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
@@ -86,6 +89,7 @@
                 android:textSize="40dp" />
 
             <Button
+                android:id="@+id/btn_dir_buy"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -93,9 +97,10 @@
                 android:padding="20dp"
                 android:text="直接购买"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
 
             <Button
+                android:id="@+id/btn_vip_buy"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"

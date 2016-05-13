@@ -59,63 +59,13 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
     @Bind(R.id.tv_timer)
     TextView tvTimer;
 
-    protected int minute;
-    protected int second;
+
 
     @Override
     protected int getLayoutId() {
         return R.layout.activity_get;
     }
 
-
-    private String getTime() {
-        if (minute == 0) {
-            if (second == 0) {
-//                if (timer != null) {
-//                    timer.cancel();
-//                    timer = null;
-//                }
-//                if (timerTask != null) {
-//                    timerTask = null;
-//                }
-                return null;
-            }else {
-                second--;
-                if (second >= 10) {
-                    return "0"+minute + ":" + second;
-                }else {
-                    return "0"+minute + ":0" + second;
-                }
-            }
-        }else {
-            if (second == 0) {
-
-                second = 59;
-                minute--;
-                if (minute >= 10) {
-                    return minute + ":" + second;
-                } else {
-                    return "0" + minute + ":" + second;
-                }
-            } else {
-                second--;
-                if (second >= 10) {
-                    if (minute >= 10) {
-                        return minute + ":" + second;
-                    } else {
-                        return "0" + minute + ":" + second;
-                    }
-                } else {
-                    if (minute >= 10) {
-                        return minute + ":0" + second;
-                    } else {
-                        return "0" + minute + ":0" + second;
-                    }
-                }
-            }
-        }
-
-    }
 
     private void getProductByCode() {
         final String code = etProductCode.getText().toString();
@@ -182,8 +132,7 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
         timer = new Timer();
         timer.schedule(timerTask, 0, 1000);
     }
-    Timer timer;
-    TimerTask timerTask;
+
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             System.out.println("handle!");

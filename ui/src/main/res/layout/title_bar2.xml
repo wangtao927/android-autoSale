@@ -23,6 +23,15 @@
         android:layout_centerVertical="true"
         android:layout_gravity="center_horizontal"
         android:text="02:00"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:textSize="16dp"/>
+
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/logo"
+        android:layout_centerHorizontal="true"
+        android:background="@color/white" />
 
 </RelativeLayout>

@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/title"
-        layout="@layout/title_bar" />
+        layout="@layout/title_bar2" />
 
 
     <LinearLayout
@@ -20,6 +20,7 @@
         android:padding="10dp">
 
         <ImageView
+            android:id="@+id/iv_gd_detail_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -34,14 +35,15 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/btn_gd_name"
+                android:id="@+id/tv_gd_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="商品名：天然维生素E胶囊"
+                android:text="商品名："
                 android:textColor="@color/white" />
 
             <TextView
+                android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
@@ -49,6 +51,7 @@
                 android:textColor="@color/white" />
 
             <TextView
+                android:id="@+id/tv_vip_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
@@ -67,10 +70,11 @@
                 android:background="@color/white" />
 
             <TextView
+                android:id="@+id/tv_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="养生堂天然维生素E软胶囊
+                android:text="
 [规格]250毫克 x 160粒
 [功效成分及含量]每100g含：d-α-生育酚39g
 [保健功能]美容(祛黄褐斑)，延缓衰老

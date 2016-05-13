@@ -3,6 +3,8 @@ package com.ys.ui.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -12,12 +14,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McGoodsBean;
+import com.ys.data.bean.McStatusBean;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
@@ -34,6 +38,7 @@ import com.ys.ui.utils.ImageUtils;
 import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.ToastUtils;
 
+import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.Bind;
@@ -45,32 +50,40 @@ import rx.schedulers.Schedulers;
 /**
  * Created by river on 2016/4/19.
  */
-public class QRcodeActivity extends BaseActivity implements View.OnClickListener {
+public class PayActivity extends BaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.iv_wx_qrcode)
-    ImageView wxQrcodeImage;
+    @Bind(R.id.tv_gd_name)
+    TextView tvGdName;
 
-    @Bind(R.id.gd_detail_image)
+    @Bind(R.id.tv_price)
+    TextView tvPrice;
+
+    @Bind(R.id.tv_vip_price)
+    TextView tvVipPrice;
+
+    @Bind(R.id.iv_gd_detail_image)
     ImageView gdDetailImage;
-    @Bind(R.id.wx_pay)
-    Button wxPay;
+    @Bind(R.id.tv_timer)
+    TextView tvTimer;
 
-    @Bind(R.id.ali_pay)
-    Button aliPay;
+    @Bind(R.id.tv_pay_type)
+    TextView tvPayType;
 
+    @Bind(R.id.btn_dir_buy)
+    Button btnDirBuy;
 
-    @Bind(R.id.gd_name)
-    TextView gdName;
-
-    @Bind(R.id.gd_detail)
-    TextView gdDetail;
-
-
-
+    @Bind(R.id.btn_vip_buy)
+    Button btnVipBuy;
     private GoodsBean goodsBean;
     private McGoodsBean mcGoodsBean;
-    private String mcNo;
-    private String gdNo = "";
+
+    private SlTypeEnum slType;
+
+    String gdNameValue = "商品名：%s";
+    String gdPrice = "价格：%s 元";
+    String gdVipPrice = "会员价: %s 元";
+
+
     /**
      * 用字符串生成二维码
      * @param str
@@ -101,35 +114,65 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_qrcode;
+        return R.layout.activity_pay_phone;
     }
 
     @Override
     protected void create(Bundle savedInstanceState) {
         //调用接口获取地址
+        init();
+
+        initTimer();
+
+    }
+    private void init () {
+        //调用接口获取地址
         Bundle datas = getIntent().getExtras();
-        gdNo = datas.getString("gdNo");
 
-        mcNo = DbManagerHelper.getMcNo();
+        goodsBean = (GoodsBean)getIntent().getSerializableExtra("goods");
+        mcGoodsBean = (McGoodsBean)getIntent().getSerializableExtra("mcGoods");
 
-        goodsBean = DbManagerHelper.getGoodsInfo(gdNo);
+        int type = datas.getInt("type");
+        slType = SlTypeEnum.findByIndex(type);
 
-        mcGoodsBean = DbManagerHelper.getOutGoods(gdNo);
-        if (mcGoodsBean == null) {
-            // 无货
-            ToastUtils.showError("该药品暂时无货，请选择其他药品购买", App.getContext());
-        }
-         Glide.with(App.getContext())
+        Glide.with(App.getContext())
                 .load(PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(goodsBean.getGd_img_s()))
                 .into(gdDetailImage);
 
-        gdName.append(goodsBean.getGd_short_name());
-        gdDetail.append(goodsBean.getGd_desc());
-
-        wxPay.setOnClickListener(this);
-        aliPay.setOnClickListener(this);
-
+        tvGdName.setText(String.format(gdNameValue, goodsBean.getGd_short_name()));
+        tvPrice.setText(String.format(gdPrice, getPrice(goodsBean.getGd_disc_price())));
+        tvVipPrice.setText(String.format(gdVipPrice, getPrice(goodsBean.getGd_vip_price())));
     }
+    private void initTimer() {
+        int timeout = PropertyUtils.getInstance().getTransTimeout();
+        minute = timeout/60;
+        second = timeout%60;
+
+        tvTimer.setText(getTime());
+
+        timerTask = new TimerTask() {
+
+            @Override
+            public void run() {
+                Message msg = new Message();
+                msg.what = 0;
+                handler.sendMessage(msg);
+            }
+        };
+
+        timer = new Timer();
+        timer.schedule(timerTask, 0, 1000);
+    }
+    Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            System.out.println("handle!");
+            String timer = getTime();
+            if (TextUtils.isEmpty(timer)) {
+                startActivity(new Intent(PayActivity.this, HomeActivity.class));
+            }
+            tvTimer.setText(timer);
+        }
+    };
 
 
     @Override
@@ -176,10 +219,10 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
                             try {
                                 if (TextUtils.isEmpty(response.getExt_data().getQrcodeUrl())) {
                                     Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcode());
-                                    wxQrcodeImage.setImageBitmap(qrcodeBitmap);
+                                   // wxQrcodeImage.setImageBitmap(qrcodeBitmap);
                                 } else {
                                     Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcodeUrl());
-                                    wxQrcodeImage.setImageBitmap(qrcodeBitmap);
+                                   // wxQrcodeImage.setImageBitmap(qrcodeBitmap);
                                 }
                                 //
                                 waitPay(response.getExt_data().getSlNo());
@@ -190,7 +233,7 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
 //                            startActivity(new Intent(GetProductActivity.this, OutGoodsActivity.class));
 
                         }else{
-                            ToastUtils.showError("支付失败", QRcodeActivity.this);
+                            ToastUtils.showError("支付失败", PayActivity.this);
                         }
 
                     }
@@ -233,55 +276,55 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
                         //showProgress();
                     }
                 })
-                 .subscribe(new Action1<CommonResponse<SaleListResult>>() {
-                     @Override
-                     public void call(CommonResponse<SaleListResult> response) {
-                         //hideProgress();
-                         Log.d("orderStatus", response.toString());
-                         if (response.getCode() == 0) {
-                             if (String.valueOf(SlPayStatusEnum.FINISH.getIndex()).equals(response.getExt_data().getSl_pay_status())) {
-                                 //支付成功
-                                 ToastUtils.showShortMessage("支付成功");
-                                 printPayNote(slNo);
-//                                try {
-//                                    Thread.sleep(5000);
-//
-//                                    refund(slNo);
-//
-//                                    Thread.sleep(2000);
-//
-//                                } catch (InterruptedException e) {
-//                                    e.printStackTrace();
-//                                }
-                                 finish();
-                                 startActivity(new Intent(QRcodeActivity.this, HomeActivity.class));
-                             } else {
-                                 if (System.currentTimeMillis() - startTime < timeout * 1000) {
-                                     try {
-                                         Thread.sleep(2000);
-                                     } catch (InterruptedException e) {
-                                         e.printStackTrace();
-                                     }
-                                     getOrderStatus(slNo);
-                                 } else {
-                                     finish();
-                                     startActivity(new Intent(QRcodeActivity.this, HomeActivity.class));
-                                     ToastUtils.showError("未支付或者支付失败", QRcodeActivity.this);
+                .subscribe(new Action1<CommonResponse<SaleListResult>>() {
+                    @Override
+                    public void call(CommonResponse<SaleListResult> response) {
+                        //hideProgress();
+                        Log.d("orderStatus", response.toString());
+                        if (response.getCode() == 0) {
+                            if (String.valueOf(SlPayStatusEnum.FINISH.getIndex()).equals(response.getExt_data().getSl_pay_status())) {
+                                //支付成功
+                                ToastUtils.showShortMessage("支付成功");
+                                printPayNote(slNo);
+                                try {
+                                    Thread.sleep(5000);
 
-                                 }
+                                    refund(slNo);
 
-                             }
-                         }
+                                    Thread.sleep(2000);
 
-                     }
-                 }, new Action1<Throwable>() {
-                     @Override
-                     public void call(Throwable throwable) {
-                         //hideProgress();
-                         //Toast.makeText(GetProductActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                finish();
+                                startActivity(new Intent(PayActivity.this, HomeActivity.class));
+                            } else {
+                                if (System.currentTimeMillis() - startTime < timeout * 1000) {
+                                    try {
+                                        Thread.sleep(2000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                    getOrderStatus(slNo);
+                                } else {
+                                    finish();
+                                    startActivity(new Intent(PayActivity.this, HomeActivity.class));
+                                    ToastUtils.showError("未支付或者支付失败", PayActivity.this);
 
-                     }
-                 });
+                                }
+
+                            }
+                        }
+
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        //hideProgress();
+                        //Toast.makeText(GetProductActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
 
      }
 
@@ -311,7 +354,7 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
                         //hideProgress();
                         Log.d("orderStatus", response.toString());
                         if (response.getCode() == 0) {
-                            Toast.makeText(QRcodeActivity.this, "退款成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PayActivity.this, "退款成功", Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -320,7 +363,7 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
                     @Override
                     public void call(Throwable throwable) {
                         //hideProgress();
-                        Toast.makeText(QRcodeActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PayActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
 
                     }
                 });

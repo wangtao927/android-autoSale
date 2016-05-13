@@ -8,8 +8,8 @@ public enum SlTypeEnum {
     //付款方式：1-现金、2-银行卡、3-微信支付，4-支付宝，5-积分兑换，6-提货码
 
     CASH(1, "现金"),
-    CARD(2, "银行卡"),
-    WX(3, "微信"),
+    CARD(2, "银联卡"),
+    WX(3, "微信支付"),
     ALIPAY(4, "支付宝"),
     SCORE(5, "-积分兑换"),
     CODE(6, "提货码"),
@@ -38,5 +38,14 @@ public enum SlTypeEnum {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public static SlTypeEnum findByIndex(int index) {
+        for (SlTypeEnum slTypeEnum : SlTypeEnum.values()) {
+            if (slTypeEnum.getIndex() == index) {
+                return slTypeEnum;
+            }
+        }
+        return null;
     }
 }
