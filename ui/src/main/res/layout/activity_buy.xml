@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg"
@@ -18,7 +17,6 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/rl_page"
         android:layout_below="@+id/title"
-        android:padding="10dp"
         android:clipToPadding="false"
          />
 
@@ -56,6 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/ll_buy"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
         android:text="请直接点击药品图片购买或输入药品编码购买！" />
 
     <LinearLayout
@@ -64,7 +63,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/rl_footer"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <EditText
@@ -74,6 +74,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="10dp"
             android:background="@drawable/edit_circle"
+            android:paddingLeft="5dp"
             android:hint="请输入药品编码" />
 
         <Button
@@ -81,6 +82,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="right"
+            android:padding="5dp"
             android:background="@drawable/circle"
             android:text="确认"
             android:textColor="@color/white" />

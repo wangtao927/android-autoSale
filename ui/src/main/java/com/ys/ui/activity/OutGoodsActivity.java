@@ -338,6 +338,16 @@ public class OutGoodsActivity extends SerialMachineActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        handler.removeCallbacksAndMessages(null);
+        if(handler!=null){
+            handler.removeCallbacksAndMessages(null);
+        }
+
+        if(timerTask!=null){
+            timerTask.cancel();
+        }
+
+        if(timer!=null){
+            timer.cancel();
+        }
      }
 }

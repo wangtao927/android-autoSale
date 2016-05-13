@@ -91,6 +91,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
         switch (v.getId()) {
             case R.id.btn_reset:
                 startActivity(new Intent(AdminActivity.this, TermInitActivity.class));
+                finish();
                 break;
             case R.id.btn_buhuo:
 
@@ -115,7 +116,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
             loadData();
             refresh();
         } else {
-            ToastUtils.showError("所有数据已经全部加载了", App.getContext());
+            //ToastUtils.showError("所有数据已经全部加载了", App.getContext());
         }
     }
 }

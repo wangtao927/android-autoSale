@@ -12,8 +12,8 @@
         android:id="@+id/ad"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/title"
         android:layout_above="@+id/function"
+        android:layout_below="@+id/title"
         android:background="@color/bg"
         android:scaleType="fitXY"
         android:src="@mipmap/adv_2" />
@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/bg_btn"
+            android:padding="5dp"
             android:src="@mipmap/btn_1"
             android:text="@string/buy_drug" />
 
@@ -44,6 +45,7 @@
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:background="@color/bg_btn"
+            android:padding="5dp"
             android:src="@mipmap/btn_2" />
 
         <ImageButton
@@ -53,6 +55,7 @@
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:background="@color/bg_btn"
+            android:padding="5dp"
             android:src="@mipmap/btn_3" />
 
         <ImageButton
@@ -62,6 +65,7 @@
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:background="@color/bg_btn"
+            android:padding="5dp"
             android:src="@mipmap/btn_4" />
 
         <ImageButton
@@ -71,6 +75,7 @@
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:background="@color/bg_btn"
+            android:padding="5dp"
             android:src="@mipmap/btn_5" />
 
     </LinearLayout>

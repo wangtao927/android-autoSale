@@ -390,6 +390,16 @@ public class QRcodePayActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        handler.removeCallbacksAndMessages(null);
+        if(handler!=null){
+            handler.removeCallbacksAndMessages(null);
+        }
+
+        if(timerTask!=null){
+            timerTask.cancel();
+        }
+
+        if(timer!=null){
+            timer.cancel();
+        }
     }
 }

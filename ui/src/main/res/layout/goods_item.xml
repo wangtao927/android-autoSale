@@ -4,7 +4,7 @@
     android:id="@+id/ll_item"
     android:layout_width="110dp"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -15,7 +15,7 @@
         <ImageView
             android:id="@+id/iv_picon"
             android:layout_width="46dp"
-            android:layout_height="89dp"
+            android:layout_height="69dp"
             android:src="@mipmap/p" />
 
         <TextView

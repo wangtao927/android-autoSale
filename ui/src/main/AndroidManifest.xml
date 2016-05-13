@@ -20,7 +20,7 @@
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,42 +42,42 @@
         <activity
             android:name=".activity.GetProductActivity"
             android:label="@string/title_activity_get_product"
-            android:screenOrientation="portrait"
+            
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.PrintActivity"
             android:label="@string/print"
-            android:screenOrientation="portrait"
+            
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.TermInitActivity"
             android:label="@string/term_init"
-            android:screenOrientation="portrait"
+            
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.AdminLoginActivity"
             android:label="@string/login"
-            android:screenOrientation="portrait"
+            
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.AdminActivity"
             android:label="@string/admin"
-            android:screenOrientation="portrait"
+            
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.QRcodeActivity"
             android:label="二维码支付"
-            android:screenOrientation="portrait"
+            
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.ProductActivity"
             android:label="商品购买"
-            android:screenOrientation="portrait"
+            
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.ProductDetailActivity"
             android:label="商品详情"
-            android:screenOrientation="portrait"
+            
             android:theme="@style/AppTheme.NoActionBar" />
 
          <activity android:name=".activity.OutGoodsActivity"
@@ -86,17 +86,17 @@
             android:theme="@style/AppTheme.NoActionBar" />
          <activity android:name=".activity.PayActivity"
             android:label="预支付"
-            android:screenOrientation="portrait"
+            
             android:theme="@style/AppTheme.NoActionBar" />
      <activity android:name=".activity.QRcodePayActivity"
                 android:label="支付"
-                android:screenOrientation="portrait"
+                
                 android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".activity.HomeActivity"
             android:label="首页"
-            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
 
 
@@ -109,7 +109,7 @@
         <!--打印机测试-->
         <!-- <activity android:name="com.ys.test.activity.SerialPortActivity"/>-->
         <activity android:name=".serial.print.activity.MainMenu"
-            android:screenOrientation="portrait"
+            
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <service android:name=".service.MyService" />

@@ -18,6 +18,7 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
+
         <ImageView
             android:id="@+id/iv_gd_detail_image"
             android:layout_width="match_parent"
@@ -87,6 +88,7 @@
 
         </LinearLayout>
 
+
     </LinearLayout>
 
     <LinearLayout
@@ -96,7 +98,8 @@
         android:layout_above="@+id/ll_tip"
         android:background="@color/bg_btn"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:gravity="center"
+        android:padding="5dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -107,7 +110,6 @@
             <Button
                 android:layout_width="65dp"
                 android:layout_height="65dp"
-                android:layout_margin="5dp"
                 android:background="@drawable/circle_btn_2"
                 android:padding="1dp"
                 android:text="主要成分"
@@ -124,8 +126,6 @@
             <Button
                 android:layout_width="65dp"
                 android:layout_height="65dp"
-                android:layout_margin="5dp"
-
                 android:background="@drawable/circle_btn_2"
                 android:padding="1dp"
                 android:text="功能主治"
@@ -142,7 +142,6 @@
             <Button
                 android:layout_width="65dp"
                 android:layout_height="65dp"
-                android:layout_margin="5dp"
                 android:background="@drawable/circle_btn_2"
                 android:padding="1dp"
                 android:text="用法用量"
@@ -157,9 +156,8 @@
             android:gravity="center">
 
             <Button
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:layout_margin="5dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:background="@drawable/circle_btn_2"
                 android:padding="1dp"
                 android:text="规格包装"
@@ -174,7 +172,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/v_line"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="8dp"
         android:text="请选择支付方式"
         android:textColor="@color/white"
         android:textSize="18dp"
@@ -186,7 +184,7 @@
         android:layout_height="2dp"
         android:layout_above="@+id/ll_buy"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginTop="4dp"
         android:background="@color/white" />
 
@@ -196,7 +194,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/rl_footer"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="10dp"
         android:background="@color/bg"
         android:orientation="horizontal">
 

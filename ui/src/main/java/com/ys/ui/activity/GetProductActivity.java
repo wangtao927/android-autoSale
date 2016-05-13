@@ -49,8 +49,7 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
 
     @Bind(R.id.btn_back)
     ImageButton btnBack;
-    @Bind(R.id.btn_back_home)
-    ImageButton btnBackHome;
+
 
 
     @Bind(R.id.pb_loading)
@@ -58,7 +57,6 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
 
     @Bind(R.id.tv_timer)
     TextView tvTimer;
-
 
 
     @Override
@@ -87,6 +85,7 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
 
 
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -100,22 +99,20 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
 //                finish();
 //                startActivity(new Intent(GetProductActivity.this, HomeActivity.class));
                 break;
-            case R.id.btn_back_home:
-                startActivity(new Intent(this, HomeActivity.class));
 
 
         }
     }
-        @Override
+
+    @Override
     protected void create(Bundle savedInstanceState) {
 
         btnConfirm.setOnClickListener(this);
         btnBack.setOnClickListener(this);
-        btnBackHome.setOnClickListener(this);
 
         int timeout = PropertyUtils.getInstance().getTransTimeout();
-        minute = timeout/60;
-        second = timeout%60;
+        minute = timeout / 60;
+        second = timeout % 60;
 
         tvTimer.setText(getTime());
 
@@ -186,6 +183,7 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
 
                                 startActivity(intent);
                                 finish();
+                                return;
                             }
                         }
                         ToastUtils.showError("提货码无效", GetProductActivity.this);
@@ -199,9 +197,20 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
                     }
                 });
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        handler.removeCallbacksAndMessages(null);
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+        }
+
+        if (timerTask != null) {
+            timerTask.cancel();
+        }
+
+        if (timer != null) {
+            timer.cancel();
+        }
     }
 }

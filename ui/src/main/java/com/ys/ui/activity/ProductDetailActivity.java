@@ -44,9 +44,6 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     @Bind(R.id.btn_sf)
     ImageButton btnSf;
 
-    @Bind(R.id.btn_back_home)
-    ImageButton btnBackHome;
-
     @Bind(R.id.tv_gd_name)
     TextView tvGdName;
 
@@ -82,8 +79,6 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     protected void create(Bundle savedInstanceState) {
 
         init();
-
-        btnBackHome.setOnClickListener(this);
         btnWx.setOnClickListener(this);
         btnZfb.setOnClickListener(this);
         btnYl.setOnClickListener(this);
@@ -133,6 +128,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         gdNo = datas.getString("gdNo");
 
         goodsBean = DbManagerHelper.getGoodsInfo(gdNo);
+        mcGoodsBean = DbManagerHelper.getOutGoods(gdNo);
 
         Glide.with(App.getContext())
                 .load(PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(goodsBean.getGd_img_s()))
@@ -166,10 +162,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
                 break;
 
-            case R.id.btn_back_home:
-                finish();
-                startActivity(new Intent(this, HomeActivity.class));
-                break;
+
             default:
                 break;
 
@@ -179,18 +172,28 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        handler.removeCallbacksAndMessages(null);
+
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+        }
+
+        if (timerTask != null) {
+            timerTask.cancel();
+        }
+
+        if (timer != null) {
+            timer.cancel();
+        }
+
     }
 
     private void startPay(SlTypeEnum slTypeEnum) {
-
 
         Intent intent = new Intent(ProductDetailActivity.this, PayActivity.class);
 
         intent.putExtra("goods", goodsBean);
         intent.putExtra("mcGoods", mcGoodsBean);
         intent.putExtra("type", slTypeEnum.getIndex());
-        finish();
         startActivity(intent);
     }
 }

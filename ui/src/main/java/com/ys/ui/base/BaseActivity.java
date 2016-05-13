@@ -1,6 +1,7 @@
 package com.ys.ui.base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.ys.ui.activity.HomeActivity;
 import com.ys.ui.utils.PropertyUtils;
 
 import java.math.BigDecimal;
@@ -37,9 +39,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
 
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
+        getIntent(savedInstanceState);
         setContentView(getLayoutId());
         ButterKnife.bind(this);
-
         create(savedInstanceState);
     }
 
@@ -47,6 +49,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         resetTimeOut();
+    }
+
+    public void close(View v){
+        finish();
     }
 
     protected void resetTimeOut() {
@@ -106,11 +112,18 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
+    protected void backHome(View v) {
+        finish();
+        startActivity(new Intent(this, HomeActivity.class));
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
     }
+
+    protected void getIntent(Bundle savedInstanceState){};
 
     protected abstract int getLayoutId();
 

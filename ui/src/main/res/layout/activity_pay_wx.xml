@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/title"
-        layout="@layout/title_bar" />
+        layout="@layout/title_bar2" />
 
 
     <LinearLayout
@@ -105,7 +105,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:src="@mipmap/p"
                 />
 
 
@@ -113,6 +112,7 @@
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:onClick="close"
                 android:background="@color/bg"
                 android:padding="10dp"
                 android:text="重新选择购买方式"
@@ -128,7 +128,8 @@
     <LinearLayout
         android:id="@+id/ll_guide"
         android:layout_width="match_parent"
-        android:layout_height="260dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
         android:layout_above="@+id/rl_footer"
         android:background="@color/bg"
         android:gravity="center"
