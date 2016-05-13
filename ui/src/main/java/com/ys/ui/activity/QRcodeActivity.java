@@ -66,11 +66,10 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
     TextView gdDetail;
 
 
-
+    private SlTypeEnum slType;
     private GoodsBean goodsBean;
     private McGoodsBean mcGoodsBean;
-    private String mcNo;
-    private String gdNo = "";
+    private String mcNo = App.mcNo;
     /**
      * 用字符串生成二维码
      * @param str
@@ -108,26 +107,20 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
     protected void create(Bundle savedInstanceState) {
         //调用接口获取地址
         Bundle datas = getIntent().getExtras();
-        gdNo = datas.getString("gdNo");
 
-        mcNo = App.mcNo;
+        goodsBean = (GoodsBean)getIntent().getSerializableExtra("goods");
+        mcGoodsBean = (McGoodsBean)getIntent().getSerializableExtra("mcGoods");
 
-        goodsBean = DbManagerHelper.getGoodsInfo(gdNo);
+        int type = datas.getInt("type");
+        slType = SlTypeEnum.findByIndex(type);
 
-        mcGoodsBean = DbManagerHelper.getOutGoods(gdNo);
-        if (mcGoodsBean == null) {
-            // 无货
-            ToastUtils.showError("该药品暂时无货，请选择其他药品购买", App.getContext());
-        }
-         Glide.with(App.getContext())
+        Glide.with(App.getContext())
                 .load(PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(goodsBean.getGd_img_s()))
                 .into(gdDetailImage);
 
         gdName.append(goodsBean.getGd_short_name());
         gdDetail.append(goodsBean.getGd_desc());
-
-        wxPay.setOnClickListener(this);
-        aliPay.setOnClickListener(this);
+        createOrder(String.valueOf(slType.getIndex()));
 
     }
 

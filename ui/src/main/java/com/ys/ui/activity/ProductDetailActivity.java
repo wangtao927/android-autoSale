@@ -190,7 +190,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         intent.putExtra("goods", goodsBean);
         intent.putExtra("mcGoods", mcGoodsBean);
         intent.putExtra("type", slTypeEnum.getIndex());
-        startActivity(intent);
         finish();
+        startActivity(intent);
     }
 }
