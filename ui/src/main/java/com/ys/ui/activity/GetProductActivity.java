@@ -139,6 +139,8 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
             String timer = getTime();
             if (TextUtils.isEmpty(timer)) {
                 startActivity(new Intent(GetProductActivity.this, HomeActivity.class));
+                finish();
+                return;
             }
             tvTimer.setText(timer);
         }

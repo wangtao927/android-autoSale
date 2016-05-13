@@ -191,6 +191,8 @@ public class OutGoodsActivity extends SerialMachineActivity {
             String timer = getTime();
             if (TextUtils.isEmpty(timer)) {
                 startActivity(new Intent(OutGoodsActivity.this, HomeActivity.class));
+                finish();
+                return;
             }
             tvTimer.setText(timer);
         }
