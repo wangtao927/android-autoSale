@@ -173,6 +173,8 @@ public class QRcodePayActivity extends BaseActivity implements View.OnClickListe
             String timer = getTime();
             if (TextUtils.isEmpty(timer)) {
                 startActivity(new Intent(QRcodePayActivity.this, HomeActivity.class));
+                finish();
+                return;
             }
             tvTimer.setText(timer);
         }

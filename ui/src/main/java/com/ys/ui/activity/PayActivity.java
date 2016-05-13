@@ -86,6 +86,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
 
     /**
      * 用字符串生成二维码
+     *
      * @param str
      * @return
      * @throws WriterException
@@ -99,7 +100,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         int[] pixels = new int[width * height];
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                if(matrix.get(x, y)){
+                if (matrix.get(x, y)) {
                     pixels[y * width + x] = 0xff000000;
                 }
 
@@ -125,12 +126,13 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         initTimer();
 
     }
-    private void init () {
+
+    private void init() {
         //调用接口获取地址
         Bundle datas = getIntent().getExtras();
 
-        goodsBean = (GoodsBean)getIntent().getSerializableExtra("goods");
-        mcGoodsBean = (McGoodsBean)getIntent().getSerializableExtra("mcGoods");
+        goodsBean = (GoodsBean) getIntent().getSerializableExtra("goods");
+        mcGoodsBean = (McGoodsBean) getIntent().getSerializableExtra("mcGoods");
 
         int type = datas.getInt("type");
         slType = SlTypeEnum.findByIndex(type);
@@ -143,10 +145,11 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         tvPrice.setText(String.format(gdPrice, getPrice(goodsBean.getGd_disc_price())));
         tvVipPrice.setText(String.format(gdVipPrice, getPrice(goodsBean.getGd_vip_price())));
     }
+
     private void initTimer() {
         int timeout = PropertyUtils.getInstance().getTransTimeout();
-        minute = timeout/60;
-        second = timeout%60;
+        minute = timeout / 60;
+        second = timeout % 60;
 
         tvTimer.setText(getTime());
 
@@ -163,12 +166,15 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         timer = new Timer();
         timer.schedule(timerTask, 0, 1000);
     }
+
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             System.out.println("handle!");
             String timer = getTime();
             if (TextUtils.isEmpty(timer)) {
                 startActivity(new Intent(PayActivity.this, HomeActivity.class));
+                finish();
+                return;
             }
             tvTimer.setText(timer);
         }
@@ -178,9 +184,9 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.wx_pay:
-                 createOrder(String.valueOf(SlTypeEnum.WX.getIndex()));
+                createOrder(String.valueOf(SlTypeEnum.WX.getIndex()));
                 break;
 
             case R.id.ali_pay:
@@ -219,10 +225,10 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                             try {
                                 if (TextUtils.isEmpty(response.getExt_data().getQrcodeUrl())) {
                                     Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcode());
-                                   // wxQrcodeImage.setImageBitmap(qrcodeBitmap);
+                                    // wxQrcodeImage.setImageBitmap(qrcodeBitmap);
                                 } else {
                                     Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcodeUrl());
-                                   // wxQrcodeImage.setImageBitmap(qrcodeBitmap);
+                                    // wxQrcodeImage.setImageBitmap(qrcodeBitmap);
                                 }
                                 //
                                 waitPay(response.getExt_data().getSlNo());
@@ -232,7 +238,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
 //                            finish();
 //                            startActivity(new Intent(GetProductActivity.this, OutGoodsActivity.class));
 
-                        }else{
+                        } else {
                             ToastUtils.showError("支付失败", PayActivity.this);
                         }
 
@@ -249,7 +255,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private long startTime = 0;
-    private int timeout =  PropertyUtils.getInstance().getTransTimeout();
+    private int timeout = PropertyUtils.getInstance().getTransTimeout();
 
     private void waitPay(final String slNo) {
         startTime = System.currentTimeMillis();
@@ -266,8 +272,8 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
-     private void getOrderStatus(final String slNo) {
-         RetrofitManager.builder().getOrderStatus(slNo)
+    private void getOrderStatus(final String slNo) {
+        RetrofitManager.builder().getOrderStatus(slNo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0() {
@@ -326,12 +332,18 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                     }
                 });
 
-     }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
+    }
 
     private void printPayNote(String slNo) {
         Long vipPrice = 0L;
         if (mcGoodsBean.getMg_vip_price() != null) {
-            vipPrice  = mcGoodsBean.getMg_vip_price();
+            vipPrice = mcGoodsBean.getMg_vip_price();
         }
         PrintHelper.getInstance().gdPrint(slNo, App.mcNo, goodsBean.getGd_name(),
                 goodsBean.getGd_desc(), getPrice(mcGoodsBean.getMg_pre_price()),
