@@ -2,7 +2,10 @@ package com.ys.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.ContentLoadingProgressBar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -26,8 +29,12 @@ import com.ys.ui.utils.ToastUtils;
 
 import java.io.IOException;
 import java.util.Queue;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
@@ -38,22 +45,14 @@ import rx.schedulers.Schedulers;
  */
 public class OutGoodsActivity extends SerialMachineActivity {
 
-    private RobotEvent robotEvent = RobotEvent.getInstance();
-
-
-    private BufferData bufferData;
     SendingThread mSendingThread;
 
     byte[] mBuffer;
-    protected int baudrate  = 19200;
-
-    protected String path = "/dev/ttyES1";
 
     TextView transStatus;
      ContentLoadingProgressBar mPbLoading;
 
     // 定义一个queue, 往queue
-    private Queue<RobotEventArg> queue = new LinkedBlockingQueue<>();
     private long startTime = 0L;
 
     private String channo = "";
@@ -65,8 +64,12 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.out_goods_main);
-        transStatus = (TextView) findViewById(R.id.tranStatus);
+        tvTimer =(TextView) findViewById(R.id.tv_timer);
+
+        transStatus = (TextView) findViewById(R.id.transStatus);
         mPbLoading = (ContentLoadingProgressBar)findViewById(R.id.pb_loading);
+        initTimer();
+
         Bundle datas = getIntent().getExtras();
         slNo = datas.getString("slNo");
         channo = datas.getString("channo");
@@ -80,7 +83,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
         mSendingThread = new SendingThread();
         mSendingThread.start();
         showProgress();
-        //this.consumer();
+
     }
 
     @Override
@@ -157,40 +160,41 @@ public class OutGoodsActivity extends SerialMachineActivity {
     }
 
 
-    public void consumer() {
+    protected int minute;
+    protected int second;
+    protected Timer timer;
+    protected TimerTask timerTask;
+     TextView tvTimer;
+    private void initTimer() {
+        int timeout = PropertyUtils.getInstance().getTransTimeout();
+        minute = timeout/60;
+        second = timeout%60;
 
-        while (true) {
-            if (!queue.isEmpty()) {
-                RobotEventArg robotEvent = queue.poll();
-                if (robotEvent.getiCode() == 2) {
-                     if (robotEvent.getiMsgCode() == 5 || robotEvent.getiMsgCode() == 2) {
-                         continue;
-                     } else if (robotEvent.getiMsgCode() == 3) {
-                         // 选货结束  发送出货命令
-                         mBuffer = GetBytesUtils.goodsOuter();
+        tvTimer.setText(getTime());
 
-                         SendingThread mSendingThread = new SendingThread();
-                         mSendingThread.start();
-                     } else if (robotEvent.getiMsgCode() == 6) {
-                        // 出货成功  结束
-                        outGoodsSuc();
-                        //startActivity(new Intent(OutGoodsActivity.this, MainActivity.class));
-                        break;
-                     } else {
-                         // 出货失败  结束
-                         outGoodsFail();
-                         break;
-                     }
-                }
+        timerTask = new TimerTask() {
+
+            @Override
+            public void run() {
+                Message msg = new Message();
+                msg.what = 0;
+                handler.sendMessage(msg);
             }
-            if ((System.currentTimeMillis() - startTime) > PropertyUtils.getInstance().getTransTimeout()*1000) {
-                //出货超时
-                ToastUtils.showShortMessage("交易超时");
-                hideProgress();
-                break;
-            }
-        }
+        };
+
+        timer = new Timer();
+        timer.schedule(timerTask, 0, 1000);
     }
+    Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+
+            String timer = getTime();
+            if (TextUtils.isEmpty(timer)) {
+                startActivity(new Intent(OutGoodsActivity.this, HomeActivity.class));
+            }
+            tvTimer.setText(timer);
+        }
+    };
 
     private void outGoodsSuc() {
         // 支付成功才会 走到出货
@@ -209,8 +213,10 @@ public class OutGoodsActivity extends SerialMachineActivity {
         // 出货失败， 考虑退款
         DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
         hideProgress();
-        transStatus.setText("出货失败");
-        ToastUtils.showShortMessage("交易失败");
+        transStatus.setText("出货失败 \n" +
+                "如果您已支付成功， 将与24小时内退款到您的账户中，\n" +
+                "      如有疑问， 请联系客服 400-060-0289");
+
 
         // 先判断下是否是微信或者支付宝支付， 如果是就退款
         SaleListBean saleListBean = DbManagerHelper.getSaleRecord(slNo);
@@ -225,7 +231,51 @@ public class OutGoodsActivity extends SerialMachineActivity {
         startActivity(new Intent(OutGoodsActivity.this, MainActivity.class));
 
     }
+    protected String getTime() {
+        if (minute == 0) {
+            if (second == 0) {
+                if (timer != null) {
+                    timer.cancel();
+                    timerTask.cancel();
+                }
+                return null;
+            }else {
+                second--;
+                if (second >= 10) {
+                    return "0"+minute + ":" + second;
+                }else {
+                    return "0"+minute + ":0" + second;
+                }
+            }
+        }else {
+            if (second == 0) {
 
+                second = 59;
+                minute--;
+                if (minute >= 10) {
+                    return minute + ":" + second;
+                } else {
+                    return "0" + minute + ":" + second;
+                }
+            } else {
+                second--;
+                if (second >= 10) {
+                    if (minute >= 10) {
+                        return minute + ":" + second;
+                    } else {
+                        return "0" + minute + ":" + second;
+                    }
+                } else {
+                    if (minute >= 10) {
+                        return minute + ":0" + second;
+                    } else {
+                        return "0" + minute + ":0" + second;
+                    }
+                }
+            }
+        }
+
+    }
     private void refund(String slNo) {
         RetrofitManager.builder().refund(slNo)
                 .subscribeOn(Schedulers.io())
@@ -262,7 +312,6 @@ public class OutGoodsActivity extends SerialMachineActivity {
     private class SendingThread extends Thread {
         @Override
         public void run() {
-           // while (!isInterrupted()) {
                 try {
                     if (mOutputStream != null) {
                         mOutputStream.write(mBuffer, 0, mBuffer.length);
@@ -273,7 +322,6 @@ public class OutGoodsActivity extends SerialMachineActivity {
                     e.printStackTrace();
                     return;
                 }
-            //}
         }
     }
     public void showProgress() {
@@ -284,4 +332,10 @@ public class OutGoodsActivity extends SerialMachineActivity {
         mPbLoading.setVisibility(View.GONE);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        handler.removeCallbacksAndMessages(null);
+     }
 }

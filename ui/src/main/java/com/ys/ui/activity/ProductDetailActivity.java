@@ -61,7 +61,6 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
     private GoodsBean goodsBean;
     private McGoodsBean mcGoodsBean;
-    private McStatusBean statusBean;
 
     String gdNameValue = "商品名：%s";
     String gdPrice = "价格：%s 元";
@@ -132,9 +131,6 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         //调用接口获取地址
         Bundle datas = getIntent().getExtras();
         gdNo = datas.getString("gdNo");
-
-        statusBean = App.getDaoSession(App.getContext()).getMcStatusBeanDao().queryBuilder().unique();
-
 
         goodsBean = DbManagerHelper.getGoodsInfo(gdNo);
 

@@ -197,4 +197,9 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
                     }
                 });
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
+    }
 }

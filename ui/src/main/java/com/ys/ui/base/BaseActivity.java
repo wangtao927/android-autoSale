@@ -53,6 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         int timeout = PropertyUtils.getInstance().getTransTimeout();
         minute = timeout / 60;
         second = timeout % 60;
+
     }
 
     protected String getPrice(Long price) {
@@ -66,13 +67,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected String getTime() {
         if (minute == 0) {
             if (second == 0) {
-//                if (timer != null) {
-//                    timer.cancel();
-//                    timer = null;
-//                }
-//                if (timerTask != null) {
-//                    timerTask = null;
-//                }
                 return null;
             } else {
                 second--;

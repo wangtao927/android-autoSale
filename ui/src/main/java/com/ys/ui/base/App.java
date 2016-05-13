@@ -34,7 +34,7 @@ public class App extends Application {
 ////    //private int port = 0;
 //    private String path = "/dev/ttyES1";
 
-    private int minipos_baudrate = 19200;
+    private int minipos_baudrate = 9600;
     private String minipos_path = "";
 
     private int print_baudrate = 38400;
