@@ -152,7 +152,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         tvGdName.setText(String.format(gdNameValue, goodsBean.getGd_short_name()));
         tvPrice.setText(String.format(gdPrice, getPrice(goodsBean.getGd_disc_price())));
         tvVipPrice.setText(String.format(gdVipPrice, getPrice(goodsBean.getGd_vip_price())));
-        createOrder(String.valueOf(slType));
+        createOrder(String.valueOf(slType.getIndex()));
     }
 
     private void initTimer() {
@@ -246,7 +246,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                                 Log.e("error:", e.getMessage());
                             }
 //                            finish();
-//                            startActivity(new Intent(GetProductActivity.this, OutGoodsActivity.class));
+//                            startActivity(new Intent(PayActivity.this, OutGoodsActivity.class));
 
                         } else {
                             ToastUtils.showError("支付失败", PayActivity.this);
