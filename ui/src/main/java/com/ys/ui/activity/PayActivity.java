@@ -79,7 +79,9 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     String gdNameValue = "商品名：%s";
     String gdPrice = "价格：%s 元";
     String gdVipPrice = "会员价: %s 元";
-    private ImageView mQCodeImageView;
+
+    @Bind(R.id.im_qrcode)
+    ImageView mQCodeImageView;
 
 
     /**
@@ -234,8 +236,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                             try {
                                 if (TextUtils.isEmpty(response.getExt_data().getQrcodeUrl())) {
                                     Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcode());
-                                    // wxQrcodeImage.setImageBitmap(qrcodeBitmap);
-                                    mQCodeImageView.setImageBitmap(qrcodeBitmap);
+                                     mQCodeImageView.setImageBitmap(qrcodeBitmap);
                                 } else {
                                     Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcodeUrl());
                                     mQCodeImageView.setImageBitmap(qrcodeBitmap);
