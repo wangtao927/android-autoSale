@@ -1,7 +1,10 @@
 package com.ys.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.ys.data.bean.McGoodsBean;
 import com.ys.ui.R;
@@ -20,6 +23,9 @@ public class ProductActivity extends BaseActivity implements LMRecyclerView.Load
 
     @Bind(R.id.recycler_view)
     LMRecyclerView mRecyclerView;
+
+    @Bind(R.id.btn_back_home)
+    ImageButton btnBackHome;
 
 
     private List<McGoodsBean> mProducts = new ArrayList();
@@ -41,12 +47,23 @@ public class ProductActivity extends BaseActivity implements LMRecyclerView.Load
     @Override
     protected void create(Bundle savedInstanceState) {
         initView();
+
         loadData();
         mProductApter = new ProductAdapter(ProductActivity.this, mProducts);
         mRecyclerView.setAdapter(mProductApter);
     }
 
     private void initView() {
+        btnBackHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                finish();
+                startActivity(new Intent(ProductActivity.this, HomeActivity.class));
+
+            }
+        });
+
         mRecyclerView.setLayoutManager(new GridLayoutManager(App.ctx, 6));
         mRecyclerView.setLoadMoreListener(this);
 

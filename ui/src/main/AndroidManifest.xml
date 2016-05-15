@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.HomeActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar">
@@ -94,7 +94,7 @@
                 android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".activity.HomeActivity"
+            android:name=".activity.MainActivity"
             android:label="首页"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />

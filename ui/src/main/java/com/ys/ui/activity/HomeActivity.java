@@ -7,9 +7,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.ys.data.bean.AdvBean;
+import com.ys.data.dao.DaoSession;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
+import com.ys.ui.service.TimerService;
+import com.ys.ui.utils.ToastUtils;
 
 import java.util.List;
 
@@ -49,6 +52,27 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         btnGetDrug.setOnClickListener(this);
         btnBuy.setOnClickListener(this);
         btnAbout.setOnClickListener(this);
+
+        // 如果终端号不存在， 则跳转到设置终端信息界面
+        if (!isInit()) {
+            // 弹出层，输入终端号，初始化机器
+            startActivity(new Intent(this, TermInitActivity.class));
+            return;
+        } else {
+            // 启动service
+            Intent intent = new Intent(this, TimerService.class);
+            startService(intent);
+        }
+    }
+    private boolean isInit() {
+        DaoSession session = App.getDaoSession(App.getContext());
+        if(App.mcNo == null){
+            return false;
+        } else {
+            // 展示 终端号
+            ToastUtils.showShortMessage(App.mcNo);
+        }
+        return true;
     }
 
 

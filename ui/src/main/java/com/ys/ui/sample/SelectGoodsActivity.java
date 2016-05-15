@@ -33,6 +33,8 @@ import com.ys.ui.serial.salemachine.SerialMachineActivity;
 import com.ys.ui.utils.ToastUtils;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -76,30 +78,88 @@ public class SelectGoodsActivity extends SerialMachineActivity {
 			 ToastUtils.showError(e.getMessage(), this);
 			return;
 		}
-		//  打开串口
+
 	}
 
 
 //
 
-		@Override
-		protected  void onDataReceived(final byte[] buffer) {
+	protected void onDataReceived(final byte[] buff )  {
 
 
-			runOnUiThread(new Runnable() {
-				public void run() {
+		runOnUiThread(new Runnable() {
+			public void run() {
+				// 是正确的返回结果
+				dataRecive.append("[rev-HEX]:" + BytesUtil.bytesToHexString(buff) +"\n");
 
-					ToastUtils.showError(new String(buffer), App.getContext());
-					//byte[] buf = new byte[packlen];
-				    //System.arraycopy(buffer, index, buf, 0, packlen);
-					// 处理返回参数
-					dataRecive.append("[rev-HEX]:" + new String(buffer, 0, buffer.length)+"\n");
+				switch (buff[1]) {
 
-					//}
+					case 0x0E: // ------------------------------------------------------------------------------- 提货
+						if (buff[2] == 0xF2) buff[2] = 0x02;
+						if (buff[2] == 0xF3) buff[2] = 0x03;
+						switch (buff[3]) {
+							case 0x00:
+								//queue.add(new RobotEventArg(2, 2, Integer.valueOf(buff[2]).toString()));
+								break; // 提取中
+							case 0x55:
+								//queue.add(new RobotEventArg(2, 3, Integer.valueOf(buff[2]).toString()));
+								// 选货结束  发送出货命令
+
+								mBuffer = GetBytesUtils.goodsOuter();
+
+								if (mSendingThread != null) {
+									mSendingThread.interrupt();
+								}
+								mSendingThread = new SendingThread();
+								mSendingThread.start();
+//								startTimer();
+								break; // 提取完毕
+							case (byte) 0xFF:
+
+
+ 								//queue.add(new RobotEventArg(2, 4, Integer.valueOf(buff[2]).toString()));
+								break; // 提取失败
+							case (byte) 0xEE:
+ 								//queue.add(new RobotEventArg(2, 4, "提取错误"));
+								break; // 提取错误
+						}
+						break;
+					case 0x08: // 商品出货
+						switch (buff[2]) {
+							case 0x00:
+								// 出货中    等待
+								// queue.add(new RobotEventArg(2, 5, "排放中"));
+								break;
+							case 0x55:
+								// 出货完成    结束出货流程
+								//queue.add(new RobotEventArg(2, 6, "排放完毕"));
+								// 出货成功  结束
+  								ToastUtils.showShortMessage("交易成功");
+
+								//mSendingThread.interrupt();
+								break;
+							case (byte) 0xFF:
+								// 出货失败，结束出货流程
+								// 出货失败：
+ 								// queue.add(new RobotEventArg(2, 7, "排放失败"));
+								break;
+							case (byte) 0xEE:
+								// 出货错误
+
+								// queue.add(new RobotEventArg(2, 7, "排放错误"));
+								break;
+							default:
+								break;
+						}
+						break;
+
+
 				}
-			});
+			}
 
-		}
+
+		});
+	}
 
 
       View.OnClickListener listener3 = new View.OnClickListener() {
@@ -110,11 +170,7 @@ public class SelectGoodsActivity extends SerialMachineActivity {
 
             mBuffer = null;
 
-			//byte no = Byte.parseByte(charSequence.toString());
-
-			//byte[] no = charSequence.toString().getBytes();
 			mBuffer = GetBytesUtils.goodsSelect(no);
-//			String str = BytesUtil.bytesToHexString(mBuffer);
 			dataSend.append("send[HEX]:");
 			for (byte b : mBuffer) {
 				dataSend.append(BytesUtil.byteToHexString(b));
@@ -124,7 +180,9 @@ public class SelectGoodsActivity extends SerialMachineActivity {
 				mSendingThread = new SendingThread();
 				mSendingThread.start();
 			}
- 		}
+			//startTimer();
+
+		}
 	};
 	View.OnClickListener listener4 = new View.OnClickListener() {
 		public void onClick(View v) {
@@ -142,13 +200,14 @@ public class SelectGoodsActivity extends SerialMachineActivity {
 				mSendingThread = new SendingThread();
 				mSendingThread.start();
 			}
- 		}
+			//startTimer();
+
+		}
 	};
 
 	private class SendingThread extends Thread {
 		@Override
 		public void run() {
-//			while (!isInterrupted()) {
 				try {
 					if (mOutputStream != null) {
 						mOutputStream.write(mBuffer, 0, mBuffer.length);
@@ -159,7 +218,6 @@ public class SelectGoodsActivity extends SerialMachineActivity {
 					e.printStackTrace();
 					return;
 				}
-//			}
 		}
 	}
 //
@@ -182,43 +240,47 @@ public class SelectGoodsActivity extends SerialMachineActivity {
 ////
 ////		}
 //		try {
-//			Thread.sleep(15000);
-//			int i =  list.size()<10000 ? list.size() : 10000;
-//
-//			for (int j=0; j<list.size(); j++) {
-//				if (j > 0 && equals(list.get(j), list.get(j-1)) ) {
-//					continue;
-//				}
-//				dataSend.append("[rev-HEX]:" + BytesUtil.bytesToHexString(list.get(j)) +"\n");
-//				if(timer++>1000)
-//				{
-//
-//					dataSend.append("[rev-HEX]:" + BytesUtil.bytesToHexString(list.get(list.size()-1)) +"\n");
-//					dataSend.append("[rev-HEX]:" + BytesUtil.bytesToHexString(list.get(list.size()-2)) +"\n");
-//					break;
-//				}
+//			try {
+//				Thread.sleep(10000);
+//			} catch (InterruptedException e1) {
+//				e1.printStackTrace();
 //			}
-//			dataSend.append("[rev-HEX]:" + list.size() + "timer:" + timer +"\n");
 //
-//		} catch (InterruptedException e) {
+//			int size = list.size() > 1000 ? 1000: list.size();
+//
+//			for (int j=0; j<size; j++) {
+//
+//					dataSend.append("[rev-HEX]:" + BytesUtil.bytesToHexString(list.get(j)) +"\n");
+//				}
+//
+//			 for(int j =0 ;j< list1.size();j++) {
+//				 dataRecive.append("[rev-HEX]:" +  BytesUtil.bytesToHexString(list1.get(j)) +"\n");
+//
+//			 }
+//			//dataRecive.append("[rev-HEX]:" + list1.size() +"\n");
+//			dataSend.append("[rev-HEX]:" + list.size() + "  timer=" + timer + "\n");
+//
+//			list.clear();
+//			list1.clear();
+//		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
 //	}
 
-//	private boolean equals(byte[] list1, byte[] list2) {
-//
-//		int size = list1.length;
-//		int size2 = list2.length;
-//		if (size != size2) {
-//			return false;
-//		}
-//		for (int i = 0; i< size ; i++) {
-//			if (list1[i] != list2[i]) {
-//				return false;
-//			}
-//		}
-//		return true;
-//	}
+	private boolean equals(byte[] list1, byte[] list2) {
+
+		int size = list1.length;
+		int size2 = list2.length;
+		if (size != size2) {
+			return false;
+		}
+		for (int i = 0; i< size ; i++) {
+			if (list1[i] != list2[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 
 }

@@ -35,6 +35,9 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
     @Bind(R.id.btn_clear)
     Button btnClear;
 
+    @Bind(R.id.btn_sys_out)
+    Button btnSysOut;
+
     @Bind(R.id.recycler_view)
     LMRecyclerView recyclerView;
 
@@ -56,6 +59,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
         btnBuHuo.setOnClickListener(this);
         btnReset.setOnClickListener(this);
         btnClear.setOnClickListener(this);
+        btnSysOut.setOnClickListener(this);
         loadData();
         adapter = new McGoodsListAdapter(AdminActivity.this, lists);
         recyclerView.setAdapter(adapter);
@@ -102,6 +106,12 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
                 // 清除卡货
                 App.getDaoSession(App.getContext()).getMcGoodsBeanDao().clearChanStatus(lists);
                 adapter.notifyDataSetChanged();
+
+                break;
+            case R.id.btn_sys_out:
+                 // 退出程序
+                android.os.Process.killProcess(android.os.Process.myPid());    //获取PID
+                System.exit(0);
 
                 break;
 

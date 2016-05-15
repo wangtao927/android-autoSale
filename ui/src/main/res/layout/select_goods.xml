@@ -13,6 +13,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="48dp"
+        android:numeric="integer"
+        android:singleLine="true"
+        android:imeOptions="actionDone"
         android:layout_alignParentRight="true" />
 
 

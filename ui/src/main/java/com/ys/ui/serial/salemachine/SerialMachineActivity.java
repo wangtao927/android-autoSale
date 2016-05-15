@@ -26,7 +26,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import android_serialport_api.SerialPort;
 
@@ -37,13 +39,16 @@ public abstract class SerialMachineActivity extends Activity {
 	protected SerialPort mSerialPort;
 	protected OutputStream mOutputStream;
 	private InputStream mInputStream;
-	private ReadThread mReadThread;
+	ReadThread mReadThread;
 	protected int baudrate  = 19200;
 
 	protected String path = "/dev/ttyES1";
 
 	boolean begin = false;
 	boolean end = false;
+//	protected static List<byte[]> list;
+//	protected static List<byte[]> list1;
+//	protected  long timer = 0;
 	/**
 	 * 读取终端设备数据
 	 * @author Administrator
@@ -55,7 +60,7 @@ public abstract class SerialMachineActivity extends Activity {
 			super.run();
 
 			// 定义一个包的最大长度
-			int maxLength = 32;
+			int maxLength = 512;
 			//byte[] buffer = new byte[maxLength];
 			// 每次收到实际长度
 			int available = 0;
@@ -63,65 +68,64 @@ public abstract class SerialMachineActivity extends Activity {
 			int currentLength = 0;
 			// 协议头长度4个字节（开始符1，类型1，长度2）
 			int headerLength = 4;
+//			list = new CopyOnWriteArrayList<>();
+//			list1 = new CopyOnWriteArrayList<>();
+			List<Byte> temp=new ArrayList<>();
 
 			while (!isInterrupted()) {
 				byte[] buffer = new byte[maxLength];
 				try {
 					available = mInputStream.available();
 					if (available > 0) {
+
 						// 防止超出数组最大长度导致溢出
-						if (available > maxLength - currentLength) {
-							available = maxLength - currentLength;
+//						if (available > maxLength - currentLength) {
+//							available = maxLength - currentLength;
+//						}
+						if (available > maxLength) {
+							available = maxLength;
 						}
 						mInputStream.read(buffer, currentLength, available);
 						currentLength += available;
+//						if (buffer[0] == 0x00) {
+//							continue;
+//						}
 
-						if (buffer[0]==0x02) {
-							begin = true;
-						}
+//						if (buffer[0]==0x02) {
+//							begin = true;
+//						}
 
-                        List<Byte> temp=new ArrayList<>();
 						for (int i=0; i<buffer.length;i++) {
 							if (buffer[i] == 0x02) {
+//								timer++;
+//								list1.add(buffer);
 								begin = true;
 								end = false;
 							}
 
-							if(begin&&!end)
-							{
+							if (begin && !end) {
 
 								temp.add(buffer[i]);
 							}
 
-							if(buffer[i]==0x03)
-							{
+							if (buffer[i] == 0x03) {
 
-								// 需要兼容 02  和下面的包分开的情况
-
-                                if (!begin && end) {
-
-									byte[] temp2=new byte[temp.size()+1];
-									temp2[0] = 0x02;
-									for (int k = 1; k< temp.size()+1 ; k++) {
-										temp2[k] = temp.get(k);
-									}
-									onDataReceived(buffer);
-
-								} else {
-									byte[] temp2=new byte[temp.size()];
-									for (int k = 0; k< temp.size() ; k++) {
-										temp2[k] = temp.get(k);
-									}
-
- 									onDataReceived(buffer);
+								byte[] temp2 = new byte[temp.size()];
+								for (int k = 0; k < temp.size(); k++) {
+									temp2[k] = temp.get(k);
 								}
 
+								//list.add(temp2);
+								onDataReceived(temp2);
+
 								temp.clear();
-								end=true;
+								end = true;
 								begin = false;
 
 							}
 						}
+
+
 					}
 
 				} catch (Exception e) {
@@ -142,6 +146,7 @@ public abstract class SerialMachineActivity extends Activity {
 			path = mApplication.getSale_path();
 
 			baudrate = mApplication.getSale_baudrate();
+			ToastUtils.showShortMessage("mSerialPort:" + path +"---" + baudrate);
 
  			mSerialPort = mApplication.getSerialPort(path, baudrate);
 
@@ -161,7 +166,7 @@ public abstract class SerialMachineActivity extends Activity {
 		}
 	}
 
-	protected abstract void onDataReceived(final byte[] buffer);
+	protected abstract void onDataReceived(byte[] buffer);
 	@Override
 	protected void onDestroy() {
 		if (mReadThread != null)

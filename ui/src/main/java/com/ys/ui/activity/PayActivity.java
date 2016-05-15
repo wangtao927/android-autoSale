@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,6 +67,10 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.tv_timer)
     TextView tvTimer;
 
+    @Bind(R.id.btn_back_home)
+    ImageButton btnBackHome;
+    @Bind(R.id.tv_sale_price)
+    TextView tvSalePrice;
 //    @Bind(R.id.btn_dir_buy)
 //    Button btnDirBuy;
 //
@@ -147,10 +152,11 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void init() {
+        btnBackHome.setOnClickListener(this);
         Glide.with(App.getContext())
                 .load(PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(goodsBean.getGd_img_s()))
                 .into(gdDetailImage);
-
+        tvSalePrice.setText(String.format(gdPrice, getPrice(goodsBean.getGd_disc_price())));
         tvGdName.setText(String.format(gdNameValue, goodsBean.getGd_short_name()));
         tvPrice.setText(String.format(gdPrice, getPrice(goodsBean.getGd_disc_price())));
         tvVipPrice.setText(String.format(gdVipPrice, getPrice(goodsBean.getGd_vip_price())));
@@ -195,16 +201,15 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-//        switch (v.getId()) {
-//            case R.id.wx_pay:
-//                createOrder(String.valueOf(SlTypeEnum.WX.getIndex()));
-//                break;
-//
-//            case R.id.ali_pay:
-//                createOrder(String.valueOf(SlTypeEnum.ALIPAY.getIndex()));
-//
-//                break;
-//        }
+        switch (v.getId()) {
+            case R.id.btn_back_home:
+                finish();
+                startActivity(new Intent(PayActivity.this, HomeActivity.class));
+
+                break;
+
+
+        }
     }
 
 
@@ -303,18 +308,11 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                                 //支付成功
                                 ToastUtils.showShortMessage("支付成功");
                                 printPayNote(slNo);
-                                try {
-                                    Thread.sleep(5000);
-
-                                    refund(slNo);
-
-                                    Thread.sleep(2000);
-
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+//
                                 finish();
-                                startActivity(new Intent(PayActivity.this, HomeActivity.class));
+                                startOutGoods(slNo);
+
+
                             } else {
                                 if (System.currentTimeMillis() - startTime < timeout * 1000) {
                                     try {
@@ -369,6 +367,14 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         PrintHelper.getInstance().gdPrint(slNo, App.mcNo, goodsBean.getGd_name(),
                 goodsBean.getGd_desc(), getPrice(mcGoodsBean.getMg_pre_price()),
                 getPrice(vipPrice), getPrice(mcGoodsBean.getMg_pre_price()));
+    }
+
+    private void startOutGoods(String slNo) {
+        Intent intent = new Intent(PayActivity.this, OutGoodsActivity.class);
+
+        intent.putExtra("slNo", slNo);
+        intent.putExtra("channo", mcGoodsBean.getMg_channo());
+        startActivity(intent);
     }
 
     private void refund(String slNo) {

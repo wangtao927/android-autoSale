@@ -56,6 +56,9 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     @Bind(R.id.tv_desc)
     TextView tvDesc;
 
+    @Bind(R.id.btn_back_home)
+    ImageButton btnBackHome;
+
     private GoodsBean goodsBean;
     private McGoodsBean mcGoodsBean;
 
@@ -83,7 +86,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         btnZfb.setOnClickListener(this);
         btnYl.setOnClickListener(this);
         btnSf.setOnClickListener(this);
-
+        btnBackHome.setOnClickListener(this);
         initTimer();
     }
 
@@ -161,7 +164,9 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 startPay(SlTypeEnum.CARD);
 
                 break;
-
+            case R.id.btn_back_home:
+                finish();
+                startActivity(new Intent(ProductDetailActivity.this, HomeActivity.class));
 
             default:
                 break;
