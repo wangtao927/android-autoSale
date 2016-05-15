@@ -56,8 +56,6 @@ public class OutGoodsActivity extends SerialMachineActivity {
     TextView transStatus;
      ContentLoadingProgressBar mPbLoading;
 
-    ImageButton btnBackHome;
-
     private String channo = "";
     private String slNo = "";
 
@@ -67,22 +65,8 @@ public class OutGoodsActivity extends SerialMachineActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.out_goods_main);
        tvTimer =(TextView) findViewById(R.id.tv_timer);
-        btnBackHome = (ImageButton)findViewById(R.id.btn_back_home);
-        transStatus = (TextView) findViewById(R.id.transStatus);
+         transStatus = (TextView) findViewById(R.id.transStatus);
 
-        btnBackHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.btn_back_home:
-                        finish();
-                        startActivity(new Intent(OutGoodsActivity.this, HomeActivity.class));
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
        // mPbLoading = (ContentLoadingProgressBar)findViewById(R.id.pb_loading);
         //initTimer();
 

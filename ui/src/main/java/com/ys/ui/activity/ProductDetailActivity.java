@@ -2,9 +2,6 @@ package com.ys.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -13,21 +10,17 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McGoodsBean;
-import com.ys.data.bean.McStatusBean;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
-import com.ys.ui.base.BaseActivity;
+import com.ys.ui.base.BaseTimerActivity;
 import com.ys.ui.common.constants.SlTypeEnum;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.utils.ImageUtils;
 import com.ys.ui.utils.PropertyUtils;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import butterknife.Bind;
 
-public class ProductDetailActivity extends BaseActivity implements View.OnClickListener {
+public class ProductDetailActivity extends BaseTimerActivity implements View.OnClickListener {
 
     @Bind(R.id.iv_gd_detail_image)
     ImageView gdDetailImage;
@@ -56,9 +49,6 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     @Bind(R.id.tv_desc)
     TextView tvDesc;
 
-    @Bind(R.id.btn_back_home)
-    ImageButton btnBackHome;
-
     private GoodsBean goodsBean;
     private McGoodsBean mcGoodsBean;
 
@@ -68,11 +58,6 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     String desc = "%s \n[规格] %s \n [配方] %s \n [功能主治] %s \n [用法用量] %s";
 
     private String gdNo = "";
-
-    @Bind(R.id.tv_timer)
-    TextView tvTimer;
-    Timer timer;
-    TimerTask timerTask;
 
     @Override
     protected int getLayoutId() {
@@ -87,85 +72,8 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         btnZfb.setOnClickListener(this);
         btnYl.setOnClickListener(this);
         btnSf.setOnClickListener(this);
-        btnBackHome.setOnClickListener(this);
-        initTimer();
-    }
+     }
 
-    private void initTimer() {
-        int timeout = PropertyUtils.getInstance().getTransTimeout();
-        minute = timeout / 60;
-        second = timeout % 60;
-
-        tvTimer.setText(getTime());
-
-        timerTask = new TimerTask() {
-
-            @Override
-            public void run() {
-                Message msg = new Message();
-                msg.what = 0;
-                handler.sendMessage(msg);
-            }
-        };
-
-        timer = new Timer();
-        timer.schedule(timerTask, 0, 1000);
-    }
-
-    Handler handler = new Handler() {
-        public void handleMessage(Message msg) {
-            if (!isFinishing()) {
-                String timer = getTime();
-                if (TextUtils.isEmpty(timer)) {
-                    startActivity(new Intent(ProductDetailActivity.this, HomeActivity.class));
-                    finish();
-                    return;
-                }
-                tvTimer.setText(timer);
-            }
-        }
-    };
-    String getTime() {
-        if (minute == 0) {
-            if (second == 0) {
-                return "";
-            } else {
-                second--;
-                if (second >= 10) {
-                    return "0" + minute + ":" + second;
-                } else {
-                    return "0" + minute + ":0" + second;
-                }
-            }
-        } else {
-            if (second == 0) {
-
-                second = 59;
-                minute--;
-                if (minute >= 10) {
-                    return minute + ":" + second;
-                } else {
-                    return "0" + minute + ":" + second;
-                }
-            } else {
-                second--;
-                if (second >= 10) {
-                    if (minute >= 10) {
-                        return minute + ":" + second;
-                    } else {
-                        return "0" + minute + ":" + second;
-                    }
-                } else {
-                    if (minute >= 10) {
-                        return minute + ":0" + second;
-                    } else {
-                        return "0" + minute + ":0" + second;
-                    }
-                }
-            }
-        }
-
-    }
     private void init() {
         //调用接口获取地址
         Bundle datas = getIntent().getExtras();
@@ -205,11 +113,6 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 startPay(SlTypeEnum.CARD);
 
                 break;
-            case R.id.btn_back_home:
-//                finish();
-//                startActivity(new Intent(ProductDetailActivity.this, HomeActivity.class));
-                backHome(v);
-                break;
             default:
                 break;
 
@@ -220,17 +123,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     protected void onDestroy() {
         super.onDestroy();
 
-        if (handler != null) {
-            handler.removeCallbacksAndMessages(null);
-        }
 
-        if (timerTask != null) {
-            timerTask.cancel();
-        }
-
-        if (timer != null) {
-            timer.cancel();
-        }
 
     }
 

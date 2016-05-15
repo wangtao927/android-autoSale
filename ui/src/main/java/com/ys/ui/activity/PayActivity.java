@@ -3,33 +3,26 @@ package com.ys.ui.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McGoodsBean;
-import com.ys.data.bean.McStatusBean;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
-import com.ys.ui.base.BaseActivity;
+import com.ys.ui.base.BaseTimerActivity;
 import com.ys.ui.common.constants.SlPayStatusEnum;
 import com.ys.ui.common.constants.SlTypeEnum;
 import com.ys.ui.common.http.RetrofitManager;
-import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateOrderResult;
@@ -39,7 +32,6 @@ import com.ys.ui.utils.ImageUtils;
 import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.ToastUtils;
 
-import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.Bind;
@@ -51,7 +43,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by river on 2016/4/19.
  */
-public class PayActivity extends BaseActivity implements View.OnClickListener {
+public class PayActivity extends BaseTimerActivity implements View.OnClickListener {
 
     @Bind(R.id.tv_gd_name)
     TextView tvGdName;
@@ -64,15 +56,15 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.iv_gd_detail_image)
     ImageView gdDetailImage;
-    @Bind(R.id.tv_timer)
-    TextView tvTimer;
-    Timer timer;
-    TimerTask timerTask;
-    @Bind(R.id.btn_back_home)
-    ImageButton btnBackHome;
+    //    @Bind(R.id.tv_timer)
+//    TextView tvTimer;
+//    Timer timer;
+//    TimerTask timerTask;
+//    @Bind(R.id.btn_back_home)
+//    ImageButton btnBackHome;
     @Bind(R.id.tv_sale_price)
     TextView tvSalePrice;
-//    @Bind(R.id.btn_dir_buy)
+    //    @Bind(R.id.btn_dir_buy)
 //    Button btnDirBuy;
 //
 //    @Bind(R.id.btn_vip_buy)
@@ -135,7 +127,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     protected int getLayoutId() {
 
         if (slType == SlTypeEnum.WX || slType == SlTypeEnum.ALIPAY) {
-            mQCodeImageView = (ImageView)findViewById(R.id.im_qrcode);
+            mQCodeImageView = (ImageView) findViewById(R.id.im_qrcode);
             return R.layout.activity_pay_wx;
         } else {
             return R.layout.activity_pay_phone;
@@ -148,12 +140,11 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         //调用接口获取地址
         init();
 
-        initTimer();
 
     }
 
     private void init() {
-        btnBackHome.setOnClickListener(this);
+        //btnBackHome.setOnClickListener(this);
         Glide.with(App.getContext())
                 .load(PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(goodsBean.getGd_img_s()))
                 .into(gdDetailImage);
@@ -162,95 +153,6 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         tvPrice.setText(String.format(gdPrice, getPrice(goodsBean.getGd_disc_price())));
         tvVipPrice.setText(String.format(gdVipPrice, getPrice(goodsBean.getGd_vip_price())));
         createOrder(String.valueOf(slType.getIndex()));
-    }
-
-    private void initTimer() {
-        int timeout = PropertyUtils.getInstance().getTransTimeout();
-        minute = timeout / 60;
-        second = timeout % 60;
-
-        tvTimer.setText(getTime());
-
-        timerTask = new TimerTask() {
-
-            @Override
-            public void run() {
-                Message msg = new Message();
-                msg.what = 0;
-                handler.sendMessage(msg);
-            }
-        };
-
-        timer = new Timer();
-        timer.schedule(timerTask, 0, 1000);
-    }
-
-    Handler handler = new Handler() {
-        public void handleMessage(Message msg) {
-
-            String timer = getTime();
-            if (TextUtils.isEmpty(timer)) {
-                startActivity(new Intent(PayActivity.this, HomeActivity.class));
-                finish();
-                return;
-            }
-            tvTimer.setText(timer);
-        }
-    };
-     String getTime() {
-        if (minute == 0) {
-            if (second == 0) {
-                return "";
-            } else {
-                second--;
-                if (second >= 10) {
-                    return "0" + minute + ":" + second;
-                } else {
-                    return "0" + minute + ":0" + second;
-                }
-            }
-        } else {
-            if (second == 0) {
-
-                second = 59;
-                minute--;
-                if (minute >= 10) {
-                    return minute + ":" + second;
-                } else {
-                    return "0" + minute + ":" + second;
-                }
-            } else {
-                second--;
-                if (second >= 10) {
-                    if (minute >= 10) {
-                        return minute + ":" + second;
-                    } else {
-                        return "0" + minute + ":" + second;
-                    }
-                } else {
-                    if (minute >= 10) {
-                        return minute + ":0" + second;
-                    } else {
-                        return "0" + minute + ":0" + second;
-                    }
-                }
-            }
-        }
-
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-            case R.id.btn_back_home:
-                finish();
-                startActivity(new Intent(PayActivity.this, HomeActivity.class));
-
-                break;
-
-
-        }
     }
 
 
@@ -282,7 +184,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                             try {
                                 if (TextUtils.isEmpty(response.getExt_data().getQrcodeUrl())) {
                                     Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcode());
-                                     mQCodeImageView.setImageBitmap(qrcodeBitmap);
+                                    mQCodeImageView.setImageBitmap(qrcodeBitmap);
                                 } else {
                                     Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcodeUrl());
                                     mQCodeImageView.setImageBitmap(qrcodeBitmap);
@@ -387,17 +289,6 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (handler != null) {
-            handler.removeCallbacksAndMessages(null);
-        }
-
-        if (timerTask != null) {
-            timerTask.cancel();
-        }
-
-        if (timer != null) {
-            timer.cancel();
-        }
     }
 
     private void printPayNote(String slNo) {
@@ -448,6 +339,11 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                     }
                 });
 
+
+    }
+
+    @Override
+    public void onClick(View v) {
 
     }
 }
