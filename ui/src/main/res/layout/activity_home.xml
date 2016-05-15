@@ -11,12 +11,14 @@
     <ImageView
         android:id="@+id/ad"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/function"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/title"
         android:background="@color/bg"
         android:scaleType="fitXY"
-        android:src="@mipmap/adv_2" />
+        android:src="@mipmap/adv_1"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/function" />
 
     <LinearLayout
         android:id="@+id/function"
@@ -24,9 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/other"
         android:background="@color/bg"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/btn_buy"
@@ -34,7 +34,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/bg_btn"
-            android:padding="5dp"
             android:src="@mipmap/btn_1"
             android:text="@string/buy_drug" />
 
@@ -45,7 +44,6 @@
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:background="@color/bg_btn"
-            android:padding="5dp"
             android:src="@mipmap/btn_2" />
 
         <ImageButton
@@ -55,7 +53,6 @@
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:background="@color/bg_btn"
-            android:padding="5dp"
             android:src="@mipmap/btn_3" />
 
         <ImageButton
@@ -65,7 +62,6 @@
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:background="@color/bg_btn"
-            android:padding="5dp"
             android:src="@mipmap/btn_4" />
 
         <ImageButton
@@ -75,7 +71,6 @@
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:background="@color/bg_btn"
-            android:padding="5dp"
             android:src="@mipmap/btn_5" />
 
     </LinearLayout>
@@ -86,31 +81,29 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/bg_deep"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:orientation="horizontal">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:gravity="center">
 
             <ImageButton
                 android:id="@+id/btn_about"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="40dp"
+                android:layout_marginRight="60dp"
                 android:background="@drawable/circle"
-                android:src="@mipmap/btn_o_1"
-                android:text="@string/buy_drug" />
+                android:src="@mipmap/btn_o_1"/>
 
 
             <ImageButton
                 android:id="@+id/btn_statement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="40dp"
+                android:layout_marginRight="60dp"
                 android:background="@drawable/circle"
                 android:src="@mipmap/btn_o_2" />
 

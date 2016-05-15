@@ -59,6 +59,8 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
     @Bind(R.id.tv_timer)
     TextView tvTimer;
 
+    Timer timer;
+    TimerTask timerTask;
 
     @Override
     protected int getLayoutId() {
@@ -146,7 +148,47 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
             tvTimer.setText(timer);
         }
     };
+    protected String getTime() {
+        if (minute == 0) {
+            if (second == 0) {
+                return "";
+            } else {
+                second--;
+                if (second >= 10) {
+                    return "0" + minute + ":" + second;
+                } else {
+                    return "0" + minute + ":0" + second;
+                }
+            }
+        } else {
+            if (second == 0) {
 
+                second = 59;
+                minute--;
+                if (minute >= 10) {
+                    return minute + ":" + second;
+                } else {
+                    return "0" + minute + ":" + second;
+                }
+            } else {
+                second--;
+                if (second >= 10) {
+                    if (minute >= 10) {
+                        return minute + ":" + second;
+                    } else {
+                        return "0" + minute + ":" + second;
+                    }
+                } else {
+                    if (minute >= 10) {
+                        return minute + ":0" + second;
+                    } else {
+                        return "0" + minute + ":0" + second;
+                    }
+                }
+            }
+        }
+
+    }
     public void showProgress() {
         mPbLoading.setVisibility(View.VISIBLE);
     }

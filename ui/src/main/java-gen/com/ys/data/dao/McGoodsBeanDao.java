@@ -197,7 +197,31 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
             }
         }
     }
+    public void updateChanStatusByChanno(String channo, Long chanStatus) {
+        String sql = "UPDATE mcgoods SET MG_CHANN_STATUS = ?  WHERE mg_channo=? ";
+        SQLiteStatement stmt = db.compileStatement(sql);
+        if (db.isDbLockedByCurrentThread()) {
+            synchronized (stmt) {
+                stmt.bindLong(1, chanStatus);
 
+                stmt.bindString(2, channo);
+                stmt.execute();
+            }
+        } else {
+            // Do TX to acquire a connection before locking the stmt to avoid deadlocks
+            db.beginTransaction();
+            try {
+                synchronized (stmt) {
+                    stmt.bindLong(1, chanStatus);
+                     stmt.bindString(2, channo);
+                    stmt.execute();
+                }
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        }
+    }
     public void updateChannelStatusByPK(McGoodsBean bean) {
         String sql = "UPDATE mcgoods SET MG_CHANN_STATUS = ? WHERE mg_channo=?";
         SQLiteStatement stmt = db.compileStatement(sql);

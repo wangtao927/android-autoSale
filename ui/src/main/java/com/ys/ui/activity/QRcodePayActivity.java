@@ -77,7 +77,8 @@ public class QRcodePayActivity extends BaseActivity implements View.OnClickListe
     String gdPrice = "价格：%s 元";
     String gdVipPrice = "会员价: %s 元";
 
-
+    Timer timer;
+    TimerTask timerTask;
     /**
      * 用字符串生成二维码
      *
@@ -179,7 +180,47 @@ public class QRcodePayActivity extends BaseActivity implements View.OnClickListe
             tvTimer.setText(timer);
         }
     };
+    protected String getTime() {
+        if (minute == 0) {
+            if (second == 0) {
+                return "";
+            } else {
+                second--;
+                if (second >= 10) {
+                    return "0" + minute + ":" + second;
+                } else {
+                    return "0" + minute + ":0" + second;
+                }
+            }
+        } else {
+            if (second == 0) {
 
+                second = 59;
+                minute--;
+                if (minute >= 10) {
+                    return minute + ":" + second;
+                } else {
+                    return "0" + minute + ":" + second;
+                }
+            } else {
+                second--;
+                if (second >= 10) {
+                    if (minute >= 10) {
+                        return minute + ":" + second;
+                    } else {
+                        return "0" + minute + ":" + second;
+                    }
+                } else {
+                    if (minute >= 10) {
+                        return minute + ":0" + second;
+                    } else {
+                        return "0" + minute + ":0" + second;
+                    }
+                }
+            }
+        }
+
+    }
 
     @Override
     public void onClick(View v) {

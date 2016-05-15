@@ -9,7 +9,7 @@
 
     <include
         android:id="@+id/title"
-        layout="@layout/title_bar" />
+        layout="@layout/title_bar2" />
 
     <com.ys.ui.view.LMRecyclerView
         android:id="@+id/recycler_view"
@@ -75,6 +75,9 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/edit_circle"
             android:paddingLeft="5dp"
+            android:numeric="integer"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
             android:hint="请输入药品编码" />
 
         <Button

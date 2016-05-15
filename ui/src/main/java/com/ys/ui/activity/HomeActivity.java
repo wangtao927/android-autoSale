@@ -1,7 +1,9 @@
 package com.ys.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -60,17 +62,17 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             return;
         } else {
             // 启动service
-            Intent intent = new Intent(this, TimerService.class);
-            startService(intent);
+//            Intent intent = new Intent(this, TimerService.class);
+//            startService(intent);
         }
     }
     private boolean isInit() {
-        DaoSession session = App.getDaoSession(App.getContext());
+       // DaoSession session = App.getDaoSession(App.getContext());
         if(App.mcNo == null){
             return false;
         } else {
             // 展示 终端号
-            ToastUtils.showShortMessage(App.mcNo);
+            //ToastUtils.showShortMessage(App.mcNo);
         }
         return true;
     }
@@ -88,7 +90,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             case R.id.btn_about:
                 startActivity(new Intent(HomeActivity.this, MainActivity.class));
                 break;
-
+            default:
+                break;
 
         }
     }

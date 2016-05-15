@@ -71,7 +71,8 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
     @Bind(R.id.tv_timer)
     TextView tvTimer;
-
+    Timer timer;
+    TimerTask timerTask;
 
     @Override
     protected int getLayoutId() {
@@ -124,7 +125,47 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
             }
         }
     };
+    String getTime() {
+        if (minute == 0) {
+            if (second == 0) {
+                return "";
+            } else {
+                second--;
+                if (second >= 10) {
+                    return "0" + minute + ":" + second;
+                } else {
+                    return "0" + minute + ":0" + second;
+                }
+            }
+        } else {
+            if (second == 0) {
 
+                second = 59;
+                minute--;
+                if (minute >= 10) {
+                    return minute + ":" + second;
+                } else {
+                    return "0" + minute + ":" + second;
+                }
+            } else {
+                second--;
+                if (second >= 10) {
+                    if (minute >= 10) {
+                        return minute + ":" + second;
+                    } else {
+                        return "0" + minute + ":" + second;
+                    }
+                } else {
+                    if (minute >= 10) {
+                        return minute + ":0" + second;
+                    } else {
+                        return "0" + minute + ":0" + second;
+                    }
+                }
+            }
+        }
+
+    }
     private void init() {
         //调用接口获取地址
         Bundle datas = getIntent().getExtras();
@@ -165,9 +206,10 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
                 break;
             case R.id.btn_back_home:
-                finish();
-                startActivity(new Intent(ProductDetailActivity.this, HomeActivity.class));
-
+//                finish();
+//                startActivity(new Intent(ProductDetailActivity.this, HomeActivity.class));
+                backHome(v);
+                break;
             default:
                 break;
 

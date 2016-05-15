@@ -24,8 +24,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected int minute;
     protected int second;
 
-    protected Timer timer;
-    protected TimerTask timerTask;
     private Window window;
 
 
@@ -70,47 +68,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         return new BigDecimal(price).divide(new BigDecimal(100)).setScale(2).toString();
     }
 
-    protected String getTime() {
-        if (minute == 0) {
-            if (second == 0) {
-                return null;
-            } else {
-                second--;
-                if (second >= 10) {
-                    return "0" + minute + ":" + second;
-                } else {
-                    return "0" + minute + ":0" + second;
-                }
-            }
-        } else {
-            if (second == 0) {
 
-                second = 59;
-                minute--;
-                if (minute >= 10) {
-                    return minute + ":" + second;
-                } else {
-                    return "0" + minute + ":" + second;
-                }
-            } else {
-                second--;
-                if (second >= 10) {
-                    if (minute >= 10) {
-                        return minute + ":" + second;
-                    } else {
-                        return "0" + minute + ":" + second;
-                    }
-                } else {
-                    if (minute >= 10) {
-                        return minute + ":0" + second;
-                    } else {
-                        return "0" + minute + ":0" + second;
-                    }
-                }
-            }
-        }
-
-    }
 
     protected void backHome(View v) {
         finish();

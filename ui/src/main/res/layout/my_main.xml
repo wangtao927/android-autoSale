@@ -11,14 +11,14 @@
 
             <TextView
                 android:layout_height="wrap_content"
-                android:text="@string/serial_no" />
+                android:text="@string/term_no" />
 
             <EditText
                 android:id="@+id/et_serialNo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:hint="@string/serial_no"
+                android:hint="@string/term_no"
                 android:maxLength="10" />
         </TableRow>
 

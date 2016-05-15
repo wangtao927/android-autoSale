@@ -98,7 +98,7 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
     @Bind(R.id.btn_save)
     Button btn_save;
     @Bind(R.id.et_serialNo)
-    EditText et_serialNo;
+    EditText et_mcNo;
 
     @Bind(R.id.pb_loading)
     ContentLoadingProgressBar mPbLoading;
@@ -116,7 +116,7 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void check() {
-        RetrofitManager.builder().mcReset(et_serialNo.getText().toString())
+        RetrofitManager.builder().mcInit(et_mcNo.getText().toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0() {
@@ -130,6 +130,7 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
                     @Override
                     public void call(CommonResponse<TermInitResult> response) {
                         Log.d("result", response.toString());
+                        hideProgress();
                         if (response.isSuccess()) {
                             // 生成成功  同步数据
                             initTerm(response);
@@ -137,14 +138,14 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
                             // 初始化数据成功， 初始化出货机，打印机，银联
 
 
-                            Toast.makeText(TermInitActivity.this, "终端号" + response.getExt_data().getMachine().getMc_no(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(TermInitActivity.this, "初始化成功", Toast.LENGTH_SHORT).show();
+                            finish();
+                            startActivity(new Intent(TermInitActivity.this, MainActivity.class));
                             //startActivity(new Intent(TermInitActivity.this, MainActivity.class));
                         } else {
                             Toast.makeText(TermInitActivity.this, response.getMsg(), Toast.LENGTH_SHORT).show();
                         }
-                        // 关闭当前active
-                        finish();
-                        startActivity(new Intent(TermInitActivity.this, MainActivity.class));
+
                     }
                 }, new Action1<Throwable>() {
                     @Override

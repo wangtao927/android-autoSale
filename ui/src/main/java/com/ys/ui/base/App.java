@@ -2,6 +2,7 @@ package com.ys.ui.base;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.facebook.stetho.Stetho;
@@ -10,6 +11,7 @@ import com.ys.data.dao.DaoMaster;
 import com.ys.data.dao.DaoSession;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.service.MyService;
+import com.ys.ui.service.TimerService;
 import com.ys.ui.utils.ToastUtils;
 
 import java.io.File;
@@ -62,6 +64,8 @@ public class App extends Application {
         // 初始化串口的端口
 
         mcNo = DbManagerHelper.getMcNo();
+        Intent intent = new Intent(this, TimerService.class);
+        startService(intent);
 
     }
 

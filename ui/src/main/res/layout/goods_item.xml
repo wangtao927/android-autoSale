@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/iv_picon"
-            android:layout_width="46dp"
-            android:layout_height="69dp"
+            android:layout_width="137dp"
+            android:layout_height="204dp"
             android:src="@mipmap/p" />
 
         <TextView
@@ -24,7 +24,7 @@
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:background="@drawable/circle_red"
-            android:gravity="center"
+            android:gravity="left"
             android:text="11"
             android:textColor="@color/white" />
     </RelativeLayout>

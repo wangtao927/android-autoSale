@@ -142,11 +142,20 @@ public class RetrofitManager {
     public Observable<CommonResponse<TermInitResult>>  mcReset(String mcno) {
         Map map = new HashMap<>();
         long time = Calendar.getInstance().getTimeInMillis();
-        map.put("mc_serial_no", mcno);
+        map.put("mc_no", mcno);
         map.put("time", time);
         String sign = Signature.getSign(map);
 
         return termStatusApi.mcReset(mcno, time, sign);
+    }
+    public Observable<CommonResponse<TermInitResult>>  mcInit(String mcno) {
+        Map map = new HashMap<>();
+        long time = Calendar.getInstance().getTimeInMillis();
+        map.put("mc_no", mcno);
+        map.put("time", time);
+        String sign = Signature.getSign(map);
+
+        return termStatusApi.mcInit(mcno, time, sign);
     }
 
     public Observable<CommonResponse<McDataResult>> postMcData(CommonRequest<McDataVo> request) {
@@ -202,11 +211,7 @@ public class RetrofitManager {
     public Observable<CommonResponse<String>> refund(String slNo) {
         String mcNo = App.mcNo;
         long time = System.currentTimeMillis();
-        Map map = new HashMap<>();
 
-        map.put("sl_no", slNo);
-        map.put("time", time);
-        String sign = Signature.getSign(map);
 
         Map<String, String> data = new HashMap<>();
         data.put("sl_no", slNo);

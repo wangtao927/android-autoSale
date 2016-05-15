@@ -66,7 +66,8 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     ImageView gdDetailImage;
     @Bind(R.id.tv_timer)
     TextView tvTimer;
-
+    Timer timer;
+    TimerTask timerTask;
     @Bind(R.id.btn_back_home)
     ImageButton btnBackHome;
     @Bind(R.id.tv_sale_price)
@@ -98,7 +99,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
      */
     public Bitmap create2DCode(String str) throws WriterException {
         //生成二维矩阵,编码时指定大小,不要生成了图片以后再进行缩放,这样会模糊导致识别失败
-        BitMatrix matrix = new MultiFormatWriter().encode(str, BarcodeFormat.QR_CODE, 300, 300);
+        BitMatrix matrix = new MultiFormatWriter().encode(str, BarcodeFormat.QR_CODE, 200, 200);
         int width = matrix.getWidth();
         int height = matrix.getHeight();
         //二维矩阵转为一维像素数组,也就是一直横着排了
@@ -186,7 +187,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
 
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
-            System.out.println("handle!");
+
             String timer = getTime();
             if (TextUtils.isEmpty(timer)) {
                 startActivity(new Intent(PayActivity.this, HomeActivity.class));
@@ -196,7 +197,47 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
             tvTimer.setText(timer);
         }
     };
+     String getTime() {
+        if (minute == 0) {
+            if (second == 0) {
+                return "";
+            } else {
+                second--;
+                if (second >= 10) {
+                    return "0" + minute + ":" + second;
+                } else {
+                    return "0" + minute + ":0" + second;
+                }
+            }
+        } else {
+            if (second == 0) {
 
+                second = 59;
+                minute--;
+                if (minute >= 10) {
+                    return minute + ":" + second;
+                } else {
+                    return "0" + minute + ":" + second;
+                }
+            } else {
+                second--;
+                if (second >= 10) {
+                    if (minute >= 10) {
+                        return minute + ":" + second;
+                    } else {
+                        return "0" + minute + ":" + second;
+                    }
+                } else {
+                    if (minute >= 10) {
+                        return minute + ":0" + second;
+                    } else {
+                        return "0" + minute + ":0" + second;
+                    }
+                }
+            }
+        }
+
+    }
 
     @Override
     public void onClick(View v) {

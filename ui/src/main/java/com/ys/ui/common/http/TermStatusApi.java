@@ -19,8 +19,11 @@ public interface TermStatusApi {
      */
     @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_SHORT)
     @GET("mcReset")
-    Observable<CommonResponse<TermInitResult>> mcReset(@Query("mc_serial_no") String mc_serial_no, @Query("time") long time, @Query("sign") String sign);
+    Observable<CommonResponse<TermInitResult>> mcReset(@Query("mc_no") String mc_no, @Query("time") long time, @Query("sign") String sign);
 
+    @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_SHORT)
+    @GET("mcInit")
+    Observable<CommonResponse<TermInitResult>> mcInit(@Query("mc_no") String mc_no, @Query("time") long time, @Query("sign") String sign);
 
 
 }

@@ -3,14 +3,21 @@ package com.ys.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.ys.data.bean.McGoodsBean;
+import com.ys.data.bean.McStatusBean;
 import com.ys.ui.R;
 import com.ys.ui.adapter.McGoodsListAdapter;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
+import com.ys.ui.common.http.RetrofitManager;
+import com.ys.ui.common.manager.DbManagerHelper;
+import com.ys.ui.common.response.CommonResponse;
+import com.ys.ui.common.response.TermInitResult;
 import com.ys.ui.utils.ToastUtils;
 import com.ys.ui.view.LMRecyclerView;
 
@@ -19,6 +26,10 @@ import java.util.List;
 
 import butterknife.Bind;
 import de.greenrobot.dao.query.QueryBuilder;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by wangtao on 2016/4/9.
@@ -47,7 +58,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
 
     private long mTotalCount;
 
-    private static final int mPageSize = 10;
+    private static final int mPageSize = 12;
 
     private int mPageIndex = 1;
 
@@ -94,8 +105,8 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
 
         switch (v.getId()) {
             case R.id.btn_reset:
-                startActivity(new Intent(AdminActivity.this, TermInitActivity.class));
-                finish();
+
+                reset();
                 break;
             case R.id.btn_buhuo:
 
@@ -110,11 +121,11 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.btn_sys_out:
                  // 退出程序
-                android.os.Process.killProcess(android.os.Process.myPid());    //获取PID
+                finish();
                 System.exit(0);
-
                 break;
-
+            default:
+                break;
         }
 
     }
@@ -129,4 +140,73 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
             //ToastUtils.showError("所有数据已经全部加载了", App.getContext());
         }
     }
+
+    private void reset() {
+
+
+        RetrofitManager.builder().mcReset(App.mcNo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+
+                    }
+                })
+                .subscribe(new Action1<CommonResponse<TermInitResult>>() {
+                    @Override
+                    public void call(CommonResponse<TermInitResult> response) {
+                        Log.d("result", response.toString());
+                        if (response.isSuccess()) {
+                            // 生成成功  同步数据
+                            initTerm(response);
+
+                            // 初始化数据成功， 初始化出货机，打印机，银联
+
+
+                             //startActivity(new Intent(TermInitActivity.this, MainActivity.class));
+                        } else {
+                         }
+                        // 关闭当前active
+                        finish();
+                        startActivity(new Intent(AdminActivity.this, HomeActivity.class));
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                         Toast.makeText(AdminActivity.this, "获取数据失败" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+    }
+
+    private McStatusBean getInitBean(String termno, String serialNo) {
+        McStatusBean bean = new McStatusBean();
+
+        bean.setMc_no(termno);
+        bean.setMc_serial_no(serialNo);
+        return bean;
+    }
+
+    private void initTerm(CommonResponse<TermInitResult> response) {
+        // 1. 保存终端号到sqllite
+        McStatusBean mcStatusBean = getInitBean(response.getExt_data().getMachine().getMc_no(), response.getExt_data().getMachine().getMc_serial_no());
+        DbManagerHelper.initTermStatus(mcStatusBean);
+        // 2. 更新终端参数
+        DbManagerHelper.initMcParam(response.getExt_data().getMcparam());
+        // 3. 更新商品表
+        DbManagerHelper.initGoods(response.getExt_data().getGoods());
+        // 4. 更新终端库存
+        DbManagerHelper.initMcGoods(response.getExt_data().getMcgoods());
+        // 5.更新管理员
+        DbManagerHelper.initAdmin(response.getExt_data().getMcadmin());
+
+        // 6. 更新广告
+        DbManagerHelper.initAdv(response.getExt_data().getMcadv());
+
+        // 初始化
+        App.mcNo = mcStatusBean.getMc_no();
+
+    }
+
 }

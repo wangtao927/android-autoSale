@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ys.data.bean.McGoodsBean;
@@ -76,6 +78,9 @@ public class TimerService extends Service {
     private void startTimer() {
         McDataVo vo = new McDataVo();
         // 获取终端状态， 只有一条记录
+        if (TextUtils.isEmpty(App.mcNo )) {
+            return ;
+        }
         mcStatusBeanList =
                 App.getDaoSession(App.getContext()).getMcStatusBeanDao().loadAll();
         McStatusBean bean;
