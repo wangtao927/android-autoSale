@@ -43,7 +43,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by river on 2016/4/19.
  */
-public class PayActivity extends BaseTimerActivity implements View.OnClickListener {
+public class SelectPayActivity extends BaseTimerActivity implements View.OnClickListener {
 
     @Bind(R.id.tv_gd_name)
     TextView tvGdName;
@@ -58,9 +58,6 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     ImageView gdDetailImage;
     @Bind(R.id.tv_sale_price)
     TextView tvSalePrice;
-
-    @Bind(R.id.tv_pay_type)
-    TextView tvPayType;
     private GoodsBean goodsBean;
     private McGoodsBean mcGoodsBean;
 
@@ -131,7 +128,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     protected void create(Bundle savedInstanceState) {
         //调用接口获取地址
         init();
-        tvPayType.setText(slType.getDesc());
+
 
     }
 
@@ -190,7 +187,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 //                            startActivity(new Intent(PayActivity.this, OutGoodsActivity.class));
 
                         } else {
-                            ToastUtils.showError("支付失败", PayActivity.this);
+                            ToastUtils.showError("支付失败", SelectPayActivity.this);
                         }
 
                     }
@@ -258,8 +255,8 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                                     getOrderStatus(slNo);
                                 } else {
                                     finish();
-                                    startActivity(new Intent(PayActivity.this, HomeActivity.class));
-                                    ToastUtils.showError("未支付或者支付失败", PayActivity.this);
+                                    startActivity(new Intent(SelectPayActivity.this, HomeActivity.class));
+                                    ToastUtils.showError("未支付或者支付失败", SelectPayActivity.this);
 
                                 }
 
@@ -294,7 +291,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     }
 
     private void startOutGoods(String slNo) {
-        Intent intent = new Intent(PayActivity.this, OutGoodsActivity.class);
+        Intent intent = new Intent(SelectPayActivity.this, OutGoodsActivity.class);
 
         intent.putExtra("slNo", slNo);
         intent.putExtra("channo", mcGoodsBean.getMg_channo());
@@ -317,7 +314,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                         //hideProgress();
                         Log.d("orderStatus", response.toString());
                         if (response.getCode() == 0) {
-                            Toast.makeText(PayActivity.this, "退款成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SelectPayActivity.this, "退款成功", Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -326,7 +323,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                     @Override
                     public void call(Throwable throwable) {
                         //hideProgress();
-                        Toast.makeText(PayActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SelectPayActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
 
                     }
                 });

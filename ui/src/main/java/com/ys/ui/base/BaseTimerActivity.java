@@ -159,6 +159,7 @@ public abstract class BaseTimerActivity extends AppCompatActivity {
         finish();
         startActivity(new Intent(this, HomeActivity.class));
 
+
     }
 
     @Override
