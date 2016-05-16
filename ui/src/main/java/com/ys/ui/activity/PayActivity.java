@@ -17,12 +17,15 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McGoodsBean;
+import com.ys.data.bean.SaleListBean;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseTimerActivity;
 import com.ys.ui.common.constants.SlPayStatusEnum;
+import com.ys.ui.common.constants.SlSendStatusEnum;
 import com.ys.ui.common.constants.SlTypeEnum;
 import com.ys.ui.common.http.RetrofitManager;
+import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateOrderResult;
@@ -32,6 +35,8 @@ import com.ys.ui.utils.ImageUtils;
 import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.ToastUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimerTask;
 
 import butterknife.Bind;
@@ -43,7 +48,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by river on 2016/4/19.
  */
-public class PayActivity extends BaseTimerActivity implements View.OnClickListener {
+public class PayActivity extends BaseTimerActivity {
 
     @Bind(R.id.tv_gd_name)
     TextView tvGdName;
@@ -136,7 +141,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     }
 
     private void init() {
-        //btnBackHome.setOnClickListener(this);
+
         Glide.with(App.getContext())
                 .load(PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(goodsBean.getGd_img_s()))
                 .into(gdDetailImage);
@@ -144,19 +149,21 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
         tvGdName.setText(String.format(gdNameValue, goodsBean.getGd_short_name()));
         tvPrice.setText(String.format(gdPrice, getPrice(goodsBean.getGd_disc_price())));
         tvVipPrice.setText(String.format(gdVipPrice, getPrice(goodsBean.getGd_vip_price())));
-        createOrder(String.valueOf(slType.getIndex()));
+        createOrder(String.valueOf(slType.getIndex()), 0);
     }
 
 
-    // 普通支付  取折扣价   会员支付取 会员价
-    private void createOrder(String type) {
+    // 普通支付  取折扣价   会员支付取 会员价  vip 0 不是vip  1 是vip
+
+    private void createOrder(String type, final int vip) {
 
         SaleListVo saleListVo = new SaleListVo();
         saleListVo.setMcNo(App.mcNo);
         saleListVo.setSlType(type);
         saleListVo.setSlGdName(goodsBean.getGd_name());
         saleListVo.setSlGdNo(goodsBean.getGd_no());
-        saleListVo.setSlAmt(mcGoodsBean.getMg_pre_price());
+        final long amount = vip==0? mcGoodsBean.getMg_disc_price(): mcGoodsBean.getMg_vip_price();
+        saleListVo.setSlAmt(amount);
 
         RetrofitManager.builder().createOrder(saleListVo.getMcNo(), saleListVo)
                 .subscribeOn(Schedulers.io())
@@ -174,6 +181,9 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                         if (response.isSuccess()) {
                             // 调用出货
                             try {
+                                // 生成本地的订单
+                                createSaleList(amount, vip, response.getExt_data().getSlNo());
+
                                 if (TextUtils.isEmpty(response.getExt_data().getQrcodeUrl())) {
                                     Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcode());
                                     mQCodeImageView.setImageBitmap(qrcodeBitmap);
@@ -181,6 +191,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                                     Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcodeUrl());
                                     mQCodeImageView.setImageBitmap(qrcodeBitmap);
                                 }
+
                                 //
                                 waitPay(response.getExt_data().getSlNo());
                             } catch (WriterException e) {
@@ -203,6 +214,29 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
                     }
                 });
+    }
+
+    private void createSaleList(long amount, int vip, String slNo) {
+        SaleListBean saleListBean = new SaleListBean();
+        saleListBean.setSl_pay_status(String.valueOf(SlPayStatusEnum.INIT.getIndex()));
+        saleListBean.setMc_no(App.mcNo);
+        saleListBean.setSl_chann(mcGoodsBean.getMg_channo());
+        saleListBean.setSl_amt(amount);
+        saleListBean.setSl_isvip(String.valueOf(vip));
+
+        saleListBean.setSl_disc_price(mcGoodsBean.getMg_disc_price());
+        saleListBean.setSl_vip_price(mcGoodsBean.getMg_vip_price());
+        saleListBean.setSl_pre_price(mcGoodsBean.getMg_pre_price());
+        saleListBean.setSl_score(mcGoodsBean.getMg_score_price());
+        saleListBean.setSl_gd_no(mcGoodsBean.getGd_no());
+        saleListBean.setSl_send_status(Long.valueOf(SlSendStatusEnum.INIT.getIndex()));
+        saleListBean.setSl_gd_name(goodsBean.getGd_name());
+        saleListBean.setSl_no(slNo);
+        saleListBean.setSl_num(1L);
+        saleListBean.setSl_type(String.valueOf(slType.getIndex()));
+        saleListBean.setSl_time(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+
+        App.getDaoSession(App.getContext()).getSaleListBeanDao().insertOrReplace(saleListBean);
     }
 
     private long startTime = 0;
@@ -242,8 +276,8 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                             if (String.valueOf(SlPayStatusEnum.FINISH.getIndex()).equals(response.getExt_data().getSl_pay_status())) {
                                 //支付成功
                                 ToastUtils.showShortMessage("支付成功");
-                                printPayNote(slNo);
-//
+                                //
+                                DbManagerHelper.updatePayStatus(slNo, SlPayStatusEnum.FINISH);
                                 finish();
                                 startOutGoods(slNo);
 
@@ -257,6 +291,8 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                                     }
                                     getOrderStatus(slNo);
                                 } else {
+                                    DbManagerHelper.updatePayStatus(slNo, SlPayStatusEnum.CANCELD);
+
                                     finish();
                                     startActivity(new Intent(PayActivity.this, HomeActivity.class));
                                     ToastUtils.showError("未支付或者支付失败", PayActivity.this);
@@ -283,15 +319,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
         super.onDestroy();
     }
 
-    private void printPayNote(String slNo) {
-        Long vipPrice = 0L;
-        if (mcGoodsBean.getMg_vip_price() != null) {
-            vipPrice = mcGoodsBean.getMg_vip_price();
-        }
-        PrintHelper.getInstance().gdPrint(slNo, App.mcNo, goodsBean.getGd_name(),
-                goodsBean.getGd_desc(), getPrice(mcGoodsBean.getMg_pre_price()),
-                getPrice(vipPrice), getPrice(mcGoodsBean.getMg_pre_price()));
-    }
+
 
     private void startOutGoods(String slNo) {
         Intent intent = new Intent(PayActivity.this, OutGoodsActivity.class);
@@ -334,8 +362,4 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
 }

@@ -138,6 +138,7 @@ public class DbManagerHelper {
 
     }
 
+
     public static void reduceStore(String channo) {
         App.getDaoSession(App.getContext()).getMcGoodsBeanDao().reduceMcStore(channo);
     }

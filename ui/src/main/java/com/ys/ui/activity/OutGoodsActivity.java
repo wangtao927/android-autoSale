@@ -17,22 +17,26 @@ import com.ys.BytesUtil;
 import com.ys.GetBytesUtils;
 import com.ys.RobotEvent;
 import com.ys.RobotEventArg;
+import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.SaleListBean;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.common.constants.ChanStatusEnum;
 import com.ys.ui.common.constants.SlOutStatusEnum;
+import com.ys.ui.common.constants.SlPayStatusEnum;
 import com.ys.ui.common.constants.SlTypeEnum;
 import com.ys.ui.common.http.RetrofitManager;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.TermInitResult;
+import com.ys.ui.serial.print.activity.PrintHelper;
 import com.ys.ui.serial.salemachine.SerialMachineActivity;
 import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.ToastUtils;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -205,7 +209,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
                 "如果您已支付成功， 将与24小时内退款到您的账户中，\n" +
                 "      如有疑问， 请联系客服 400-060-0289");
         try {
-           // App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChanStatusByChanno(channo, Long.valueOf(ChanStatusEnum.ERROR.getIndex()));
+            App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChanStatusByChanno(channo, Long.valueOf(ChanStatusEnum.ERROR.getIndex()));
 
             refund(slNo);
         } catch (Exception e) {
@@ -214,19 +218,25 @@ public class OutGoodsActivity extends SerialMachineActivity {
     }
 
     private void outGoodsSuc() {
-        if (mSendingThread != null) {
-            mSendingThread.interrupt();
+        try {
+            if (mSendingThread != null) {
+                mSendingThread.interrupt();
 
+            }
+            // 支付成功才会 走到出货
+            DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FINISH);
+            DbManagerHelper.reduceStore(channo);
+            // 打印凭条
+            printPayNote(slNo);
+            //hideProgress();
+            transStatus.setText("出货完成");
+            ToastUtils.showShortMessage("交易成功, 欢迎下次光临");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        // 支付成功才会 走到出货
-        DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FINISH);
-        DbManagerHelper.reduceStore(channo);
-        //hideProgress();
-        transStatus.setText("出货完成");
-        ToastUtils.showShortMessage("交易成功, 欢迎下次光临");
 
         //finish();
-        // 打印凭条
+
 
 
         // 出货成功， 显示继续购买
@@ -234,6 +244,24 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
     }
 
+    private void printPayNote(String slNo) {
+        Long vipPrice = 0L;
+        SaleListBean bean = DbManagerHelper.getSaleRecord(slNo);
+        if (bean.getSl_vip_price() != null) {
+            vipPrice = bean.getSl_vip_price();
+        }
+        GoodsBean goodsBean =DbManagerHelper.getGoodsInfo(bean.getSl_gd_no());
+        PrintHelper.getInstance().gdPrint(slNo, App.mcNo, bean.getSl_gd_name(),
+                goodsBean.getGd_desc(), getPrice(bean.getSl_pre_price()),
+                getPrice(vipPrice), getPrice(bean.getSl_amt()));
+    }
+    String getPrice(Long price) {
+
+        if (price == null) {
+            return "0";
+        }
+        return new BigDecimal(price).divide(new BigDecimal(100)).setScale(2).toString();
+    }
 
     private void outGoodsFail() {
         // 出货失败， 考虑退款
@@ -303,7 +331,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
         }
 
     }
-    private void refund(String slNo) {
+    private void refund(final String slNo) {
         SaleListBean saleListBean = DbManagerHelper.getSaleRecord(slNo);
         if (saleListBean.getSl_type().equals(SlTypeEnum.ALIPAY.getIndex())
                 || saleListBean.getSl_type().equals(SlTypeEnum.WX.getIndex())
@@ -324,6 +352,10 @@ public class OutGoodsActivity extends SerialMachineActivity {
                         public void call(CommonResponse<String> response) {
                             Log.d("result", response.toString());
                             if (response.isSuccess()) {
+
+                                //
+                                DbManagerHelper.updatePayStatus(slNo, SlPayStatusEnum.REFUNDED);
+
                                 Toast.makeText(OutGoodsActivity.this, "退款请求已成功发送", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(OutGoodsActivity.this, "退款请求发送失败", Toast.LENGTH_SHORT).show();
