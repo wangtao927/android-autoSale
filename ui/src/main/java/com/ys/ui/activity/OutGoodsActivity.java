@@ -210,7 +210,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
                 "      如有疑问， 请联系客服 400-060-0289");
         try {
             App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChanStatusByChanno(channo, Long.valueOf(ChanStatusEnum.ERROR.getIndex()));
-
+            DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
             refund(slNo);
         } catch (Exception e) {
             ToastUtils.showShortMessage("选货失败，参数：channo="+ channo+ "slNo=" +slNo + " 退款异常:" + e);
@@ -272,17 +272,11 @@ public class OutGoodsActivity extends SerialMachineActivity {
             DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
             //hideProgress();
 
-
-            // 先判断下是否是微信或者支付宝支付， 如果是就退款
             refund(slNo);
 
         } catch (Exception e) {
              ToastUtils.showShortMessage("出货失败");
         }
-
-//        finish();
-//        // 跳转
-//        startActivity(new Intent(OutGoodsActivity.this, MainActivity.class));
 
     }
 
