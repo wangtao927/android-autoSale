@@ -63,7 +63,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
 
     private long mTotalCount;
 
-    private static final int mPageSize = 12;
+    private static final int mPageSize = 40;
 
     private int mPageIndex = 1;
 
@@ -134,6 +134,8 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.btn_sys_out:
                  // 退出程序
+
+
                 finish();
 
                 System.exit(0);
@@ -156,7 +158,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
     }
 
     void backProcess() {
-        new AlertDialog.Builder(this).setTitle("确认退出吗？")
+        new AlertDialog.Builder(this).setTitle("确认要重置吗？")
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
 

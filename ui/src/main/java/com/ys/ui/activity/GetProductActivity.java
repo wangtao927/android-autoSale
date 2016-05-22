@@ -50,9 +50,6 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
     @Bind(R.id.btn_back)
     ImageButton btnBack;
 
-    @Bind(R.id.btn_back_home)
-    ImageButton btnBackHome;
-
     @Bind(R.id.pb_loading)
     ContentLoadingProgressBar mPbLoading;
 
@@ -102,10 +99,7 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
 //                finish();
 //                startActivity(new Intent(GetProductActivity.this, HomeActivity.class));
                 break;
-            case R.id.btn_back_home:
-                finish();
-                startActivity(new Intent(GetProductActivity.this, HomeActivity.class));
-                break;
+
 
         }
     }
@@ -115,7 +109,6 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
 
         btnConfirm.setOnClickListener(this);
         btnBack.setOnClickListener(this);
-        btnBackHome.setOnClickListener(this);
         int timeout = PropertyUtils.getInstance().getTransTimeout();
         minute = timeout / 60;
         second = timeout % 60;

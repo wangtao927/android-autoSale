@@ -15,7 +15,8 @@
         android:layout_marginRight="1dp"
         android:layout_toLeftOf="@+id/btn_back_home"
         android:background="@color/bg_btn"
-        android:padding="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:src="@mipmap/bticon" />
 
     <ImageButton
@@ -24,10 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:background="@color/bg_btn"
-        android:paddingBottom="5dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:onClick="backHome"
-        android:paddingTop="5dp"
         android:src="@mipmap/backhome" />
 </RelativeLayout>

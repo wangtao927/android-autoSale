@@ -1,6 +1,5 @@
 package com.ys.ui.base;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +9,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.ys.ui.R;
 import com.ys.ui.activity.HomeActivity;
 import com.ys.ui.utils.PropertyUtils;
 
 import java.math.BigDecimal;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.ButterKnife;
 
@@ -26,6 +24,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected int second;
 
     private Window window;
+    private Context mContext;
 
 
     @Override
@@ -37,8 +36,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         window.setAttributes(params);
         getIntent(savedInstanceState);
         setContentView(getLayoutId());
+
         ButterKnife.bind(this);
+        mContext = this;
         create(savedInstanceState);
+        if(findViewById(R.id.btn_back_home)!=null){
+            findViewById(R.id.btn_back_home).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                    startActivity(new Intent(mContext, HomeActivity.class));
+                }
+            });
+        }
     }
 
     @Override
@@ -69,8 +79,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
     protected void backHome(View v) {
-        finish();
-        startActivity(new Intent(this, HomeActivity.class));
+
     }
 
     @Override

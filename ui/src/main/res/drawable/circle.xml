@@ -3,5 +3,4 @@
     android:shape="oval">
     <!-- 填充的颜色 -->
     <solid android:color="@color/bg_btn" />
-    <corners android:radius="20dp" />
 </shape>

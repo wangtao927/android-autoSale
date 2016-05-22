@@ -12,4 +12,6 @@
     <color name="circle_page">#049cb7</color>
     <color name="circle_page_select">#E60012</color>
     <color name="gray">#969696</color>
+    <color name="black">#000000</color>
+
 </resources>

@@ -7,26 +7,31 @@
     android:orientation="horizontal">
 
     <TextView
+        android:textColor="@color/gray"
         android:id="@+id/channo"
         android:layout_width="60dp"
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textColor="@color/gray"
         android:id="@+id/gdNo"
         android:layout_width="80dp"
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textColor="@color/gray"
         android:id="@+id/gdName"
         android:layout_width="100dp"
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textColor="@color/gray"
         android:id="@+id/gvol"
         android:layout_width="40dp"
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textColor="@color/gray"
         android:id="@+id/gnum"
         android:layout_width="40dp"
         android:layout_height="wrap_content" />
@@ -36,6 +41,7 @@
          android:id="@+id/mg_chann_status"
          />-->
     <CheckBox
+        android:textColor="@color/gray"
         android:id="@+id/mg_chann_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

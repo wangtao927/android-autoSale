@@ -9,6 +9,7 @@ import com.facebook.stetho.Stetho;
 import com.ys.SerialPortFinder;
 import com.ys.data.dao.DaoMaster;
 import com.ys.data.dao.DaoSession;
+import com.ys.ui.R;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.service.MyService;
 import com.ys.ui.service.TimerService;
@@ -64,14 +65,9 @@ public class App extends Application {
         // 初始化串口的端口
 
         mcNo = DbManagerHelper.getMcNo();
-//        if (TextUtils.isEmpty(mcNo)) {
-//            Intent intent = new Intent(this, TermInitActivity.class);
-//            startActivity(intent);
-//        } else {
-            Intent intent = new Intent(this, TimerService.class);
-            startService(intent);
-//        Intent intent = new Intent(this, TimerService.class);
-//        startService(intent);
+
+        Intent intent = new Intent(this, TimerService.class);
+        startService(intent);
 
     }
 

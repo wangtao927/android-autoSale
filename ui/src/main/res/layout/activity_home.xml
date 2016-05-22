@@ -12,26 +12,26 @@
         android:id="@+id/ad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/function"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/title"
         android:background="@color/bg"
         android:scaleType="fitXY"
-        android:src="@mipmap/adv_1"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_above="@+id/function" />
+        android:src="@mipmap/adv_1" />
 
     <LinearLayout
         android:id="@+id/function"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="105dp"
         android:layout_above="@+id/other"
         android:background="@color/bg"
         android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/btn_buy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/bg_btn"
             android:src="@mipmap/btn_1"
@@ -39,8 +39,8 @@
 
         <ImageButton
             android:id="@+id/btn_get_drug"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:background="@color/bg_btn"
@@ -48,8 +48,8 @@
 
         <ImageButton
             android:id="@+id/btn_smart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:background="@color/bg_btn"
@@ -57,8 +57,8 @@
 
         <ImageButton
             android:id="@+id/btn_shop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:background="@color/bg_btn"
@@ -66,8 +66,8 @@
 
         <ImageButton
             android:id="@+id/btn_member"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:background="@color/bg_btn"
@@ -87,22 +87,25 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
             android:gravity="center">
 
             <ImageButton
                 android:id="@+id/btn_about"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginRight="60dp"
+                android:padding="3dp"
                 android:background="@drawable/circle"
-                android:src="@mipmap/btn_o_1"/>
+                android:src="@mipmap/btn_o_1" />
 
 
             <ImageButton
                 android:id="@+id/btn_statement"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="3dp"
                 android:layout_marginRight="60dp"
                 android:background="@drawable/circle"
                 android:src="@mipmap/btn_o_2" />
@@ -110,8 +113,9 @@
 
             <ImageButton
                 android:id="@+id/btn_help"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="3dp"
                 android:background="@drawable/circle"
                 android:src="@mipmap/btn_o_3" />
 

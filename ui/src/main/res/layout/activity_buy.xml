@@ -83,19 +83,19 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/edit_circle"
             android:hint="请输入药品编码"
-            android:textColorHint="@color/gray"
             android:inputType="number"
-            android:textColor="@color/bg_deep"
             android:paddingLeft="8dp"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@color/bg_deep"
+            android:textColorHint="@color/gray" />
 
         <Button
             android:id="@+id/btn_search_bycode"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="right"
-            android:gravity="center"
             android:background="@drawable/circle"
+            android:gravity="center"
             android:text="确 认"
             android:textColor="@color/white" />
     </LinearLayout>

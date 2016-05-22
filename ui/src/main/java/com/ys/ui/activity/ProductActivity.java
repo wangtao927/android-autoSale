@@ -1,5 +1,6 @@
 package com.ys.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
@@ -49,7 +50,7 @@ public class ProductActivity extends BaseTimerActivity implements LMRecyclerView
 
     private Long mTotalCount;
 
-    private static final int PAGE_SIZE = 5;
+    private static final int PAGE_SIZE = 16;
 
     private int mPageIndex = 1;
     private CirclePageView mPageView;
@@ -104,14 +105,16 @@ public class ProductActivity extends BaseTimerActivity implements LMRecyclerView
         if (!TextUtils.isEmpty(mProductCode.getText())) {
             QueryBuilder<McGoodsBean> queryBuilder = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().queryBuilder();
 
-            mProducts = queryBuilder
-                    .where(McGoodsBeanDao.Properties.Mg_channo.eq(mProductCode.getText()))
-                    .list();
+            McGoodsBean result = queryBuilder
+                    .where(McGoodsBeanDao.Properties.Mg_channo.eq("00" + mProductCode.getText()))
+                    .unique();
 
-            mPageView = new CirclePageView(this);
-            mPageView.init(1);
-            mPagesLayout.removeAllViews();
-            mPagesLayout.addView(mPageView);
+            if (result != null) {
+                //go product detail
+                Intent intent = new Intent(this, ProductDetailActivity.class);
+                intent.putExtra("gdNo", result.getGd_no());
+                startActivity(intent);
+            }
 
         }
     }

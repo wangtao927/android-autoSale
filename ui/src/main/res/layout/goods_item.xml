@@ -2,20 +2,21 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_item"
-    android:layout_width="110dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:gravity="center"
     android:layout_margin="5dp"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/iv_picon"
-            android:layout_width="57dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="165dp"
             android:src="@mipmap/p" />
 
         <TextView
@@ -24,7 +25,7 @@
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:background="@drawable/circle_red"
-            android:gravity="left"
+            android:gravity="center"
             android:text="11"
             android:textColor="@color/white" />
     </RelativeLayout>
@@ -32,6 +33,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:layout_marginTop="5dp">
 
         <TextView
