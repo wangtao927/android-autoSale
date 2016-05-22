@@ -1,5 +1,6 @@
 package com.ys.ui.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,9 +35,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         WindowManager.LayoutParams params = window.getAttributes();
         params.systemUiVisibility = View.SYSTEM_UI_FLAG_LOW_PROFILE;
         window.setAttributes(params);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
-
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
         getIntent(savedInstanceState);
         setContentView(getLayoutId());
         ButterKnife.bind(this);

@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
     <!-- 填充的颜色 -->
     <solid android:color="@color/bg_btn" />
-    <corners android:radius="50dp" />
-    <padding
-        android:bottom="2dp"
-        android:left="2dp"
-        android:right="2dp"
-        android:top="2dp" />
-    <!-- 实心 -->
-
+    <corners android:radius="20dp" />
 </shape>

@@ -17,8 +17,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/rl_page"
         android:layout_below="@+id/title"
-        android:clipToPadding="false"
-         />
+        android:clipToPadding="false" />
 
     <RelativeLayout
         android:id="@+id/rl_page"
@@ -28,22 +27,31 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:padding="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="10dp">
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/ib_pre_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@null"
             android:src="@mipmap/page_pre" />
 
-        <ImageView
+        <LinearLayout
+            android:id="@+id/ll_pages"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
 
-        <ImageView
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/ib_next_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:background="@null"
             android:src="@mipmap/page_next" />
 
     </RelativeLayout>
@@ -54,8 +62,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/ll_buy"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/white"
-        android:text="请直接点击药品图片购买或输入药品编码购买！" />
+        android:text="请直接点击药品图片购买或输入药品编码购买！"
+        android:textColor="@color/white" />
 
     <LinearLayout
         android:id="@+id/ll_buy"
@@ -68,26 +76,27 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/et_product_code"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginRight="10dp"
             android:background="@drawable/edit_circle"
-            android:paddingLeft="5dp"
-            android:numeric="integer"
-            android:singleLine="true"
-            android:imeOptions="actionDone"
-            android:hint="请输入药品编码" />
+            android:hint="请输入药品编码"
+            android:textColorHint="@color/gray"
+            android:inputType="number"
+            android:textColor="@color/bg_deep"
+            android:paddingLeft="8dp"
+            android:singleLine="true" />
 
         <Button
-            android:id="@+id/imageButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:id="@+id/btn_search_bycode"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="right"
-            android:padding="5dp"
+            android:gravity="center"
             android:background="@drawable/circle"
-            android:text="确认"
+            android:text="确 认"
             android:textColor="@color/white" />
     </LinearLayout>
 

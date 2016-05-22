@@ -59,27 +59,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         btn_buy.setOnClickListener(this);
         btnHome.setOnClickListener(this);
         // 如果终端号不存在， 则跳转到设置终端信息界面
-//        if (!isInit()) {
-//            // 弹出层，输入终端号，初始化机器
-//            startActivity(new Intent(this, TermInitActivity.class));
-//            return;
-//        } else {
-//            // 启动service
-//            Intent intent = new Intent(this, TimerService.class);
-//            startService(intent);
-//        }
+        if (!isInit()) {
+            // 弹出层，输入终端号，初始化机器
+            startActivity(new Intent(this, TermInitActivity.class));
+            return;
+        } else {
+            // 启动service
+            Intent intent = new Intent(this, TimerService.class);
+            startService(intent);
+        }
 
     }
-//    private boolean isInit() {
-//        DaoSession session = App.getDaoSession(App.getContext());
-//       if(App.mcNo == null){
-//            return false;
-//        } else {
-//            // 展示 终端号
-//            ToastUtils.showShortMessage(App.mcNo);
-//        }
-//        return true;
-//    }
+    private boolean isInit() {
+        DaoSession session = App.getDaoSession(App.getContext());
+       if(App.mcNo == null){
+            return false;
+        } else {
+            // 展示 终端号
+            ToastUtils.showShortMessage(App.mcNo);
+        }
+        return true;
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

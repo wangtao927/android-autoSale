@@ -64,8 +64,8 @@ public class App extends Application {
         // 初始化串口的端口
 
         mcNo = DbManagerHelper.getMcNo();
-        Intent intent = new Intent(this, TimerService.class);
-        startService(intent);
+//        Intent intent = new Intent(this, TimerService.class);
+//        startService(intent);
 
     }
 

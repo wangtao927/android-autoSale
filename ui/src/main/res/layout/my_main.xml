@@ -3,34 +3,35 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
 
+    <TableRow>
 
-        <TableRow>
+        <TextView
+            android:layout_height="wrap_content"
+            android:text="@string/term_no" />
 
-            <TextView
-                android:layout_height="wrap_content"
-                android:text="@string/term_no" />
+        <EditText
+            android:id="@+id/et_serialNo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:hint="@string/term_no"
+            android:maxLength="10" />
+    </TableRow>
 
-            <EditText
-                android:id="@+id/et_serialNo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:hint="@string/term_no"
-                android:maxLength="10" />
-        </TableRow>
+    <TableRow>
 
-        <TableRow>
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_column="2"
+            android:text="@string/confirm" />
+    </TableRow>
 
-            <Button
-                android:id="@+id/btn_save"
-                android:layout_height="wrap_content"
-                android:layout_column="2"
-                android:width="0dp"
-                android:text="@string/confirm" />
-        </TableRow>
     <include layout="@layout/include_loading" />
 
 </TableLayout>
