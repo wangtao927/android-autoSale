@@ -190,7 +190,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
                                         }
                                         // 关闭当前active
                                         finish();
-                                        startActivity(new Intent(AdminActivity.this, HomeActivity.class));
+                                        startActivity(new Intent(AdminActivity.this, AdminActivity.class));
                                     }
                                 }, new Action1<Throwable>() {
                                     @Override
