@@ -59,6 +59,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         if (!isInit()) {
             // 弹出层，输入终端号，初始化机器
             startActivity(new Intent(this, TermInitActivity.class));
+            finish();
             return;
         } else {
             // 启动service

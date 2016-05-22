@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/iv_picon"
-            android:layout_width="137dp"
-            android:layout_height="204dp"
+            android:layout_width="57dp"
+            android:layout_height="80dp"
             android:src="@mipmap/p" />
 
         <TextView
