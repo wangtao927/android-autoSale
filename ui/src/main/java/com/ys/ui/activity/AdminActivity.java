@@ -1,5 +1,7 @@
 package com.ys.ui.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,6 +51,9 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
     @Bind(R.id.btn_sys_out)
     Button btnSysOut;
 
+    @Bind(R.id.btn_back)
+    Button btnBack;
+
     @Bind(R.id.recycler_view)
     LMRecyclerView recyclerView;
 
@@ -71,6 +76,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
         btnReset.setOnClickListener(this);
         btnClear.setOnClickListener(this);
         btnSysOut.setOnClickListener(this);
+        btnBack.setOnClickListener(this);
         loadData();
         adapter = new McGoodsListAdapter(AdminActivity.this, lists);
         recyclerView.setAdapter(adapter);
@@ -119,9 +125,17 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
                 adapter.notifyDataSetChanged();
 
                 break;
+            case R.id.btn_back:
+
+                 // 返回首页
+                finish();
+                startActivity(new Intent(this, HomeActivity.class));
+
+                break;
             case R.id.btn_sys_out:
                  // 退出程序
                 finish();
+
                 System.exit(0);
                 break;
             default:
@@ -141,43 +155,65 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
-    private void reset() {
+    void backProcess() {
+        new AlertDialog.Builder(this).setTitle("确认退出吗？")
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
-
-        RetrofitManager.builder().mcReset(App.mcNo)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Action0() {
                     @Override
-                    public void call() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 点击“确认”后的操作
+                        RetrofitManager.builder().mcReset(App.mcNo)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .doOnSubscribe(new Action0() {
+                                    @Override
+                                    public void call() {
 
+                                    }
+                                })
+                                .subscribe(new Action1<CommonResponse<TermInitResult>>() {
+                                    @Override
+                                    public void call(CommonResponse<TermInitResult> response) {
+                                        Log.d("result", response.toString());
+                                        if (response.isSuccess()) {
+                                            // 生成成功  同步数据
+                                            initTerm(response);
+
+                                            // 初始化数据成功， 初始化出货机，打印机，银联
+
+
+                                            //startActivity(new Intent(TermInitActivity.this, MainActivity.class));
+                                        } else {
+                                        }
+                                        // 关闭当前active
+                                        finish();
+                                        startActivity(new Intent(AdminActivity.this, HomeActivity.class));
+                                    }
+                                }, new Action1<Throwable>() {
+                                    @Override
+                                    public void call(Throwable throwable) {
+                                        Toast.makeText(AdminActivity.this, "获取数据失败" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
                     }
                 })
-                .subscribe(new Action1<CommonResponse<TermInitResult>>() {
+                .setNegativeButton("返回", new DialogInterface.OnClickListener() {
                     @Override
-                    public void call(CommonResponse<TermInitResult> response) {
-                        Log.d("result", response.toString());
-                        if (response.isSuccess()) {
-                            // 生成成功  同步数据
-                            initTerm(response);
-
-                            // 初始化数据成功， 初始化出货机，打印机，银联
-
-
-                             //startActivity(new Intent(TermInitActivity.this, MainActivity.class));
-                        } else {
-                         }
-                        // 关闭当前active
-                        finish();
-                        startActivity(new Intent(AdminActivity.this, HomeActivity.class));
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 点击“返回”后的操作,这里不设置没有任何操作
+                        dialog.cancel();
                     }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                         Toast.makeText(AdminActivity.this, "获取数据失败" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                }).show();
 
-                    }
-                });
+    }
+
+    private void reset() {
+
+        //  TODO 确定重置  弹出框
+        backProcess();
+
     }
 
     private McStatusBean getInitBean(String termno, String serialNo) {

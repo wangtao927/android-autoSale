@@ -140,7 +140,7 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
 
                             Toast.makeText(TermInitActivity.this, "初始化成功", Toast.LENGTH_SHORT).show();
                             finish();
-                            startActivity(new Intent(TermInitActivity.this, MainActivity.class));
+                            startActivity(new Intent(TermInitActivity.this, HomeActivity.class));
                             //startActivity(new Intent(TermInitActivity.this, MainActivity.class));
                         } else {
                             Toast.makeText(TermInitActivity.this, response.getMsg(), Toast.LENGTH_SHORT).show();

@@ -4,12 +4,15 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import com.facebook.stetho.Stetho;
 import com.ys.SerialPortFinder;
 import com.ys.data.dao.DaoMaster;
 import com.ys.data.dao.DaoSession;
+import com.ys.ui.activity.TermInitActivity;
 import com.ys.ui.common.manager.DbManagerHelper;
+import com.ys.ui.common.response.TermInitResult;
 import com.ys.ui.service.MyService;
 import com.ys.ui.service.TimerService;
 import com.ys.ui.utils.ToastUtils;
@@ -64,9 +67,14 @@ public class App extends Application {
         // 初始化串口的端口
 
         mcNo = DbManagerHelper.getMcNo();
-        Intent intent = new Intent(this, TimerService.class);
-        startService(intent);
+//        if (TextUtils.isEmpty(mcNo)) {
+//            Intent intent = new Intent(this, TermInitActivity.class);
+//            startActivity(intent);
+//        } else {
+            Intent intent = new Intent(this, TimerService.class);
+            startService(intent);
 
+//        }
     }
 
     // 获取ApplicationContext
