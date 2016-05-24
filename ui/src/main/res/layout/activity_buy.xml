@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/bg"
     android:orientation="vertical"
-
     >
 
     <include
@@ -12,6 +11,7 @@
         layout="@layout/title_bar2" />
 
     <com.ys.ui.view.LMRecyclerView
+        android:layout_marginTop="10dp"
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -84,6 +84,7 @@
             android:background="@drawable/edit_circle"
             android:hint="请输入药品编码"
             android:inputType="number"
+            android:digits="1234567890"
             android:paddingLeft="8dp"
             android:singleLine="true"
             android:textColor="@color/bg_deep"

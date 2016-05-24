@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,7 +50,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by river on 2016/4/19.
  */
-public class PayActivity extends BaseTimerActivity {
+public class PayActivity extends BaseTimerActivity implements View.OnClickListener {
 
     @Bind(R.id.tv_gd_name)
     TextView tvGdName;
@@ -66,10 +68,28 @@ public class PayActivity extends BaseTimerActivity {
 
     @Bind(R.id.tv_pay_type)
     TextView tvPayType;
+
+    @Bind(R.id.tv_pay_type0)
+    TextView tvPayType0;
+
+    @Bind(R.id.btn_dir_buy)
+    Button btnDirPay;
+    @Bind(R.id.btn_vip_buy)
+    Button btnVipPay;
+
+
     private GoodsBean goodsBean;
     private McGoodsBean mcGoodsBean;
 
     private SlTypeEnum slType;
+
+
+
+    @Bind(R.id.lay_pay)
+    LinearLayout layPay;
+
+    @Bind(R.id.lay_select_payway)
+    LinearLayout laySelectPay;
 
     String gdNameValue = "商品名：%s";
     String gdPrice = "价格：%s 元";
@@ -123,12 +143,12 @@ public class PayActivity extends BaseTimerActivity {
     @Override
     protected int getLayoutId() {
 
-        if (slType == SlTypeEnum.WX || slType == SlTypeEnum.ALIPAY) {
-            mQCodeImageView = (ImageView) findViewById(R.id.im_qrcode);
+//        if (slType == SlTypeEnum.WX || slType == SlTypeEnum.ALIPAY) {
+//            mQCodeImageView = (ImageView) findViewById(R.id.im_qrcode);
             return R.layout.activity_pay_wx;
-        } else {
-            return R.layout.activity_pay_phone;
-        }
+//        } else {
+//            return R.layout.activity_pay_phone;
+//        }
 
     }
 
@@ -137,7 +157,9 @@ public class PayActivity extends BaseTimerActivity {
         //调用接口获取地址
         init();
         tvPayType.setText(slType.getDesc());
-
+        tvPayType0.setText(slType.getDesc());
+        btnDirPay.setOnClickListener(this);
+        btnVipPay.setOnClickListener(this);
     }
 
     private void init() {
@@ -145,12 +167,12 @@ public class PayActivity extends BaseTimerActivity {
         Glide.with(App.getContext())
                 .load(PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(goodsBean.getGd_img_s()))
                 .into(gdDetailImage);
-        tvSalePrice.setText(String.format(gdPrice, getPrice(goodsBean.getGd_disc_price())));
+        tvSalePrice.setText(String.format(gdPrice, getPrice(mcGoodsBean.getMg_disc_price())));
         tvGdName.setText(String.format(gdNameValue, goodsBean.getGd_short_name()));
-        tvPrice.setText(String.format(gdPrice, getPrice(goodsBean.getGd_disc_price())));
-        tvVipPrice.setText(String.format(gdVipPrice, getPrice(goodsBean.getGd_vip_price())));
-        createOrder(String.valueOf(slType.getIndex()), 0);
+        tvPrice.setText(String.format(gdPrice, getPrice(mcGoodsBean.getMg_disc_price())));
+        tvVipPrice.setText(String.format(gdVipPrice, getPrice(mcGoodsBean.getMg_vip_price())));
     }
+
 
 
     // 普通支付  取折扣价   会员支付取 会员价  vip 0 不是vip  1 是vip
@@ -241,12 +263,13 @@ public class PayActivity extends BaseTimerActivity {
 
     private long startTime = 0;
     private int timeout = PropertyUtils.getInstance().getTransTimeout();
-
+    TimerTask task;
+    java.util.Timer timer;
     private void waitPay(final String slNo) {
         startTime = System.currentTimeMillis();
-        java.util.Timer timer = new java.util.Timer(true);
+        timer= new java.util.Timer(true);
 
-        TimerTask task = new TimerTask() {
+         task= new TimerTask() {
             public void run() {
                 getOrderStatus(slNo);
 
@@ -317,6 +340,14 @@ public class PayActivity extends BaseTimerActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if (timer!=null) {
+            timer.cancel();
+        }
+        if (task != null) {
+            task.cancel();
+        }
+
     }
 
 
@@ -362,4 +393,23 @@ public class PayActivity extends BaseTimerActivity {
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_dir_buy:
+
+                createOrder(String.valueOf(slType.getIndex()), 0);
+                layPay.setVisibility(View.VISIBLE);
+                laySelectPay.setVisibility(View.GONE);
+                break;
+            case R.id.btn_vip_buy:
+
+                break;
+
+            default:
+                break;
+
+        }
+
+    }
 }

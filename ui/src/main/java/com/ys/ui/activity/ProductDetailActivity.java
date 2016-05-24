@@ -87,8 +87,8 @@ public class ProductDetailActivity extends BaseTimerActivity implements View.OnC
                 .into(gdDetailImage);
 
         tvGdName.setText(String.format(gdNameValue, goodsBean.getGd_short_name()));
-        tvPrice.setText(String.format(gdPrice, getPrice(goodsBean.getGd_disc_price())));
-        tvVipPrice.setText(String.format(gdVipPrice, getPrice(goodsBean.getGd_vip_price())));
+        tvPrice.setText(String.format(gdPrice, getPrice(mcGoodsBean.getMg_disc_price())));
+        tvVipPrice.setText(String.format(gdVipPrice, getPrice(mcGoodsBean.getMg_vip_price())));
         tvDesc.setText(String.format(desc, goodsBean.getGd_desc(),
                 goodsBean.getGd_spec(), goodsBean.getGd_desc1(), goodsBean.getGd_desc2(), goodsBean.getGd_desc3()));
     }
