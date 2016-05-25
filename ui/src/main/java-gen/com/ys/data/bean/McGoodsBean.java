@@ -25,7 +25,7 @@ public class McGoodsBean implements Serializable {
     private Long mg_vip_price;
     private Long mg_disc_price;
     private Long mg_price;
-    private Long mg_chann_status;
+    private Long mg_chann_status = 0L;
     private java.util.Date addtime;
     private java.util.Date updatetime;
 

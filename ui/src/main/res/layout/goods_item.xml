@@ -25,9 +25,20 @@
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:background="@drawable/circle_red"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:text="11"
             android:textColor="@color/white" />
+        <TextView
+            android:id="@+id/wuhuo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/circle_gray"
+            android:gravity="center_horizontal"
+            android:text="无货"
+            android:textColor="@color/white"
+            android:layout_below="@+id/no"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
     <LinearLayout

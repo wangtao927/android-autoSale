@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.ys.data.bean.AdvBean;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.ui.R;
@@ -87,25 +88,30 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void adsStart() {
-        mhandler.postDelayed(new Runnable() {
+        if (list == null || list.isEmpty()) {
+            ad.setImageResource(R.mipmap.ad1);
+        } else {
+            mhandler.postDelayed(new Runnable() {
 
-            @Override
-            public void run() {
+                @Override
+                public void run() {
 //                if (adIndex >= list.size()) {
 //                    adIndex = 0;
 //                }
-                Glide.with(HomeActivity.this)
-                        .load(list.get(adIndex).getFileUrl())
-                        .centerCrop()
-                        .into(ad);
+                    Glide.with(HomeActivity.this)
+                            .load(list.get(adIndex).getFileUrl())
+                            .centerCrop()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(ad);
 
-                adIndex++;
-                if (adIndex >= list.size()) {
-                    adIndex = 0;
+                    adIndex++;
+                    if (adIndex >= list.size()) {
+                        adIndex = 0;
+                    }
+                    adsStart();
                 }
-                adsStart();
-            }
-        }, 10000);
+            }, 10000);
+        }
     }
 
     private boolean isInit() {

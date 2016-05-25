@@ -10,17 +10,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.ui.R;
 import com.ys.ui.activity.ProductActivity;
 import com.ys.ui.activity.ProductDetailActivity;
 import com.ys.ui.base.App;
+import com.ys.ui.common.constants.ChanStatusEnum;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.utils.ImageUtils;
 import com.ys.ui.utils.NumberUtils;
 import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.ToastUtils;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -63,10 +67,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
         cno = cno.substring(cno.length() - 2);
         holder.no.setText(cno);
 
+
         if (mcGoodsBean != null) {
             holder.tvPrice.setText("￥"+NumberUtils.m2(mcGoodsBean.getMg_pre_price() * 0.01));
             boolean isShowPriceCut = mcGoodsBean.getMg_disc_price() != mcGoodsBean.getMg_pre_price();
             holder.ivPriceCut.setVisibility(isShowPriceCut ? View.VISIBLE : View.GONE);
+            if (mcGoodsBean.getMg_gnum() <= 0 ||
+                    mcGoodsBean.getMg_chann_status().intValue() == ChanStatusEnum.ERROR.getIndex()) {
+                holder.wuhuo.setVisibility(View.VISIBLE);
+            }
         } else {
             holder.tvPrice.setText("无货");
             holder.ivPriceCut.setVisibility(View.GONE);
@@ -77,6 +86,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
         Glide.with(context)
                 .load(url)
                 .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.productIcon);
 
     }
@@ -96,6 +106,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
 
         @Bind(R.id.no)
         TextView no;
+
+        @Bind(R.id.wuhuo)
+        TextView wuhuo;
 
         @Bind(R.id.tv_price)
         TextView tvPrice;
