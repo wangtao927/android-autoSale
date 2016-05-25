@@ -36,7 +36,6 @@ public abstract class BaseTimerActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initTimer();
     }
 
     @Override
@@ -44,22 +43,23 @@ public abstract class BaseTimerActivity extends BaseActivity {
         super.onStart();
         resetTimeOut();
     }
-//    @Override
-//    protected void onStop () {
-//        // 停止计时器
-//        stopTimer();
-//        super.onStop();
-//
-//    }
 
-//    @Override
-//    protected void onResume() {
-//        initTimer();
-//
-//        super.onPostResume();
-//    }
+    @Override
+    protected void onStop() {
+        // 停止计时器
+        stopTimer();
+        super.onStop();
 
-    public void close(View v){
+    }
+
+    @Override
+    protected void onResume() {
+        initTimer();
+        super.onResume();
+    }
+
+
+    public void close(View v) {
         finish();
     }
 
@@ -83,11 +83,12 @@ public abstract class BaseTimerActivity extends BaseActivity {
             timer.cancel();
         }
     }
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
-        stopTimer();
     }
 
 
@@ -132,6 +133,7 @@ public abstract class BaseTimerActivity extends BaseActivity {
             tvTimer.setText(timer);
         }
     };
+
     String getTime() {
         if (minute == 0) {
             if (second == 0) {
@@ -174,7 +176,10 @@ public abstract class BaseTimerActivity extends BaseActivity {
 
     }
 
-    protected void getIntent(Bundle savedInstanceState){};
+    protected void getIntent(Bundle savedInstanceState) {
+    }
+
+    ;
 
     protected abstract int getLayoutId();
 

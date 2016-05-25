@@ -57,19 +57,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        resetTimeOut();
     }
 
     public void close(View v){
         finish();
     }
 
-    protected void resetTimeOut() {
-        int timeout = PropertyUtils.getInstance().getTransTimeout();
-        minute = timeout / 60;
-        second = timeout % 60;
-
-    }
 
     protected String getPrice(Long price) {
 
