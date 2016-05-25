@@ -44,13 +44,13 @@ public abstract class BaseTimerActivity extends BaseActivity {
         super.onStart();
         resetTimeOut();
     }
-    @Override
-    protected void onStop () {
-        // 停止计时器
-        stopTimer();
-        super.onStop();
-
-    }
+//    @Override
+//    protected void onStop () {
+//        // 停止计时器
+//        stopTimer();
+//        super.onStop();
+//
+//    }
 
 //    @Override
 //    protected void onResume() {
