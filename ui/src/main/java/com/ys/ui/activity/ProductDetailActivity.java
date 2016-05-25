@@ -19,6 +19,7 @@ import com.ys.ui.utils.ImageUtils;
 import com.ys.ui.utils.PropertyUtils;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class ProductDetailActivity extends BaseTimerActivity implements View.OnClickListener {
 
@@ -122,10 +123,23 @@ public class ProductDetailActivity extends BaseTimerActivity implements View.OnC
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-
+        ButterKnife.unbind(this);
 
     }
+
+    @Override
+    protected void backHome() {
+        if(findViewById(R.id.btn_back_home)!=null){
+            findViewById(R.id.btn_back_home).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                    startActivity(new Intent(ProductDetailActivity.this, ProductActivity.class));
+                }
+            });
+        }
+    }
+
 
     private void startPay(SlTypeEnum slTypeEnum) {
 

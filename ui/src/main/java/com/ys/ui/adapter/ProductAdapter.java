@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.ui.R;
+import com.ys.ui.activity.ProductActivity;
 import com.ys.ui.activity.ProductDetailActivity;
 import com.ys.ui.base.App;
 import com.ys.ui.common.manager.DbManagerHelper;
@@ -110,6 +111,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
                 ToastUtils.showError("该药品暂时无货，请选择其他药品购买", App.getContext());
                 return;
             }
+
 
             Intent intent = new Intent(context, ProductDetailActivity.class);
             intent.putExtra("gdNo", mcGoodsBean.getGd_no());

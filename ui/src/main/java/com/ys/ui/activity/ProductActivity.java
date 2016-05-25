@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import de.greenrobot.dao.query.QueryBuilder;
 
 public class ProductActivity extends BaseTimerActivity implements LMRecyclerView.LoadMoreListener, View.OnClickListener {
@@ -81,11 +82,13 @@ public class ProductActivity extends BaseTimerActivity implements LMRecyclerView
 
     }
 
+
+
     /**
      * 初始化分页
      */
     private void initPages() {
-        mTotalCount = App.getDaoSession(App.getContext()).getGoodsBeanDao().count();
+        mTotalCount = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().count();
 
         if (mTotalCount != 0) {
             mPageView = new CirclePageView(this);
@@ -97,7 +100,7 @@ public class ProductActivity extends BaseTimerActivity implements LMRecyclerView
 
     private void loadData() {
         QueryBuilder<McGoodsBean> queryBuilder = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().queryBuilder();
-        int offset = mPageIndex == 1 ? 0 : (mPageIndex * PAGE_SIZE);
+        int offset = mPageIndex == 1 ? 0 : ((mPageIndex-1) * PAGE_SIZE);
         mProducts = queryBuilder.offset(offset).limit(PAGE_SIZE).orderAsc(McGoodsBeanDao.Properties.Mg_channo).list();
     }
 
@@ -162,5 +165,12 @@ public class ProductActivity extends BaseTimerActivity implements LMRecyclerView
         mPageView.setSelectedPage(mPageIndex - 1);
         loadData();
         refresh();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
+
     }
 }

@@ -44,6 +44,20 @@ public abstract class BaseTimerActivity extends BaseActivity {
         super.onStart();
         resetTimeOut();
     }
+    @Override
+    protected void onStop () {
+        // 停止计时器
+        stopTimer();
+        super.onStop();
+
+    }
+
+//    @Override
+//    protected void onResume() {
+//        initTimer();
+//
+//        super.onPostResume();
+//    }
 
     public void close(View v){
         finish();
@@ -56,10 +70,7 @@ public abstract class BaseTimerActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ButterKnife.unbind(this);
+    private void stopTimer() {
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
         }
@@ -71,6 +82,12 @@ public abstract class BaseTimerActivity extends BaseActivity {
         if (timer != null) {
             timer.cancel();
         }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
+        stopTimer();
     }
 
 

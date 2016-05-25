@@ -105,7 +105,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 }
                 adsStart();
             }
-        }, 3000);
+        }, 10000);
     }
 
     private boolean isInit() {

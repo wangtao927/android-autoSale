@@ -40,6 +40,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mContext = this;
         create(savedInstanceState);
+        backHome();
+    }
+    protected void backHome() {
         if(findViewById(R.id.btn_back_home)!=null){
             findViewById(R.id.btn_back_home).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -74,12 +77,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             return "0";
         }
         return new BigDecimal(price).divide(new BigDecimal(100)).setScale(2).toString();
-    }
-
-
-
-    protected void backHome(View v) {
-
     }
 
     @Override

@@ -48,12 +48,6 @@
 
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.PrintActivity"
-            android:label="@string/print"
-            android:screenOrientation="portrait"
-
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".activity.TermInitActivity"
             android:label="@string/term_init"
             android:screenOrientation="portrait"
