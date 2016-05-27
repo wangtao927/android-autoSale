@@ -145,6 +145,7 @@ public class ProductDetailActivity extends BaseTimerActivity implements View.OnC
 
     private void startPay(SlTypeEnum slTypeEnum) {
 
+        finish();
         Intent intent = new Intent(ProductDetailActivity.this, PayActivity.class);
 
         intent.putExtra("goods", goodsBean);

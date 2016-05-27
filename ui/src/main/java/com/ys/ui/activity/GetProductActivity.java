@@ -131,11 +131,11 @@ public class GetProductActivity extends BaseActivity implements View.OnClickList
 
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
-            System.out.println("handle!");
             String timer = getTime();
             if (TextUtils.isEmpty(timer)) {
-                startActivity(new Intent(GetProductActivity.this, HomeActivity.class));
                 finish();
+                startActivity(new Intent(GetProductActivity.this, HomeActivity.class));
+
                 return;
             }
             tvTimer.setText(timer);

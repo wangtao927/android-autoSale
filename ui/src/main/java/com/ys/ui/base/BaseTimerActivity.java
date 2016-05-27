@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -29,8 +30,8 @@ public abstract class BaseTimerActivity extends BaseActivity {
 
     Timer timer;
     TimerTask timerTask;
-    protected int minute;
-    protected int second;
+    int minute;
+    int second;
 
 
     @Override
@@ -41,17 +42,23 @@ public abstract class BaseTimerActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        resetTimeOut();
+        //resetTimeOut();
     }
 
     @Override
     protected void onStop() {
         // 停止计时器
-        stopTimer();
         super.onStop();
+        stopTimer();
+
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopTimer();
+    }
     @Override
     protected void onResume() {
         initTimer();
@@ -73,14 +80,17 @@ public abstract class BaseTimerActivity extends BaseActivity {
     private void stopTimer() {
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
+            handler = null;
         }
 
         if (timerTask != null) {
             timerTask.cancel();
+            timerTask = null;
         }
 
         if (timer != null) {
             timer.cancel();
+            timer = null;
         }
     }
 
@@ -89,6 +99,7 @@ public abstract class BaseTimerActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+        stopTimer();
     }
 
 
@@ -127,7 +138,7 @@ public abstract class BaseTimerActivity extends BaseActivity {
             if (TextUtils.isEmpty(timer)) {
                 finish();
                 startActivity(new Intent(BaseTimerActivity.this, HomeActivity.class));
-                return;
+                //return;
             }
 
             tvTimer.setText(timer);
@@ -135,6 +146,7 @@ public abstract class BaseTimerActivity extends BaseActivity {
     };
 
     String getTime() {
+        Log.d("miniute:second", minute+":"+ second);
         if (minute == 0) {
             if (second == 0) {
                 return "";

@@ -263,19 +263,20 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
     private long startTime = 0;
     private int timeout = PropertyUtils.getInstance().getTransTimeout();
-    TimerTask task;
-    java.util.Timer timer;
+    TimerTask pay_task;
+    java.util.Timer pay_timer;
+    boolean finish_flag = false;
     private void waitPay(final String slNo) {
         startTime = System.currentTimeMillis();
-        timer= new java.util.Timer(true);
+        pay_timer= new java.util.Timer(true);
 
-         task= new TimerTask() {
+        pay_task= new TimerTask() {
             public void run() {
                 getOrderStatus(slNo);
 
             }
         };
-        timer.schedule(task, 5000);
+        pay_timer.schedule(pay_task, 5000);
 
 
     }
@@ -301,11 +302,13 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                                 ToastUtils.showShortMessage("支付成功");
                                 //
                                 DbManagerHelper.updatePayStatus(slNo, SlPayStatusEnum.FINISH);
-                                finish();
                                 startOutGoods(slNo);
 
 
                             } else {
+                                if (finish_flag) {
+                                    return;
+                                }
                                 if (System.currentTimeMillis() - startTime < timeout * 1000) {
                                     try {
                                         Thread.sleep(2000);
@@ -340,12 +343,12 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (timer!=null) {
-            timer.cancel();
+        finish_flag = true;
+        if (pay_timer!=null) {
+            pay_timer.cancel();
         }
-        if (task != null) {
-            task.cancel();
+        if (pay_task != null) {
+            pay_task.cancel();
         }
 
     }
@@ -353,6 +356,8 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
 
     private void startOutGoods(String slNo) {
+        finish();
+
         Intent intent = new Intent(PayActivity.this, OutGoodsActivity.class);
 
         intent.putExtra("slNo", slNo);
@@ -403,6 +408,8 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                 laySelectPay.setVisibility(View.GONE);
                 break;
             case R.id.btn_vip_buy:
+
+                // 弹出登录框
 
                 break;
 
