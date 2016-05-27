@@ -1,12 +1,17 @@
 package com.ys.ui.activity;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,7 +37,9 @@ import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateOrderResult;
 import com.ys.ui.common.response.SaleListResult;
+import com.ys.ui.serial.pos.PosSerialHelper;
 import com.ys.ui.serial.print.activity.PrintHelper;
+import com.ys.ui.service.MyService;
 import com.ys.ui.utils.ImageUtils;
 import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.ToastUtils;
@@ -87,6 +94,9 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
     @Bind(R.id.lay_pay)
     LinearLayout layPay;
+
+    @Bind(R.id.btn_reselect_paytype)
+    Button btnReSelectPayType;
 
     @Bind(R.id.lay_select_payway)
     LinearLayout laySelectPay;
@@ -160,6 +170,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
         tvPayType0.setText(slType.getDesc());
         btnDirPay.setOnClickListener(this);
         btnVipPay.setOnClickListener(this);
+        btnReSelectPayType.setOnClickListener(this);
     }
 
     private void init() {
@@ -206,16 +217,24 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                                 // 生成本地的订单
                                 createSaleList(amount, vip, response.getExt_data().getSlNo());
 
-                                if (TextUtils.isEmpty(response.getExt_data().getQrcodeUrl())) {
-                                    Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcode());
-                                    mQCodeImageView.setImageBitmap(qrcodeBitmap);
+                                if (slType.getIndex() == SlTypeEnum.ALIPAY.getIndex()
+                                        || slType.getIndex() == SlTypeEnum.WX.getIndex()) {
+                                    if (TextUtils.isEmpty(response.getExt_data().getQrcodeUrl())) {
+                                        Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcode());
+                                        mQCodeImageView.setImageBitmap(qrcodeBitmap);
+                                    } else {
+                                        Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcodeUrl());
+                                        mQCodeImageView.setImageBitmap(qrcodeBitmap);
+                                    }
+                                    waitQRPay(response.getExt_data().getSlNo());
+
                                 } else {
-                                    Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcodeUrl());
-                                    mQCodeImageView.setImageBitmap(qrcodeBitmap);
+                                    mQCodeImageView.setImageResource(R.mipmap.bankcard_flag);
+
+                                    waitPay(response.getExt_data().getSlNo());
                                 }
 
                                 //
-                                waitPay(response.getExt_data().getSlNo());
                             } catch (WriterException e) {
                                 Log.e("error:", e.getMessage());
                             }
@@ -266,7 +285,14 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     TimerTask pay_task;
     java.util.Timer pay_timer;
     boolean finish_flag = false;
+    // 银联卡支付
     private void waitPay(final String slNo) {
+//        startTime = System.currentTimeMillis();
+//        pay_timer= new java.util.Timer(true);
+
+
+    }
+    private void waitQRPay(final String slNo) {
         startTime = System.currentTimeMillis();
         pay_timer= new java.util.Timer(true);
 
@@ -277,6 +303,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
             }
         };
         pay_timer.schedule(pay_task, 5000);
+
 
 
     }
@@ -365,38 +392,6 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
         startActivity(intent);
     }
 
-    private void refund(String slNo) {
-        RetrofitManager.builder().refund(slNo)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        //showProgress();
-                    }
-                })
-                .subscribe(new Action1<CommonResponse<String>>() {
-                    @Override
-                    public void call(CommonResponse<String> response) {
-                        //hideProgress();
-                        Log.d("orderStatus", response.toString());
-                        if (response.getCode() == 0) {
-                            Toast.makeText(PayActivity.this, "退款成功", Toast.LENGTH_SHORT).show();
-
-                        }
-
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        //hideProgress();
-                        Toast.makeText(PayActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-
-
-    }
 
     @Override
     public void onClick(View v) {
@@ -410,13 +405,78 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
             case R.id.btn_vip_buy:
 
                 // 弹出登录框
-
+                initview();
                 break;
 
+            case R.id.btn_reselect_paytype:
+
+                finish();
+                Intent intent = new Intent(PayActivity.this, ProductDetailActivity.class);
+                intent.putExtra("gdNo", mcGoodsBean.getGd_no());
+                startActivity(intent);
+
+            case R.id.btn_login:
+
+                break;
+            case R.id.btn_cancel:
+                selfdialog.cancel();
+                break;
             default:
                 break;
 
         }
 
     }
+
+    private View view;
+     private String usernamestr;
+    private String passwordstr;
+     private AlertDialog selfdialog;
+    private boolean regFlag = false;// 默认登录
+    public void initview() {
+        //创建view从当前activity获取loginactivity
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.login, null);
+
+        final EditText username=(EditText)view.findViewById(R.id.txt_username);
+        final EditText password = (EditText)view.findViewById(R.id.txt_password);
+        Button btnLogin = (Button)view.findViewById(R.id.btn_login);
+        Button btnCancel = (Button)view.findViewById(R.id.btn_cancel);
+        btnLogin.setOnClickListener(this);
+        btnCancel.setOnClickListener(this);
+
+        username.setText("");
+        password.setText(""); //为了测试方便所以在这里初始化弹出框是填上账号密码
+        AlertDialog.Builder ad =new AlertDialog.Builder(PayActivity.this);
+        ad.setView(view);
+
+        selfdialog = ad.create();
+
+
+//        selfdialog.setButton("登陆", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                //获取输入框的用户名密码
+//
+//                usernamestr = username.getText().toString();
+//                passwordstr =password.getText().toString();
+//                progressdialog = ProgressDialog.show(PayActivity.this, "请等待...", "正在为您登陆...");
+//                try {
+//                    Thread.currentThread().sleep(100);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                dialog.cancel();
+//            }
+//        });
+//        selfdialog.setButton2("取消", new DialogInterface.OnClickListener() {
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                selfdialog.cancel();
+//            }
+//        });
+        selfdialog.show();
+    }
+
 }

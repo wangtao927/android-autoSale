@@ -22,8 +22,8 @@
 
     <ImageView
         android:id="@+id/tel"
-        android:layout_width="104.68dp"
-        android:layout_height="42.68dp"
+        android:layout_width="104dp"
+        android:layout_height="42dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_gravity="right"

@@ -62,6 +62,7 @@ public class RetrofitManager {
     private final TermStatusApi termStatusApi;
     private final McDataApi mcDataApi;
     private final OrderApi orderApi;
+    private final UserApi userApi;
 
     public static RetrofitManager builder() {
         return new RetrofitManager();
@@ -83,6 +84,7 @@ public class RetrofitManager {
         termStatusApi = retrofit.create(TermStatusApi.class);
         mcDataApi = retrofit.create(McDataApi.class);
         orderApi = retrofit.create(OrderApi.class);
+        userApi = retrofit.create(UserApi.class);
     }
 
     private void initOkHttpClient() {
@@ -220,6 +222,33 @@ public class RetrofitManager {
 
         return orderApi.refund(request);
     }
+
+    public Observable<CommonResponse<String>> userLogin(String userNo, String userPwd) {
+        String mcNo = App.mcNo;
+        long time = System.currentTimeMillis();
+
+
+        Map<String, String> data = new HashMap<>();
+        data.put("user_no", userNo);
+        data.put("user_pwd", userPwd);
+
+        CommonRequest<Map<String, String>> request = new CommonRequest<>(mcNo, time, data);
+
+        return userApi.userLogin(request);
+    }
+     public Observable<CommonResponse<String>> userReg(String userNo, String userPwd) {
+        String mcNo = App.mcNo;
+        long time = System.currentTimeMillis();
+
+
+        Map<String, String> data = new HashMap<>();
+        data.put("user_no", userNo);
+        data.put("user_pwd", userPwd);
+
+        CommonRequest<Map<String, String>> request = new CommonRequest<>(mcNo, time, data);
+
+        return userApi.regUser(request);
+     }
 
 
 }

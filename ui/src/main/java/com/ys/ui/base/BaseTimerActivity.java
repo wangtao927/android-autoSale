@@ -65,10 +65,10 @@ public abstract class BaseTimerActivity extends BaseActivity {
         super.onResume();
     }
 
-
-    public void close(View v) {
-        finish();
-    }
+//
+//    public void close(View v) {
+//        finish();
+//    }
 
     protected void resetTimeOut() {
         int timeout = PropertyUtils.getInstance().getTransTimeout();
@@ -80,7 +80,7 @@ public abstract class BaseTimerActivity extends BaseActivity {
     private void stopTimer() {
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
-            handler = null;
+            //handler = null;
         }
 
         if (timerTask != null) {

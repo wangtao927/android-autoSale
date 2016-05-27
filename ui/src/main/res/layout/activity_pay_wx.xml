@@ -114,11 +114,11 @@
 
 
             <Button
+                android:id="@+id/btn_reselect_paytype"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:onClick="close"
-                android:background="@color/bg"
+                 android:background="@color/bg"
                 android:padding="10dp"
                 android:text="重新选择购买方式"
                 android:textColor="@color/white"
