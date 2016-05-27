@@ -35,6 +35,7 @@
             android:background="@drawable/circle_gray"
             android:gravity="center_horizontal"
             android:text="无货"
+            android:visibility="gone"
             android:textColor="@color/white"
             android:layout_below="@+id/no"
             android:layout_alignParentRight="true"

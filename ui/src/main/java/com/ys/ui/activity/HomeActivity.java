@@ -100,7 +100,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 //                }
                     Glide.with(HomeActivity.this)
                             .load(list.get(adIndex).getFileUrl())
-                            .centerCrop()
+                            .centerCrop().placeholder(R.mipmap.ad1)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(ad);
 

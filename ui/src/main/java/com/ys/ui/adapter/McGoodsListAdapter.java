@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.ys.data.bean.McGoodsBean;
 import com.ys.data.dao.GoodsBeanDao;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
+import com.ys.ui.common.constants.ChanStatusEnum;
 import com.ys.ui.utils.ToastUtils;
 
 import java.util.HashMap;
@@ -102,7 +104,7 @@ public class McGoodsListAdapter extends RecyclerView.Adapter<McGoodsListAdapter.
 
                 // 去修改数据库
                 McGoodsBean bean = goodsView;
-                bean.setMg_chann_status(checkBox.isChecked() ? 2L : 1L);
+                bean.setMg_chann_status(checkBox.isChecked() ? Long.valueOf(ChanStatusEnum.ERROR.getIndex()) : ChanStatusEnum.NORMAL.getIndex());
 //                bean.setMg_gvol(goodsView.getMg_gvol());
 //                bean.setMg_gnum(goodsView.getMg_gnum());
                 App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChannelStatusByPK(bean);
@@ -144,6 +146,7 @@ public class McGoodsListAdapter extends RecyclerView.Adapter<McGoodsListAdapter.
 
             // 弹出一个输入框， 修改库存
             final EditText inputServer = new EditText(context);
+            inputServer.setInputType(InputType.TYPE_CLASS_NUMBER);
             final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
             builder.setTitle("修改货道：" +  goodsBean.getMg_channo() + "库存").setIcon(android.R.drawable.ic_dialog_info).setView(inputServer)

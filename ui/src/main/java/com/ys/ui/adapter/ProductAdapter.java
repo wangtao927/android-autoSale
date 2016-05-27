@@ -72,9 +72,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
             holder.tvPrice.setText("￥"+NumberUtils.m2(mcGoodsBean.getMg_pre_price() * 0.01));
             boolean isShowPriceCut = mcGoodsBean.getMg_disc_price() != mcGoodsBean.getMg_pre_price();
             holder.ivPriceCut.setVisibility(isShowPriceCut ? View.VISIBLE : View.GONE);
+
             if (mcGoodsBean.getMg_gnum() <= 0 ||
                     mcGoodsBean.getMg_chann_status().intValue() == ChanStatusEnum.ERROR.getIndex()) {
-                holder.wuhuo.setVisibility(View.VISIBLE);
+               // holder.wuhuo.setVisibility(View.VISIBLE);
+                holder.no.setBackgroundResource(R.drawable.circle_gray);
             }
         } else {
             holder.tvPrice.setText("无货");
@@ -119,7 +121,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
         @OnClick(R.id.iv_picon)
         void itemClick() {
             final McGoodsBean mcGoodsBean = (McGoodsBean) no.getTag();
-            if (mcGoodsBean.getMg_gnum() <= 0) {
+            if (mcGoodsBean.getMg_gnum() <= 0 || mcGoodsBean.getMg_chann_status().intValue() == ChanStatusEnum.ERROR.getIndex()) {
                 // 无货
                 ToastUtils.showError("该药品暂时无货，请选择其他药品购买", App.getContext());
                 return;

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.ui.R;
@@ -85,6 +86,7 @@ public class ProductDetailActivity extends BaseTimerActivity implements View.OnC
 
         Glide.with(App.getContext())
                 .load(PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(goodsBean.getGd_img_s()))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(gdDetailImage);
 
         tvGdName.setText(String.format(gdNameValue, goodsBean.getGd_short_name()));
