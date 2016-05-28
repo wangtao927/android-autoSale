@@ -84,28 +84,36 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_get_drug:
+                finish();
                 startActivity(new Intent(MainActivity.this, GetProductActivity.class));
                 break;
             case R.id.btn_query:
+                finish();
                 startActivity(new Intent(MainActivity.this, OutGoodsActivity.class));
 
                 break;
             case R.id.btn_buy:
+                finish();
                 startActivity(new Intent(MainActivity.this, ProductActivity.class));
                 break;
             case R.id.btn_sample:
-                startActivity(new Intent(MainActivity.this, SelectGoodsActivity.class));
+                finish();
+                startActivity(new Intent(MainActivity.this, InitActivity.class));
                 break;
             case R.id.btn_print:
+                finish();
                 startActivity(new Intent(MainActivity.this, com.ys.ui.serial.print.activity.MainMenu.class));
                 break;
             case R.id.btn_admin:
+                finish();
                 startActivity(new Intent(MainActivity.this, AdminActivity.class));
                 break;
             case R.id.btn_qrcode:
+                finish();
                 startActivity(new Intent(MainActivity.this, QRcodeActivity.class));
                 break;
             case R.id.btn_home:
+                finish();
                 startActivity(new Intent(MainActivity.this, HomeActivity.class));
                 break;
 

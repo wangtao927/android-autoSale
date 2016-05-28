@@ -1,14 +1,19 @@
 package com.ys.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.ys.data.bean.McGoodsBean;
 import com.ys.data.dao.McGoodsBeanDao;
@@ -72,6 +77,18 @@ public class ProductActivity extends BaseTimerActivity implements LMRecyclerView
 
     }
 
+    @Override
+    protected void backHome() {
+        if(findViewById(R.id.btn_back_home)!=null){
+            findViewById(R.id.btn_back_home).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                    startActivity(new Intent(ProductActivity.this, HomeActivity.class));
+                }
+            });
+        }
+    }
     private void initView() {
         mRecyclerView.setLayoutManager(new GridLayoutManager(App.ctx, 4));
         mRecyclerView.setLoadMoreListener(this);
@@ -80,6 +97,21 @@ public class ProductActivity extends BaseTimerActivity implements LMRecyclerView
         mNextPageButton.setOnClickListener(this);
         initPages();
 
+        mProductCode.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    loadByCode();
+                    refresh();
+                    return true;
+                }
+                return false;
+            }
+
+        });
     }
 
 

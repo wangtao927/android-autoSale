@@ -51,6 +51,7 @@
                     android:layout_marginLeft="3dp"
                     android:layout_marginTop="20dp"
                     android:text="天然维生素E胶囊"
+                    android:textSize="20sp"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -60,6 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
                     android:text="价格：68元"
+                    android:textSize="20sp"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -69,6 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
                     android:text="会员价：48元"
+                    android:textSize="20sp"
                     android:textColor="@color/red"
                     android:textStyle="bold" />
 
@@ -93,7 +96,7 @@
                 android:layout_margin="3dp"
                 android:text="微信支付"
                 android:textColor="@color/white"
-                android:textSize="30dp" />
+                android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/tv_sale_price"
@@ -102,7 +105,7 @@
                 android:layout_marginTop="5dp"
                 android:text="支付金额：68元"
                 android:textColor="@color/red"
-                android:textSize="16sp" />
+                android:textSize="25sp" />
 
             <ImageView
                 android:id="@+id/im_qrcode"
@@ -141,7 +144,7 @@
                 android:layout_margin="3dp"
                 android:text="手机支付"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="30sp" />
 
             <Button
                 android:id="@+id/btn_dir_buy"
@@ -152,7 +155,7 @@
                 android:padding="20dp"
                 android:text="直接购买"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/btn_vip_buy"
@@ -163,7 +166,7 @@
                 android:padding="20dp"
                 android:text="会员价购买"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="20sp" />
 
 
         </LinearLayout>

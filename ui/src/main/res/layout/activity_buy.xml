@@ -11,7 +11,10 @@
         layout="@layout/title_bar2" />
 
     <com.ys.ui.view.LMRecyclerView
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="10dp"
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -62,7 +65,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/ll_buy"
         android:layout_centerHorizontal="true"
-        android:text="请直接点击药品图片购买或输入药品编码购买！"
+        android:textSize="20sp"
+        android:text="请直接点击药品图片购买或输入货道号购买！"
         android:textColor="@color/white" />
 
     <LinearLayout
@@ -82,9 +86,10 @@
             android:layout_gravity="center"
             android:layout_marginRight="10dp"
             android:background="@drawable/edit_circle"
-            android:hint="请输入药品编码"
+            android:hint="请输入货道号"
             android:inputType="number"
             android:digits="1234567890"
+            android:maxLength="2"
             android:paddingLeft="8dp"
             android:singleLine="true"
             android:textColor="@color/bg_deep"
@@ -97,6 +102,7 @@
             android:layout_gravity="right"
             android:background="@drawable/circle"
             android:gravity="center"
+            android:textSize="20sp"
             android:text="确 认"
             android:textColor="@color/white" />
     </LinearLayout>

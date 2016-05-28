@@ -102,8 +102,8 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     LinearLayout laySelectPay;
 
     String gdNameValue = "商品名：%s";
-    String gdPrice = "价格：%s 元";
-    String gdVipPrice = "会员价: %s 元";
+    String gdPrice = "价    格：%s 元";
+    String gdVipPrice = "会员价：%s 元";
 
     @Bind(R.id.im_qrcode)
     ImageView mQCodeImageView;
@@ -242,7 +242,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 //                            startActivity(new Intent(PayActivity.this, OutGoodsActivity.class));
 
                         } else {
-                            ToastUtils.showError("支付失败", PayActivity.this);
+                            ToastUtils.showError("创建订单失败", PayActivity.this);
                         }
 
                     }
@@ -417,9 +417,29 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
             case R.id.btn_login:
 
+                if (etUserNo != null) {
+
+                    ToastUtils.showShortMessage(etUserNo.getText()+"--" + etPwd.getText());
+                    //
+
+                }
+
+                //
                 break;
             case R.id.btn_cancel:
                 selfdialog.cancel();
+                break;
+            case R.id.iv_login:
+                regFlag = false;
+                ivLogin.setImageResource(R.mipmap.login);
+                ivReg.setImageResource(R.mipmap.reg_1);
+                break;
+            case R.id.iv_reg:
+
+                regFlag = true;
+                ivLogin.setImageResource(R.mipmap.login_1);
+                ivReg.setImageResource(R.mipmap.reg);
+
                 break;
             default:
                 break;
@@ -429,24 +449,31 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     }
 
     private View view;
-     private String usernamestr;
-    private String passwordstr;
      private AlertDialog selfdialog;
+    ImageView ivLogin;
+    ImageView ivReg;
+    EditText etUserNo;
+    EditText etPwd;
     private boolean regFlag = false;// 默认登录
     public void initview() {
         //创建view从当前activity获取loginactivity
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.login, null);
 
-        final EditText username=(EditText)view.findViewById(R.id.txt_username);
-        final EditText password = (EditText)view.findViewById(R.id.txt_password);
+        etUserNo=(EditText)view.findViewById(R.id.txt_username);
+        etPwd = (EditText)view.findViewById(R.id.txt_password);
         Button btnLogin = (Button)view.findViewById(R.id.btn_login);
         Button btnCancel = (Button)view.findViewById(R.id.btn_cancel);
+
         btnLogin.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
 
-        username.setText("");
-        password.setText(""); //为了测试方便所以在这里初始化弹出框是填上账号密码
+        ivLogin = (ImageView)view.findViewById(R.id.iv_login);
+        ivReg = (ImageView)view.findViewById(R.id.iv_reg);
+
+        ivLogin.setOnClickListener(this);
+        ivReg.setOnClickListener(this);
+
         AlertDialog.Builder ad =new AlertDialog.Builder(PayActivity.this);
         ad.setView(view);
 
@@ -477,6 +504,19 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 //            }
 //        });
         selfdialog.show();
+    }
+
+    private boolean userLogin() {
+        //
+
+
+        return false;
+    }
+
+    private boolean userReg() {
+        //
+
+        return false;
     }
 
 }

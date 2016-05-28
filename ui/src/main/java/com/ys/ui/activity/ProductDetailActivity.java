@@ -55,8 +55,8 @@ public class ProductDetailActivity extends BaseTimerActivity implements View.OnC
     private McGoodsBean mcGoodsBean;
 
     String gdNameValue = "商品名：%s";
-    String gdPrice = "价格：%s 元";
-    String gdVipPrice = "会员价: %s 元";
+    String gdPrice = "价    格：%s 元";
+    String gdVipPrice = "会员价：%s 元";
     String desc = "%s \n[规格] %s \n [配方] %s \n [功能主治] %s \n [用法用量] %s";
 
     private String gdNo = "";
@@ -86,7 +86,7 @@ public class ProductDetailActivity extends BaseTimerActivity implements View.OnC
 
         Glide.with(App.getContext())
                 .load(PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(goodsBean.getGd_img_s()))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(gdDetailImage);
 
         tvGdName.setText(String.format(gdNameValue, goodsBean.getGd_short_name()));
@@ -129,18 +129,7 @@ public class ProductDetailActivity extends BaseTimerActivity implements View.OnC
 
     }
 
-    @Override
-    protected void backHome() {
-        if(findViewById(R.id.btn_back_home)!=null){
-            findViewById(R.id.btn_back_home).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                    startActivity(new Intent(ProductDetailActivity.this, ProductActivity.class));
-                }
-            });
-        }
-    }
+
 
 
     private void startPay(SlTypeEnum slTypeEnum) {

@@ -112,7 +112,7 @@ public class SerialMachineHelper {
     }
 
 
-    private void getSerial() {
+    public void getSerial() {
 
         String[] driverPaths = finder.getAllDevicesPath();
 

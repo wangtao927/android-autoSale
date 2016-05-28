@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.facebook.stetho.Stetho;
 import com.ys.SerialPortFinder;
@@ -11,12 +12,14 @@ import com.ys.data.dao.DaoMaster;
 import com.ys.data.dao.DaoSession;
 import com.ys.ui.R;
 import com.ys.ui.common.manager.DbManagerHelper;
+import com.ys.ui.serial.pos.PosSerialHelper;
 import com.ys.ui.service.MyService;
 import com.ys.ui.service.TimerService;
 import com.ys.ui.utils.ToastUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 
 import android_serialport_api.SerialPort;
@@ -33,12 +36,9 @@ public class App extends Application {
     public SerialPortFinder mSerialPortFinder = new SerialPortFinder();
     private SerialPort mSerialPort = null;
     private SerialPort mPrintSerialPort = null;
-//    private int baudrate  = 19200;
-////    //private int port = 0;
-//    private String path = "/dev/ttyES1";
 
     private int minipos_baudrate = 9600;
-    private String minipos_path = "";
+    private String minipos_path = "/dev/ttyES0";
 
     private int print_baudrate = 38400;
     private String print_path = "/dev/ttyS2";
@@ -68,6 +68,9 @@ public class App extends Application {
 
         Intent intent = new Intent(this, TimerService.class);
         startService(intent);
+
+
+       PosSerialHelper.getInstance().setPath();
 
     }
 

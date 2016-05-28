@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="1dp">
+        android:layout_gravity="center_horizontal" >
 
         <ImageView
             android:id="@+id/iv_login"
@@ -58,8 +57,7 @@
             android:gravity="center"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
-            android:text="手机号"
-            android:textColor="@color/white" />
+            android:text="手机号" />
 
         <EditText
             android:id="@+id/txt_username"
@@ -89,8 +87,7 @@
             android:gravity="center"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
-            android:text="密  码"
-            android:textColor="@color/white" />
+            android:text="密  码" />
 
         <EditText
             android:id="@+id/txt_password"

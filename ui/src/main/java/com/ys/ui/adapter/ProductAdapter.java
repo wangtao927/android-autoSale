@@ -88,7 +88,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
         Glide.with(context)
                 .load(url)
                 .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(holder.productIcon);
 
     }
@@ -109,8 +109,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
         @Bind(R.id.no)
         TextView no;
 
-        @Bind(R.id.wuhuo)
-        TextView wuhuo;
+//        @Bind(R.id.wuhuo)
+//        TextView wuhuo;
 
         @Bind(R.id.tv_price)
         TextView tvPrice;

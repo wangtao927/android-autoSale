@@ -16,7 +16,7 @@ import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
 import com.ys.ui.common.manager.DbManagerHelper;
-import com.ys.ui.utils.ToastUtils;
+
 
 
 import java.util.List;
@@ -101,7 +101,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                     Glide.with(HomeActivity.this)
                             .load(list.get(adIndex).getFileUrl())
                             .centerCrop().placeholder(R.mipmap.ad1)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                             .into(ad);
 
                     adIndex++;
@@ -139,7 +139,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.btn_about:
                 finish();
-                startActivity(new Intent(HomeActivity.this, AdminActivity.class));
+                startActivity(new Intent(HomeActivity.this, MainActivity.class));
                 break;
             case R.id.ad:
 

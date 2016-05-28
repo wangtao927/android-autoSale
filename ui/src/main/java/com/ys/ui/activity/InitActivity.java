@@ -68,8 +68,6 @@ public class InitActivity extends Activity {
 		mSc = new ServiceConnection(){
 			@Override
 			public void onServiceConnected(ComponentName name, IBinder service) {
-				Log.d(TAG, "service connected");
-				Log.d("","startDownLoad() --> onbind");
 				myBinder = (MyService.MyBinder) service;
 				//回调
 				myBinder.setILfListener(mILfMsgHandler);

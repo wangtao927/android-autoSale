@@ -11,6 +11,7 @@ import android.view.WindowManager;
 
 import com.ys.ui.R;
 import com.ys.ui.activity.HomeActivity;
+import com.ys.ui.activity.ProductActivity;
 import com.ys.ui.utils.PropertyUtils;
 
 import java.math.BigDecimal;
@@ -48,7 +49,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     finish();
-                    startActivity(new Intent(mContext, HomeActivity.class));
+                    startActivity(new Intent(mContext, ProductActivity.class));
                 }
             });
         }
