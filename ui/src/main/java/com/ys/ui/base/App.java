@@ -70,7 +70,7 @@ public class App extends Application {
         startService(intent);
 
 
-       PosSerialHelper.getInstance().setPath();
+       //PosSerialHelper.getInstance().setPath();
 
     }
 
