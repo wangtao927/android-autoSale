@@ -2,30 +2,25 @@ package com.ys.ui.base;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.widget.Toast;
 
-import com.facebook.stetho.Stetho;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import com.ys.SerialPortFinder;
 import com.ys.data.dao.DaoMaster;
 import com.ys.data.dao.DaoSession;
-import com.ys.ui.R;
 import com.ys.ui.common.manager.DbManagerHelper;
-import com.ys.ui.serial.pos.PosSerialHelper;
-import com.ys.ui.service.MyService;
-import com.ys.ui.service.TimerService;
 import com.ys.ui.utils.ToastUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.security.InvalidParameterException;
 
 import android_serialport_api.SerialPort;
 
 
 public class App extends Application {
+    private RefWatcher refWatcher;
 
     public static Context ctx;
 
@@ -52,26 +47,29 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        ctx = this;
-        Stetho.initialize(
-                Stetho.newInitializerBuilder(this)
-                        .enableDumpapp(
-                                Stetho.defaultDumperPluginsProvider(this))
-                        .enableWebKitInspector(
-                                Stetho.defaultInspectorModulesProvider(this))
-                        .build());
-        //
-        new CrashHandler().init(this);
+        ctx = getApplicationContext();
+        refWatcher = LeakCanary.install(this);
+//        Stetho.initialize(
+//                Stetho.newInitializerBuilder(this)
+//                        .enableDumpapp(
+//                                Stetho.defaultDumperPluginsProvider(this))
+//                        .enableWebKitInspector(
+//                                Stetho.defaultInspectorModulesProvider(this))
+//                        .build());
+        //new CrashHandler().init(this);
         // 初始化串口的端口
 
         mcNo = DbManagerHelper.getMcNo();
+//
+//        Intent intent = new Intent(this, TimerService.class);
+//        startService(intent);
 
-        Intent intent = new Intent(this, TimerService.class);
-        startService(intent);
+        //PosSerialHelper.getInstance().setPath();
+    }
 
-
-       //PosSerialHelper.getInstance().setPath();
-
+    public static RefWatcher getRefWatcher(Context context) {
+        App application = (App) context.getApplicationContext();
+        return application.refWatcher;
     }
 
     // 获取ApplicationContext
@@ -82,13 +80,13 @@ public class App extends Application {
     public SerialPort getSerialPort(String path, int baudrate) throws SecurityException, IOException, InvalidParameterException {
 
         if (mSerialPort == null) {
-			/* Read serial port parameters */
+            /* Read serial port parameters */
             SharedPreferences sp = getSharedPreferences("android_serialport_api.sample_preferences", MODE_PRIVATE);
             //String path = sp.getString("DEVICE", "");
             //int baudrate = Integer.decode(sp.getString("BAUDRATE", "-1"));
 
 			/* Check parameters */
-            if ( (path.length() == 0) || (baudrate == -1)) {
+            if ((path.length() == 0) || (baudrate == -1)) {
                 throw new InvalidParameterException();
             }
 
@@ -101,15 +99,15 @@ public class App extends Application {
 
     public SerialPort getSerialPort() throws SecurityException, IOException, InvalidParameterException {
         if (mSerialPort == null) {
-			/* Read serial port parameters */
+            /* Read serial port parameters */
             SharedPreferences sp = getSharedPreferences("saleSerial", MODE_PRIVATE);
             String path = sp.getString("sale_path", sale_path);
             int baudrate = Integer.decode(sp.getString("sale_baudrate", String.valueOf(sale_baudrate)));
 
 			/* Check parameters */
-            if ( (path.length() == 0) || (baudrate == -1)) {
+            if ((path.length() == 0) || (baudrate == -1)) {
                 ToastUtils.showError("baudarete is error ：" + baudrate, this.getApplicationContext());
-               // throw new InvalidParameterException();
+                // throw new InvalidParameterException();
             }
 
 			/* Open the serial port */
@@ -117,23 +115,24 @@ public class App extends Application {
         }
         return mSerialPort;
     }
+
     public SerialPort getPrintSerial() throws SecurityException, IOException, InvalidParameterException {
         if (mPrintSerialPort == null) {
-			/* Read serial port parameters */
+            /* Read serial port parameters */
             SharedPreferences sp = getSharedPreferences("printSerial", MODE_PRIVATE);
             String path = sp.getString("print_path", print_path);
             int baudrate = Integer.decode(sp.getString("print_baudrate", String.valueOf(print_baudrate)));
 
 			/* Check parameters */
-            if ( (path.length() == 0) || (baudrate == -1)) {
+            if ((path.length() == 0) || (baudrate == -1)) {
                 ToastUtils.showError("baudarete is error ：" + baudrate, this.getApplicationContext());
-               // throw new InvalidParameterException();
+                // throw new InvalidParameterException();
             }
 
 			/* Open the serial port */
             mPrintSerialPort = new SerialPort(new File(path), baudrate, 0);
         }
-         return mPrintSerialPort;
+        return mPrintSerialPort;
     }
 
     public void closeSerialPort() {
@@ -146,14 +145,14 @@ public class App extends Application {
     public void closePrintSerialPort() {
         if (mPrintSerialPort != null) {
             mPrintSerialPort.close();
-            mPrintSerialPort= null;
+            mPrintSerialPort = null;
         }
     }
 
 
     public static DaoMaster getDaoMaster(Context context) {
         if (daoMaster == null) {
-            DaoMaster.OpenHelper helper = new DaoMaster.DevOpenHelper(context,Constants.DB_NAME, null);
+            DaoMaster.OpenHelper helper = new DaoMaster.DevOpenHelper(context, Constants.DB_NAME, null);
             daoMaster = new DaoMaster(helper.getWritableDatabase());
         }
         return daoMaster;

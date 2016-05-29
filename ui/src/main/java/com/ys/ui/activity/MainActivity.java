@@ -5,13 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.ys.data.dao.DaoSession;
 import com.ys.ui.R;
-import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
-import com.ys.ui.sample.SelectGoodsActivity;
-import com.ys.ui.service.TimerService;
-import com.ys.ui.utils.ToastUtils;
 
 import butterknife.Bind;
 
@@ -63,25 +58,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             // 弹出层，输入终端号，初始化机器
             startActivity(new Intent(this, TermInitActivity.class));
             return;
-        } else {
-            // 启动service
-            Intent intent = new Intent(this, TimerService.class);
-            startService(intent);
         }
 
     }
-    private boolean isInit() {
-        DaoSession session = App.getDaoSession(App.getContext());
-       if(App.mcNo == null){
-            return false;
-        } else {
-            // 展示 终端号
-            ToastUtils.showShortMessage(App.mcNo);
-        }
-        return true;
-    }
+
     @Override
     public void onClick(View view) {
+
         switch (view.getId()) {
             case R.id.btn_get_drug:
                 finish();
@@ -90,10 +73,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.btn_query:
                 finish();
                 startActivity(new Intent(MainActivity.this, OutGoodsActivity.class));
-
                 break;
             case R.id.btn_buy:
                 finish();
+
                 startActivity(new Intent(MainActivity.this, ProductActivity.class));
                 break;
             case R.id.btn_sample:

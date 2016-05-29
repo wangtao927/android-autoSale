@@ -16,10 +16,6 @@
 
 package com.ys.ui.sample;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,198 +24,183 @@ import android.widget.EditText;
 import com.ys.BytesUtil;
 import com.ys.GetBytesUtils;
 import com.ys.ui.R;
-import com.ys.ui.base.App;
 import com.ys.ui.serial.salemachine.SerialMachineActivity;
 import com.ys.ui.utils.ToastUtils;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * 出货
  */
 public class SelectGoodsActivity extends SerialMachineActivity {
 
-	SendingThread mSendingThread;
-	byte[] mBuffer;
+    SendingThread mSendingThread;
+    byte[] mBuffer;
 
-	private Button btnSelect;
-	private Button btnOut;
+    private Button btnSelect;
+    private Button btnOut;
 
-	private EditText backNo;
+    private EditText backNo;
 
-	private EditText dataSend;
-	private EditText dataRecive;
-
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+    private EditText dataSend;
+    private EditText dataRecive;
 
 
-		try {
-			super.onCreate(savedInstanceState);
+    @Override
+    protected int getLayoutId() {
+        return R.layout.select_goods;
+    }
 
- 			setContentView(R.layout.select_goods);
-
-			backNo = (EditText)findViewById(R.id.editText);
-			btnSelect = (Button)findViewById(R.id.btn_select);
-			btnOut = (Button)findViewById(R.id.btn_out);
-			dataRecive = (EditText)findViewById(R.id.text_recive);
-			dataSend = (EditText)findViewById(R.id.text_send);
-			btnSelect.setOnClickListener(listener3);
-			btnOut.setOnClickListener(listener4);
-
-
-		} catch (Exception e) {
-			 ToastUtils.showError(e.getMessage(), this);
-			return;
-		}
-
-	}
+    @Override
+    protected void create(Bundle savedInstanceState) {
+        backNo = (EditText) findViewById(R.id.editText);
+        btnSelect = (Button) findViewById(R.id.btn_select);
+        btnOut = (Button) findViewById(R.id.btn_out);
+        dataRecive = (EditText) findViewById(R.id.text_recive);
+        dataSend = (EditText) findViewById(R.id.text_send);
+        btnSelect.setOnClickListener(listener3);
+        btnOut.setOnClickListener(listener4);
+    }
 
 
 //
 
-	protected void onDataReceived(final byte[] buff )  {
+    protected void onDataReceived(final byte[] buff) {
 
 
-		runOnUiThread(new Runnable() {
-			public void run() {
-				// 是正确的返回结果
-				dataRecive.append("[rev-HEX]:" + BytesUtil.bytesToHexString(buff) +"\n");
+        runOnUiThread(new Runnable() {
+            public void run() {
+                // 是正确的返回结果
+                dataRecive.append("[rev-HEX]:" + BytesUtil.bytesToHexString(buff) + "\n");
 
-				switch (buff[1]) {
+                switch (buff[1]) {
 
-					case 0x0E: // ------------------------------------------------------------------------------- 提货
-						if (buff[2] == 0xF2) buff[2] = 0x02;
-						if (buff[2] == 0xF3) buff[2] = 0x03;
-						switch (buff[3]) {
-							case 0x00:
-								//queue.add(new RobotEventArg(2, 2, Integer.valueOf(buff[2]).toString()));
-								break; // 提取中
-							case 0x55:
-								//queue.add(new RobotEventArg(2, 3, Integer.valueOf(buff[2]).toString()));
-								// 选货结束  发送出货命令
+                    case 0x0E: // ------------------------------------------------------------------------------- 提货
+                        if (buff[2] == 0xF2) buff[2] = 0x02;
+                        if (buff[2] == 0xF3) buff[2] = 0x03;
+                        switch (buff[3]) {
+                            case 0x00:
+                                //queue.add(new RobotEventArg(2, 2, Integer.valueOf(buff[2]).toString()));
+                                break; // 提取中
+                            case 0x55:
+                                //queue.add(new RobotEventArg(2, 3, Integer.valueOf(buff[2]).toString()));
+                                // 选货结束  发送出货命令
 
-								mBuffer = GetBytesUtils.goodsOuter();
+                                mBuffer = GetBytesUtils.goodsOuter();
 
-								if (mSendingThread != null) {
-									mSendingThread.interrupt();
-								}
-								mSendingThread = new SendingThread();
-								mSendingThread.start();
+                                if (mSendingThread != null) {
+                                    mSendingThread.interrupt();
+                                }
+                                mSendingThread = new SendingThread();
+                                mSendingThread.start();
 //								startTimer();
-								break; // 提取完毕
-							case (byte) 0xFF:
+                                break; // 提取完毕
+                            case (byte) 0xFF:
 
 
- 								//queue.add(new RobotEventArg(2, 4, Integer.valueOf(buff[2]).toString()));
-								break; // 提取失败
-							case (byte) 0xEE:
- 								//queue.add(new RobotEventArg(2, 4, "提取错误"));
-								break; // 提取错误
-						}
-						break;
-					case 0x08: // 商品出货
-						switch (buff[2]) {
-							case 0x00:
-								// 出货中    等待
-								// queue.add(new RobotEventArg(2, 5, "排放中"));
-								break;
-							case 0x55:
-								// 出货完成    结束出货流程
-								//queue.add(new RobotEventArg(2, 6, "排放完毕"));
-								// 出货成功  结束
-  								ToastUtils.showShortMessage("交易成功");
+                                //queue.add(new RobotEventArg(2, 4, Integer.valueOf(buff[2]).toString()));
+                                break; // 提取失败
+                            case (byte) 0xEE:
+                                //queue.add(new RobotEventArg(2, 4, "提取错误"));
+                                break; // 提取错误
+                        }
+                        break;
+                    case 0x08: // 商品出货
+                        switch (buff[2]) {
+                            case 0x00:
+                                // 出货中    等待
+                                // queue.add(new RobotEventArg(2, 5, "排放中"));
+                                break;
+                            case 0x55:
+                                // 出货完成    结束出货流程
+                                //queue.add(new RobotEventArg(2, 6, "排放完毕"));
+                                // 出货成功  结束
+                                ToastUtils.showShortMessage("交易成功");
 
-								//mSendingThread.interrupt();
-								break;
-							case (byte) 0xFF:
-								// 出货失败，结束出货流程
-								// 出货失败：
- 								// queue.add(new RobotEventArg(2, 7, "排放失败"));
-								break;
-							case (byte) 0xEE:
-								// 出货错误
+                                //mSendingThread.interrupt();
+                                break;
+                            case (byte) 0xFF:
+                                // 出货失败，结束出货流程
+                                // 出货失败：
+                                // queue.add(new RobotEventArg(2, 7, "排放失败"));
+                                break;
+                            case (byte) 0xEE:
+                                // 出货错误
 
-								// queue.add(new RobotEventArg(2, 7, "排放错误"));
-								break;
-							default:
-								break;
-						}
-						break;
-
-
-				}
-			}
+                                // queue.add(new RobotEventArg(2, 7, "排放错误"));
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
 
 
-		});
-	}
+                }
+            }
 
 
-      View.OnClickListener listener3 = new View.OnClickListener() {
-		public void onClick(View v) {
+        });
+    }
 
-			CharSequence charSequence =  backNo.getText();
-			byte no = Integer.valueOf(charSequence.toString(), 16).byteValue();
+
+    View.OnClickListener listener3 = new View.OnClickListener() {
+        public void onClick(View v) {
+
+            CharSequence charSequence = backNo.getText();
+            byte no = Integer.valueOf(charSequence.toString(), 16).byteValue();
 
             mBuffer = null;
 
-			mBuffer = GetBytesUtils.goodsSelect(no);
-			dataSend.append("send[HEX]:");
-			for (byte b : mBuffer) {
-				dataSend.append(BytesUtil.byteToHexString(b));
-			}
-			dataSend.append("\n");
-			if (mSerialPort != null) {
-				mSendingThread = new SendingThread();
-				mSendingThread.start();
-			}
-			//startTimer();
+            mBuffer = GetBytesUtils.goodsSelect(no);
+            dataSend.append("send[HEX]:");
+            for (byte b : mBuffer) {
+                dataSend.append(BytesUtil.byteToHexString(b));
+            }
+            dataSend.append("\n");
+            if (mSerialPort != null) {
+                mSendingThread = new SendingThread();
+                mSendingThread.start();
+            }
+            //startTimer();
 
-		}
-	};
-	View.OnClickListener listener4 = new View.OnClickListener() {
-		public void onClick(View v) {
+        }
+    };
+    View.OnClickListener listener4 = new View.OnClickListener() {
+        public void onClick(View v) {
 
-			mBuffer = null;
-			mBuffer = GetBytesUtils.goodsOuter();
-			String str = BytesUtil.bytesToHexString(mBuffer);
-			dataSend.append("send[HEX]:");
-			if (str != null) {
-				dataSend.append(str);
-			}
-			dataSend.append("\n");
+            mBuffer = null;
+            mBuffer = GetBytesUtils.goodsOuter();
+            String str = BytesUtil.bytesToHexString(mBuffer);
+            dataSend.append("send[HEX]:");
+            if (str != null) {
+                dataSend.append(str);
+            }
+            dataSend.append("\n");
 
-			if (mSerialPort != null) {
-				mSendingThread = new SendingThread();
-				mSendingThread.start();
-			}
-			//startTimer();
+            if (mSerialPort != null) {
+                mSendingThread = new SendingThread();
+                mSendingThread.start();
+            }
+            //startTimer();
 
-		}
-	};
+        }
+    };
 
-	private class SendingThread extends Thread {
-		@Override
-		public void run() {
-				try {
-					if (mOutputStream != null) {
-						mOutputStream.write(mBuffer, 0, mBuffer.length);
-					} else {
-						return;
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-					return;
-				}
-		}
-	}
+    private class SendingThread extends Thread {
+        @Override
+        public void run() {
+            try {
+                if (mOutputStream != null) {
+                    mOutputStream.write(mBuffer, 0, mBuffer.length);
+                } else {
+                    return;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+        }
+    }
 //
 //	private void startTimer() {
 ////
@@ -267,20 +248,20 @@ public class SelectGoodsActivity extends SerialMachineActivity {
 //		}
 //	}
 
-	private boolean equals(byte[] list1, byte[] list2) {
+    private boolean equals(byte[] list1, byte[] list2) {
 
-		int size = list1.length;
-		int size2 = list2.length;
-		if (size != size2) {
-			return false;
-		}
-		for (int i = 0; i< size ; i++) {
-			if (list1[i] != list2[i]) {
-				return false;
-			}
-		}
-		return true;
-	}
+        int size = list1.length;
+        int size2 = list2.length;
+        if (size != size2) {
+            return false;
+        }
+        for (int i = 0; i < size; i++) {
+            if (list1[i] != list2[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 
 }

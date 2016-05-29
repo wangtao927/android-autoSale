@@ -39,50 +39,22 @@ public abstract class BaseTimerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //resetTimeOut();
-    }
 
     @Override
     protected void onStop() {
-        // 停止计时器
         super.onStop();
         stopTimer();
-
-
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        stopTimer();
-    }
+
     @Override
     protected void onResume() {
         initTimer();
         super.onResume();
     }
 
-//
-//    public void close(View v) {
-//        finish();
-//    }
-
-    protected void resetTimeOut() {
-        int timeout = PropertyUtils.getInstance().getTransTimeout();
-        minute = timeout / 60;
-        second = timeout % 60;
-
-    }
 
     private void stopTimer() {
-        if (handler != null) {
-            handler.removeCallbacksAndMessages(null);
-            //handler = null;
-        }
-
         if (timerTask != null) {
             timerTask.cancel();
             timerTask = null;
@@ -92,13 +64,15 @@ public abstract class BaseTimerActivity extends BaseActivity {
             timer.cancel();
             timer = null;
         }
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+        }
     }
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
         stopTimer();
     }
 
@@ -146,7 +120,7 @@ public abstract class BaseTimerActivity extends BaseActivity {
     };
 
     String getTime() {
-        Log.d("miniute:second", minute+":"+ second);
+        Log.d("miniute:second", minute + ":" + second);
         if (minute == 0) {
             if (second == 0) {
                 return "";
@@ -187,11 +161,6 @@ public abstract class BaseTimerActivity extends BaseActivity {
         }
 
     }
-
-    protected void getIntent(Bundle savedInstanceState) {
-    }
-
-    ;
 
     protected abstract int getLayoutId();
 

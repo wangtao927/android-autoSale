@@ -16,23 +16,15 @@ public class InitMachineSerialActivity extends SerialMachineActivity {
     SendingThread mSendingThread;
     byte[] mBuffer;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected int getLayoutId() {
+        return R.layout.select_goods;
+    }
 
+    @Override
+    protected void create(Bundle savedInstanceState) {
 
-        // 初始化 售货机串口
-
-        try {
-            super.onCreate(savedInstanceState);
-
-            setContentView(R.layout.select_goods);
-
-
-        } catch (Exception e) {
-            ToastUtils.showError(e.getMessage(), this);
-            return;
-        }
-        //  打开串口
     }
 
     @Override

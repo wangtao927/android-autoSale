@@ -100,7 +100,6 @@ public class SelectPayActivity extends BaseTimerActivity implements View.OnClick
         return bitmap;
     }
 
-    @Override
     protected void getIntent(Bundle savedInstanceState) {
         //调用接口获取地址
         Bundle datas = getIntent().getExtras();

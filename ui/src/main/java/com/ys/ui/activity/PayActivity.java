@@ -43,6 +43,7 @@ import com.ys.ui.service.MyService;
 import com.ys.ui.utils.ImageUtils;
 import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.ToastUtils;
+import com.ys.ui.utils.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -138,7 +139,6 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
         return bitmap;
     }
 
-    @Override
     protected void getIntent(Bundle savedInstanceState) {
         //调用接口获取地址
         Bundle datas = getIntent().getExtras();
@@ -396,6 +396,9 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+        if (Utils.isFastClick()) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.btn_dir_buy:
 
