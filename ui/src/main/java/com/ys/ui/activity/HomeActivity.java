@@ -139,7 +139,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.btn_about:
                 finish();
-                startActivity(new Intent(HomeActivity.this, MainActivity.class));
+                startActivity(new Intent(HomeActivity.this, AdminActivity.class));
                 break;
             case R.id.ad:
 

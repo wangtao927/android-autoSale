@@ -8,7 +8,9 @@ import android.support.v4.widget.ContentLoadingProgressBar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,8 +60,12 @@ public class OutGoodsActivity extends SerialMachineActivity {
     byte[] mBuffer;
 
     TextView transStatus;
-     ContentLoadingProgressBar mPbLoading;
+    ContentLoadingProgressBar mPbLoading;
+    Button btnJxBuy;
+    ImageView ivPayStatus;
 
+
+    ImageButton btn_back_home;
     private String channo = "";
     private String slNo = "";
 
@@ -69,8 +75,27 @@ public class OutGoodsActivity extends SerialMachineActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.out_goods_main);
        tvTimer =(TextView) findViewById(R.id.tv_timer);
-         transStatus = (TextView) findViewById(R.id.transStatus);
+        transStatus = (TextView) findViewById(R.id.transStatus);
+        btnJxBuy = (Button)findViewById(R.id.btn_jx_buy);
+        ivPayStatus = (ImageView)findViewById(R.id.iv_pay_status);
+        btn_back_home = (ImageButton)findViewById(R.id.btn_back_home);
+        btn_back_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                finish();
+                startActivity(new Intent(OutGoodsActivity.this, HomeActivity.class));
+            }
+        });
+        btnJxBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                finish();
+                startActivity(new Intent(OutGoodsActivity.this, ProductActivity.class));
+
+            }
+        });
        // mPbLoading = (ContentLoadingProgressBar)findViewById(R.id.pb_loading);
         //initTimer();
 
@@ -205,9 +230,13 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
     private void selectGoodsFaild() {
         //  锁定货道
+
+        ivPayStatus.setImageResource(R.mipmap.face_2);
         transStatus.setText("出货失败 \n" +
                 "如果您已支付成功， 将与24小时内退款到您的账户中，\n" +
                 "      如有疑问， 请联系客服 400-060-0289");
+        btnJxBuy.setVisibility(View.VISIBLE);
+
         try {
             App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChanStatusByChanno(channo, Long.valueOf(ChanStatusEnum.ERROR.getIndex()));
             DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
@@ -218,8 +247,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
         try {
             refund(slNo);
-            ToastUtils.showShortMessage("退款请求已发送：订单号："+ slNo);
-        } catch (Exception e) {
+         } catch (Exception e) {
             ToastUtils.showShortMessage( "slNo=" +slNo + " 退款异常:" + e);
 
         }
@@ -237,8 +265,10 @@ public class OutGoodsActivity extends SerialMachineActivity {
             // 打印凭条
             printPayNote(slNo);
             //hideProgress();
-            transStatus.setText("出货完成");
-            ToastUtils.showShortMessage("交易成功, 欢迎下次光临");
+            transStatus.setText("交易成功, 欢迎下次光临");
+           // ToastUtils.showShortMessage("交易成功, 欢迎下次光临");
+            btnJxBuy.setVisibility(View.VISIBLE);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -273,9 +303,13 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
     private void outGoodsFail() {
         // 出货失败， 考虑退款
+
+        ivPayStatus.setImageResource(R.mipmap.face_2);
+
         transStatus.setText("出货失败 \n" +
                 "如果您已支付成功， 将与24小时内退款到您的账户中，\n" +
                 "      如有疑问， 请联系客服 400-060-0289");
+        btnJxBuy.setVisibility(View.VISIBLE);
         try {
             DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
             //hideProgress();
