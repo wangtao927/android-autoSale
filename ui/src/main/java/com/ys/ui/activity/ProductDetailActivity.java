@@ -122,15 +122,6 @@ public class ProductDetailActivity extends BaseTimerActivity implements View.OnC
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ButterKnife.unbind(this);
-
-    }
-
-
-
 
     private void startPay(SlTypeEnum slTypeEnum) {
 

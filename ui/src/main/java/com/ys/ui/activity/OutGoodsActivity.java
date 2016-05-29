@@ -8,9 +8,7 @@ import android.support.v4.widget.ContentLoadingProgressBar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,62 +59,13 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
     TextView transStatus;
     ContentLoadingProgressBar mPbLoading;
-    Button btnJxBuy;
-    ImageView ivPayStatus;
 
-
-    ImageButton btn_back_home;
     private String channo = "";
     private String slNo = "";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.out_goods_main);
-       tvTimer =(TextView) findViewById(R.id.tv_timer);
-        transStatus = (TextView) findViewById(R.id.transStatus);
-        btnJxBuy = (Button)findViewById(R.id.btn_jx_buy);
-        ivPayStatus = (ImageView)findViewById(R.id.iv_pay_status);
-        btn_back_home = (ImageButton)findViewById(R.id.btn_back_home);
-        btn_back_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-                startActivity(new Intent(OutGoodsActivity.this, HomeActivity.class));
-            }
-        });
-        btnJxBuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-                startActivity(new Intent(OutGoodsActivity.this, ProductActivity.class));
-
-            }
-        });
-       // mPbLoading = (ContentLoadingProgressBar)findViewById(R.id.pb_loading);
-        //initTimer();
-
-        Bundle datas = getIntent().getExtras();
-        slNo = datas.getString("slNo");
-        channo = datas.getString("channo");
-        byte no = Integer.valueOf(channo, 16).byteValue();
-
-        mBuffer = null;
-
-        // 发送选货请求
-        mBuffer = GetBytesUtils.goodsSelect(no);
-
-        mSendingThread = new SendingThread();
-        mSendingThread.start();
-
-        initTimer();
-    }
 
     @Override
-    protected void onDataReceived(final byte[] buff )  {
+    protected void onDataReceived(final byte[] buff) {
 
         runOnUiThread(new Runnable() {
             public void run() {
@@ -194,10 +143,11 @@ public class OutGoodsActivity extends SerialMachineActivity {
     Timer timer;
     TimerTask timerTask;
     TextView tvTimer;
+
     private void initTimer() {
         int timeout = PropertyUtils.getInstance().getTransTimeout();
-        minute = timeout/60;
-        second = timeout%60;
+        minute = timeout / 60;
+        second = timeout % 60;
 
         tvTimer.setText(getTime());
 
@@ -214,6 +164,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
         timer = new Timer();
         timer.schedule(timerTask, 0, 1000);
     }
+
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
 
@@ -230,25 +181,22 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
     private void selectGoodsFaild() {
         //  锁定货道
-
-        ivPayStatus.setImageResource(R.mipmap.face_2);
         transStatus.setText("出货失败 \n" +
                 "如果您已支付成功， 将与24小时内退款到您的账户中，\n" +
                 "      如有疑问， 请联系客服 400-060-0289");
-        btnJxBuy.setVisibility(View.VISIBLE);
-
         try {
             App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChanStatusByChanno(channo, Long.valueOf(ChanStatusEnum.ERROR.getIndex()));
             DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
 
         } catch (Exception e) {
-            ToastUtils.showShortMessage("选货失败，参数：channo="+ channo+ "slNo=" +slNo );
+            ToastUtils.showShortMessage("选货失败，参数：channo=" + channo + "slNo=" + slNo);
         }
 
         try {
             refund(slNo);
-         } catch (Exception e) {
-            ToastUtils.showShortMessage( "slNo=" +slNo + " 退款异常:" + e);
+            ToastUtils.showShortMessage("退款请求已发送：订单号：" + slNo);
+        } catch (Exception e) {
+            ToastUtils.showShortMessage("slNo=" + slNo + " 退款异常:" + e);
 
         }
     }
@@ -265,16 +213,13 @@ public class OutGoodsActivity extends SerialMachineActivity {
             // 打印凭条
             printPayNote(slNo);
             //hideProgress();
-            transStatus.setText("交易成功, 欢迎下次光临");
-           // ToastUtils.showShortMessage("交易成功, 欢迎下次光临");
-            btnJxBuy.setVisibility(View.VISIBLE);
-
+            transStatus.setText("出货完成");
+            ToastUtils.showShortMessage("交易成功, 欢迎下次光临");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         //finish();
-
 
 
         // 出货成功， 显示继续购买
@@ -288,28 +233,17 @@ public class OutGoodsActivity extends SerialMachineActivity {
         if (bean.getSl_vip_price() != null) {
             vipPrice = bean.getSl_vip_price();
         }
-        GoodsBean goodsBean =DbManagerHelper.getGoodsInfo(bean.getSl_gd_no());
+        GoodsBean goodsBean = DbManagerHelper.getGoodsInfo(bean.getSl_gd_no());
         PrintHelper.getInstance().gdPrint(slNo, App.mcNo, bean.getSl_gd_name(),
                 goodsBean.getGd_desc(), getPrice(bean.getSl_pre_price()),
                 getPrice(vipPrice), getPrice(bean.getSl_amt()));
     }
-    String getPrice(Long price) {
-
-        if (price == null) {
-            return "0";
-        }
-        return new BigDecimal(price).divide(new BigDecimal(100)).setScale(2).toString();
-    }
 
     private void outGoodsFail() {
         // 出货失败， 考虑退款
-
-        ivPayStatus.setImageResource(R.mipmap.face_2);
-
         transStatus.setText("出货失败 \n" +
                 "如果您已支付成功， 将与24小时内退款到您的账户中，\n" +
                 "      如有疑问， 请联系客服 400-060-0289");
-        btnJxBuy.setVisibility(View.VISIBLE);
         try {
             DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
             //hideProgress();
@@ -317,7 +251,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
             refund(slNo);
 
         } catch (Exception e) {
-             ToastUtils.showShortMessage("出货失败");
+            ToastUtils.showShortMessage("出货失败");
         }
 
     }
@@ -330,15 +264,15 @@ public class OutGoodsActivity extends SerialMachineActivity {
                     timerTask.cancel();
                 }
                 return "";
-            }else {
+            } else {
                 second--;
                 if (second >= 10) {
-                    return "0"+minute + ":" + second;
-                }else {
-                    return "0"+minute + ":0" + second;
+                    return "0" + minute + ":" + second;
+                } else {
+                    return "0" + minute + ":0" + second;
                 }
             }
-        }else {
+        } else {
             if (second == 0) {
 
                 second = 59;
@@ -367,12 +301,42 @@ public class OutGoodsActivity extends SerialMachineActivity {
         }
 
     }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.out_goods_main;
+    }
+
+    @Override
+    protected void create(Bundle savedInstanceState) {
+        tvTimer = (TextView) findViewById(R.id.tv_timer);
+        transStatus = (TextView) findViewById(R.id.transStatus);
+
+        // mPbLoading = (ContentLoadingProgressBar)findViewById(R.id.pb_loading);
+        //initTimer();
+
+        Bundle datas = getIntent().getExtras();
+        slNo = datas.getString("slNo");
+        channo = datas.getString("channo");
+        byte no = Integer.valueOf(channo, 16).byteValue();
+
+        mBuffer = null;
+
+        // 发送选货请求
+        mBuffer = GetBytesUtils.goodsSelect(no);
+
+        mSendingThread = new SendingThread();
+        mSendingThread.start();
+
+        initTimer();
+    }
+
     private void refund(final String slNo) {
         SaleListBean saleListBean = DbManagerHelper.getSaleRecord(slNo);
 
-        if (saleListBean.getSl_type().equals( String.valueOf(SlTypeEnum.ALIPAY.getIndex()))
-                || saleListBean.getSl_type().equals( String.valueOf(SlTypeEnum.WX.getIndex()))
-                || saleListBean.getSl_type().equals( String.valueOf(SlTypeEnum.CODE.getIndex()))) {
+        if (saleListBean.getSl_type().equals(String.valueOf(SlTypeEnum.ALIPAY.getIndex()))
+                || saleListBean.getSl_type().equals(String.valueOf(SlTypeEnum.WX.getIndex()))
+                || saleListBean.getSl_type().equals(String.valueOf(SlTypeEnum.CODE.getIndex()))) {
             // 退款
 
             RetrofitManager.builder().refund(slNo)
@@ -405,7 +369,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
                     }, new Action1<Throwable>() {
                         @Override
                         public void call(Throwable throwable) {
-                           // hideProgress();
+                            // hideProgress();
                             Toast.makeText(OutGoodsActivity.this, "退款失败，请联系工作人员", Toast.LENGTH_SHORT).show();
 
                         }
@@ -417,18 +381,19 @@ public class OutGoodsActivity extends SerialMachineActivity {
     private class SendingThread extends Thread {
         @Override
         public void run() {
-                try {
-                    if (mOutputStream != null) {
-                        mOutputStream.write(mBuffer, 0, mBuffer.length);
-                    } else {
-                        return;
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+            try {
+                if (mOutputStream != null) {
+                    mOutputStream.write(mBuffer, 0, mBuffer.length);
+                } else {
                     return;
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
         }
     }
+
     public void showProgress() {
         mPbLoading.setVisibility(View.VISIBLE);
     }
@@ -445,16 +410,16 @@ public class OutGoodsActivity extends SerialMachineActivity {
             mSendingThread.interrupt();
 
         }
-        if(handler!=null){
+        if (handler != null) {
             handler.removeCallbacksAndMessages(null);
         }
 
-        if(timerTask!=null){
+        if (timerTask != null) {
             timerTask.cancel();
         }
 
-        if(timer!=null){
+        if (timer != null) {
             timer.cancel();
         }
-     }
+    }
 }

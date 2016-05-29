@@ -17,12 +17,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".activity.HomeActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,86 +28,63 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.InitActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="portrait">
 
-            android:theme="@style/AppTheme.NoActionBar">
-            <!--<intent-filter>
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
         <activity
             android:name=".activity.GetProductActivity"
             android:label="@string/title_activity_get_product"
-            android:screenOrientation="portrait"
-
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.TermInitActivity"
             android:label="@string/term_init"
-            android:screenOrientation="portrait"
-
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AdminLoginActivity"
             android:label="@string/login"
-            android:screenOrientation="portrait"
-
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AdminActivity"
             android:label="@string/admin"
-            android:screenOrientation="portrait"
-
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.QRcodeActivity"
             android:label="二维码支付"
-            android:screenOrientation="portrait"
-
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ProductActivity"
             android:label="商品购买"
-            android:screenOrientation="portrait"
-
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ProductDetailActivity"
             android:label="商品详情"
-            android:screenOrientation="portrait"
-
-            android:theme="@style/AppTheme.NoActionBar" />
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.OutGoodsActivity"
             android:label="出货"
-            android:screenOrientation="portrait"
-
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.PayActivity"
             android:label="预支付"
-            android:screenOrientation="portrait"
-
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.QRcodePayActivity"
             android:label="支付"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MainActivity"
             android:label="首页"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-
+            android:screenOrientation="portrait" />
 
         <!-- <activity android:name="com.ys.ui.activity.MainActivity"></activity> -->
         <activity
@@ -118,23 +93,19 @@
         <activity
             android:name=".sample.MainMenu"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".serial.salemachine.SerialPortPreferences"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
-        <!--打印机测试-->
-        <!-- <activity android:name="com.ys.test.activity.SerialPortActivity"/>-->
+        <!-- 打印机测试 -->
+        <!-- <activity android:name="com.ys.test.activity.SerialPortActivity"/> -->
         <activity
             android:name=".serial.print.activity.MainMenu"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".service.MyService"
             android:screenOrientation="portrait" />
-
-
         <service
             android:name=".service.TimerService"
             android:screenOrientation="portrait" />
@@ -143,7 +114,9 @@
             android:name=".service.AlarmReceiver"
             android:screenOrientation="portrait" />
 
-
+        <activity
+            android:name=".activity.TestActivity"
+            android:label="@string/title_activity_test"></activity>
     </application>
 
 </manifest>

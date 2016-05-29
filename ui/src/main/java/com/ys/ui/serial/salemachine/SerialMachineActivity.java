@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.ys.ui.base.App;
+import com.ys.ui.base.BaseTimerActivity;
 import com.ys.ui.utils.ToastUtils;
 
 import java.io.InputStream;
@@ -32,7 +33,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import android_serialport_api.SerialPort;
 
-public abstract class SerialMachineActivity extends Activity {
+public abstract class SerialMachineActivity extends BaseTimerActivity {
 
 
 	protected App mApplication;

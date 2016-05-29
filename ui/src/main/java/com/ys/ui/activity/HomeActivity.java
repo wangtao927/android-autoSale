@@ -16,7 +16,9 @@ import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
 import com.ys.ui.common.manager.DbManagerHelper;
-
+import com.ys.ui.service.TimerService;
+import com.ys.ui.utils.RandomUtils;
+import com.ys.ui.utils.Utils;
 
 
 import java.util.List;
@@ -56,7 +58,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     public int adIndex;
 
     //int[] ads = {R.mipmap.ad1,R.mipmap.adv_1, R.mipmap.adv_2};
-    List<AdvBean> list;
+    List<AdvBean> adsList;
 
     @Override
     protected int getLayoutId() {
@@ -77,35 +79,55 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
             return;
         } else {
-            // 启动service
-//            Intent intent = new Intent(this, TimerService.class);
-//            startService(intent);
+            //启动service
+            Intent intent = new Intent(this, TimerService.class);
+            startService(intent);
         }
+    }
 
-        list = App.getDaoSession(App.getContext()).getAdvBeanDao().loadAll();
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adsList == null) {
+            adsList = App.getDaoSession(App.getContext()).getAdvBeanDao().loadAll();
+        }
         adsStart();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mhandler != null) {
+            mhandler.removeCallbacksAndMessages(null);
+        }
+    }
+
     private void adsStart() {
-        if (list == null || list.isEmpty()) {
-            ad.setImageResource(R.mipmap.ad1);
+        if (adsList == null || adsList.isEmpty()) {
+            Glide.with(HomeActivity.this)
+                    .load(R.mipmap.ad1)
+                    .placeholder(R.mipmap.ad1)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(ad);
         } else {
+            Glide.with(HomeActivity.this)
+                    .load(adsList.get(adIndex).getFileUrl())
+                    .placeholder(R.mipmap.ad1)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(ad);
+
             mhandler.postDelayed(new Runnable() {
 
                 @Override
                 public void run() {
-//                if (adIndex >= list.size()) {
-//                    adIndex = 0;
-//                }
                     Glide.with(HomeActivity.this)
-                            .load(list.get(adIndex).getFileUrl())
-                            .centerCrop().placeholder(R.mipmap.ad1)
-                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .load(adsList.get(adIndex).getFileUrl())
+                            .placeholder(R.mipmap.ad1)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(ad);
 
                     adIndex++;
-                    if (adIndex >= list.size()) {
+                    if (adIndex >= adsList.size()) {
                         adIndex = 0;
                     }
                     adsStart();
@@ -114,60 +136,49 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    private boolean isInit() {
-       // DaoSession session = App.getDaoSession(App.getContext());
-        if(App.mcNo == null){
-            return false;
-        } else {
-            // 展示 终端号
-            //ToastUtils.showShortMessage(App.mcNo);
-        }
-        return true;
-    }
-
 
     @Override
     public void onClick(View view) {
+        if (Utils.isFastClick()) {
+            return;
+        }
         switch (view.getId()) {
             case R.id.btn_get_drug:
-                finish();
-                startActivity(new Intent(HomeActivity.this, GetProductActivity.class));
+                Intent intent = new Intent(HomeActivity.this, GetProductActivity.class);
+                String adimgUrl = null;
+                //随机一张图片
+                if (!adsList.isEmpty()) {
+                    int randomIndex = RandomUtils.getRandom(0, adsList.size() - 1);
+                    adimgUrl = adsList.get(randomIndex).getFileUrl();
+                }
+
+                intent.putExtra("adimg", adimgUrl);
+                startActivity(intent);
                 break;
             case R.id.btn_buy:
-                finish();
                 startActivity(new Intent(HomeActivity.this, ProductActivity.class));
                 break;
             case R.id.btn_about:
-                finish();
-                startActivity(new Intent(HomeActivity.this, AdminActivity.class));
+                startActivity(new Intent(HomeActivity.this, MainActivity.class));
                 break;
             case R.id.ad:
 
-                    String gdNo = list.get(adIndex).getAi_gd_no();
-                    if (!TextUtils.isEmpty(gdNo)) {
-                        // 跳转到明细界面
-                        // 判断下 是否有该商品编号
-                        McGoodsBean bean = DbManagerHelper.getOutGoods(gdNo);
-                        if (bean != null) {
-                            Intent intent = new Intent(this, ProductDetailActivity.class);
-                            intent.putExtra("gdNo", gdNo);
-                            finish();
-                            startActivity(intent);
-                        }
+                String gdNo = adsList.get(adIndex).getAi_gd_no();
+                if (!TextUtils.isEmpty(gdNo)) {
+                    // 跳转到明细界面
+                    // 判断下 是否有该商品编号
+                    McGoodsBean bean = DbManagerHelper.getOutGoods(gdNo);
+                    if (bean != null) {
+                        Intent detailIntent = new Intent(this, ProductDetailActivity.class);
+                        detailIntent.putExtra("gdNo", gdNo);
+                        finish();
+                        startActivity(detailIntent);
                     }
+                }
                 break;
             default:
                 break;
 
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ButterKnife.unbind(this);
-        if (mhandler != null) {
-            mhandler.removeCallbacksAndMessages(null);
         }
     }
 
