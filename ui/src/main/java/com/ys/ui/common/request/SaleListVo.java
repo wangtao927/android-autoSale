@@ -26,6 +26,8 @@ public class SaleListVo implements Serializable {
     @SerializedName("sl_gd_no")
     private String slGdNo;
 
+    @SerializedName("sl_chann")
+    private String slChann;
     @SerializedName("sl_amt")
     private Long slAmt;
     @SerializedName("mc_no")
@@ -40,6 +42,14 @@ public class SaleListVo implements Serializable {
     private String slThCardno;
     @SerializedName("ec_pwd")
     private String slThPwd;
+
+    public String getSlChann() {
+        return slChann;
+    }
+
+    public void setSlChann(String slChann) {
+        this.slChann = slChann;
+    }
 
     public String getSlNo() {
         return slNo;
@@ -136,6 +146,7 @@ public class SaleListVo implements Serializable {
                 ", slType='" + slType + '\'' +
                 ", slGdName='" + slGdName + '\'' +
                 ", slGdNo='" + slGdNo + '\'' +
+                ", slChann='" + slChann + '\'' +
                 ", slAmt=" + slAmt +
                 ", mcNo='" + mcNo + '\'' +
                 ", slScore=" + slScore +

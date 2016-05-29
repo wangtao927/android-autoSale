@@ -1,5 +1,7 @@
 package com.ys.ui.utils;
 
+import com.ys.ui.base.App;
+
 import java.util.Calendar;
 
 /**
@@ -12,5 +14,9 @@ public class OrderUtils {
 
     public static String getOrderNo(String mcNo) {
           return mcNo+TimeUtils.getCurrentTime();
+    }
+
+    public static String getOrderNo() {
+        return App.mcNo + TimeUtils.getCurrentTime();
     }
 }

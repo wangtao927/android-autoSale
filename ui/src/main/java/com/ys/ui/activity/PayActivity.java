@@ -195,6 +195,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
         saleListVo.setSlType(type);
         saleListVo.setSlGdName(goodsBean.getGd_name());
         saleListVo.setSlGdNo(goodsBean.getGd_no());
+        saleListVo.setSlChann(mcGoodsBean.getMg_channo());
         final long amount = vip==0? mcGoodsBean.getMg_disc_price(): mcGoodsBean.getMg_vip_price();
         saleListVo.setSlAmt(amount);
 

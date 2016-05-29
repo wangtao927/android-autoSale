@@ -44,6 +44,8 @@ public class PosSerialHelper {
         return posSerialHelper;
     }
 
+    private String tmpPath;
+    int flag = 0;
     public void setPath() {
         String[] paths = new String[0];
         try {
@@ -58,8 +60,9 @@ public class PosSerialHelper {
 
         ToastUtils.showShortMessage("path.length=" + paths.length);
             for (String path : paths) {
+                flag = 0;
                 ToastUtils.showShortMessage("path=" + path + "--rate=" + String.valueOf(mApplication.getMinipos_baudrate()));
-
+                tmpPath = path;
                 try {
                     myBinder.pos_init(path, mApplication.getMinipos_baudrate());
                     E_REQ_RETURN req_return = myBinder.pos_signin();
@@ -69,32 +72,29 @@ public class PosSerialHelper {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    // 请求已发出
                     if (E_REQ_RETURN.REQ_OK == req_return) {
-                    //  path 是对的
+                         // 等待返回结果
+                        while (true) {
 
-                    SharedPreferences mySharedPreferences= App.getContext().getSharedPreferences("posSerial",
-                            Activity.MODE_PRIVATE);
-                    //实例化SharedPreferences.Editor对象（第二步）
-                    SharedPreferences.Editor editor = mySharedPreferences.edit();
-                    //用putString的方法保存数据
-                    editor.putString("pos_baudrate", String.valueOf(mApplication.getPrint_baudrate()));
-                    editor.putString("pos__path", path);
-                    //提交当前数据
-                    editor.commit();
-                    //myBinder.pos_signin();
-                        myBinder.pos_purchase(100);
+                            if (1 == flag) {
+                                break;
+                            } else if (flag ==2) {
+                                continue;
+                            } else {
+                                try {
+                                    Thread.sleep(2000);
+                                } catch (InterruptedException e1) {
+                                    e1.printStackTrace();
+                                }
+                            }
+                        }
 
-                        ToastUtils.showShortMessage("suc:path=" + path + "--rate=" + String.valueOf(mApplication.getPrint_baudrate()));
-                        break;
                     }
 
                 } catch (Exception e) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e1) {
-                        e1.printStackTrace();
-                    }
-
+                    flag =0;
+                    tmpPath = "";
                     continue;
                 }
 
@@ -134,9 +134,18 @@ public class PosSerialHelper {
                 case OP_POS_QUERY://查询
                 case OP_POS_PURCHASE://支付
                     if(cbmsg.reply == 0){//成功
-
+                        flag = 1;
+                        SharedPreferences mySharedPreferences= App.getContext().getSharedPreferences("posSerial",
+                                Activity.MODE_PRIVATE);
+                        //实例化SharedPreferences.Editor对象（第二步）
+                        SharedPreferences.Editor editor = mySharedPreferences.edit();
+                        //用putString的方法保存数据
+                        editor.putString("pos_baudrate", String.valueOf(mApplication.getPrint_baudrate()));
+                        editor.putString("pos__path", tmpPath);
+                        //提交当前数据
+                        editor.commit();
                     }else if(cbmsg.reply == 1){//失败
-
+                        flag = 2;
                     }
                     break;
                 case OP_POS_DISPLAY://POS提示信息

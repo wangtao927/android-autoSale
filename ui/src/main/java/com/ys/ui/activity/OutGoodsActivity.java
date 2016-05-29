@@ -96,7 +96,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
         runOnUiThread(new Runnable() {
             public void run() {
                 // 是正确的返回结果
-                ToastUtils.showShortMessage("dataReceived= " + BytesUtil.bytesToHexString(buff));
+                //ToastUtils.showShortMessage("dataReceived= " + BytesUtil.bytesToHexString(buff));
 
                 switch (buff[1]) {
 
@@ -211,9 +211,17 @@ public class OutGoodsActivity extends SerialMachineActivity {
         try {
             App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChanStatusByChanno(channo, Long.valueOf(ChanStatusEnum.ERROR.getIndex()));
             DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
-            refund(slNo);
+
         } catch (Exception e) {
-            ToastUtils.showShortMessage("选货失败，参数：channo="+ channo+ "slNo=" +slNo + " 退款异常:" + e);
+            ToastUtils.showShortMessage("选货失败，参数：channo="+ channo+ "slNo=" +slNo );
+        }
+
+        try {
+            refund(slNo);
+            ToastUtils.showShortMessage("退款请求已发送：订单号："+ slNo);
+        } catch (Exception e) {
+            ToastUtils.showShortMessage( "slNo=" +slNo + " 退款异常:" + e);
+
         }
     }
 
@@ -327,17 +335,19 @@ public class OutGoodsActivity extends SerialMachineActivity {
     }
     private void refund(final String slNo) {
         SaleListBean saleListBean = DbManagerHelper.getSaleRecord(slNo);
-        if (saleListBean.getSl_type().equals(SlTypeEnum.ALIPAY.getIndex())
-                || saleListBean.getSl_type().equals(SlTypeEnum.WX.getIndex())
-                || saleListBean.getSl_type().equals(SlTypeEnum.CODE.getIndex())) {
+
+        if (saleListBean.getSl_type().equals( String.valueOf(SlTypeEnum.ALIPAY.getIndex()))
+                || saleListBean.getSl_type().equals( String.valueOf(SlTypeEnum.WX.getIndex()))
+                || saleListBean.getSl_type().equals( String.valueOf(SlTypeEnum.CODE.getIndex()))) {
             // 退款
+
             RetrofitManager.builder().refund(slNo)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnSubscribe(new Action0() {
                         @Override
                         public void call() {
-                            showProgress();
+                            //showProgress();
 
                         }
                     })
@@ -345,6 +355,8 @@ public class OutGoodsActivity extends SerialMachineActivity {
                         @Override
                         public void call(CommonResponse<String> response) {
                             Log.d("result", response.toString());
+                            ToastUtils.showShortMessage("退款返回：" + response);
+
                             if (response.isSuccess()) {
 
                                 //
@@ -359,7 +371,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
                     }, new Action1<Throwable>() {
                         @Override
                         public void call(Throwable throwable) {
-                            hideProgress();
+                           // hideProgress();
                             Toast.makeText(OutGoodsActivity.this, "退款失败，请联系工作人员", Toast.LENGTH_SHORT).show();
 
                         }
