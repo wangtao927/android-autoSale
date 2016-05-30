@@ -2,14 +2,15 @@ package com.ys.ui.base;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
 import com.ys.SerialPortFinder;
 import com.ys.data.dao.DaoMaster;
 import com.ys.data.dao.DaoSession;
 import com.ys.ui.common.manager.DbManagerHelper;
+import com.ys.ui.serial.pos.PosSerialHelper;
+import com.ys.ui.service.TimerService;
 import com.ys.ui.utils.ToastUtils;
 
 import java.io.File;
@@ -20,7 +21,6 @@ import android_serialport_api.SerialPort;
 
 
 public class App extends Application {
-    private RefWatcher refWatcher;
 
     public static Context ctx;
 
@@ -48,7 +48,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         ctx = getApplicationContext();
-        refWatcher = LeakCanary.install(this);
+        //refWatcher = LeakCanary.install(this);
 //        Stetho.initialize(
 //                Stetho.newInitializerBuilder(this)
 //                        .enableDumpapp(
@@ -61,16 +61,16 @@ public class App extends Application {
 
         mcNo = DbManagerHelper.getMcNo();
 //
-//        Intent intent = new Intent(this, TimerService.class);
-//        startService(intent);
+        Intent intent = new Intent(this, TimerService.class);
+        startService(intent);
 
-        //PosSerialHelper.getInstance().setPath();
+        PosSerialHelper.getInstance().setPath();
     }
 
-    public static RefWatcher getRefWatcher(Context context) {
-        App application = (App) context.getApplicationContext();
-        return application.refWatcher;
-    }
+//    public static RefWatcher getRefWatcher(Context context) {
+//        App application = (App) context.getApplicationContext();
+//        return application.refWatcher;
+//    }
 
     // 获取ApplicationContext
     public static Context getContext() {

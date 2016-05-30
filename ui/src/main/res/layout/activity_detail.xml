@@ -13,7 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/rl_desc"
+        android:layout_above="@+id/ll_tip"
         android:layout_below="@+id/title"
         android:orientation="horizontal"
         android:padding="10dp">
@@ -38,7 +38,7 @@
                 android:id="@+id/tv_gd_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="200dp"
+                android:layout_marginTop="100dp"
                 android:layout_marginLeft="50dp"
                  android:text="商品名："
                 android:textSize="20sp"
@@ -191,7 +191,7 @@
         android:layout_marginTop="8dp"
         android:text="请选择支付方式"
         android:textColor="@color/white"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <View

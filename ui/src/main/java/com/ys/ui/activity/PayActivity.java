@@ -164,6 +164,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
     @Override
     protected void create(Bundle savedInstanceState) {
+        getIntent(savedInstanceState);
         //调用接口获取地址
         init();
         tvPayType.setText(slType.getDesc());

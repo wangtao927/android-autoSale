@@ -58,17 +58,24 @@ public class PosSerialHelper {
             ToastUtils.showShortMessage("pos init error");
         }
 
-        ToastUtils.showShortMessage("path.length=" + paths.length);
             for (String path : paths) {
                 flag = 0;
-                ToastUtils.showShortMessage("path=" + path + "--rate=" + String.valueOf(mApplication.getMinipos_baudrate()));
-                tmpPath = path;
+                 tmpPath = path;
                 try {
-                    myBinder.pos_init(path, mApplication.getMinipos_baudrate());
-                    E_REQ_RETURN req_return = myBinder.pos_signin();
+                    E_REQ_RETURN req_return =  myBinder.pos_init(path, mApplication.getMinipos_baudrate());
                     try {
-                        Thread.sleep(1000);
-                        ToastUtils.showShortMessage("result=" + req_return.getDesc());
+                        ToastUtils.showShortMessage("posInit----path:"+path +  "--result=" + req_return.getDesc());
+
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    req_return = myBinder.pos_signin();
+                    try {
+                        ToastUtils.showShortMessage("pos_sign----path:\"+path +  \"--result=" + req_return.getDesc());
+
+                        Thread.sleep(3000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -78,9 +85,10 @@ public class PosSerialHelper {
                         while (true) {
 
                             if (1 == flag) {
+                                ToastUtils.showShortMessage("串口连接成功-path=" + path);
                                 break;
                             } else if (flag ==2) {
-                                continue;
+                                break;
                             } else {
                                 try {
                                     Thread.sleep(2000);
@@ -90,6 +98,9 @@ public class PosSerialHelper {
                             }
                         }
 
+                    }
+                    if (flag == 1) {
+                        break;
                     }
 
                 } catch (Exception e) {
@@ -140,7 +151,7 @@ public class PosSerialHelper {
                         //实例化SharedPreferences.Editor对象（第二步）
                         SharedPreferences.Editor editor = mySharedPreferences.edit();
                         //用putString的方法保存数据
-                        editor.putString("pos_baudrate", String.valueOf(mApplication.getPrint_baudrate()));
+                        editor.putString("pos_baudrate", String.valueOf(mApplication.getMinipos_baudrate()));
                         editor.putString("pos__path", tmpPath);
                         //提交当前数据
                         editor.commit();

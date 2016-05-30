@@ -114,9 +114,6 @@
             android:name=".service.AlarmReceiver"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name=".activity.TestActivity"
-            android:label="@string/title_activity_test"></activity>
     </application>
 
 </manifest>

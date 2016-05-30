@@ -96,7 +96,7 @@ public class MyService extends Service {
 			//设置串口接口
 			mMyApi.setPOSISerialPort(null);//null时使用android的串口jni，android_serialport_api.SerialPort
 			//设置透传ip、端口；POS的串口路径和波特率
-			return mMyApi.pos_init("211.147.64.198", 5800, path, String.valueOf(port));//"/dev/ttyS1"//lf
+			return mMyApi.pos_init("113.108.182.4", 10061, path, String.valueOf(port));//"/dev/ttyS1"//lf
 		}
 		/**
 		 * 签到

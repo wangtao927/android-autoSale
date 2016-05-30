@@ -16,16 +16,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="2"
-            android:width="0dp"
-            android:text="@string/onekeybuhuo" />
+             android:text="@string/onekeybuhuo" />
 
         <Button
             android:id="@+id/btn_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="3"
-            android:width="0dp"
-            android:text="@string/onekeyclear" />
+             android:text="@string/onekeyclear" />
 
 
 
@@ -34,22 +32,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="2"
-            android:width="0dp"
-            android:text="@string/reset" />
+             android:text="@string/reset" />
         <Button
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="2"
-            android:width="0dp"
-            android:text="返回首页" />
+             android:text="@string/backHome" />
         <Button
             android:id="@+id/btn_sys_out"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="2"
-            android:width="0dp"
-            android:text="退出" />
+             android:text="@string/sysout" />
     </LinearLayout>
 
     <LinearLayout

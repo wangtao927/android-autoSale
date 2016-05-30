@@ -48,7 +48,7 @@ public abstract class BaseActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                     finish();
-                    startActivity(new Intent(mContext, HomeActivity.class));
+                    startActivity(new Intent(mContext, ProductActivity.class));
                 }
             });
         }

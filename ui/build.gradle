@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 'Google Apis:Google Apis:23'
-    //compileSdkVersion 'Google Inc.:Google APIs:23'
+    //compileSdkVersion 'Google Apis:Google Apis:23'
+    compileSdkVersion 'Google Inc.:Google APIs:23'
 
     buildToolsVersion '23.0.2'
     defaultConfig {
@@ -94,7 +94,7 @@ dependencies {
     compile 'com.zhy:percent-support-extends:1.1.1'
 
     //检测所有的内存泄漏
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta1'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta1'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta1'
+//    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta1'
+//    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta1'
+//    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta1'
 }
