@@ -312,8 +312,8 @@ public class OutGoodsActivity extends SerialMachineActivity {
         tvTimer = (TextView) findViewById(R.id.tv_timer);
         transStatus = (TextView) findViewById(R.id.transStatus);
 
-        // mPbLoading = (ContentLoadingProgressBar)findViewById(R.id.pb_loading);
-        //initTimer();
+        // 初始化广告图
+
 
         Bundle datas = getIntent().getExtras();
         slNo = datas.getString("slNo");
@@ -329,6 +329,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
         mSendingThread.start();
 
         initTimer();
+
     }
 
     private void refund(final String slNo) {

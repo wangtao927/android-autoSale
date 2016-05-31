@@ -107,13 +107,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
          if (adsList == null || adsList.isEmpty()) {
             Glide.with(HomeActivity.this)
                     .load(R.mipmap.ad1)
-                    .placeholder(R.mipmap.ad1)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(ad);
         } else {
             Glide.with(HomeActivity.this)
                     .load(adsList.get(adIndex).getFileUrl())
-                    .placeholder(R.mipmap.ad1)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(ad);
 
