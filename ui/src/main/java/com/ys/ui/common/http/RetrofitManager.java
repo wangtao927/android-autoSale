@@ -236,18 +236,30 @@ public class RetrofitManager {
 
         return userApi.userLogin(request);
     }
-     public Observable<CommonResponse<String>> userReg(String userNo, String userPwd) {
+     public Observable<CommonResponse<String>> userReg(String userNo, String verifyCode) {
         String mcNo = App.mcNo;
         long time = System.currentTimeMillis();
 
 
         Map<String, String> data = new HashMap<>();
         data.put("user_no", userNo);
-        data.put("user_pwd", userPwd);
+        data.put("verify_code", verifyCode);
 
         CommonRequest<Map<String, String>> request = new CommonRequest<>(mcNo, time, data);
 
-        return userApi.regUser(request);
+        return userApi.userReg(request);
+     }
+     public Observable<CommonResponse<String>> getVerifyCode(String userNo) {
+        String mcNo = App.mcNo;
+        long time = System.currentTimeMillis();
+
+
+        Map<String, String> data = new HashMap<>();
+        data.put("user_no", userNo);
+
+        CommonRequest<Map<String, String>> request = new CommonRequest<>(mcNo, time, data);
+
+        return userApi.userReg(request);
      }
 
 

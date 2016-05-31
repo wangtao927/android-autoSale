@@ -18,6 +18,7 @@ import com.ys.ui.base.BaseActivity;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.service.TimerService;
 import com.ys.ui.utils.RandomUtils;
+import com.ys.ui.utils.ToastUtils;
 import com.ys.ui.utils.Utils;
 
 
@@ -103,7 +104,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void adsStart() {
-        if (adsList == null || adsList.isEmpty()) {
+         if (adsList == null || adsList.isEmpty()) {
             Glide.with(HomeActivity.this)
                     .load(R.mipmap.ad1)
                     .placeholder(R.mipmap.ad1)
@@ -122,7 +123,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 public void run() {
                     Glide.with(HomeActivity.this)
                             .load(adsList.get(adIndex).getFileUrl())
-                            .placeholder(R.mipmap.ad1)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(ad);
 

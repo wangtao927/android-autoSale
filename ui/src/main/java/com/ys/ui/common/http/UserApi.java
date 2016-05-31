@@ -26,8 +26,12 @@ public interface UserApi {
     @POST("userLogin")
     Observable<CommonResponse<String>> userLogin (@Body CommonRequest<Map<String, String>> request);
 
+    @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_SHORT)
+    @POST("getVerifyCode")
+    Observable<CommonResponse<String>> getVerifyCode (@Body CommonRequest<Map<String, String>> request);
+
      @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_SHORT)
     @POST("regUser")
-    Observable<CommonResponse<String>> regUser (@Body CommonRequest<Map<String, String>> request);
+    Observable<CommonResponse<String>> userReg (@Body CommonRequest<Map<String, String>> request);
 
 }
