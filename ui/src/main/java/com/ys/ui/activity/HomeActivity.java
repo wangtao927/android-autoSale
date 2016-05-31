@@ -29,11 +29,6 @@ import butterknife.ButterKnife;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
-
-    @Bind(R.id.logo)
-    ImageView logo;
-    @Bind(R.id.tel)
-    ImageView tel;
     @Bind(R.id.btn_buy)
     ImageButton btnBuy;
     @Bind(R.id.btn_get_drug)

@@ -1,17 +1,22 @@
 package com.ys.ui.activity;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -92,7 +97,6 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     private SlTypeEnum slType;
 
 
-
     @Bind(R.id.lay_pay)
     LinearLayout layPay;
 
@@ -108,6 +112,9 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
     @Bind(R.id.im_qrcode)
     ImageView mQCodeImageView;
+    private Dialog mDialog;
+    private TextView tvPwd;
+    private ImageButton ibGetV;
 
 
     /**
@@ -155,7 +162,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
 //        if (slType == SlTypeEnum.WX || slType == SlTypeEnum.ALIPAY) {
 //            mQCodeImageView = (ImageView) findViewById(R.id.im_qrcode);
-            return R.layout.activity_pay_wx;
+        return R.layout.activity_pay_wx;
 //        } else {
 //            return R.layout.activity_pay_phone;
 //        }
@@ -186,7 +193,6 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     }
 
 
-
     // 普通支付  取折扣价   会员支付取 会员价  vip 0 不是vip  1 是vip
 
     private void createOrder(String type, final int vip) {
@@ -197,7 +203,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
         saleListVo.setSlGdName(goodsBean.getGd_name());
         saleListVo.setSlGdNo(goodsBean.getGd_no());
         saleListVo.setSlChann(mcGoodsBean.getMg_channo());
-        final long amount = vip==0? mcGoodsBean.getMg_disc_price(): mcGoodsBean.getMg_vip_price();
+        final long amount = vip == 0 ? mcGoodsBean.getMg_disc_price() : mcGoodsBean.getMg_vip_price();
         saleListVo.setSlAmt(amount);
 
         RetrofitManager.builder().createOrder(saleListVo.getMcNo(), saleListVo)
@@ -287,6 +293,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     TimerTask pay_task;
     java.util.Timer pay_timer;
     boolean finish_flag = false;
+
     // 银联卡支付
     private void waitPay(final String slNo) {
 //        startTime = System.currentTimeMillis();
@@ -294,18 +301,18 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
 
     }
+
     private void waitQRPay(final String slNo) {
         startTime = System.currentTimeMillis();
-        pay_timer= new java.util.Timer(true);
+        pay_timer = new java.util.Timer(true);
 
-        pay_task= new TimerTask() {
+        pay_task = new TimerTask() {
             public void run() {
                 getOrderStatus(slNo);
 
             }
         };
         pay_timer.schedule(pay_task, 5000);
-
 
 
     }
@@ -373,7 +380,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     protected void onDestroy() {
         super.onDestroy();
         finish_flag = true;
-        if (pay_timer!=null) {
+        if (pay_timer != null) {
             pay_timer.cancel();
         }
         if (pay_task != null) {
@@ -381,7 +388,6 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
         }
 
     }
-
 
 
     private void startOutGoods(String slNo) {
@@ -424,7 +430,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
                 if (etUserNo != null) {
 
-                    ToastUtils.showShortMessage(etUserNo.getText()+"--" + etPwd.getText());
+                    ToastUtils.showShortMessage(etUserNo.getText() + "--" + etPwd.getText());
                     //
 
                 }
@@ -432,20 +438,29 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                 //
                 break;
             case R.id.btn_cancel:
-                selfdialog.cancel();
+                mDialog.cancel();
                 break;
-            case R.id.iv_login:
+            case R.id.ib_login:
                 regFlag = false;
-                ivLogin.setImageResource(R.mipmap.login);
-                ivReg.setImageResource(R.mipmap.reg_1);
+                ivLogin.setBackgroundResource(R.mipmap.login);
+                ivReg.setBackgroundResource(R.mipmap.reg_1);
+                tvPwd.setText("密 码");
+                ibGetV.setVisibility(View.GONE);
                 break;
-            case R.id.iv_reg:
-
+            case R.id.ib_reg:
                 regFlag = true;
-                ivLogin.setImageResource(R.mipmap.login_1);
-                ivReg.setImageResource(R.mipmap.reg);
-
+                ivLogin.setBackgroundResource(R.mipmap.login_1);
+                ivReg.setBackgroundResource(R.mipmap.reg);
+                tvPwd.setText("验证码");
+                ibGetV.setVisibility(View.VISIBLE);
                 break;
+            case R.id.ib_getv:
+                regFlag = true;
+                ivLogin.setBackgroundResource(R.mipmap.login_1);
+                ivReg.setBackgroundResource(R.mipmap.reg);
+                tvPwd.setText("验证码");
+                break;
+
             default:
                 break;
 
@@ -454,61 +469,40 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     }
 
     private View view;
-     private AlertDialog selfdialog;
     ImageView ivLogin;
     ImageView ivReg;
     EditText etUserNo;
     EditText etPwd;
     private boolean regFlag = false;// 默认登录
-    public void initview() {
-        //创建view从当前activity获取loginactivity
-        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.login, null);
 
-        etUserNo=(EditText)view.findViewById(R.id.txt_username);
-        etPwd = (EditText)view.findViewById(R.id.txt_password);
-        Button btnLogin = (Button)view.findViewById(R.id.btn_login);
-        Button btnCancel = (Button)view.findViewById(R.id.btn_cancel);
+    public void initview() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        view = inflater.inflate(R.layout.dialog_login, null);
+
+        etUserNo = (EditText) view.findViewById(R.id.et_phone);
+        etPwd = (EditText) view.findViewById(R.id.et_pwd);
+        Button btnLogin = (Button) view.findViewById(R.id.btn_login);
+        Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
 
         btnLogin.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
 
-        ivLogin = (ImageView)view.findViewById(R.id.iv_login);
-        ivReg = (ImageView)view.findViewById(R.id.iv_reg);
+        ivLogin = (ImageView) view.findViewById(R.id.ib_login);
+        ivReg = (ImageView) view.findViewById(R.id.ib_reg);
+        tvPwd = (TextView) view.findViewById(R.id.tv_pwd);
+        ibGetV = (ImageButton) view.findViewById(R.id.ib_getv);
 
         ivLogin.setOnClickListener(this);
         ivReg.setOnClickListener(this);
 
-        AlertDialog.Builder ad =new AlertDialog.Builder(PayActivity.this);
-        ad.setView(view);
-
-        selfdialog = ad.create();
-
-
-//        selfdialog.setButton("登陆", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                //获取输入框的用户名密码
-//
-//                usernamestr = username.getText().toString();
-//                passwordstr =password.getText().toString();
-//                progressdialog = ProgressDialog.show(PayActivity.this, "请等待...", "正在为您登陆...");
-//                try {
-//                    Thread.currentThread().sleep(100);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                dialog.cancel();
-//            }
-//        });
-//        selfdialog.setButton2("取消", new DialogInterface.OnClickListener() {
-//
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                selfdialog.cancel();
-//            }
-//        });
-        selfdialog.show();
+        mDialog = new Dialog(PayActivity.this, R.style.dialog);
+        mDialog.setContentView(view);
+        Window dialogWindow = mDialog.getWindow();
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        DisplayMetrics d = getResources().getDisplayMetrics(); // 获取屏幕宽、高用
+        lp.width = (int) (d.widthPixels * 0.8); // 高度设置为屏幕的0.6
+        dialogWindow.setAttributes(lp);
+        mDialog.show();
     }
 
     private boolean userLogin() {
