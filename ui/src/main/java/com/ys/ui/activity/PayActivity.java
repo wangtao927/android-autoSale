@@ -431,8 +431,13 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                 if (etUserNo != null) {
 
                     if (regFlag) {
+                        // 注册
+                        if (TextUtils.isEmpty(etUserNo.getText()) || TextUtils.isEmpty(etPwd.getText())) {
+                            ToastUtils.showShortMessage("手机号和验证码不能为空");
+                        } else {
+                            userReg(etUserNo.getText().toString(), etPwd.getText().toString());
 
-
+                        }
                     } else {
                         if (TextUtils.isEmpty(etUserNo.getText()) || TextUtils.isEmpty(etPwd.getText())) {
                             ToastUtils.showShortMessage("用户名密码不能为空");
@@ -466,6 +471,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                 ivLogin.setBackgroundResource(R.mipmap.login_1);
                 ivReg.setBackgroundResource(R.mipmap.reg);
                 tvPwd.setText("验证码");
+                ToastUtils.showShortMessage("手机号：" + etUserNo.getText());
                 // 发送验证码
                 if (etUserNo != null && !TextUtils.isEmpty(etUserNo.getText())) {
                     getValideCode(etUserNo.getText().toString());
@@ -506,6 +512,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
         ivLogin.setOnClickListener(this);
         ivReg.setOnClickListener(this);
+        ibGetV.setOnClickListener(this);
 
         mDialog = new Dialog(PayActivity.this, R.style.dialog);
         mDialog.setContentView(view);

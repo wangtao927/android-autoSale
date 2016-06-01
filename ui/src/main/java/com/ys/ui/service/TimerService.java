@@ -65,8 +65,10 @@ public class TimerService extends Service {
         Intent i = new Intent(this, AlarmReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime, pi);
-//        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime,
-//                PropertyUtils.getInstance().getOnlineSendSplit() * 1000, pi);
+
+        // repeat 时间有点乱
+//        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,  SystemClock.elapsedRealtime() + 1000,
+//        10 * 1000, pi);
         return super.onStartCommand(intent, flags, startId);
     }
 

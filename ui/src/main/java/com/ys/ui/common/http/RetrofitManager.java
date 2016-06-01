@@ -253,13 +253,12 @@ public class RetrofitManager {
         String mcNo = App.mcNo;
         long time = System.currentTimeMillis();
 
-
         Map<String, String> data = new HashMap<>();
         data.put("user_no", userNo);
 
         CommonRequest<Map<String, String>> request = new CommonRequest<>(mcNo, time, data);
 
-        return userApi.userReg(request);
+        return userApi.getVerifyCode(request);
      }
 
 
