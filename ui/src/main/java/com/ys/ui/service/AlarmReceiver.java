@@ -36,9 +36,9 @@ import rx.schedulers.Schedulers;
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-//          Intent i = new Intent(context, TimerService.class);
-//        context.startService(i);
-        startTimer();
+          Intent i = new Intent(context, TimerService.class);
+          context.startService(i);
+//        startTimer();
      }
 
     private List<McStatusBean> mcStatusBeanList;

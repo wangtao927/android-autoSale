@@ -51,22 +51,22 @@ public class TimerService extends Service {
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                  startTimer();
-//            }
-//        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                  startTimer();
+            }
+        }).start();
         AlarmManager manager = (AlarmManager)getSystemService(ALARM_SERVICE);
         //获取循环的时间
         long triggerTime = SystemClock.elapsedRealtime() +
-                1000;
+                PropertyUtils.getInstance().getOnlineSendSplit() * 1000;
 
         Intent i = new Intent(this, AlarmReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
-        //manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime, pi);
-        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime,
-                PropertyUtils.getInstance().getOnlineSendSplit() * 1000, pi);
+        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime, pi);
+//        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime,
+//                PropertyUtils.getInstance().getOnlineSendSplit() * 1000, pi);
         return super.onStartCommand(intent, flags, startId);
     }
 
