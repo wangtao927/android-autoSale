@@ -170,7 +170,6 @@ public class QRcodePayActivity extends BaseActivity implements View.OnClickListe
 
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
-            System.out.println("handle!");
             String timer = getTime();
             if (TextUtils.isEmpty(timer)) {
                 startActivity(new Intent(QRcodePayActivity.this, HomeActivity.class));

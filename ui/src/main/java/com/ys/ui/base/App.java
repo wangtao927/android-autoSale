@@ -10,6 +10,7 @@ import com.ys.data.dao.DaoMaster;
 import com.ys.data.dao.DaoSession;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.serial.pos.PosSerialHelper;
+import com.ys.ui.serial.salemachine.SerialMachineHelper;
 import com.ys.ui.service.TimerService;
 import com.ys.ui.utils.ToastUtils;
 
@@ -65,6 +66,9 @@ public class App extends Application {
         startService(intent);
 
         PosSerialHelper.getInstance().setPath();
+
+        SerialMachineHelper.getInstance().getSerial();
+
     }
 
 //    public static RefWatcher getRefWatcher(Context context) {

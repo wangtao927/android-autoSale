@@ -69,8 +69,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
 
 
         if (mcGoodsBean != null) {
-            holder.tvPrice.setText("￥"+NumberUtils.m2(mcGoodsBean.getMg_pre_price() * 0.01));
-            boolean isShowPriceCut = mcGoodsBean.getMg_disc_price() != mcGoodsBean.getMg_pre_price();
+            holder.tvPrice.setText("￥"+NumberUtils.m2(mcGoodsBean.getMg_disc_price() * 0.01));
+            boolean isShowPriceCut = mcGoodsBean.getMg_disc_price() != mcGoodsBean.getMg_disc_price();
             holder.ivPriceCut.setVisibility(isShowPriceCut ? View.VISIBLE : View.GONE);
 
             if (mcGoodsBean.getMg_gnum() <= 0 ||

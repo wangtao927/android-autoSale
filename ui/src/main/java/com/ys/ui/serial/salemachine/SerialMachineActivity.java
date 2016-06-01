@@ -33,7 +33,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import android_serialport_api.SerialPort;
 
-public abstract class SerialMachineActivity extends BaseTimerActivity {
+public abstract class SerialMachineActivity extends Activity {
 
 
 	protected App mApplication;

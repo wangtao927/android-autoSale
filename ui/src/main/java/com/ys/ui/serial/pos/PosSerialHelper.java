@@ -106,6 +106,7 @@ public class PosSerialHelper {
                 } catch (Exception e) {
                     flag =0;
                     tmpPath = "";
+                    ToastUtils.showShortMessage("exception path=" + path);
                     continue;
                 }
 
@@ -161,8 +162,15 @@ public class PosSerialHelper {
                     break;
                 case OP_POS_DISPLAY://POS提示信息
                     if(cbmsg.reply == 0){//成功
-
-
+                        dpl = cbmsg.dsp;
+                        if(dpl.getType()== DisplayType._key.getType()){
+//                            key.setText("上报键值:"+dpl.getMsg());
+                        }else if(dpl.getType()== DisplayType._card.getType()){
+//                            key.setText("上报卡信息:"+dpl.getMsg());//逗号,隔开 “卡号,磁道2,磁道3,卡类型”
+                        }else {
+//                            lcd.setText("提示信息("+dpl.getType()+"):"+DisplayType.getDesc(dpl)+"\n" + dpl.getMsg());
+                        }
+                        ToastUtils.showShortMessage("pos 操作成功");
                     }
                     break;
 

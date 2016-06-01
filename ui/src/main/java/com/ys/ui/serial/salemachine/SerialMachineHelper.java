@@ -108,9 +108,21 @@ public class SerialMachineHelper {
             //提交当前数据
             editor.commit();
             //使用toast信息提示框提示成功写入数据
+        close();
 
     }
 
+
+    private void close() {
+        if (mReadThread != null) {
+            mReadThread.interrupt();
+            mReadThread = null;
+        }
+        if (mSendingThread != null) {
+            mSendingThread.interrupt();
+            mSendingThread = null;
+        }
+    }
 
     public void getSerial() {
 
@@ -131,10 +143,11 @@ public class SerialMachineHelper {
 
                 sendCmds();
             } catch (Exception e) {
+                ToastUtils.showShortMessage("sale exception path: "+path);
                 continue;
             }
             try {
-                Thread.sleep(2000);
+                Thread.sleep(10000);
                 mReadThread.interrupt();
                 if (!TextUtils.isEmpty(salePath)) {
                     break;
