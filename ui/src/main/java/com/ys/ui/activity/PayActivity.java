@@ -430,12 +430,19 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
                 if (etUserNo != null) {
 
-                    ToastUtils.showShortMessage(etUserNo.getText() + "--" + etPwd.getText());
+                    if (regFlag) {
+
+
+                    } else {
+                        if (TextUtils.isEmpty(etUserNo.getText()) || TextUtils.isEmpty(etPwd.getText())) {
+                            ToastUtils.showShortMessage("用户名密码不能为空");
+                        } else {
+                            userLogin(etUserNo.getText().toString(), etPwd.getText().toString());
+                        }
+
+                    }
                     //
-
                 }
-
-                //
                 break;
             case R.id.btn_cancel:
                 mDialog.cancel();
@@ -459,6 +466,11 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                 ivLogin.setBackgroundResource(R.mipmap.login_1);
                 ivReg.setBackgroundResource(R.mipmap.reg);
                 tvPwd.setText("验证码");
+                // 发送验证码
+                if (etUserNo != null && !TextUtils.isEmpty(etUserNo.getText())) {
+                    getValideCode(etUserNo.getText().toString());
+
+                }
                 break;
 
             default:
@@ -501,21 +513,119 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         DisplayMetrics d = getResources().getDisplayMetrics(); // 获取屏幕宽、高用
         lp.width = (int) (d.widthPixels * 0.8); // 高度设置为屏幕的0.6
+
         dialogWindow.setAttributes(lp);
         mDialog.show();
     }
 
-    private boolean userLogin() {
+    private void userLogin(String userNo, String userPwd) {
         //
 
+        RetrofitManager.builder().userLogin(userNo, userPwd)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        //showProgress();
+                    }
+                })
+                .subscribe(new Action1<CommonResponse<String>>() {
+                    @Override
+                    public void call(CommonResponse<String> response) {
+                        //hideProgress();
 
-        return false;
+                        if (response.getCode() == 0) {
+
+                            createOrder(String.valueOf(slType.getIndex()), 1);
+
+                        } else {
+                            ToastUtils.showShortMessage(response.getMsg());
+                        }
+
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtils.showShortMessage("发送验证码失败");
+                        //hideProgress();
+                        //Toast.makeText(GetProductActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+
     }
 
-    private boolean userReg() {
+    private void getValideCode(String phoneNo) {
+
+        RetrofitManager.builder().getVerifyCode(phoneNo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        //showProgress();
+                    }
+                })
+                .subscribe(new Action1<CommonResponse<String>>() {
+                    @Override
+                    public void call(CommonResponse<String> response) {
+                        //hideProgress();
+
+                        if (response.getCode() == 0) {
+
+                            ToastUtils.showShortMessage("验证码已发送");
+
+                        } else {
+                            ToastUtils.showShortMessage(response.getMsg());
+                        }
+
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtils.showShortMessage("发送验证码失败");
+                        //hideProgress();
+                        //Toast.makeText(GetProductActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+    }
+    private void userReg(String phoneNo, String valideCode) {
         //
+        RetrofitManager.builder().userReg(phoneNo, valideCode)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        //showProgress();
+                    }
+                })
+                .subscribe(new Action1<CommonResponse<String>>() {
+                    @Override
+                    public void call(CommonResponse<String> response) {
+                        //hideProgress();
 
-        return false;
-    }
+                        if (response.getCode() == 0) {
+
+                            ToastUtils.showShortMessage("");
+
+                        }
+
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtils.showShortMessage("注册失败");
+                        //hideProgress();
+                        //Toast.makeText(GetProductActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+     }
 
 }

@@ -6,7 +6,7 @@ package com.ys.ui.common.constants;
 public enum ParamEnum {
 
     COIN_MIN_AMOUNT("06","硬币预警金额", "5000"),
-    ONLINE_SEND_SPLIT("09","在线信息发送间隔","60"),
+    ONLINE_SEND_SPLIT("09","在线信息发送间隔","300"),
     RETRY_TIMES("0C","重发次数","3"),
     SYSTEM_TIME("99","系统时间",""),
     TRANS_TIMEOUT("23","交易超时","120"),

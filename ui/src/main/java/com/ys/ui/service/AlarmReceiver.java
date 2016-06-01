@@ -3,6 +3,32 @@ package com.ys.ui.service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
+import android.util.Log;
+
+import com.ys.data.bean.McGoodsBean;
+import com.ys.data.bean.McStatusBean;
+import com.ys.data.bean.SaleListBean;
+import com.ys.data.dao.SaleListBeanDao;
+import com.ys.ui.base.App;
+import com.ys.ui.common.http.RetrofitManager;
+import com.ys.ui.common.manager.DbManagerHelper;
+import com.ys.ui.common.request.CommonRequest;
+import com.ys.ui.common.request.McDataVo;
+import com.ys.ui.common.response.CommonResponse;
+import com.ys.ui.common.response.McDataResult;
+import com.ys.ui.common.response.TermInitResult;
+import com.ys.ui.utils.StringUtils;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import de.greenrobot.dao.query.Query;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by wangtao on 2016/4/9.
@@ -10,7 +36,226 @@ import android.content.Intent;
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-          Intent i = new Intent(context, TimerService.class);
-        context.startService(i);
+//          Intent i = new Intent(context, TimerService.class);
+//        context.startService(i);
+        startTimer();
+     }
+
+    private List<McStatusBean> mcStatusBeanList;
+    private List<McGoodsBean> mcGoodsBeanList;
+    private List<SaleListBean> saleListBeans;
+
+
+    private void startTimer() {
+        McDataVo vo = new McDataVo();
+        // 获取终端状态， 只有一条记录
+        if (TextUtils.isEmpty(App.mcNo)) {
+            return ;
+        }
+        mcStatusBeanList =
+                App.getDaoSession(App.getContext()).getMcStatusBeanDao().loadAll();
+        McStatusBean bean;
+        if (mcStatusBeanList != null  && !mcStatusBeanList.isEmpty()) {
+            bean = mcStatusBeanList.get(0);
+        } else {
+            return;
+        }
+
+        vo.setMcStatus(bean);
+
+        // 获取库存信息
+        mcGoodsBeanList = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().loadAll();
+        vo.setMcGoodsList(mcGoodsBeanList);
+        //
+        Query<SaleListBean> query =  App.getDaoSession(App.getContext()).getSaleListBeanDao()
+                .queryBuilder().where(SaleListBeanDao.Properties.Sl_send_status.eq(0)).build();
+
+        saleListBeans = query.list();
+        //saleListBeans = App.getDaoSession(App.getContext()).queryBuilder().list()
+
+        vo.setMcSaleList(saleListBeans);
+        CommonRequest<McDataVo> request = new CommonRequest<>(
+                bean.getMc_no(), System.currentTimeMillis(), vo);
+        RetrofitManager.builder().postMcData(request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        //showProgress();
+
+                    }
+                })
+                .subscribe(new Action1<CommonResponse<McDataResult>>() {
+                    @Override
+                    public void call(CommonResponse<McDataResult> response) {
+                        Log.d("result", response.toString());
+                        if (response.isSuccess()) {
+                            // 生成成功  同步数据
+                            // 判断数据，并更新
+                            updateInfo(response.getExt_data().getOprcode(), response.getExt_data().getOprdata());
+
+                            DbManagerHelper.updateSendStatus(saleListBeans);
+                        }
+                        // 修改交易流水为上报成功
+
+
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.e("error", throwable.toString());
+                        //hideProgress();
+                    }
+                });
+    }
+
+    private void  updateInfo(String oprCodes, TermInitResult result) {
+        if (!StringUtils.isEmpty(oprCodes)) {
+            String[]  codes = oprCodes.split(",");
+            Map map  = new HashMap<>();
+            for (String code : codes) {
+                switch (code) {
+                    case "01":// 终端基本信息  终端号  等
+                        if (result.getMachine() != null) {
+
+                            try {
+                                McStatusBean entity = result.getMachine();
+                                entity.setMc_no(App.mcNo);
+                                App.getDaoSession(App.getContext()).getMcStatusBeanDao().update(entity);
+                                map.put("01", "0");// 0 成功 1 失败
+                            } catch (Exception e) {
+                                map.put("01", "1");// 0 成功 1 失败
+                            }
+
+                        } else {
+                            map.put("01", "1");// 0 成功 1 失败
+                        }
+                        break;
+                    case "02":// 终端参数,  全部删除， 再插入
+                        if (result.getMcparam() != null && !result.getMcparam().isEmpty()) {
+
+                            try {
+                                DbManagerHelper.initMcParam(result.getMcparam());
+                                map.put("02", "0");// 0 成功 1 失败
+                            } catch (Exception e) {
+                                map.put("02", "1");// 0 成功 1 失败
+                            }
+                            continue;
+                        } else {
+                            map.put("02", "1");// 0 成功 1 失败
+                        }
+                        break;
+                    case "03":// 库存信息 根据货道号更新  商品编码  容量  价格
+                        if (result.getMcgoods() != null && !result.getMcgoods().isEmpty()) {
+
+                            try {
+                                DbManagerHelper.updateMcGoods(result.getMcgoods());
+                                map.put("03", "0");// 0 成功 1 失败
+                            } catch (Exception e) {
+                                map.put("03", "1");// 0 成功 1 失败
+                            }
+                        } else {
+                            map.put("04", "1");// 0 成功 1 失败
+                        }
+                        break;
+                    case "04"://终端管理员  // 全部删除， 再插入
+                        if (result.getMcadmin() != null && !result.getMcadmin().isEmpty()) {
+
+                            try {
+                                DbManagerHelper.initAdmin(result.getMcadmin());
+                                map.put("04", "0");// 0 成功 1 失败
+                            } catch (Exception e) {
+                                map.put("04", "1");// 0 成功 1 失败
+                            }
+
+                        } else {
+                            map.put("04", "1");// 0 成功 1 失败
+
+                        }
+                        break;
+                    case "05"://广告 全部删除 再插入
+
+                        if (result.getMcadv() != null && !result.getMcadv().isEmpty()) {
+
+                            try {
+                                DbManagerHelper.initAdv(result.getMcadv());
+                                map.put("05", "0");// 0 成功 1 失败
+                            } catch (Exception e) {
+                                map.put("05", "1");// 0 成功 1 失败
+                            }
+
+                        } else {
+                            map.put("05", "1");// 0 成功 1 失败
+
+                        }
+                        break;
+                    case "06": // 下载商品信息， 全部删除再插入
+                        if (result.getGoods() != null && !result.getGoods().isEmpty()) {
+
+                            try {
+                                DbManagerHelper.initGoods(result.getGoods());
+                                map.put("06", "0");// 0 成功 1 失败
+                            } catch (Exception e) {
+                                map.put("06", "1");// 0 成功 1 失败
+                            }
+                        } else {
+                            map.put("06", "1");// 0 成功 1 失败
+                        }
+                        break;
+                    case "07": // 更新库存 卡货
+                        if (result.getMcstore() != null && !result.getMcstore().isEmpty()){
+                            try {
+                                DbManagerHelper.updateMcStore(result.getMcstore());
+                                map.put("07", "0");// 0 成功 1 失败
+                            } catch (Exception e) {
+                                map.put("07", "1");// 0 成功 1 失败
+                            }
+                        } else {
+                            map.put("07", "1");// 0 成功 1 失败
+
+                        }
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            //上报 处理数据的结果
+
+            if (!map.isEmpty()) {
+                postOprStatus(map);
+            }
+        }
+
+
+
+    }
+
+    private void postOprStatus(Map<String, String> map) {
+        RetrofitManager.builder().postOprStatus(App.mcNo, map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        //showProgress();
+
+                    }
+                })
+                .subscribe(new Action1<CommonResponse<String>>() {
+                    @Override
+                    public void call(CommonResponse<String> response) {
+                        Log.d("result", response.toString());
+
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.e("error", throwable.toString());
+                        //hideProgress();
+                    }
+                });
     }
 }

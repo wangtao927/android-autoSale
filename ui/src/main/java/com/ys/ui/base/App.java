@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import com.ys.SerialPortFinder;
 import com.ys.data.dao.DaoMaster;
 import com.ys.data.dao.DaoSession;
+import com.ys.ui.activity.TermInitActivity;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.serial.pos.PosSerialHelper;
 import com.ys.ui.serial.salemachine.SerialMachineHelper;
@@ -30,7 +31,7 @@ public class App extends Application {
 
 
     public SerialPortFinder mSerialPortFinder = new SerialPortFinder();
-    private SerialPort mSerialPort = null;
+    private SerialPort mSaleSerialPort = null;
     private SerialPort mPrintSerialPort = null;
 
     private int minipos_baudrate = 9600;
@@ -49,25 +50,17 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         ctx = getApplicationContext();
-        //refWatcher = LeakCanary.install(this);
-//        Stetho.initialize(
-//                Stetho.newInitializerBuilder(this)
-//                        .enableDumpapp(
-//                                Stetho.defaultDumperPluginsProvider(this))
-//                        .enableWebKitInspector(
-//                                Stetho.defaultInspectorModulesProvider(this))
-//                        .build());
-        //new CrashHandler().init(this);
-        // 初始化串口的端口
+
 
         mcNo = DbManagerHelper.getMcNo();
 //
         Intent intent = new Intent(this, TimerService.class);
         startService(intent);
 
-        PosSerialHelper.getInstance().setPath();
+        //PosSerialHelper.getInstance().setPath();
 
-        SerialMachineHelper.getInstance().getSerial();
+        //SerialMachineHelper.getInstance().getSerial();
+
 
     }
 
@@ -76,6 +69,12 @@ public class App extends Application {
 //        return application.refWatcher;
 //    }
 
+    protected boolean isInit() {
+        if (App.mcNo == null) {
+            return false;
+        }
+        return true;
+    }
     // 获取ApplicationContext
     public static Context getContext() {
         return ctx;
@@ -83,26 +82,20 @@ public class App extends Application {
 
     public SerialPort getSerialPort(String path, int baudrate) throws SecurityException, IOException, InvalidParameterException {
 
-        if (mSerialPort == null) {
-            /* Read serial port parameters */
-            SharedPreferences sp = getSharedPreferences("android_serialport_api.sample_preferences", MODE_PRIVATE);
-            //String path = sp.getString("DEVICE", "");
-            //int baudrate = Integer.decode(sp.getString("BAUDRATE", "-1"));
+        try {
 
-			/* Check parameters */
-            if ((path.length() == 0) || (baudrate == -1)) {
-                throw new InvalidParameterException();
-            }
+            return  new SerialPort(new File(path), baudrate, 0);
 
-			/* Open the serial port */
-            mSerialPort = new SerialPort(new File(path), baudrate, 0);
+        } catch (Exception e) {
 
+            return null;
         }
-        return mSerialPort;
+			/* Open the serial port */
+
     }
 
     public SerialPort getSerialPort() throws SecurityException, IOException, InvalidParameterException {
-        if (mSerialPort == null) {
+        if (mSaleSerialPort == null) {
             /* Read serial port parameters */
             SharedPreferences sp = getSharedPreferences("saleSerial", MODE_PRIVATE);
             String path = sp.getString("sale_path", sale_path);
@@ -115,9 +108,9 @@ public class App extends Application {
             }
 
 			/* Open the serial port */
-            mSerialPort = new SerialPort(new File(path), baudrate, 0);
+            mSaleSerialPort = new SerialPort(new File(path), baudrate, 0);
         }
-        return mSerialPort;
+        return mSaleSerialPort;
     }
 
     public SerialPort getPrintSerial() throws SecurityException, IOException, InvalidParameterException {
@@ -139,10 +132,10 @@ public class App extends Application {
         return mPrintSerialPort;
     }
 
-    public void closeSerialPort() {
-        if (mSerialPort != null) {
-            mSerialPort.close();
-            mSerialPort = null;
+    public void closeSaleSerialPort() {
+        if (mSaleSerialPort != null) {
+            mSaleSerialPort.close();
+            mSaleSerialPort = null;
         }
     }
 
@@ -152,7 +145,6 @@ public class App extends Application {
             mPrintSerialPort = null;
         }
     }
-
 
     public static DaoMaster getDaoMaster(Context context) {
         if (daoMaster == null) {

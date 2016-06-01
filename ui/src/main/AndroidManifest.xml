@@ -43,7 +43,8 @@
         <activity
             android:name=".activity.GetProductActivity"
             android:label="@string/title_activity_get_product"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".activity.TermInitActivity"
             android:label="@string/term_init"
@@ -87,12 +88,12 @@
             android:screenOrientation="portrait" />
 
         <!-- <activity android:name="com.ys.ui.activity.MainActivity"></activity> -->
-        <activity
+        <!--<activity
             android:name=".sample.SelectGoodsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".sample.MainMenu"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" />-->
         <activity
             android:name=".serial.salemachine.SerialPortPreferences"
             android:screenOrientation="portrait" />

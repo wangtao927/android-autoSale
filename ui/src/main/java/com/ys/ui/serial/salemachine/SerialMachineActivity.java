@@ -144,12 +144,7 @@ public abstract class SerialMachineActivity extends Activity {
 		mApplication = (App)getApplication();
 //
 		try {
-			path = mApplication.getSale_path();
-
-			baudrate = mApplication.getSale_baudrate();
-			ToastUtils.showShortMessage("mSerialPort:" + path +"---" + baudrate);
-
- 			mSerialPort = mApplication.getSerialPort(path, baudrate);
+ 			mSerialPort = mApplication.getSerialPort();
 
 			mOutputStream = mSerialPort.getOutputStream();
 			mInputStream = mSerialPort.getInputStream();
@@ -172,7 +167,7 @@ public abstract class SerialMachineActivity extends Activity {
 	protected void onDestroy() {
 		if (mReadThread != null)
 			mReadThread.interrupt();
-		mApplication.closeSerialPort();
+		mApplication.closeSaleSerialPort();
 		mSerialPort = null;
 		super.onDestroy();
 	}

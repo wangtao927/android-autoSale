@@ -106,7 +106,7 @@ public class PosSerialHelper {
                 } catch (Exception e) {
                     flag =0;
                     tmpPath = "";
-                    ToastUtils.showShortMessage("exception path=" + path);
+                    ToastUtils.showShortMessage("exception path=" + path + "ex=" + e);
                     continue;
                 }
 

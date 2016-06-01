@@ -83,11 +83,11 @@ public class OutGoodsActivity extends SerialMachineActivity {
                                            @Override
                                            public void onClick(View v) {
 
-                                               finish();
-                                               startActivity(new Intent(OutGoodsActivity.this, ProductActivity.class));
+               finish();
+               startActivity(new Intent(OutGoodsActivity.this, ProductActivity.class));
 
-                                           }
-                                       }
+           }
+       }
         );
         // 初始化广告图
 
@@ -115,7 +115,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
         runOnUiThread(new Runnable() {
             public void run() {
                 // 是正确的返回结果
-//                ToastUtils.showShortMessage("dataReceived= " + BytesUtil.bytesToHexString(buff));
+                ToastUtils.showShortMessage("dataReceived= " + BytesUtil.bytesToHexString(buff));
 
                 switch (buff[1]) {
 
@@ -264,11 +264,13 @@ public class OutGoodsActivity extends SerialMachineActivity {
     private void outGoodsFail() {
         // 出货失败， 考虑退款
         transStatus.setText("出货失败 \n" +
-                "如果您已支付成功， 将与24小时内退款到您的账户中，\n" +
+                "如果您已支付成功， 将与24小时内退款到您的账户中\n" +
                 "      如有疑问， 请联系客服 400-060-0289");
         try {
             reback();
-            App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChanStatusByChanno(channo, Long.valueOf(ChanStatusEnum.ERROR.getIndex()));
+            App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChanStatusByChanno(
+                    channo, Long.valueOf(ChanStatusEnum.ERROR.getIndex()));
+
             DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
             //hideProgress();
 
@@ -415,9 +417,8 @@ public class OutGoodsActivity extends SerialMachineActivity {
     TextView tvTimer;
 
     private void initTimer() {
-        int timeout = PropertyUtils.getInstance().getTransTimeout();
-        minute = timeout / 60;
-        second = timeout % 60;
+         minute = 0;
+        second = 45;
 
         tvTimer.setText(getTime());
 
@@ -441,6 +442,9 @@ public class OutGoodsActivity extends SerialMachineActivity {
             String timer = getTime();
             if (TextUtils.isEmpty(timer)) {
 
+                if (!TextUtils.isEmpty(slNo)) {
+                    selectGoodsFaild();
+                }
                 startActivity(new Intent(OutGoodsActivity.this, HomeActivity.class));
                 finish();
                 return;

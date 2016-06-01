@@ -104,6 +104,12 @@ public class DbManagerHelper {
     }
 
 
+    public static void updateMcStoreChannStatus(String channo, ChanStatusEnum chanStatusEnum) {
+        App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChanStatusByChanno(
+                channo, Long.valueOf(chanStatusEnum.getIndex()));
+        // 更新机器库存卡货状态
+
+    }
 
     public static void updateMcStore(List<McStoreUpdateVO> lists) {
         if (lists != null && !lists.isEmpty()) {

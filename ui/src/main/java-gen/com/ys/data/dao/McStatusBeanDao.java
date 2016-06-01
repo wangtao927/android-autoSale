@@ -101,115 +101,111 @@ public class McStatusBeanDao extends AbstractDao<McStatusBean, String> {
         if (mc_no != null) {
             stmt.bindString(1, mc_no);
         }
- 
-        String mc_serial_no = entity.getMc_serial_no();
-        if (mc_serial_no != null) {
-            stmt.bindString(2, mc_serial_no);
-        }
+
  
         String mr_coin_status = entity.getMr_coin_status();
         if (mr_coin_status != null) {
-            stmt.bindString(3, mr_coin_status);
+            stmt.bindString(2, mr_coin_status);
         }
  
         String mr_coin_short = entity.getMr_coin_short();
         if (mr_coin_short != null) {
-            stmt.bindString(4, mr_coin_short);
+            stmt.bindString(3, mr_coin_short);
         }
  
         String mr_bill_status = entity.getMr_bill_status();
         if (mr_bill_status != null) {
-            stmt.bindString(5, mr_bill_status);
+            stmt.bindString(4, mr_bill_status);
         }
  
         String mr_bill_short = entity.getMr_bill_short();
         if (mr_bill_short != null) {
-            stmt.bindString(6, mr_bill_short);
+            stmt.bindString(5, mr_bill_short);
         }
  
         String mr_uppos_status = entity.getMr_uppos_status();
         if (mr_uppos_status != null) {
-            stmt.bindString(7, mr_uppos_status);
+            stmt.bindString(6, mr_uppos_status);
         }
  
         String mr_scpos_status = entity.getMr_scpos_status();
         if (mr_scpos_status != null) {
-            stmt.bindString(8, mr_scpos_status);
+            stmt.bindString(7, mr_scpos_status);
         }
  
         String mr_alipay_status = entity.getMr_alipay_status();
         if (mr_alipay_status != null) {
-            stmt.bindString(9, mr_alipay_status);
+            stmt.bindString(8, mr_alipay_status);
         }
  
         String mr_wxpay_status = entity.getMr_wxpay_status();
         if (mr_wxpay_status != null) {
-            stmt.bindString(10, mr_wxpay_status);
+            stmt.bindString(9, mr_wxpay_status);
         }
  
         String mr_net_status = entity.getMr_net_status();
         if (mr_net_status != null) {
-            stmt.bindString(11, mr_net_status);
+            stmt.bindString(10, mr_net_status);
         }
  
         String mr_temp = entity.getMr_temp();
         if (mr_temp != null) {
-            stmt.bindString(12, mr_temp);
+            stmt.bindString(11, mr_temp);
         }
  
         String mr_door_isfault = entity.getMr_door_isfault();
         if (mr_door_isfault != null) {
-            stmt.bindString(13, mr_door_isfault);
+            stmt.bindString(12, mr_door_isfault);
         }
  
         String mr_door_status = entity.getMr_door_status();
         if (mr_door_status != null) {
-            stmt.bindString(14, mr_door_status);
+            stmt.bindString(13, mr_door_status);
         }
  
         Long mr_chann_fault_num = entity.getMr_chann_fault_num();
         if (mr_chann_fault_num != null) {
-            stmt.bindLong(15, mr_chann_fault_num);
+            stmt.bindLong(14, mr_chann_fault_num);
         }
  
         String mr_chann_fault_nos = entity.getMr_chann_fault_nos();
         if (mr_chann_fault_nos != null) {
-            stmt.bindString(16, mr_chann_fault_nos);
+            stmt.bindString(15, mr_chann_fault_nos);
         }
  
         Long mr_nogd_chnum = entity.getMr_nogd_chnum();
         if (mr_nogd_chnum != null) {
-            stmt.bindLong(17, mr_nogd_chnum);
+            stmt.bindLong(16, mr_nogd_chnum);
         }
  
         String mr_nogd_chann = entity.getMr_nogd_chann();
         if (mr_nogd_chann != null) {
-            stmt.bindString(18, mr_nogd_chann);
+            stmt.bindString(17, mr_nogd_chann);
         }
  
         Long mr_gear_fault_num = entity.getMr_gear_fault_num();
         if (mr_gear_fault_num != null) {
-            stmt.bindLong(19, mr_gear_fault_num);
+            stmt.bindLong(18, mr_gear_fault_num);
         }
  
         String mr_gear_fault_nos = entity.getMr_gear_fault_nos();
         if (mr_gear_fault_nos != null) {
-            stmt.bindString(20, mr_gear_fault_nos);
+            stmt.bindString(19, mr_gear_fault_nos);
         }
  
         Long mr_data_fault = entity.getMr_data_fault();
         if (mr_data_fault != null) {
-            stmt.bindLong(21, mr_data_fault);
+            stmt.bindLong(20, mr_data_fault);
         }
  
         java.util.Date mr_door_date = entity.getMr_door_date();
         if (mr_door_date != null) {
-            stmt.bindLong(22, mr_door_date.getTime());
+            stmt.bindLong(21, mr_door_date.getTime());
         }
  
         String mr_mc_position = entity.getMr_mc_position();
         if (mr_mc_position != null) {
-            stmt.bindString(23, mr_mc_position);
+            stmt.bindString(22, mr_mc_position);
         }
     }
 
@@ -224,7 +220,7 @@ public class McStatusBeanDao extends AbstractDao<McStatusBean, String> {
     public McStatusBean readEntity(Cursor cursor, int offset) {
         McStatusBean entity = new McStatusBean( //
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // mc_no
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // mc_serial_no
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), //
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // mr_coin_status
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // mr_coin_short
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // mr_bill_status
@@ -236,16 +232,16 @@ public class McStatusBeanDao extends AbstractDao<McStatusBean, String> {
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // mr_net_status
             cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // mr_temp
             cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // mr_door_isfault
-            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // mr_door_status
-            cursor.isNull(offset + 14) ? null : cursor.getLong(offset + 14), // mr_chann_fault_num
-            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // mr_chann_fault_nos
-            cursor.isNull(offset + 16) ? null : cursor.getLong(offset + 16), // mr_nogd_chnum
-            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // mr_nogd_chann
-            cursor.isNull(offset + 18) ? null : cursor.getLong(offset + 18), // mr_gear_fault_num
-            cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // mr_gear_fault_nos
-            cursor.isNull(offset + 20) ? null : cursor.getLong(offset + 20), // mr_data_fault
-            cursor.isNull(offset + 21) ? null : new java.util.Date(cursor.getLong(offset + 21)), // mr_door_date
-            cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22) // mr_mc_position
+                                                                              // mr_door_status
+            cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13), // mr_chann_fault_num
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // mr_chann_fault_nos
+            cursor.isNull(offset + 15) ? null : cursor.getLong(offset + 15), // mr_nogd_chnum
+            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // mr_nogd_chann
+            cursor.isNull(offset + 17) ? null : cursor.getLong(offset + 17), // mr_gear_fault_num
+            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // mr_gear_fault_nos
+            cursor.isNull(offset + 19) ? null : cursor.getLong(offset + 19), // mr_data_fault
+            cursor.isNull(offset + 20) ? null : new java.util.Date(cursor.getLong(offset + 20)), // mr_door_date
+            cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21) // mr_mc_position
         );
         return entity;
     }
@@ -254,28 +250,28 @@ public class McStatusBeanDao extends AbstractDao<McStatusBean, String> {
     @Override
     public void readEntity(Cursor cursor, McStatusBean entity, int offset) {
         entity.setMc_no(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
-        entity.setMc_serial_no(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setMr_coin_status(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setMr_coin_short(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setMr_bill_status(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setMr_bill_short(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setMr_uppos_status(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setMr_scpos_status(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setMr_alipay_status(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
-        entity.setMr_wxpay_status(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
-        entity.setMr_net_status(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
-        entity.setMr_temp(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
-        entity.setMr_door_isfault(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
-        entity.setMr_door_status(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
-        entity.setMr_chann_fault_num(cursor.isNull(offset + 14) ? null : cursor.getLong(offset + 14));
-        entity.setMr_chann_fault_nos(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
-        entity.setMr_nogd_chnum(cursor.isNull(offset + 16) ? null : cursor.getLong(offset + 16));
-        entity.setMr_nogd_chann(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
-        entity.setMr_gear_fault_num(cursor.isNull(offset + 18) ? null : cursor.getLong(offset + 18));
-        entity.setMr_gear_fault_nos(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
-        entity.setMr_data_fault(cursor.isNull(offset + 20) ? null : cursor.getLong(offset + 20));
-        entity.setMr_door_date(cursor.isNull(offset + 21) ? null : new java.util.Date(cursor.getLong(offset + 21)));
-        entity.setMr_mc_position(cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22));
+//        entity.setMc_serial_no(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setMr_coin_status(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setMr_coin_short(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setMr_bill_status(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setMr_bill_short(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setMr_uppos_status(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setMr_scpos_status(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setMr_alipay_status(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setMr_wxpay_status(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setMr_net_status(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setMr_temp(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setMr_door_isfault(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setMr_door_status(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setMr_chann_fault_num(cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13));
+        entity.setMr_chann_fault_nos(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setMr_nogd_chnum(cursor.isNull(offset + 15) ? null : cursor.getLong(offset + 15));
+        entity.setMr_nogd_chann(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
+        entity.setMr_gear_fault_num(cursor.isNull(offset + 17) ? null : cursor.getLong(offset + 17));
+        entity.setMr_gear_fault_nos(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
+        entity.setMr_data_fault(cursor.isNull(offset + 19) ? null : cursor.getLong(offset + 19));
+        entity.setMr_door_date(cursor.isNull(offset + 20) ? null : new java.util.Date(cursor.getLong(offset + 20)));
+        entity.setMr_mc_position(cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21));
      }
     
     /** @inheritdoc */
