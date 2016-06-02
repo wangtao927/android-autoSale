@@ -426,6 +426,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                 intent.putExtra("gdNo", mcGoodsBean.getGd_no());
                 startActivity(intent);
 
+                break;
             case R.id.btn_login:
 
                 if (etUserNo != null) {
@@ -444,8 +445,9 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                         } else {
                             userLogin(etUserNo.getText().toString(), etPwd.getText().toString());
                         }
-
                     }
+
+                    // 如果注册成功 或者
                     //
                 }
                 break;
@@ -475,7 +477,8 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                 // 发送验证码
                 if (etUserNo != null && !TextUtils.isEmpty(etUserNo.getText())) {
                     getValideCode(etUserNo.getText().toString());
-
+                    ibGetV.setImageResource(R.color.gray);
+                    ibGetV.setClickable(false);
                 }
                 break;
 
@@ -525,41 +528,42 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
         mDialog.show();
     }
 
-    private void userLogin(String userNo, String userPwd) {
+    private void userLogin(final String userNo, final String userPwd) {
         //
 
-        RetrofitManager.builder().userLogin(userNo, userPwd)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        //showProgress();
-                    }
-                })
-                .subscribe(new Action1<CommonResponse<String>>() {
-                    @Override
-                    public void call(CommonResponse<String> response) {
-                        //hideProgress();
+                RetrofitManager.builder().userLogin(userNo, userPwd)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(new Action0() {
+                            @Override
+                            public void call() {
+                                //showProgress();
+                            }
+                        })
+                        .subscribe(new Action1<CommonResponse<String>>() {
+                            @Override
+                            public void call(CommonResponse<String> response) {
+                                //hideProgress();
 
-                        if (response.getCode() == 0) {
+                                if (response.getCode() == 0) {
 
-                            createOrder(String.valueOf(slType.getIndex()), 1);
+                                    createOrder(String.valueOf(slType.getIndex()), 1);
 
-                        } else {
-                            ToastUtils.showShortMessage(response.getMsg());
-                        }
+                                } else {
+                                    ToastUtils.showShortMessage(response.getMsg());
+                                }
 
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        ToastUtils.showShortMessage("发送验证码失败");
-                        //hideProgress();
-                        //Toast.makeText(GetProductActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+                            }
+                        }, new Action1<Throwable>() {
+                            @Override
+                            public void call(Throwable throwable) {
+                                ToastUtils.showShortMessage("失败");
+                                //hideProgress();
+                                //Toast.makeText(GetProductActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
 
-                    }
-                });
+                            }
+                        });
+
 
 
     }
