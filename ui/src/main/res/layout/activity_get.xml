@@ -67,6 +67,7 @@
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             android:text="密  码"
+
             android:textColor="@color/white" />
 
         <EditText

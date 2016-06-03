@@ -16,16 +16,12 @@ import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
 import com.ys.ui.common.manager.DbManagerHelper;
-import com.ys.ui.service.TimerService;
 import com.ys.ui.utils.RandomUtils;
-import com.ys.ui.utils.ToastUtils;
 import com.ys.ui.utils.Utils;
-
 
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
@@ -74,10 +70,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             startActivity(new Intent(this, TermInitActivity.class));
 
             return;
-        } else {
-            //启动service
-            Intent intent = new Intent(this, TimerService.class);
-            startService(intent);
         }
     }
 
@@ -102,13 +94,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
          if (adsList == null || adsList.isEmpty()) {
             Glide.with(HomeActivity.this)
                     .load(R.mipmap.ad1)
-                    .placeholder(R.mipmap.ad1)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(ad);
         } else {
             Glide.with(HomeActivity.this)
                     .load(adsList.get(adIndex).getFileUrl())
-                    .placeholder(R.mipmap.ad1)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(ad);
 

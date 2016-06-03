@@ -18,6 +18,11 @@ public class GetBytesUtils {
         return buffer;
     }
 
+    public static byte[] reback() {
+        byte[] buffer = new byte[]{0x02, 0x25, 0x25, 0x03};
+        return buffer;
+    }
+
     public static byte[] goodsButtonOn(byte RackNo, byte onff) {
         // 01:ON, 00:OFF
         byte[] buffer = new byte[]{0x02, 0x31, RackNo, onff, 0x00, 0x03};

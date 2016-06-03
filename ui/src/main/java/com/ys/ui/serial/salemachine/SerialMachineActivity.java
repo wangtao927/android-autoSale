@@ -33,7 +33,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import android_serialport_api.SerialPort;
 
-public abstract class SerialMachineActivity extends BaseTimerActivity {
+public abstract class SerialMachineActivity extends Activity {
 
 
 	protected App mApplication;
@@ -144,12 +144,7 @@ public abstract class SerialMachineActivity extends BaseTimerActivity {
 		mApplication = (App)getApplication();
 //
 		try {
-			path = mApplication.getSale_path();
-
-			baudrate = mApplication.getSale_baudrate();
-			ToastUtils.showShortMessage("mSerialPort:" + path +"---" + baudrate);
-
- 			mSerialPort = mApplication.getSerialPort(path, baudrate);
+ 			mSerialPort = mApplication.getSerialPort();
 
 			mOutputStream = mSerialPort.getOutputStream();
 			mInputStream = mSerialPort.getInputStream();
@@ -172,7 +167,7 @@ public abstract class SerialMachineActivity extends BaseTimerActivity {
 	protected void onDestroy() {
 		if (mReadThread != null)
 			mReadThread.interrupt();
-		mApplication.closeSerialPort();
+		mApplication.closeSaleSerialPort();
 		mSerialPort = null;
 		super.onDestroy();
 	}

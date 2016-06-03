@@ -54,11 +54,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         btn_buy.setOnClickListener(this);
         btnHome.setOnClickListener(this);
         // 如果终端号不存在， 则跳转到设置终端信息界面
-        if (!isInit()) {
-            // 弹出层，输入终端号，初始化机器
-            startActivity(new Intent(this, TermInitActivity.class));
-            return;
-        }
+//        if (!isInit()) {
+//            // 弹出层，输入终端号，初始化机器
+//            startActivity(new Intent(this, TermInitActivity.class));
+//            return;
+//        }
 
     }
 
@@ -72,7 +72,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.btn_query:
                 finish();
-                startActivity(new Intent(MainActivity.this, OutGoodsActivity.class));
+               // startActivity(new Intent(MainActivity.this, SelectGoodsActivity.class));
                 break;
             case R.id.btn_buy:
                 finish();

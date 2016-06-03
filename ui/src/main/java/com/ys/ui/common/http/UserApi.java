@@ -4,6 +4,7 @@ import com.ys.ui.common.request.CommonRequest;
 import com.ys.ui.common.request.UserVo;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateOrderResult;
+import com.ys.ui.common.response.UserResult;
 
 import java.util.Map;
 
@@ -24,7 +25,7 @@ public interface UserApi {
      */
     @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_SHORT)
     @POST("userLogin")
-    Observable<CommonResponse<String>> userLogin (@Body CommonRequest<Map<String, String>> request);
+    Observable<CommonResponse<UserResult>> userLogin (@Body CommonRequest<Map<String, String>> request);
 
     @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_SHORT)
     @POST("getVerifyCode")

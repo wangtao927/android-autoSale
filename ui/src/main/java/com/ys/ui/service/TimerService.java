@@ -60,12 +60,15 @@ public class TimerService extends Service {
         AlarmManager manager = (AlarmManager)getSystemService(ALARM_SERVICE);
         //获取循环的时间
         long triggerTime = SystemClock.elapsedRealtime() +
-                PropertyUtils.getInstance().getOnlineSendSplit() * 60 * 1000;
+                PropertyUtils.getInstance().getOnlineSendSplit() * 1000;
 
         Intent i = new Intent(this, AlarmReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime, pi);
 
+        // repeat 时间有点乱
+//        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,  SystemClock.elapsedRealtime() + 1000,
+//        10 * 1000, pi);
         return super.onStartCommand(intent, flags, startId);
     }
 

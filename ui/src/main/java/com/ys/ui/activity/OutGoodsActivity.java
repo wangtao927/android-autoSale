@@ -8,17 +8,14 @@ import android.support.v4.widget.ContentLoadingProgressBar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ys.BufferData;
 import com.ys.BytesUtil;
 import com.ys.GetBytesUtils;
-import com.ys.RobotEvent;
-import com.ys.RobotEventArg;
 import com.ys.data.bean.GoodsBean;
-import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.SaleListBean;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
@@ -29,7 +26,6 @@ import com.ys.ui.common.constants.SlTypeEnum;
 import com.ys.ui.common.http.RetrofitManager;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.response.CommonResponse;
-import com.ys.ui.common.response.TermInitResult;
 import com.ys.ui.serial.print.activity.PrintHelper;
 import com.ys.ui.serial.salemachine.SerialMachineActivity;
 import com.ys.ui.utils.PropertyUtils;
@@ -37,13 +33,9 @@ import com.ys.ui.utils.ToastUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.LinkedBlockingQueue;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
@@ -60,9 +52,62 @@ public class OutGoodsActivity extends SerialMachineActivity {
     TextView transStatus;
     ContentLoadingProgressBar mPbLoading;
 
+
+    Button btnJxBuy;
+
     private String channo = "";
     private String slNo = "";
 
+    ImageButton btnBackHome;
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.out_goods_main);
+
+        tvTimer = (TextView) findViewById(R.id.tv_timer);
+        transStatus = (TextView) findViewById(R.id.transStatus);
+
+        btnJxBuy = (Button)findViewById(R.id.btn_jx_buy);
+        btnJxBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                startActivity(new Intent(OutGoodsActivity.this, ProductActivity.class));
+            }
+        });
+        btnBackHome = (ImageButton) findViewById(R.id.btn_back_home);
+
+        btnBackHome.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View v) {
+
+               finish();
+               startActivity(new Intent(OutGoodsActivity.this, ProductActivity.class));
+
+           }
+       }
+        );
+        // 初始化广告图
+
+
+        Bundle datas = getIntent().getExtras();
+        slNo = datas.getString("slNo");
+        channo = datas.getString("channo");
+        byte no = Integer.valueOf(channo, 16).byteValue();
+
+        mBuffer = null;
+
+        // 发送选货请求
+        mBuffer = GetBytesUtils.goodsSelect(no);
+
+        mSendingThread = new SendingThread();
+        mSendingThread.start();
+
+        initTimer();
+
+    }
 
     @Override
     protected void onDataReceived(final byte[] buff) {
@@ -70,7 +115,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
         runOnUiThread(new Runnable() {
             public void run() {
                 // 是正确的返回结果
-                //ToastUtils.showShortMessage("dataReceived= " + BytesUtil.bytesToHexString(buff));
+                ToastUtils.showShortMessage("dataReceived= " + BytesUtil.bytesToHexString(buff));
 
                 switch (buff[1]) {
 
@@ -138,53 +183,16 @@ public class OutGoodsActivity extends SerialMachineActivity {
     }
 
 
-    int minute;
-    int second;
-    Timer timer;
-    TimerTask timerTask;
-    TextView tvTimer;
-
-    private void initTimer() {
-        int timeout = PropertyUtils.getInstance().getTransTimeout();
-        minute = timeout / 60;
-        second = timeout % 60;
-
-        tvTimer.setText(getTime());
-
-        timerTask = new TimerTask() {
-
-            @Override
-            public void run() {
-                Message msg = new Message();
-                msg.what = 0;
-                handler.sendMessage(msg);
-            }
-        };
-
-        timer = new Timer();
-        timer.schedule(timerTask, 0, 1000);
-    }
-
-    Handler handler = new Handler() {
-        public void handleMessage(Message msg) {
-
-            String timer = getTime();
-            if (TextUtils.isEmpty(timer)) {
-                startActivity(new Intent(OutGoodsActivity.this, HomeActivity.class));
-                finish();
-                return;
-            }
-            tvTimer.setText(timer);
-        }
-    };
-
 
     private void selectGoodsFaild() {
         //  锁定货道
         transStatus.setText("出货失败 \n" +
                 "如果您已支付成功， 将与24小时内退款到您的账户中，\n" +
                 "      如有疑问， 请联系客服 400-060-0289");
+
         try {
+            // 复位
+            reback();
             App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChanStatusByChanno(channo, Long.valueOf(ChanStatusEnum.ERROR.getIndex()));
             DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
 
@@ -194,6 +202,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
         try {
             refund(slNo);
+
             ToastUtils.showShortMessage("退款请求已发送：订单号：" + slNo);
         } catch (Exception e) {
             ToastUtils.showShortMessage("slNo=" + slNo + " 退款异常:" + e);
@@ -207,6 +216,8 @@ public class OutGoodsActivity extends SerialMachineActivity {
                 mSendingThread.interrupt();
 
             }
+            reback();
+
             // 支付成功才会 走到出货
             DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FINISH);
             DbManagerHelper.reduceStore(channo);
@@ -215,6 +226,8 @@ public class OutGoodsActivity extends SerialMachineActivity {
             //hideProgress();
             transStatus.setText("出货完成");
             ToastUtils.showShortMessage("交易成功, 欢迎下次光临");
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -239,12 +252,25 @@ public class OutGoodsActivity extends SerialMachineActivity {
                 getPrice(vipPrice), getPrice(bean.getSl_amt()));
     }
 
+    protected String getPrice(Long price) {
+
+        if (price == null) {
+            return "0";
+        }
+        return new BigDecimal(price).divide(new BigDecimal(100)).setScale(2).toString();
+    }
+
+
     private void outGoodsFail() {
         // 出货失败， 考虑退款
         transStatus.setText("出货失败 \n" +
-                "如果您已支付成功， 将与24小时内退款到您的账户中，\n" +
+                "如果您已支付成功， 将与24小时内退款到您的账户中\n" +
                 "      如有疑问， 请联系客服 400-060-0289");
         try {
+            reback();
+            App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChanStatusByChanno(
+                    channo, Long.valueOf(ChanStatusEnum.ERROR.getIndex()));
+
             DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
             //hideProgress();
 
@@ -302,34 +328,6 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
     }
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.out_goods_main;
-    }
-
-    @Override
-    protected void create(Bundle savedInstanceState) {
-        tvTimer = (TextView) findViewById(R.id.tv_timer);
-        transStatus = (TextView) findViewById(R.id.transStatus);
-
-        // mPbLoading = (ContentLoadingProgressBar)findViewById(R.id.pb_loading);
-        //initTimer();
-
-        Bundle datas = getIntent().getExtras();
-        slNo = datas.getString("slNo");
-        channo = datas.getString("channo");
-        byte no = Integer.valueOf(channo, 16).byteValue();
-
-        mBuffer = null;
-
-        // 发送选货请求
-        mBuffer = GetBytesUtils.goodsSelect(no);
-
-        mSendingThread = new SendingThread();
-        mSendingThread.start();
-
-        initTimer();
-    }
 
     private void refund(final String slNo) {
         SaleListBean saleListBean = DbManagerHelper.getSaleRecord(slNo);
@@ -378,6 +376,16 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
     }
 
+    private void reback() {
+
+        btnJxBuy.setVisibility(View.VISIBLE);
+
+        // 发送选货请求
+        mBuffer = GetBytesUtils.reback();
+
+        mSendingThread = new SendingThread();
+        mSendingThread.start();
+    }
     private class SendingThread extends Thread {
         @Override
         public void run() {
@@ -402,24 +410,70 @@ public class OutGoodsActivity extends SerialMachineActivity {
         mPbLoading.setVisibility(View.GONE);
     }
 
+    int minute;
+    int second;
+    Timer timer;
+    TimerTask timerTask;
+    TextView tvTimer;
+
+    private void initTimer() {
+         minute = 0;
+        second = 45;
+
+        tvTimer.setText(getTime());
+
+        timerTask = new TimerTask() {
+
+            @Override
+            public void run() {
+                Message msg = new Message();
+                msg.what = 0;
+                handler.sendMessage(msg);
+            }
+        };
+
+        timer = new Timer();
+        timer.schedule(timerTask, 0, 1000);
+    }
+
+    Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+
+            String timer = getTime();
+            if (TextUtils.isEmpty(timer)) {
+
+                if (!TextUtils.isEmpty(slNo)) {
+                    selectGoodsFaild();
+                }
+                startActivity(new Intent(OutGoodsActivity.this, HomeActivity.class));
+                finish();
+                return;
+            }
+            tvTimer.setText(timer);
+        }
+    };
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
         if (mSendingThread != null) {
             mSendingThread.interrupt();
-
+            mSendingThread = null;
         }
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
+            handler = null;
         }
 
         if (timerTask != null) {
             timerTask.cancel();
+            timerTask = null;
         }
 
         if (timer != null) {
             timer.cancel();
+            timer = null;
         }
     }
 }

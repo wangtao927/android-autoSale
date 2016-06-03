@@ -7,7 +7,6 @@ package com.ys.data.bean;
 public class McStatusBean {
 
     private String mc_no;
-    private String mc_serial_no;
     private String mr_coin_status;
     private String mr_coin_short;
     private String mr_bill_status;
@@ -37,10 +36,9 @@ public class McStatusBean {
         this.mc_no = mc_no;
     }
 
-    public McStatusBean(String mc_no, String mc_serial_no, String mr_coin_status, String mr_coin_short, String mr_bill_status, String mr_bill_short, String mr_uppos_status, String mr_scpos_status, String mr_alipay_status, String mr_wxpay_status, String mr_net_status, String mr_temp, String mr_door_isfault, String mr_door_status, Long mr_chann_fault_num, String mr_chann_fault_nos, Long mr_nogd_chnum, String mr_nogd_chann, Long mr_gear_fault_num, String mr_gear_fault_nos, Long mr_data_fault, java.util.Date mr_door_date, String mr_mc_position) {
+    public McStatusBean(String mc_no,  String mr_coin_status, String mr_coin_short, String mr_bill_status, String mr_bill_short, String mr_uppos_status, String mr_scpos_status, String mr_alipay_status, String mr_wxpay_status, String mr_net_status, String mr_temp, String mr_door_isfault, String mr_door_status, Long mr_chann_fault_num, String mr_chann_fault_nos, Long mr_nogd_chnum, String mr_nogd_chann, Long mr_gear_fault_num, String mr_gear_fault_nos, Long mr_data_fault, java.util.Date mr_door_date, String mr_mc_position) {
         this.mc_no = mc_no;
-        this.mc_serial_no = mc_serial_no;
-        this.mr_coin_status = mr_coin_status;
+         this.mr_coin_status = mr_coin_status;
         this.mr_coin_short = mr_coin_short;
         this.mr_bill_status = mr_bill_status;
         this.mr_bill_short = mr_bill_short;
@@ -69,14 +67,6 @@ public class McStatusBean {
 
     public void setMc_no(String mc_no) {
         this.mc_no = mc_no;
-    }
-
-    public String getMc_serial_no() {
-        return mc_serial_no;
-    }
-
-    public void setMc_serial_no(String mc_serial_no) {
-        this.mc_serial_no = mc_serial_no;
     }
 
     public String getMr_coin_status() {

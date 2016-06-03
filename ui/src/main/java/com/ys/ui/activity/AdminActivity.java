@@ -217,17 +217,16 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
 
     }
 
-    private McStatusBean getInitBean(String termno, String serialNo) {
+    private McStatusBean getInitBean(String termno) {
         McStatusBean bean = new McStatusBean();
 
         bean.setMc_no(termno);
-        bean.setMc_serial_no(serialNo);
         return bean;
     }
 
     private void initTerm(CommonResponse<TermInitResult> response) {
         // 1. 保存终端号到sqllite
-        McStatusBean mcStatusBean = getInitBean(response.getExt_data().getMachine().getMc_no(), response.getExt_data().getMachine().getMc_serial_no());
+        McStatusBean mcStatusBean = getInitBean(response.getExt_data().getMachine().getMc_no());
         DbManagerHelper.initTermStatus(mcStatusBean);
         // 2. 更新终端参数
         DbManagerHelper.initMcParam(response.getExt_data().getMcparam());

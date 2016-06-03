@@ -28,6 +28,7 @@ import com.ys.ui.common.http.RetrofitManager;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.TermInitResult;
+import com.ys.ui.service.TimerService;
 import com.ys.ui.utils.StringUtils;
 
 import java.security.Provider;
@@ -157,19 +158,18 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
                 });
     }
 
-    private McStatusBean getInitBean(String termno, String serialNo) {
+    private McStatusBean getInitBean(String termno) {
         McStatusBean bean = new McStatusBean();
         if (location != null) {
             bean.setMr_mc_position(location.getLongitude() + "," + location.getLatitude() );//经纬度
         }
         bean.setMc_no(termno);
-        bean.setMc_serial_no(serialNo);
         return bean;
     }
 
     private void initTerm(CommonResponse<TermInitResult> response) {
         // 1. 保存终端号到sqllite
-        McStatusBean mcStatusBean = getInitBean(response.getExt_data().getMachine().getMc_no(), response.getExt_data().getMachine().getMc_serial_no());
+        McStatusBean mcStatusBean = getInitBean(response.getExt_data().getMachine().getMc_no());
         DbManagerHelper.initTermStatus(mcStatusBean);
         // 2. 更新终端参数
         DbManagerHelper.initMcParam(response.getExt_data().getMcparam());
@@ -185,6 +185,9 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
 
         // 初始化
         App.mcNo = mcStatusBean.getMc_no();
+        // 终端号不为空   重新启动定时任务
+        Intent intent = new Intent(this, TimerService.class);
+        startService(intent);
 
     }
 
