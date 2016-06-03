@@ -13,77 +13,75 @@
     <ImageView
         android:id="@+id/ad"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-         android:layout_below="@+id/title"
-        android:background="@color/bg"
-        android:scaleType="fitXY"
-        android:src="@mipmap/adv_2" />
+        android:layout_height="200dp"
+        android:layout_below="@+id/title"
+        android:background="@mipmap/adv_2"
+        android:scaleType="fitXY" />
 
     <LinearLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="@color/bg"
+        android:layout_height="match_parent"
         android:layout_above="@+id/rl_footer"
-        android:gravity="center_vertical"
+        android:layout_below="@id/ad"
+        android:background="@color/bg"
+
         android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/desc"
             android:layout_width="match_parent"
-            android:layout_height="190dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             android:background="@color/bg"
-             >
+            android:gravity="center">
 
             <ImageView
                 android:id="@+id/iv_pay_status"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="150dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@mipmap/face_1" />
+
             <TextView
                 android:id="@+id/transStatus"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="25dp"
-                android:background="@color/bg"
-                android:gravity="left"
-                android:textSize="30sp"
-                android:text="支付成功出货中"
-                android:textColor="@color/white"
-                android:layout_weight="1" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
+                android:layout_marginLeft="10dp"
+                android:background="@color/bg"
+                android:text="支付成功出货中, 请稍等..."
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
 
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/lay_buy_continue"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/btn_jx_buy"
-                android:layout_width="200dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:padding="20dp"
-                android:visibility="gone"
                 android:text="继续购买"
                 android:textColor="@color/bg_deep"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone" />
 
         </LinearLayout>
 
     </LinearLayout>
 
 
-
-
-
     <include
         android:id="@+id/rl_footer"
         layout="@layout/footer_bar" />
+
     <include layout="@layout/include_loading" />
 
 </RelativeLayout>
