@@ -60,7 +60,7 @@ public class PosSerialHelper {
 
             for (String path : paths) {
                 flag = 0;
-                 tmpPath = path;
+                tmpPath = path;
                 try {
                     E_REQ_RETURN req_return =  myBinder.pos_init(path, mApplication.getMinipos_baudrate());
                     try {
@@ -83,7 +83,6 @@ public class PosSerialHelper {
                     if (E_REQ_RETURN.REQ_OK == req_return) {
                          // 等待返回结果
                         while (true) {
-
                             if (1 == flag) {
                                 ToastUtils.showShortMessage("串口连接成功-path=" + path);
                                 break;
@@ -97,7 +96,6 @@ public class PosSerialHelper {
                                 }
                             }
                         }
-
                     }
                     if (flag == 1) {
                         break;
@@ -111,9 +109,6 @@ public class PosSerialHelper {
                 }
 
         }
-
-
-
 
     }
 
@@ -133,14 +128,68 @@ public class PosSerialHelper {
             }
         };
     }
+
+
+    public boolean posSign() {
+        flag = 0;
+        E_REQ_RETURN req_return = myBinder.pos_signin();
+        if (E_REQ_RETURN.REQ_OK == req_return) {
+            while (true) {
+                if (flag == 1) {
+
+                    return true;
+                } else {
+                    try {
+                        Thread.sleep(2000);
+                        continue;
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+
+            }
+        }
+        return false;
+    }
+
+    public boolean purchase(long amount) {
+
+        flag = 0;
+        E_REQ_RETURN req_return = myBinder.pos_purchase((int) amount);
+
+        if (E_REQ_RETURN.REQ_OK == req_return) {
+            while (true) {
+                if (flag == 1) {
+
+                    return true;
+                } else {
+                    try {
+                        Thread.sleep(2000);
+                        continue;
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+
+            }
+        }
+        return false;
+    }
+
+    public boolean posSignAndPurchase(long amount) {
+        if (posSign()) {
+            return purchase(amount);
+        } else {
+            return false;
+        }
+
+    }
     //////////////////////////////////////////业务返回///////////////////////////////////////
     private Handler mmHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             Display dpl = null;//POS提示信息显示
-            System.out.println("InitActivity, mILfMsgHandler incomming, msg.arg:"+msg.arg1);
             CallbackMsg cbmsg = (CallbackMsg)msg.obj;
-            String tmp = "";
             switch(cbmsg.op_type){//信息（交易）类型
                 case OP_POS_SIGNIN://签到
                 case OP_POS_QUERY://查询

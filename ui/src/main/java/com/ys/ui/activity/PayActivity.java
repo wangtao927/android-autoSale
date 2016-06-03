@@ -42,10 +42,12 @@ import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateOrderResult;
 import com.ys.ui.common.response.SaleListResult;
+import com.ys.ui.common.response.UserResult;
 import com.ys.ui.serial.pos.PosSerialHelper;
 import com.ys.ui.serial.print.activity.PrintHelper;
 import com.ys.ui.service.MyService;
 import com.ys.ui.utils.ImageUtils;
+import com.ys.ui.utils.OrderUtils;
 import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.ToastUtils;
 import com.ys.ui.utils.Utils;
@@ -116,6 +118,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     private TextView tvPwd;
     private ImageButton ibGetV;
 
+    private String slNo;
 
     /**
      * 用字符串生成二维码
@@ -160,13 +163,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     @Override
     protected int getLayoutId() {
 
-//        if (slType == SlTypeEnum.WX || slType == SlTypeEnum.ALIPAY) {
-//            mQCodeImageView = (ImageView) findViewById(R.id.im_qrcode);
         return R.layout.activity_pay_wx;
-//        } else {
-//            return R.layout.activity_pay_phone;
-//        }
-
     }
 
     @Override
@@ -197,7 +194,8 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
     private void createOrder(String type, final int vip) {
 
-        SaleListVo saleListVo = new SaleListVo();
+        slNo = OrderUtils.getOrderNo();
+        final SaleListVo saleListVo = new SaleListVo();
         saleListVo.setMcNo(App.mcNo);
         saleListVo.setSlType(type);
         saleListVo.setSlGdName(goodsBean.getGd_name());
@@ -206,6 +204,26 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
         final long amount = vip == 0 ? mcGoodsBean.getMg_disc_price() : mcGoodsBean.getMg_vip_price();
         saleListVo.setSlAmt(amount);
 
+        createSaleList(saleListVo.getSlAmt(), vip, slNo);
+
+        if (slType.getIndex() == SlTypeEnum.ALIPAY.getIndex()
+                || slType.getIndex() == SlTypeEnum.WX.getIndex()) {
+
+            createOrder(saleListVo, vip);
+        } else {
+            mQCodeImageView.setImageResource(R.mipmap.bankcard_flag);
+            boolean payResult = waitPay(saleListVo.getSlAmt());
+            if (payResult) {
+                DbManagerHelper.updatePayStatus(slNo, SlPayStatusEnum.FINISH);
+                startOutGoods(slNo);
+            }
+         }
+
+
+    }
+
+
+    private void createOrder(final SaleListVo saleListVo, final int vip) {
         RetrofitManager.builder().createOrder(saleListVo.getMcNo(), saleListVo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -223,26 +241,18 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                             // 调用出货
                             try {
                                 // 生成本地的订单
-                                createSaleList(amount, vip, response.getExt_data().getSlNo());
 
-                                if (slType.getIndex() == SlTypeEnum.ALIPAY.getIndex()
-                                        || slType.getIndex() == SlTypeEnum.WX.getIndex()) {
-                                    if (TextUtils.isEmpty(response.getExt_data().getQrcodeUrl())) {
-                                        Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcode());
-                                        mQCodeImageView.setImageBitmap(qrcodeBitmap);
-                                    } else {
-                                        Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcodeUrl());
-                                        mQCodeImageView.setImageBitmap(qrcodeBitmap);
-                                    }
-                                    waitQRPay(response.getExt_data().getSlNo());
-
+                                if (TextUtils.isEmpty(response.getExt_data().getQrcodeUrl())) {
+                                    Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcode());
+                                    mQCodeImageView.setImageBitmap(qrcodeBitmap);
                                 } else {
-                                    mQCodeImageView.setImageResource(R.mipmap.bankcard_flag);
-
-                                    waitPay(response.getExt_data().getSlNo());
+                                    Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcodeUrl());
+                                    mQCodeImageView.setImageBitmap(qrcodeBitmap);
                                 }
+                                waitQRPay(response.getExt_data().getSlNo());
 
-                                //
+
+
                             } catch (WriterException e) {
                                 Log.e("error:", e.getMessage());
                             }
@@ -264,7 +274,6 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                     }
                 });
     }
-
     private void createSaleList(long amount, int vip, String slNo) {
         SaleListBean saleListBean = new SaleListBean();
         saleListBean.setSl_pay_status(String.valueOf(SlPayStatusEnum.INIT.getIndex()));
@@ -295,10 +304,9 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     boolean finish_flag = false;
 
     // 银联卡支付
-    private void waitPay(final String slNo) {
-//        startTime = System.currentTimeMillis();
-//        pay_timer= new java.util.Timer(true);
+    private boolean waitPay(long amount) {
 
+         return PosSerialHelper.getInstance().posSignAndPurchase(amount);
 
     }
 
@@ -447,9 +455,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                         }
                     }
 
-                    // 如果注册成功 或者
-                    //
-                }
+                 }
                 break;
             case R.id.btn_cancel:
                 mDialog.cancel();
@@ -473,12 +479,16 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                 ivLogin.setBackgroundResource(R.mipmap.login_1);
                 ivReg.setBackgroundResource(R.mipmap.reg);
                 tvPwd.setText("验证码");
-                ToastUtils.showShortMessage("手机号：" + etUserNo.getText());
+
+
                 // 发送验证码
                 if (etUserNo != null && !TextUtils.isEmpty(etUserNo.getText())) {
+
                     getValideCode(etUserNo.getText().toString());
                     ibGetV.setImageResource(R.color.gray);
                     ibGetV.setClickable(false);
+                } else {
+                   ToastUtils.showShortMessage("请填写手机号");
                 }
                 break;
 
@@ -530,7 +540,6 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
     private void userLogin(final String userNo, final String userPwd) {
         //
-
                 RetrofitManager.builder().userLogin(userNo, userPwd)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -540,17 +549,22 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                                 //showProgress();
                             }
                         })
-                        .subscribe(new Action1<CommonResponse<String>>() {
+                        .subscribe(new Action1<CommonResponse<UserResult>>() {
                             @Override
-                            public void call(CommonResponse<String> response) {
+                            public void call(CommonResponse<UserResult> response) {
                                 //hideProgress();
 
+                                Log.d("response", response.toString());
                                 if (response.getCode() == 0) {
 
+                                    mDialog.cancel();
                                     createOrder(String.valueOf(slType.getIndex()), 1);
+                                    layPay.setVisibility(View.VISIBLE);
+                                    laySelectPay.setVisibility(View.GONE);
 
                                 } else {
-                                    ToastUtils.showShortMessage(response.getMsg());
+                                    //ToastUtils.showShortMessage(response.getMsg());
+                                    ToastUtils.showShortMessage("用户名或密码错误");
                                 }
 
                             }
@@ -622,7 +636,11 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
                         if (response.getCode() == 0) {
 
-                            ToastUtils.showShortMessage("");
+                            mDialog.cancel();
+                            ToastUtils.showShortMessage("注册成功，默认密码是:123456");
+
+                            // 生成订单
+                            createOrder(String.valueOf(slType.getIndex()), 1);
 
                         }
 
