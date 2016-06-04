@@ -66,9 +66,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="50dp"
-                android:padding="20dp"
+                android:padding="10dp"
                 android:text="继续购买"
-                android:textColor="@color/bg_deep"
+                android:textColor="@color/white"
+                android:background="@color/bg_btn"
                 android:textSize="20sp"
                 android:visibility="gone" />
 

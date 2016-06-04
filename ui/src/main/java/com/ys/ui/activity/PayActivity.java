@@ -321,7 +321,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
             }
         };
-        pay_timer.schedule(pay_task, 5000);
+        pay_timer.schedule(pay_task, 15000);
 
 
     }

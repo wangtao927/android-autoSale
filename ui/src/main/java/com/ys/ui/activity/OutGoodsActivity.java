@@ -196,16 +196,11 @@ public class OutGoodsActivity extends SerialMachineActivity {
             App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChanStatusByChanno(channo, Long.valueOf(ChanStatusEnum.ERROR.getIndex()));
             DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
 
-        } catch (Exception e) {
-            ToastUtils.showShortMessage("选货失败，参数：channo=" + channo + "slNo=" + slNo);
-        }
-
-        try {
             refund(slNo);
 
-            ToastUtils.showShortMessage("退款请求已发送：订单号：" + slNo);
+            //ToastUtils.showShortMessage("退款请求已发送：订单号：" + slNo);
         } catch (Exception e) {
-            ToastUtils.showShortMessage("slNo=" + slNo + " 退款异常:" + e);
+           // ToastUtils.showShortMessage("slNo=" + slNo + " 退款异常:" + e);
 
         }
     }
@@ -223,20 +218,12 @@ public class OutGoodsActivity extends SerialMachineActivity {
             DbManagerHelper.reduceStore(channo);
             // 打印凭条
             printPayNote(slNo);
-            //hideProgress();
-            transStatus.setText("出货完成");
-            ToastUtils.showShortMessage("交易成功, 欢迎下次光临");
 
+            transStatus.setText("出货完成");
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        //finish();
-
-
-        // 出货成功， 显示继续购买
-        //startActivity(new Intent(OutGoodsActivity.this, HomeActivity.class));
 
     }
 

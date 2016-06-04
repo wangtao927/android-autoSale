@@ -62,7 +62,6 @@ public class App extends Application {
 
         //SerialMachineHelper.getInstance().getSerial();
 
-
         /*Intent intent1 = new Intent(this, SerialInitService.class);
         startService(intent1);*/
     }
