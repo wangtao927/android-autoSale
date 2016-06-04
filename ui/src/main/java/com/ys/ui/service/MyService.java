@@ -19,7 +19,6 @@ import com.ys.ui.utils.ToastUtils;
 public class MyService extends Service {
 
 	private MyBinder mBinder = new MyBinder();
-	PropertyUtils propertyUtils = PropertyUtils.getInstance();
 	private Context getServiceContext(){
 		return this;
 	}
@@ -89,7 +88,7 @@ public class MyService extends Service {
 			mMyApi.setPOSISerialPort(null);//null时使用android的串口jni，android_serialport_api.SerialPort
 			//设置透传ip、端口；POS的串口路径和波特率
 
-			return mMyApi.pos_init(propertyUtils.getPosIp(), propertyUtils.getPosPort(),
+			return mMyApi.pos_init("113.108.182.4", 10061,
 					path, String.valueOf(baudrate));//"/dev/ttyS1"//lf
 		}
 		public E_REQ_RETURN pos_init(String path, int port){

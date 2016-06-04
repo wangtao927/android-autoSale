@@ -306,8 +306,17 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
     // 银联卡支付
     private boolean waitPay(long amount) {
+        PosSerialHelper helper = PosSerialHelper.getInstance();
+        if (helper.posInit()) {
+            if (helper.posSign()) {
+                return helper.purchase(amount);
 
-         return PosSerialHelper.getInstance().purchase(amount);
+            }
+            return false;
+        } else {
+            return false;
+        }
+
 
     }
 
@@ -344,7 +353,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                         if (response.getCode() == 0) {
                             if (String.valueOf(SlPayStatusEnum.FINISH.getIndex()).equals(response.getExt_data().getSl_pay_status())) {
                                 //支付成功
-                                ToastUtils.showShortMessage("支付成功");
+                                // ToastUtils.showShortMessage("支付成功");
                                 //
                                 DbManagerHelper.updatePayStatus(slNo, SlPayStatusEnum.FINISH);
                                 startOutGoods(slNo);
@@ -382,19 +391,6 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
                     }
                 });
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        finish_flag = true;
-        if (pay_timer != null) {
-            pay_timer.cancel();
-        }
-        if (pay_task != null) {
-            pay_task.cancel();
-        }
 
     }
 
@@ -564,10 +560,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                                     laySelectPay.setVisibility(View.GONE);
                                     // 显示会员价格
                                     tvSalePrice.setText(String.format(gdVipPrice, getPrice(mcGoodsBean.getMg_vip_price())));
-
-
                                 } else {
-                                    //ToastUtils.showShortMessage(response.getMsg());
                                     ToastUtils.showShortMessage("用户名或密码错误");
                                 }
 
@@ -576,9 +569,6 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                             @Override
                             public void call(Throwable throwable) {
                                 ToastUtils.showShortMessage("失败");
-                                //hideProgress();
-                                //Toast.makeText(GetProductActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
-
                             }
                         });
 
@@ -615,15 +605,12 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                     @Override
                     public void call(Throwable throwable) {
                         ToastUtils.showShortMessage("发送验证码失败");
-                        //hideProgress();
-                        //Toast.makeText(GetProductActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
 
                     }
                 });
 
     }
     private void userReg(String phoneNo, String valideCode) {
-        //
         RetrofitManager.builder().userReg(phoneNo, valideCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -636,29 +623,37 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                 .subscribe(new Action1<CommonResponse<String>>() {
                     @Override
                     public void call(CommonResponse<String> response) {
-                        //hideProgress();
 
                         if (response.getCode() == 0) {
-
                             mDialog.cancel();
                             ToastUtils.showShortMessage("注册成功，默认密码是:123456");
-
                             // 生成订单
                             createOrder(String.valueOf(slType.getIndex()), 1);
-
                         }
-
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
                         ToastUtils.showShortMessage("注册失败");
-                        //hideProgress();
-                        //Toast.makeText(GetProductActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
 
                     }
                 });
 
      }
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish_flag = true;
+        if (pay_timer != null) {
+            pay_timer.cancel();
+        }
+        if (pay_task != null) {
+            pay_task.cancel();
+        }
+
+    }
 
 }

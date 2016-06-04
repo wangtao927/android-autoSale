@@ -11,6 +11,7 @@ import com.ys.data.dao.DaoSession;
 import com.ys.ui.activity.TermInitActivity;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.serial.pos.PosSerialHelper;
+import com.ys.ui.serial.print.activity.PrintHelper;
 import com.ys.ui.serial.salemachine.SerialMachineHelper;
 import com.ys.ui.service.SerialInitService;
 import com.ys.ui.service.TimerService;
@@ -52,12 +53,21 @@ public class App extends Application {
         super.onCreate();
         ctx = getApplicationContext();
 
-
         mcNo = DbManagerHelper.getMcNo();
 //
         Intent intent = new Intent(this, TimerService.class);
         startService(intent);
 
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                PosSerialHelper.getInstance().setPath();
+//
+//                //SerialMachineHelper.getInstance().getSerial();
+//                PrintHelper.getInstance().initPrint();
+//
+//            }
+//        }).start();
         //PosSerialHelper.getInstance().setPath();
 
         //SerialMachineHelper.getInstance().getSerial();

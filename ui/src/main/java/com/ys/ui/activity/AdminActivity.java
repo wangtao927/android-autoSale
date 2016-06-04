@@ -52,6 +52,9 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
 
     @Bind(R.id.btn_sys_out)
     Button btnSysOut;
+    @Bind(R.id.btn_init_serial)
+    Button btnInitSerial;
+
 
     @Bind(R.id.btn_back)
     Button btnBack;
@@ -79,6 +82,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
         btnClear.setOnClickListener(this);
         btnSysOut.setOnClickListener(this);
         btnBack.setOnClickListener(this);
+        btnInitSerial.setOnClickListener(this);
         loadData();
         adapter = new McGoodsListAdapter(AdminActivity.this, lists);
         recyclerView.setAdapter(adapter);
@@ -138,6 +142,10 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
                  // 退出程序
                 finish();
                 System.exit(0);
+                break;
+            case R.id.btn_init_serial:
+
+                PosSerialHelper.getInstance().setPath();
                 break;
             default:
                 break;

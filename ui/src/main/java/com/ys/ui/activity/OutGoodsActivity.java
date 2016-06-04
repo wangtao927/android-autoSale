@@ -59,7 +59,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
     private String slNo = "";
 
     ImageButton btnBackHome;
-
+    boolean transFinish = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -185,6 +185,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
 
     private void selectGoodsFaild() {
+        transFinish = true;
         //  锁定货道
         transStatus.setText("出货失败 \n" +
                 "如果您已支付成功， 将与24小时内退款到您的账户中，\n" +
@@ -205,12 +206,32 @@ public class OutGoodsActivity extends SerialMachineActivity {
         }
     }
 
+    private void transTimeout() {
+        try {
+            // 复位
+            reback();
+            DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
+
+            if (!transFinish) {
+                refund(slNo);
+
+            }
+
+            //ToastUtils.showShortMessage("退款请求已发送：订单号：" + slNo);
+        } catch (Exception e) {
+            // ToastUtils.showShortMessage("slNo=" + slNo + " 退款异常:" + e);
+
+        }
+    }
+
+
     private void outGoodsSuc() {
         try {
             if (mSendingThread != null) {
                 mSendingThread.interrupt();
 
             }
+            transFinish = true;
             reback();
 
             // 支付成功才会 走到出货
@@ -250,6 +271,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
     private void outGoodsFail() {
         // 出货失败， 考虑退款
+        transFinish = true;
         transStatus.setText("出货失败 \n" +
                 "如果您已支付成功， 将与24小时内退款到您的账户中\n" +
                 "      如有疑问， 请联系客服 400-060-0289");
@@ -389,13 +411,6 @@ public class OutGoodsActivity extends SerialMachineActivity {
         }
     }
 
-    public void showProgress() {
-        mPbLoading.setVisibility(View.VISIBLE);
-    }
-
-    public void hideProgress() {
-        mPbLoading.setVisibility(View.GONE);
-    }
 
     int minute;
     int second;
@@ -404,8 +419,8 @@ public class OutGoodsActivity extends SerialMachineActivity {
     TextView tvTimer;
 
     private void initTimer() {
-         minute = 0;
-        second = 45;
+         minute = 5;
+        second = 0;
 
         tvTimer.setText(getTime());
 
@@ -430,7 +445,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
             if (TextUtils.isEmpty(timer)) {
 
                 if (!TextUtils.isEmpty(slNo)) {
-                    selectGoodsFaild();
+                    transTimeout();
                 }
                 startActivity(new Intent(OutGoodsActivity.this, HomeActivity.class));
                 finish();

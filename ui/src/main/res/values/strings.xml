@@ -16,6 +16,7 @@
     <string name="back">返回</string>
     <string name="admin">后台</string>
     <string name="reset">重置</string>
+    <string name="init_serila">初始化串口</string>
     <string name="backHome">返回首页</string>
     <string name="sysout">退出</string>
     <string name="onekeybuhuo">一键补满</string>
