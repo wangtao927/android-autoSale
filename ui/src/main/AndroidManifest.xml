@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <application
         android:name=".base.App"
         android:allowBackup="true"
@@ -109,6 +109,9 @@
             android:screenOrientation="portrait" />
         <service
             android:name=".service.TimerService"
+            android:screenOrientation="portrait" />
+        <service
+            android:name=".service.SerialInitService"
             android:screenOrientation="portrait" />
 
         <receiver

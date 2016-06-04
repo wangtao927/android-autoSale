@@ -129,7 +129,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
      */
     public Bitmap create2DCode(String str) throws WriterException {
         //生成二维矩阵,编码时指定大小,不要生成了图片以后再进行缩放,这样会模糊导致识别失败
-        BitMatrix matrix = new MultiFormatWriter().encode(str, BarcodeFormat.QR_CODE, 200, 200);
+        BitMatrix matrix = new MultiFormatWriter().encode(str, BarcodeFormat.QR_CODE, 360, 300);
         int width = matrix.getWidth();
         int height = matrix.getHeight();
         //二维矩阵转为一维像素数组,也就是一直横着排了
@@ -203,7 +203,6 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
         saleListVo.setSlChann(mcGoodsBean.getMg_channo());
         final long amount = vip == 0 ? mcGoodsBean.getMg_disc_price() : mcGoodsBean.getMg_vip_price();
         saleListVo.setSlAmt(amount);
-
         createSaleList(saleListVo.getSlAmt(), vip, slNo);
 
         if (slType.getIndex() == SlTypeEnum.ALIPAY.getIndex()
@@ -249,6 +248,8 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                                     Bitmap qrcodeBitmap = create2DCode(response.getExt_data().getQrcodeUrl());
                                     mQCodeImageView.setImageBitmap(qrcodeBitmap);
                                 }
+                                mQCodeImageView.setBackgroundResource(R.mipmap.qrcode_bg);
+
                                 waitQRPay(response.getExt_data().getSlNo());
 
 
@@ -306,7 +307,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     // 银联卡支付
     private boolean waitPay(long amount) {
 
-         return PosSerialHelper.getInstance().posSignAndPurchase(amount);
+         return PosSerialHelper.getInstance().purchase(amount);
 
     }
 
@@ -561,6 +562,9 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                                     createOrder(String.valueOf(slType.getIndex()), 1);
                                     layPay.setVisibility(View.VISIBLE);
                                     laySelectPay.setVisibility(View.GONE);
+                                    // 显示会员价格
+                                    tvSalePrice.setText(String.format(gdVipPrice, getPrice(mcGoodsBean.getMg_vip_price())));
+
 
                                 } else {
                                     //ToastUtils.showShortMessage(response.getMsg());

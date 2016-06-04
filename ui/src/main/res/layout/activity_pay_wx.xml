@@ -95,7 +95,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
                 android:text="微信支付"
-                android:textColor="@color/white"
                 android:textSize="30sp" />
 
             <TextView
@@ -110,11 +109,11 @@
             <ImageView
 
                 android:id="@+id/im_qrcode"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="240dp"
+                android:layout_height="180dp"
                 android:layout_marginTop="20dp"
                 android:src="@mipmap/loading"
-                android:background="@color/white"
+
                 />
 
 
@@ -179,7 +178,7 @@
     <LinearLayout
         android:id="@+id/ll_guide"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:padding="10dp"
         android:layout_above="@+id/rl_footer"
         android:background="@color/bg"
@@ -194,15 +193,15 @@
             android:layout_marginTop="10dp"
             android:text="购买支付流程"
             android:textColor="@color/white"
-            android:textSize="18dp"
+            android:textSize="32sp"
             android:textStyle="bold" />
 
         <View
             android:id="@+id/v_line"
-            android:layout_width="40dp"
+            android:layout_width="80dp"
             android:layout_height="2dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginTop="4dp"
             android:background="@color/white" />
 
@@ -217,7 +216,7 @@
                 android:layout_height="wrap_content"
                 android:text="选择购买方式"
                 android:textColor="@color/white"
-                android:textSize="14dp" />
+                android:textSize="28dp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -232,7 +231,7 @@
                 android:layout_height="wrap_content"
                 android:text="扫描二维码"
                 android:textColor="@color/white"
-                android:textSize="14dp" />
+                android:textSize="28dp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -246,7 +245,7 @@
                 android:layout_height="wrap_content"
                 android:text="确认支付"
                 android:textColor="@color/white"
-                android:textSize="14dp" />
+                android:textSize="28dp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -260,7 +259,7 @@
                 android:layout_height="wrap_content"
                 android:text="完成"
                 android:textColor="@color/white"
-                android:textSize="14dp" />
+                android:textSize="28dp" />
         </LinearLayout>
     </LinearLayout>
 

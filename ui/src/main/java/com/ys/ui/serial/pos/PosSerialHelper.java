@@ -73,8 +73,6 @@ public class PosSerialHelper {
 
                     req_return = myBinder.pos_signin();
                     try {
-                        ToastUtils.showShortMessage("pos_sign----path:\"+path +  \"--result=" + req_return.getDesc());
-
                         Thread.sleep(3000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -87,6 +85,7 @@ public class PosSerialHelper {
                                 ToastUtils.showShortMessage("串口连接成功-path=" + path);
                                 break;
                             } else if (flag ==2) {
+
                                 break;
                             } else {
                                 try {
@@ -96,6 +95,8 @@ public class PosSerialHelper {
                                 }
                             }
                         }
+                    } else {
+                        myBinder.pos_release();
                     }
                     if (flag == 1) {
                         break;
@@ -176,14 +177,7 @@ public class PosSerialHelper {
         return false;
     }
 
-    public boolean posSignAndPurchase(long amount) {
-        if (posSign()) {
-            return purchase(amount);
-        } else {
-            return false;
-        }
 
-    }
     //////////////////////////////////////////业务返回///////////////////////////////////////
     private Handler mmHandler = new Handler(){
         @Override

@@ -66,7 +66,7 @@
         android:layout_above="@+id/ll_buy"
         android:layout_centerHorizontal="true"
         android:textSize="20sp"
-        android:text="请直接点击药品图片购买或输入货道号购买！"
+        android:text="请直接点击药品图片购买或输入商品编码购买！"
         android:textColor="@color/white" />
 
     <LinearLayout
@@ -86,7 +86,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="10dp"
             android:background="@drawable/edit_circle"
-            android:hint="请输入货道号"
+            android:hint="请输入商品编码"
             android:inputType="number"
             android:digits="1234567890"
             android:maxLength="2"

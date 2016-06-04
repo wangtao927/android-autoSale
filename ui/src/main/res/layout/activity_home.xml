@@ -23,7 +23,7 @@
     <LinearLayout
         android:id="@+id/function"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="140dp"
         android:layout_above="@+id/other"
         android:background="@color/bg"
         android:orientation="horizontal">
@@ -88,15 +88,15 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             android:layout_marginTop="15dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
             android:gravity="center">
 
             <ImageButton
                 android:id="@+id/btn_about"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginRight="30dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginRight="100dp"
                 android:padding="3dp"
                 android:background="@drawable/circle"
                 android:src="@mipmap/btn_o_1" />
@@ -104,18 +104,18 @@
 
             <ImageButton
                 android:id="@+id/btn_statement"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:padding="3dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginRight="100dp"
                 android:background="@drawable/circle"
                 android:src="@mipmap/btn_o_2" />
 
 
             <ImageButton
                 android:id="@+id/btn_help"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:padding="3dp"
                 android:background="@drawable/circle"
                 android:src="@mipmap/btn_o_3" />

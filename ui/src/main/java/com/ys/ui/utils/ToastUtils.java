@@ -16,6 +16,7 @@
 package com.ys.ui.utils;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.widget.Toast;
 
 import com.ys.ui.base.App;
@@ -39,6 +40,7 @@ public class ToastUtils {
         return getToast(message, context, Toast.LENGTH_LONG);
     }
     private static Toast getToast(String message, Context context, int length) {
-        return Toast.makeText(context, message, length);
+        Toast toast = Toast.makeText(context, message, length);
+        return toast;
     }
 }

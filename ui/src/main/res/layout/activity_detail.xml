@@ -106,7 +106,7 @@
 
 
     </LinearLayout>
-
+<!--
     <LinearLayout
         android:id="@+id/rl_desc"
         android:layout_width="match_parent"
@@ -163,9 +163,9 @@
                 android:text="用法用量"
                 android:textColor="@color/white" />
 
-        </LinearLayout>
+        </LinearLayout>-->
 
-        <LinearLayout
+      <!--  <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -180,7 +180,7 @@
                 android:textColor="@color/white" />
 
         </LinearLayout>
-    </LinearLayout>
+    </LinearLayout>-->
 
     <TextView
         android:id="@+id/ll_tip"
@@ -191,16 +191,16 @@
         android:layout_marginTop="8dp"
         android:text="请选择支付方式"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="30sp"
         android:textStyle="bold" />
 
     <View
         android:id="@+id/v_line"
-        android:layout_width="40dp"
+        android:layout_width="80dp"
         android:layout_height="2dp"
         android:layout_above="@+id/ll_buy"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginTop="4dp"
         android:background="@color/white" />
 
@@ -208,9 +208,9 @@
     <LinearLayout
         android:id="@+id/ll_buy"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:layout_above="@+id/rl_footer"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:background="@color/bg"
         android:orientation="horizontal">
 
@@ -218,7 +218,7 @@
             android:id="@+id/btn_buy_wx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/rectangle_btn"
             android:padding="5dp"
@@ -229,7 +229,7 @@
             android:id="@+id/btn_buy_zfb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/rectangle_btn"
             android:padding="5dp"
@@ -239,7 +239,7 @@
             android:id="@+id/btn_yl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/rectangle_btn"
             android:padding="5dp"
@@ -249,7 +249,7 @@
             android:id="@+id/btn_sf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/rectangle_btn"
             android:padding="5dp"

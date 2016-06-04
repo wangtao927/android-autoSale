@@ -12,6 +12,7 @@ import com.ys.ui.activity.TermInitActivity;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.serial.pos.PosSerialHelper;
 import com.ys.ui.serial.salemachine.SerialMachineHelper;
+import com.ys.ui.service.SerialInitService;
 import com.ys.ui.service.TimerService;
 import com.ys.ui.utils.ToastUtils;
 
@@ -62,6 +63,8 @@ public class App extends Application {
         //SerialMachineHelper.getInstance().getSerial();
 
 
+        /*Intent intent1 = new Intent(this, SerialInitService.class);
+        startService(intent1);*/
     }
 
 //    public static RefWatcher getRefWatcher(Context context) {
