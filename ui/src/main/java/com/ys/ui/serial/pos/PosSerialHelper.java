@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.landfoneapi.misposwa.CallbackMsg;
 import com.landfoneapi.misposwa.E_REQ_RETURN;
 import com.landfoneapi.misposwa.ILfListener;
+import com.landfoneapi.misposwa.MyApi;
 import com.landfoneapi.protocol.pkg.Display;
 import com.landfoneapi.protocol.pkg.DisplayType;
 import com.landfoneapi.protocol.pkg._04_GetRecordReply;
@@ -30,18 +31,22 @@ import com.ys.ui.utils.ToastUtils;
 public class PosSerialHelper {
     private String TAG = "PosSerialHelper";
 
-    private MyService.MyBinder myBinder;
-    private ServiceConnection mSc;
+    //private MyService.MyBinder myBinder;
+   // private ServiceConnection mSc;
     App mApplication;
-    private Class<?> serviceClass = MyService.class;
+    private MyApi mMyApi = new MyApi();
+
+    //private Class<?> serviceClass = MyService.class;
     static PosSerialHelper posSerialHelper;
     Context context;
     private boolean initFlag = false;
 
     public PosSerialHelper() {
         context =  App.getContext();
-        ConnectService_whenOncreate();
-        BindLfService();
+        mMyApi.setILfListener(mILfMsgHandler);
+//
+//        ConnectService_whenOncreate();
+//        BindLfService();
     }
 
     public static PosSerialHelper getInstance() {
@@ -71,16 +76,14 @@ public class PosSerialHelper {
                         ToastUtils.showShortMessage("串口连接成功-path=" + path);
                          break;
                     } else {
-                        if (myBinder != null) {
-                            myBinder.pos_release();
-                        }
+                            pos_release();
+
                     }
                 } catch (Exception e) {
                     flag = 0;
                     tmpPath = "";
-                    if (myBinder != null) {
-                        myBinder.pos_release();
-                    }
+                    pos_release();
+
                     ToastUtils.showError("exception path=" + path + "ex=" + e, App.getContext());
                     continue;
                 }
@@ -91,38 +94,38 @@ public class PosSerialHelper {
 
     }
 
-    private void ConnectService_whenOncreate() {
-        mSc = new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                Log.d(TAG, "service connected");
-                Log.d("", "startDownLoad() --> onbind");
-                myBinder = (MyService.MyBinder) service;
-                ToastUtils.showShortMessage("set callback handler");
-                //回调
-                myBinder.setILfListener(mILfMsgHandler);
-            }
+//    private void ConnectService_whenOncreate() {
+//        mSc = new ServiceConnection() {
+//            @Override
+//            public void onServiceConnected(ComponentName name, IBinder service) {
+//                Log.d(TAG, "service connected");
+//                Log.d("", "startDownLoad() --> onbind");
+//                myBinder = (MyService.MyBinder) service;
+//                ToastUtils.showShortMessage("set callback handler");
+//                //回调
+//                myBinder.setILfListener(mILfMsgHandler);
+//            }
+//
+//            @Override
+//            public void onServiceDisconnected(ComponentName name) {
+//                Log.d(TAG, "service disconnected");
+//            }
+//        };
+//    }
 
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                Log.d(TAG, "service disconnected");
-            }
-        };
-    }
-
-    private void BindLfService(){
-
-        Intent service = new Intent(App.getContext(),serviceClass);//LfService.class
-        context.bindService(service, mSc, Context.BIND_AUTO_CREATE);
-    }
-
-    private void UnBindLfService(){
-       context.unbindService(mSc);
-    }
+//    private void BindLfService(){
+//
+//        Intent service = new Intent(App.getContext(),serviceClass);//LfService.class
+//        context.bindService(service, mSc, Context.BIND_AUTO_CREATE);
+//    }
+//
+//    private void UnBindLfService(){
+//       context.unbindService(mSc);
+//    }
     public boolean posInit() {
 
         try {
-            E_REQ_RETURN result = myBinder.pos_init();
+            E_REQ_RETURN result = pos_init();
 
             return E_REQ_RETURN.REQ_OK == result;
         } catch (Exception e) {
@@ -131,7 +134,7 @@ public class PosSerialHelper {
     }
     public boolean posSign() {
         flag = 0;
-        E_REQ_RETURN req_return = myBinder.pos_signin();
+        E_REQ_RETURN req_return = pos_signin();
         if (E_REQ_RETURN.REQ_OK == req_return) {
             while (true) {
                 if (flag == 1) {
@@ -163,7 +166,7 @@ public class PosSerialHelper {
     public boolean purchase(long amount) {
 
         flag = 0;
-        E_REQ_RETURN req_return = myBinder.pos_purchase((int) amount);
+        E_REQ_RETURN req_return = pos_purchase((int) amount);
 
         if (E_REQ_RETURN.REQ_OK == req_return) {
             while (true) {
@@ -186,10 +189,6 @@ public class PosSerialHelper {
         return false;
     }
 
-    public void realese() {
-
-        UnBindLfService();
-    }
     //////////////////////////////////////////业务返回///////////////////////////////////////
     private Handler mmHandler = new Handler() {
         @Override
@@ -235,6 +234,124 @@ public class PosSerialHelper {
             mmHandler.sendMessage(msg);
         }
     };
+
+    ///////////////////////////////////////业务操作////////////////////////////////////////////
+
+    public void setILfListener(ILfListener lsn){
+        mMyApi.setILfListener(lsn);
+    }
+
+    /**
+     * 是否使用同步接口，切换时设置一次即可
+     * @param v
+     */
+    public void setUseSynch(boolean v){
+        mMyApi.setUseSynch(v);
+    }
+
+    /**
+     * 是否使用同步方法
+     * @return
+     */
+    public boolean isUseSynch(){
+        return mMyApi.isUseSynch();
+    }
+    public E_REQ_RETURN pos_init(){
+
+        App app = (App)App.getContext();
+        String path = app.getMinipos_path();
+        int baudrate = app.getMinipos_baudrate();
+
+			/* Check parameters */
+        if ( (path.length() == 0) || (baudrate == -1)) {
+            ToastUtils.showError("baudarete is error ：" + baudrate, App.getContext());
+            // throw new InvalidParameterException();
+        }
+        //设置串口接口
+        mMyApi.setPOSISerialPort(null);//null时使用android的串口jni，android_serialport_api.SerialPort
+        //设置透传ip、端口；POS的串口路径和波特率
+
+        return mMyApi.pos_init("113.108.182.4", 10061,
+                path, String.valueOf(baudrate));//"/dev/ttyS1"//lf
+    }
+    public E_REQ_RETURN pos_init(String path, int port){
+        //设置串口接口
+        mMyApi.setPOSISerialPort(null);//null时使用android的串口jni，android_serialport_api.SerialPort
+        //设置透传ip、端口；POS的串口路径和波特率
+        return mMyApi.pos_init("113.108.182.4", 10061, path, String.valueOf(port));//"/dev/ttyS1"//lf
+    }
+    /**
+     * 签到
+     * @return
+     */
+    public E_REQ_RETURN pos_signin(){
+        return mMyApi.pos_signin();
+    }
+
+    /**
+     *	取助农类交易信息
+     * @param tradeSerial 凭证号,填写"000000"为获取最后一笔交易
+     * @return
+     */
+    public E_REQ_RETURN pos_getTradeInfo(String tradeSerial){
+        return mMyApi.pos_getrecord("000000000000000","00000000",tradeSerial);
+    }
+
+    /**
+     * 取消操作，网络通讯时不可取消* @return
+     */
+    public E_REQ_RETURN pos_cancel(){
+        return mMyApi.pos_cancel();
+    }
+
+    /**
+     * 确认操作
+     * @return
+     */
+    public E_REQ_RETURN pos_confirm(){
+        return mMyApi.pos_confirm();
+    }
+    /**
+     * 释放接口
+     * @return
+     */
+    public E_REQ_RETURN pos_release(){
+        return mMyApi.pos_release();
+    }
+
+    /**
+     * 结算
+     * @return
+     */
+    public E_REQ_RETURN pos_settle(){
+        return mMyApi.pos_settle();
+    }
+
+
+
+    ///////////////////////////////////////////////////非助农接口////////////////////////////////////////////////////////////
+    /**
+     * 查余额，余额通过液晶透传显示数据上报（Display）
+     * @return
+     */
+    public E_REQ_RETURN pos_query(){
+        return mMyApi.pos_query();
+    }
+
+    /**
+     * 消费
+     * @param amount_fen
+     * @return
+     */
+    public E_REQ_RETURN pos_purchase(int amount_fen){
+        return mMyApi.pos_purchase(amount_fen);
+    }
+
+    /**
+     * 是否允许查询余额
+     * @return	false-允许
+     */
+    public boolean pos_isQuerying(){return mMyApi.pos_isQuerying();}
 
 
 }

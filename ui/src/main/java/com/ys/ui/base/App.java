@@ -183,7 +183,9 @@ public class App extends Application {
     }
 
     public int getMinipos_baudrate() {
-        return minipos_baudrate;
+        SharedPreferences sp = getSharedPreferences("posSerial", MODE_PRIVATE);
+        return Integer.decode(sp.getString("pos_baudrate", String.valueOf(minipos_baudrate)));
+
     }
 
     public void setMinipos_baudrate(int minipos_baudrate) {
@@ -191,7 +193,8 @@ public class App extends Application {
     }
 
     public String getMinipos_path() {
-        return minipos_path;
+        SharedPreferences sp = getSharedPreferences("posSerial", MODE_PRIVATE);
+        return sp.getString("pos_path", minipos_path);
     }
 
     public void setMinipos_path(String minipos_path) {

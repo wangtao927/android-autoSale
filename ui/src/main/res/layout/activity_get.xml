@@ -43,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginRight="6dp"
+            android:maxLength="12"
             android:background="@color/white"
             android:imeOptions="actionDone"
             android:numeric="integer" />
@@ -64,6 +65,7 @@
             android:layout_marginRight="5dp"
             android:background="@drawable/edit_text"
             android:gravity="center"
+            android:maxLength="16"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             android:text="密  码"
