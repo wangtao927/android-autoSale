@@ -127,7 +127,8 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
 
             case R.id.btn_clear:
                 // 清除卡货
-                App.getDaoSession(App.getContext()).getMcGoodsBeanDao().clearChanStatus(lists);
+                DbManagerHelper.clearAllChannStatus(lists);
+               // App.getDaoSession(App.getContext()).getMcGoodsBeanDao().clearChanStatus(lists);
                 adapter.notifyDataSetChanged();
 
                 break;
@@ -146,6 +147,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
             case R.id.btn_init_serial:
 
                 PosSerialHelper.getInstance().setPath();
+
                 break;
             default:
                 break;

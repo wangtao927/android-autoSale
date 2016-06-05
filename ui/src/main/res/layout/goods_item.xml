@@ -19,7 +19,13 @@
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:src="@mipmap/p" />
-
+        <ImageView
+            android:id="@+id/wuhuo"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            android:src="@mipmap/saleout" />
         <TextView
             android:id="@+id/no"
             android:layout_width="20dp"

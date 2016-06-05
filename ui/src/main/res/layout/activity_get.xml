@@ -20,21 +20,19 @@
 
     <LinearLayout
         android:id="@+id/ll_code"
-        android:layout_width="200dp"
-        android:layout_height="25dp"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
         android:layout_above="@+id/ll_pwd"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:background="@drawable/edit_input">
 
         <TextView
-            android:layout_width="60dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_marginRight="5dp"
             android:background="@drawable/edit_text"
             android:gravity="center"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
             android:text="提货码"
             android:textColor="@color/white" />
 
@@ -43,7 +41,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginRight="6dp"
-            android:maxLength="12"
+            android:gravity="center_vertical|left"
+            android:maxLength="10"
+            android:textSize="36sp"
             android:background="@color/white"
             android:imeOptions="actionDone"
             android:numeric="integer" />
@@ -52,24 +52,20 @@
 
     <LinearLayout
         android:id="@+id/ll_pwd"
-        android:layout_width="200dp"
-        android:layout_height="25dp"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
         android:layout_above="@+id/ll_buy"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:background="@drawable/edit_input">
 
         <TextView
-            android:layout_width="60dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_marginRight="5dp"
             android:background="@drawable/edit_text"
             android:gravity="center"
-            android:maxLength="16"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
             android:text="密  码"
-
             android:textColor="@color/white" />
 
         <EditText
@@ -79,6 +75,8 @@
             android:layout_marginRight="6dp"
             android:background="@color/white"
             android:imeOptions="actionDone"
+            android:maxLength="6"
+            android:textSize="36sp"
             android:numeric="integer"
             android:password="true" />
 

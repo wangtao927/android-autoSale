@@ -24,28 +24,28 @@ public class McStatusBeanDao extends AbstractDao<McStatusBean, String> {
     */
     public static class Properties {
         public final static Property Mc_no = new Property(0, String.class, "mc_no", true, "MC_NO");
-        public final static Property Mc_serial_no = new Property(1, String.class, "mc_serial_no", false, "MC_SERIAL_NO");
-        public final static Property Mr_coin_status = new Property(2, String.class, "mr_coin_status", false, "MR_COIN_STATUS");
-        public final static Property Mr_coin_short = new Property(3, String.class, "mr_coin_short", false, "MR_COIN_SHORT");
-        public final static Property Mr_bill_status = new Property(4, String.class, "mr_bill_status", false, "MR_BILL_STATUS");
-        public final static Property Mr_bill_short = new Property(5, String.class, "mr_bill_short", false, "MR_BILL_SHORT");
-        public final static Property Mr_uppos_status = new Property(6, String.class, "mr_uppos_status", false, "MR_UPPOS_STATUS");
-        public final static Property Mr_scpos_status = new Property(7, String.class, "mr_scpos_status", false, "MR_SCPOS_STATUS");
-        public final static Property Mr_alipay_status = new Property(8, String.class, "mr_alipay_status", false, "MR_ALIPAY_STATUS");
-        public final static Property Mr_wxpay_status = new Property(9, String.class, "mr_wxpay_status", false, "MR_WXPAY_STATUS");
-        public final static Property Mr_net_status = new Property(10, String.class, "mr_net_status", false, "MR_NET_STATUS");
-        public final static Property Mr_temp = new Property(11, String.class, "mr_temp", false, "MR_TEMP");
-        public final static Property Mr_door_isfault = new Property(12, String.class, "mr_door_isfault", false, "MR_DOOR_ISFAULT");
-        public final static Property Mr_door_status = new Property(13, String.class, "mr_door_status", false, "MR_DOOR_STATUS");
-        public final static Property Mr_chann_fault_num = new Property(14, Long.class, "mr_chann_fault_num", false, "MR_CHANN_FAULT_NUM");
-        public final static Property Mr_chann_fault_nos = new Property(15, String.class, "mr_chann_fault_nos", false, "MR_CHANN_FAULT_NOS");
-        public final static Property Mr_nogd_chnum = new Property(16, Long.class, "mr_nogd_chnum", false, "MR_NOGD_CHNUM");
-        public final static Property Mr_nogd_chann = new Property(17, String.class, "mr_nogd_chann", false, "MR_NOGD_CHANN");
-        public final static Property Mr_gear_fault_num = new Property(18, Long.class, "mr_gear_fault_num", false, "MR_GEAR_FAULT_NUM");
-        public final static Property Mr_gear_fault_nos = new Property(19, String.class, "mr_gear_fault_nos", false, "MR_GEAR_FAULT_NOS");
-        public final static Property Mr_data_fault = new Property(20, Long.class, "mr_data_fault", false, "MR_DATA_FAULT");
-        public final static Property Mr_door_date = new Property(21, java.util.Date.class, "mr_door_date", false, "MR_DOOR_DATE");
-        public final static Property Mr_mc_position = new Property(22, String.class, "mr_mc_position", false, "MR_MC_POSITION");
+//        public final static Property Mc_serial_no = new Property(1, String.class, "mc_serial_no", false, "MC_SERIAL_NO");
+        public final static Property Mr_coin_status = new Property(1, String.class, "mr_coin_status", false, "MR_COIN_STATUS");
+        public final static Property Mr_coin_short = new Property(2, String.class, "mr_coin_short", false, "MR_COIN_SHORT");
+        public final static Property Mr_bill_status = new Property(3, String.class, "mr_bill_status", false, "MR_BILL_STATUS");
+        public final static Property Mr_bill_short = new Property(4, String.class, "mr_bill_short", false, "MR_BILL_SHORT");
+        public final static Property Mr_uppos_status = new Property(5, String.class, "mr_uppos_status", false, "MR_UPPOS_STATUS");
+        public final static Property Mr_scpos_status = new Property(6, String.class, "mr_scpos_status", false, "MR_SCPOS_STATUS");
+        public final static Property Mr_alipay_status = new Property(7, String.class, "mr_alipay_status", false, "MR_ALIPAY_STATUS");
+        public final static Property Mr_wxpay_status = new Property(8, String.class, "mr_wxpay_status", false, "MR_WXPAY_STATUS");
+        public final static Property Mr_net_status = new Property(9, String.class, "mr_net_status", false, "MR_NET_STATUS");
+        public final static Property Mr_temp = new Property(10, String.class, "mr_temp", false, "MR_TEMP");
+        public final static Property Mr_door_isfault = new Property(11, String.class, "mr_door_isfault", false, "MR_DOOR_ISFAULT");
+        public final static Property Mr_door_status = new Property(12, String.class, "mr_door_status", false, "MR_DOOR_STATUS");
+        public final static Property Mr_chann_fault_num = new Property(13, Long.class, "mr_chann_fault_num", false, "MR_CHANN_FAULT_NUM");
+        public final static Property Mr_chann_fault_nos = new Property(14, String.class, "mr_chann_fault_nos", false, "MR_CHANN_FAULT_NOS");
+        public final static Property Mr_nogd_chnum = new Property(15, Long.class, "mr_nogd_chnum", false, "MR_NOGD_CHNUM");
+        public final static Property Mr_nogd_chann = new Property(16, String.class, "mr_nogd_chann", false, "MR_NOGD_CHANN");
+        public final static Property Mr_gear_fault_num = new Property(17, Long.class, "mr_gear_fault_num", false, "MR_GEAR_FAULT_NUM");
+        public final static Property Mr_gear_fault_nos = new Property(18, String.class, "mr_gear_fault_nos", false, "MR_GEAR_FAULT_NOS");
+        public final static Property Mr_data_fault = new Property(19, Long.class, "mr_data_fault", false, "MR_DATA_FAULT");
+        public final static Property Mr_door_date = new Property(20, java.util.Date.class, "mr_door_date", false, "MR_DOOR_DATE");
+        public final static Property Mr_mc_position = new Property(21, String.class, "mr_mc_position", false, "MR_MC_POSITION");
     };
 
 
@@ -62,7 +62,6 @@ public class McStatusBeanDao extends AbstractDao<McStatusBean, String> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'mcstatus' (" + //
                 "'MC_NO' TEXT PRIMARY KEY NOT NULL ," + // 0: mc_no
-                "'MC_SERIAL_NO' TEXT," + // 1: mc_serial_no
                 "'MR_COIN_STATUS' TEXT," + // 2: mr_coin_status
                 "'MR_COIN_SHORT' TEXT," + // 3: mr_coin_short
                 "'MR_BILL_STATUS' TEXT," + // 4: mr_bill_status

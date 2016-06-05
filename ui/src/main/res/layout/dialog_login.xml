@@ -45,18 +45,17 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="25dp"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:layout_marginBottom="40dp"
         android:background="@drawable/edit_input">
 
         <TextView
-            android:layout_width="60dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_marginRight="5dp"
-
             android:background="@drawable/edit_text"
             android:gravity="center"
             android:paddingLeft="4dp"
@@ -70,6 +69,7 @@
             android:layout_height="match_parent"
             android:layout_marginRight="6dp"
             android:background="@color/white"
+            android:textSize="28sp"
             android:imeOptions="actionDone"
             android:numeric="integer" />
 
@@ -77,8 +77,8 @@
 
     <LinearLayout
         android:id="@+id/ll_pwd"
-        android:layout_width="200dp"
-        android:layout_height="25dp"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:background="@drawable/edit_input"
@@ -86,7 +86,7 @@
 
         <TextView
             android:id="@+id/tv_pwd"
-            android:layout_width="60dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_marginRight="5dp"
             android:background="@drawable/edit_text"
@@ -102,18 +102,20 @@
             android:layout_height="match_parent"
             android:layout_marginRight="6dp"
             android:layout_weight="1"
+            android:textSize="36sp"
             android:background="@color/white"
             android:imeOptions="actionDone"
-            android:numeric="integer"
             android:password="true" />
 
         <ImageButton
             android:id="@+id/ib_getv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@mipmap/getv"
-            android:visibility="gone" />
+            android:visibility="gone"
+            />
 
     </LinearLayout>
 
@@ -135,7 +137,7 @@
             android:background="@drawable/circle_btn_2"
             android:text="登录"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <Button
@@ -145,7 +147,7 @@
             android:background="@drawable/circle_btn_2"
             android:text="取消"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>
 

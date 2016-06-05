@@ -50,13 +50,13 @@ public class OutGoodsActivity extends SerialMachineActivity {
     byte[] mBuffer;
 
     TextView transStatus;
-    ContentLoadingProgressBar mPbLoading;
-
+    TextView transFailDetail;
 
     Button btnJxBuy;
 
     private String channo = "";
     private String slNo = "";
+    private int slType;
 
     ImageButton btnBackHome;
     boolean transFinish = false;
@@ -68,7 +68,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
         tvTimer = (TextView) findViewById(R.id.tv_timer);
         transStatus = (TextView) findViewById(R.id.transStatus);
-
+        transFailDetail = (TextView) findViewById(R.id.transFailDetail);
         btnJxBuy = (Button)findViewById(R.id.btn_jx_buy);
         btnJxBuy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,22 +79,23 @@ public class OutGoodsActivity extends SerialMachineActivity {
         });
         btnBackHome = (ImageButton) findViewById(R.id.btn_back_home);
 
-        btnBackHome.setOnClickListener(new View.OnClickListener() {
-                                           @Override
-                                           public void onClick(View v) {
-
-               finish();
-               startActivity(new Intent(OutGoodsActivity.this, ProductActivity.class));
-
-           }
-       }
-        );
+//        btnBackHome.setOnClickListener(new View.OnClickListener() {
+//                                           @Override
+//                                           public void onClick(View v) {
+//
+////               finish();
+////               startActivity(new Intent(OutGoodsActivity.this, ProductActivity.class));
+//
+//           }
+//       }
+//        );
         // 初始化广告图
 
 
         Bundle datas = getIntent().getExtras();
         slNo = datas.getString("slNo");
         channo = datas.getString("channo");
+        slType = datas.getInt("slType");
         byte no = Integer.valueOf(channo, 16).byteValue();
 
         mBuffer = null;
@@ -105,7 +106,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
         mSendingThread = new SendingThread();
         mSendingThread.start();
 
-        initTimer();
+        initTimer(2,0);
 
     }
 
@@ -186,15 +187,12 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
     private void selectGoodsFaild() {
         transFinish = true;
-        //  锁定货道
-        transStatus.setText("出货失败 \n" +
-                "如果您已支付成功， 将与24小时内退款到您的账户中，\n" +
-                "      如有疑问， 请联系客服 400-060-0289");
-
+        updateTransFailDesc();
         try {
             // 复位
             reback();
-            App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChanStatusByChanno(channo, Long.valueOf(ChanStatusEnum.ERROR.getIndex()));
+
+            DbManagerHelper.updateMcStoreChannStatus(channo, ChanStatusEnum.ERROR);
             DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
 
             refund(slNo);
@@ -206,6 +204,16 @@ public class OutGoodsActivity extends SerialMachineActivity {
         }
     }
 
+    private void updateTransFailDesc() {
+        reInitTimer(5, 0);
+        //  锁定货道
+        transStatus.setText("出货失败!");
+        transStatus.setTextColor(getResources().getColor(R.color.red));
+        transFailDetail.setVisibility(View.VISIBLE);
+        if (slType == SlTypeEnum.CODE.getIndex()) {
+            transFailDetail.setText("请5分钟后重新操作，如有疑问， 请联系客服 400-060-0289。");
+        }
+    }
     private void transTimeout() {
         try {
             // 复位
@@ -214,9 +222,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
             if (!transFinish) {
                 refund(slNo);
-
             }
-
             //ToastUtils.showShortMessage("退款请求已发送：订单号：" + slNo);
         } catch (Exception e) {
             // ToastUtils.showShortMessage("slNo=" + slNo + " 退款异常:" + e);
@@ -224,9 +230,28 @@ public class OutGoodsActivity extends SerialMachineActivity {
         }
     }
 
+    private void outGoodsFail() {
+        // 出货失败， 考虑退款
+         transFinish = true;
+        updateTransFailDesc();
+        try {
+            reback();
+            App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChanStatusByChanno(
+                    channo, Long.valueOf(ChanStatusEnum.ERROR.getIndex()));
+
+            DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
+
+            refund(slNo);
+
+        } catch (Exception e) {
+            //ToastUtils.showShortMessage("出货失败");
+        }
+
+    }
 
     private void outGoodsSuc() {
         try {
+            reInitTimer(0, 30);
             if (mSendingThread != null) {
                 mSendingThread.interrupt();
 
@@ -240,7 +265,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
             // 打印凭条
             printPayNote(slNo);
 
-            transStatus.setText("出货完成");
+            transStatus.setText("出货完成！");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -269,27 +294,6 @@ public class OutGoodsActivity extends SerialMachineActivity {
     }
 
 
-    private void outGoodsFail() {
-        // 出货失败， 考虑退款
-        transFinish = true;
-        transStatus.setText("出货失败 \n" +
-                "如果您已支付成功， 将与24小时内退款到您的账户中\n" +
-                "      如有疑问， 请联系客服 400-060-0289");
-        try {
-            reback();
-            App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChanStatusByChanno(
-                    channo, Long.valueOf(ChanStatusEnum.ERROR.getIndex()));
-
-            DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
-            //hideProgress();
-
-            refund(slNo);
-
-        } catch (Exception e) {
-            ToastUtils.showShortMessage("出货失败");
-        }
-
-    }
 
     protected String getTime() {
         if (minute == 0) {
@@ -360,16 +364,16 @@ public class OutGoodsActivity extends SerialMachineActivity {
                         @Override
                         public void call(CommonResponse<String> response) {
                             Log.d("result", response.toString());
-                            ToastUtils.showShortMessage("退款返回：" + response);
+                            //ToastUtils.showShortMessage("退款返回：" + response);
 
                             if (response.isSuccess()) {
 
                                 //
                                 DbManagerHelper.updatePayStatus(slNo, SlPayStatusEnum.REFUNDED);
 
-                                Toast.makeText(OutGoodsActivity.this, "退款请求已成功发送", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(OutGoodsActivity.this, "退款请求已成功发送", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(OutGoodsActivity.this, "退款请求发送失败", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(OutGoodsActivity.this, "退款请求发送失败", Toast.LENGTH_SHORT).show();
 
                             }
                         }
@@ -377,7 +381,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
                         @Override
                         public void call(Throwable throwable) {
                             // hideProgress();
-                            Toast.makeText(OutGoodsActivity.this, "退款失败，请联系工作人员", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(OutGoodsActivity.this, "退款失败，请联系工作人员", Toast.LENGTH_SHORT).show();
 
                         }
                     });
@@ -418,9 +422,11 @@ public class OutGoodsActivity extends SerialMachineActivity {
     TimerTask timerTask;
     TextView tvTimer;
 
-    private void initTimer() {
-         minute = 5;
-        second = 0;
+    private void initTimer(int mins, int secs) {
+
+        minute = mins;
+
+        second = secs;
 
         tvTimer.setText(getTime());
 
@@ -455,6 +461,18 @@ public class OutGoodsActivity extends SerialMachineActivity {
         }
     };
 
+    private void reInitTimer(int minute, int second) {
+        if (timerTask != null) {
+            timerTask.cancel();
+            timerTask = null;
+        }
+
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+        initTimer(minute, second);
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

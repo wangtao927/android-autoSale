@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.ys.SerialPortFinder;
 import com.ys.data.dao.DaoMaster;
 import com.ys.data.dao.DaoSession;
@@ -26,6 +28,7 @@ import android_serialport_api.SerialPort;
 
 public class App extends Application {
 
+    private static final String APP_ID = "900032569";
     public static Context ctx;
 
     private static DaoMaster daoMaster;
@@ -53,21 +56,15 @@ public class App extends Application {
         super.onCreate();
         ctx = getApplicationContext();
 
+
         mcNo = DbManagerHelper.getMcNo();
 //
         Intent intent = new Intent(this, TimerService.class);
         startService(intent);
 
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                PosSerialHelper.getInstance().setPath();
-//
-//                //SerialMachineHelper.getInstance().getSerial();
-//                PrintHelper.getInstance().initPrint();
-//
-//            }
-//        }).start();
+        //注册bugly
+
+        Bugly.init(getApplicationContext(), APP_ID, false);
         //PosSerialHelper.getInstance().setPath();
 
         //SerialMachineHelper.getInstance().getSerial();
@@ -96,13 +93,13 @@ public class App extends Application {
 
         try {
 
-            return  new SerialPort(new File(path), baudrate, 0);
+            return new SerialPort(new File(path), baudrate, 0);
 
         } catch (Exception e) {
 
             return null;
         }
-			/* Open the serial port */
+            /* Open the serial port */
 
     }
 

@@ -1,12 +1,18 @@
 package com.ys.ui.service;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
@@ -28,6 +34,9 @@ import com.ys.ui.common.response.McDataResult;
 import com.ys.ui.common.response.TermInitResult;
 import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.StringUtils;
+import com.ys.ui.utils.ToastUtils;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,6 +99,17 @@ public class TimerService extends Service {
         if (mcStatusBeanList != null  && !mcStatusBeanList.isEmpty()) {
             bean = mcStatusBeanList.get(0);
             mcNo = bean.getMc_no();
+            try {
+                if (TextUtils.isEmpty(bean.getMr_mc_position())) {
+                    getLocation();
+                    bean.setMr_mc_position(location.getLongitude() + "," + location.getLatitude());//经纬度
+                    //
+
+                }
+            } catch (Exception e) {
+
+            }
+
         } else {
             return;
         }
@@ -104,8 +124,6 @@ public class TimerService extends Service {
                 .queryBuilder().where(SaleListBeanDao.Properties.Sl_send_status.eq(0)).build();
 
         saleListBeans = query.list();
-        //saleListBeans = App.getDaoSession(App.getContext()).queryBuilder().list()
-
         vo.setMcSaleList(saleListBeans);
         CommonRequest<McDataVo> request = new CommonRequest<>(
                 bean.getMc_no(), System.currentTimeMillis(), vo);
@@ -142,7 +160,26 @@ public class TimerService extends Service {
                     }
                 });
     }
+    private Location location;
 
+    private String provider;
+    private void getLocation() {
+        LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        List<String> providerList = manager.getProviders(true);
+        if (providerList.contains(LocationManager.GPS_PROVIDER)) {
+            provider = LocationManager.GPS_PROVIDER;
+        } else if (providerList.contains(LocationManager.NETWORK_PROVIDER)) {
+            provider = LocationManager.NETWORK_PROVIDER;
+
+        } else {
+            // 没有可用的位置服务
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        location = manager.getLastKnownLocation(provider);
+    }
     private void  updateInfo(String oprCodes, TermInitResult result) {
         if (!StringUtils.isEmpty(oprCodes)) {
             String[]  codes = oprCodes.split(",");

@@ -3,19 +3,26 @@
     package="com.ys.ui">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+
+    <!--<uses-permission android:name="android.permission.INSTALL_PACKAGES" />-->
+    <!--<uses-permission android:name="android.permission.DELETE_PACKAGES" />-->
+
     <application
         android:name=".base.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:sharedUserId="android.uid.system"
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.HomeActivity"
@@ -44,7 +51,7 @@
             android:name=".activity.GetProductActivity"
             android:label="@string/title_activity_get_product"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.TermInitActivity"
             android:label="@string/term_init"
@@ -82,6 +89,10 @@
             android:label="支付"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.PayFailActivity"
+            android:label="支付"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.MainActivity"
             android:label="首页"
             android:launchMode="singleTask"
@@ -104,6 +115,10 @@
             android:name=".serial.print.activity.MainMenu"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name="com.tencent.bugly.beta.ui.BetaActivity"
+            android:theme="@android:style/Theme.Translucent" />
+
         <service
             android:name=".service.MyService"
             android:screenOrientation="portrait" />
@@ -117,6 +132,24 @@
         <receiver
             android:name=".service.AlarmReceiver"
             android:screenOrientation="portrait" />
+
+        <receiver
+            android:name=".receiver.BootUpReceiver"
+            android:enabled="true"
+
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+
+            <intent-filter>
+
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+            </intent-filter>
+
+        </receiver>
+
+        <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     </application>
 

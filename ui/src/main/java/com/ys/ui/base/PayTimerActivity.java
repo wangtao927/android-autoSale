@@ -8,12 +8,11 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
-import android.view.Window;
 import android.widget.TextView;
 
 import com.ys.ui.R;
 import com.ys.ui.activity.HomeActivity;
+import com.ys.ui.activity.PayFailActivity;
 import com.ys.ui.utils.PropertyUtils;
 
 import java.math.BigDecimal;
@@ -21,9 +20,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
-public abstract class BaseTimerActivity extends BaseActivity {
+public abstract class PayTimerActivity extends BaseActivity {
 
     @Bind(R.id.tv_timer)
     TextView tvTimer;
@@ -86,11 +84,9 @@ public abstract class BaseTimerActivity extends BaseActivity {
     }
 
     private void initTimer() {
-        if (minute ==0 && second ==0) {
-            int timeout = PropertyUtils.getInstance().getTransTimeout();
-            minute = timeout / 60;
-            second = timeout % 60;
-        }
+
+        minute = 5;
+        second = 0;
 
 
         tvTimer.setText(getTime());
@@ -114,7 +110,7 @@ public abstract class BaseTimerActivity extends BaseActivity {
             String timer = getTime();
             if (TextUtils.isEmpty(timer)) {
                 finish();
-                startActivity(new Intent(BaseTimerActivity.this, HomeActivity.class));
+                startActivity(new Intent(PayTimerActivity.this, PayFailActivity.class));
                 //return;
             }
 

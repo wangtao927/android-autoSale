@@ -215,13 +215,11 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
         McGoodsBean mcGoodsBean = load(channo);
         mcGoodsBean.setMg_chann_status(chanStatus);
 
-
         String sql = "UPDATE mcgoods SET MG_CHANN_STATUS = ?  WHERE mg_channo=? ";
         SQLiteStatement stmt = db.compileStatement(sql);
         if (db.isDbLockedByCurrentThread()) {
             synchronized (stmt) {
                 stmt.bindLong(1, chanStatus);
-
                 stmt.bindString(2, channo);
                 stmt.execute();
                 attachEntity(channo, mcGoodsBean, true);

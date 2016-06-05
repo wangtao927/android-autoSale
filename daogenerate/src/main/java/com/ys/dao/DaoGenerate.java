@@ -14,12 +14,12 @@ public class DaoGenerate {
 
 //        addAd(schema);
 //        addGoods(schema);
-        addMCGoods(schema);
+        //addMCGoods(schema);
 //        addMCParams(schema);
 //        addMCStatus(schema);
 //        addMcAdmin(schema);
 //        addPromotion(schema);
-//        addSaleList(schema);
+        addSaleList(schema);
 
 
         new DaoGenerator().generateAll(schema, "E:/code/github/android-autoSale/ui/src/main/java-gen");
@@ -195,8 +195,7 @@ public class DaoGenerate {
     private static void addSaleList(Schema schema) {
         Entity mcParamBean = schema.addEntity("SaleListBean");
         mcParamBean.setTableName("salelist");
-        mcParamBean.addLongProperty("sl_id").primaryKey().autoincrement();
-        mcParamBean.addStringProperty("sl_no"); //ÖÕ¶ËºÅ
+        mcParamBean.addStringProperty("sl_no").primaryKey(); //ÖÕ¶ËºÅ
         mcParamBean.addStringProperty("sl_batch_no");// Åú´ÎºÅ
         mcParamBean.addStringProperty("sl_time");//½»Ò×Ê±¼ä
         mcParamBean.addStringProperty("mc_no");// ÖÕ¶ËºÅ

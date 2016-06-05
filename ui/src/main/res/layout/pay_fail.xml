@@ -40,7 +40,7 @@
                 android:id="@+id/iv_pay_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/face_1" />
+                android:src="@mipmap/face_2" />
 
             <TextView
                 android:id="@+id/transStatus"
@@ -48,8 +48,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:background="@color/bg"
-                android:text="支付成功，正在出货，请等待..."
-                android:textColor="@color/white"
+                android:text="支付失败！"
+                android:textColor="@color/red"
                 android:textSize="30sp" />
 
 
@@ -70,7 +70,6 @@
                 android:background="@color/bg"
                 android:text="如果您已支付钱款， 我们将于24小时内退款到您的账户中，\n
                  如有疑问， 请联系客服 400-060-0289。"
-                android:visibility="gone"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
@@ -93,8 +92,7 @@
                 android:text="继续购买"
                 android:textColor="@color/white"
                 android:background="@color/bg_btn"
-                android:textSize="20sp"
-                android:visibility="gone" />
+                android:textSize="20sp"  />
 
         </LinearLayout>
 

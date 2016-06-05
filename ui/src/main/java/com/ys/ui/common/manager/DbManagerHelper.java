@@ -1,5 +1,7 @@
 package com.ys.ui.common.manager;
 
+import android.text.TextUtils;
+
 import com.ys.data.bean.AdvBean;
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McAdminBean;
@@ -9,6 +11,7 @@ import com.ys.data.bean.McStatusBean;
 import com.ys.data.bean.McStoreUpdateVO;
 import com.ys.data.bean.SaleListBean;
 import com.ys.data.dao.McGoodsBeanDao;
+import com.ys.data.dao.McStatusBeanDao;
 import com.ys.data.dao.SaleListBeanDao;
 import com.ys.ui.base.App;
 import com.ys.ui.common.constants.ChanStatusEnum;
@@ -36,6 +39,53 @@ public class DbManagerHelper {
         }
 
     }
+
+    /**
+     * 添加卡货
+     */
+    public static void updateMcStatusChann(String channo) {
+
+
+        McStatusBeanDao dao = App.getDaoSession(App.getContext()).getMcStatusBeanDao();
+        McStatusBean mcStatusBean = dao.load(App.mcNo);
+        if (TextUtils.isEmpty(mcStatusBean.getMr_chann_fault_nos())) {
+            mcStatusBean.setMr_chann_fault_nos(channo);
+
+        } else {
+            mcStatusBean.setMr_chann_fault_nos(mcStatusBean.getMr_chann_fault_nos() + "|" + channo);
+        }
+        mcStatusBean.setMr_chann_fault_num(mcStatusBean.getMr_chann_fault_num()+1);
+        dao.update(mcStatusBean);
+
+    }
+
+    /**
+     * 批量清卡货
+     */
+    public static void updateMcStatusChannReduce(String chann) {
+        McStatusBeanDao dao = App.getDaoSession(App.getContext()).getMcStatusBeanDao();
+        McStatusBean mcStatusBean = dao.load(App.mcNo);
+        String chanFaults = mcStatusBean.getMr_chann_fault_nos();
+        if (!TextUtils.isEmpty(chanFaults)) {
+            chanFaults =  chanFaults.replace(chann, "").replace("||", "|");
+        }
+
+        mcStatusBean.setMr_chann_fault_nos(chanFaults);
+        mcStatusBean.setMr_chann_fault_num(mcStatusBean.getMr_chann_fault_num() - 1);
+        dao.update(mcStatusBean);
+
+    }
+
+    public static void updateMcStatusChannAll() {
+        McStatusBeanDao dao = App.getDaoSession(App.getContext()).getMcStatusBeanDao();
+        McStatusBean mcStatusBean = dao.load(App.mcNo);
+        mcStatusBean.setMr_chann_fault_num(0L);
+        mcStatusBean.setMr_chann_fault_nos("");
+        dao.update(mcStatusBean);
+
+    }
+
+
 
 
 //
@@ -108,6 +158,15 @@ public class DbManagerHelper {
         App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChanStatusByChanno(
                 channo, Long.valueOf(chanStatusEnum.getIndex()));
         // 更新机器库存卡货状态
+        if (chanStatusEnum == ChanStatusEnum.ERROR) {
+            // 添加卡货
+            updateMcStatusChann(channo);
+
+        } else if (chanStatusEnum == ChanStatusEnum.NORMAL) {
+            // 清卡货
+
+            updateMcStatusChannReduce(channo);
+        }
 
     }
 
@@ -183,4 +242,11 @@ public class DbManagerHelper {
         if(list==null || list.size()<=0) return null;
         return list.get(0).getMc_no();
     }
+
+    public static void clearAllChannStatus(List<McGoodsBean> lists) {
+        App.getDaoSession(App.getContext()).getMcGoodsBeanDao().clearChanStatus(lists);
+
+        updateMcStatusChannAll();
+    }
+
 }

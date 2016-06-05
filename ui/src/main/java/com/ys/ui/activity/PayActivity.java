@@ -1,12 +1,11 @@
 package com.ys.ui.activity;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -20,19 +19,23 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+import com.landfoneapi.misposwa.CallbackMsg;
+import com.landfoneapi.misposwa.E_REQ_RETURN;
+import com.landfoneapi.misposwa.ILfListener;
+import com.landfoneapi.misposwa.MyApi;
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.SaleListBean;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseTimerActivity;
+import com.ys.ui.base.PayTimerActivity;
 import com.ys.ui.common.constants.SlPayStatusEnum;
 import com.ys.ui.common.constants.SlSendStatusEnum;
 import com.ys.ui.common.constants.SlTypeEnum;
@@ -43,9 +46,6 @@ import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateOrderResult;
 import com.ys.ui.common.response.SaleListResult;
 import com.ys.ui.common.response.UserResult;
-import com.ys.ui.serial.pos.PosSerialHelper;
-import com.ys.ui.serial.print.activity.PrintHelper;
-import com.ys.ui.service.MyService;
 import com.ys.ui.utils.ImageUtils;
 import com.ys.ui.utils.OrderUtils;
 import com.ys.ui.utils.PropertyUtils;
@@ -86,6 +86,8 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
     @Bind(R.id.tv_pay_type0)
     TextView tvPayType0;
+    @Bind(R.id.tv_pay_second)
+    TextView tvPaySecond;
 
     @Bind(R.id.btn_dir_buy)
     Button btnDirPay;
@@ -211,11 +213,8 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
             createOrder(saleListVo, vip);
         } else {
             mQCodeImageView.setImageResource(R.mipmap.bankcard_flag);
-            boolean payResult = waitPay(saleListVo.getSlAmt());
-            if (payResult) {
-                DbManagerHelper.updatePayStatus(slNo, SlPayStatusEnum.FINISH);
-                startOutGoods(slNo);
-            }
+            waitPay(saleListVo.getSlAmt());
+
          }
 
 
@@ -304,21 +303,97 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     java.util.Timer pay_timer;
     boolean finish_flag = false;
 
-    // 银联卡支付
-    private boolean waitPay(long amount) {
-        PosSerialHelper helper = PosSerialHelper.getInstance();
-        if (helper.posInit()) {
-            if (helper.posSign()) {
-                return helper.purchase(amount);
 
-            }
-            return false;
-        } else {
-            return false;
+    long slAmount;
+    // 银联卡支付
+    private void waitPay(long amount) {
+        slAmount = amount;
+        tvPaySecond.setText("请刷卡");
+        mMyApi.setILfListener(mILfMsgHandler);
+
+        if (pos_init()) {
+            mMyApi.pos_purchase((int)amount);
         }
 
 
     }
+
+    private MyApi mMyApi = new MyApi();
+
+    private boolean pos_init(){
+
+        App app = (App)App.getContext();
+        String path = app.getMinipos_path();
+        int baudrate = app.getMinipos_baudrate();
+
+			/* Check parameters */
+        if ( (path.length() == 0) || (baudrate == -1)) {
+            ToastUtils.showError("baudarete is error ：" + baudrate, App.getContext());
+            // throw new InvalidParameterException();
+        }
+        //设置串口接口
+        mMyApi.setPOSISerialPort(null);//null时使用android的串口jni，android_serialport_api.SerialPort
+        //设置透传ip、端口；POS的串口路径和波特率
+
+        return E_REQ_RETURN.REQ_OK == mMyApi.pos_init("113.108.182.4", 10061,
+                path, String.valueOf(baudrate)) ;//"/dev/ttyS1"//lf
+    }
+    //////////////////////////////////////////业务返回///////////////////////////////////////
+    private Handler mmHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            CallbackMsg cbmsg = (CallbackMsg) msg.obj;
+            switch (cbmsg.op_type) {//信息（交易）类型
+                case OP_POS_SIGNIN://签到
+                    if (cbmsg.reply == 0) {//成功
+                        //signFlag = 1;
+
+                        mMyApi.pos_purchase((int)slAmount);
+                    } else if (cbmsg.reply == 1) {//失败
+                        //signFlag = 2;
+                        ToastUtils.showShortMessage("签到失败");
+                    }
+                    break;
+                case OP_POS_QUERY://查询
+                case OP_POS_PURCHASE://支付
+                    ToastUtils.showShortMessage("pos return reply=" + cbmsg.reply + "--info="+cbmsg.info);
+                    if (cbmsg.reply == 0) {//成功
+                        DbManagerHelper.updatePayStatus(slNo, SlPayStatusEnum.FINISH);
+                        startOutGoods(slNo);
+                    } else if (cbmsg.reply == 1) {//失败
+                        // 如果是未签到   则签到
+                        if (cbmsg.info.contains("未签到")) {
+                            mMyApi.pos_signin();
+                        } else if (cbmsg.info.contains("T0")) {
+                             // 读卡超时
+
+                        } else  {
+                           // ToastUtils.showShortMessage("支付失败");
+                            payFaild();
+                        }
+                    }
+                    break;
+                case OP_POS_DISPLAY://POS提示信息
+
+//                    if (cbmsg.reply == 0) {//成功
+//                        flag = 1;
+//                        ToastUtils.showShortMessage("pos 操作成功");
+//                    } else if (cbmsg.reply == 1) {
+//                        flag = 2;
+//                    }
+                    break;
+
+            }
+        }
+    };
+    //支付接口的返回处理
+    private ILfListener mILfMsgHandler = new ILfListener() {
+
+        @Override
+        public void onCallback(Message msg) {
+            mmHandler.sendMessage(msg);
+        }
+    };
 
     private void waitQRPay(final String slNo) {
         startTime = System.currentTimeMillis();
@@ -373,10 +448,11 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                                 } else {
                                     DbManagerHelper.updatePayStatus(slNo, SlPayStatusEnum.CANCELD);
 
-                                    finish();
-                                    startActivity(new Intent(PayActivity.this, HomeActivity.class));
-                                    ToastUtils.showError("未支付或者支付失败", PayActivity.this);
+//                                    finish();
+//                                    startActivity(new Intent(PayActivity.this, HomeActivity.class));
+//                                    ToastUtils.showError("未支付或者支付失败", PayActivity.this);
 
+                                    payFaild();
                                 }
 
                             }
@@ -395,11 +471,14 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     }
 
 
+
+
     private void startOutGoods(String slNo) {
         finish();
 
         Intent intent = new Intent(PayActivity.this, OutGoodsActivity.class);
 
+        intent.putExtra("slType", slType);
         intent.putExtra("slNo", slNo);
         intent.putExtra("channo", mcGoodsBean.getMg_channo());
         startActivity(intent);
@@ -482,18 +561,17 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                 if (etUserNo != null && !TextUtils.isEmpty(etUserNo.getText())) {
 
                     getValideCode(etUserNo.getText().toString());
-                    ibGetV.setImageResource(R.color.gray);
+
+                    ibGetV.setBackgroundResource(R.mipmap.getv1);
                     ibGetV.setClickable(false);
                 } else {
                    ToastUtils.showShortMessage("请填写手机号");
                 }
                 break;
-
             default:
                 break;
 
         }
-
     }
 
     private View view;
@@ -642,6 +720,10 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
      }
 
 
+    private void payFaild() {
+        finish();
+        startActivity(new Intent(PayActivity.this, PayFailActivity.class));
+    }
 
     @Override
     protected void onDestroy() {
@@ -653,6 +735,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
         if (pay_task != null) {
             pay_task.cancel();
         }
+        mMyApi.pos_release();
 
     }
 

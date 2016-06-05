@@ -147,6 +147,7 @@ public class GetProductActivity extends BaseTimerActivity implements View.OnClic
                                 Intent intent = new Intent(GetProductActivity.this, OutGoodsActivity.class);
                                 intent.putExtra("slNo", response.getExt_data().getSlNo());
 
+                                intent.putExtra("slType", SlTypeEnum.CODE.getIndex());
                                 intent.putExtra("channo", mcGoodsBean.getMg_channo());
 
                                 startActivity(intent);
