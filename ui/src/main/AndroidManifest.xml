@@ -69,6 +69,7 @@
             android:label="二维码支付"
             android:screenOrientation="portrait" />
         <activity
+            android:launchMode="singleTask"
             android:name=".activity.ProductActivity"
             android:label="商品购买"
             android:screenOrientation="portrait" />
