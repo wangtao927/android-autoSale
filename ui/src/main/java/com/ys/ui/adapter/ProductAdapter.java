@@ -125,7 +125,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
             final McGoodsBean mcGoodsBean = (McGoodsBean) no.getTag();
             if (mcGoodsBean.getMg_gnum() <= 0 || mcGoodsBean.getMg_chann_status().intValue() == ChanStatusEnum.ERROR.getIndex()) {
                 // 无货
-                ToastUtils.showError("该药品暂时无货，请选择其他药品购买", App.getContext());
+               // ToastUtils.showError("该药品暂时无货，请选择其他药品购买", App.getContext());
                 return;
             }
 

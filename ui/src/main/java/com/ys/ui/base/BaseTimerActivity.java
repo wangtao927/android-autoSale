@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.ys.ui.R;
 import com.ys.ui.activity.HomeActivity;
+import com.ys.ui.activity.PayFailActivity;
 import com.ys.ui.utils.PropertyUtils;
 
 import java.math.BigDecimal;

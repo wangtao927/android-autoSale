@@ -24,7 +24,6 @@ public class McStatusBeanDao extends AbstractDao<McStatusBean, String> {
     */
     public static class Properties {
         public final static Property Mc_no = new Property(0, String.class, "mc_no", true, "MC_NO");
-//        public final static Property Mc_serial_no = new Property(1, String.class, "mc_serial_no", false, "MC_SERIAL_NO");
         public final static Property Mr_coin_status = new Property(1, String.class, "mr_coin_status", false, "MR_COIN_STATUS");
         public final static Property Mr_coin_short = new Property(2, String.class, "mr_coin_short", false, "MR_COIN_SHORT");
         public final static Property Mr_bill_status = new Property(3, String.class, "mr_bill_status", false, "MR_BILL_STATUS");

@@ -9,6 +9,7 @@ import de.greenrobot.dao.Property;
 import de.greenrobot.dao.internal.DaoConfig;
 
 import com.ys.data.bean.SaleListBean;
+import com.ys.ui.base.App;
 import com.ys.ui.common.constants.SlOutStatusEnum;
 import com.ys.ui.common.constants.SlPayStatusEnum;
 import com.ys.ui.common.constants.SlSendStatusEnum;
@@ -326,6 +327,10 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
 
 
     public void updatePayStatus(String slNo, SlPayStatusEnum slPayStatus) {
+
+        SaleListBean saleListBean = App.getDaoSession(App.getContext()).
+                getSaleListBeanDao().queryBuilder().where(Properties.Sl_no.eq(slNo)).unique();
+        saleListBean.setSl_pay_status(String.valueOf(slPayStatus.getIndex()));
         String sql = "UPDATE salelist SET  SL_PAY_STATUS = ? where SL_NO =?";
 
         SQLiteStatement stmt = db.compileStatement(sql);
@@ -335,6 +340,7 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
                 stmt.bindString(2, slNo);
 
                 stmt.execute();
+                attachEntity(saleListBean.getSl_id(), saleListBean, true);
             }
         } else {
             // Do TX to acquire a connection before locking the stmt to avoid deadlocks
@@ -345,6 +351,8 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
                     stmt.bindString(2, slNo);
 
                     stmt.execute();
+                    attachEntity(saleListBean.getSl_id(), saleListBean, true);
+
                 }
                 db.setTransactionSuccessful();
             } finally {
@@ -355,7 +363,10 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
     }
 
     public void updatePayStatusAndOutStatus(String slNo, SlPayStatusEnum slPayStatus, SlOutStatusEnum slOutStatus ) {
-
+        SaleListBean saleListBean = App.getDaoSession(App.getContext()).
+                getSaleListBeanDao().queryBuilder().where(Properties.Sl_no.eq(slNo)).unique();
+        saleListBean.setSl_pay_status(String.valueOf(slPayStatus.getIndex()));
+        saleListBean.setSl_out_status(String.valueOf(slOutStatus.getIndex()));
         String sql = "UPDATE salelist SET  SL_PAY_STATUS = ?, SL_OUT_STATUS=? where SL_NO =?";
 
         SQLiteStatement stmt = db.compileStatement(sql);
@@ -366,6 +377,8 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
                 stmt.bindString(3, slNo);
 
                 stmt.execute();
+                attachEntity(saleListBean.getSl_id(), saleListBean, true);
+
             }
         } else {
             // Do TX to acquire a connection before locking the stmt to avoid deadlocks
@@ -376,6 +389,8 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
                     stmt.bindString(2, String.valueOf(slOutStatus.getIndex()));
                     stmt.bindString(3, slNo);
                     stmt.execute();
+                    attachEntity(saleListBean.getSl_id(), saleListBean, true);
+
                 }
                 db.setTransactionSuccessful();
             } finally {
@@ -388,7 +403,9 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
 
     public void updateOutStatus(String slNo, SlOutStatusEnum slOutStatus) {
 
-
+        SaleListBean saleListBean = App.getDaoSession(App.getContext()).
+                getSaleListBeanDao().queryBuilder().where(Properties.Sl_no.eq(slNo)).unique();
+        saleListBean.setSl_out_status(String.valueOf(slOutStatus.getIndex()));
         String sql = "UPDATE salelist SET SL_OUT_STATUS=? where SL_NO =?";
 
         SQLiteStatement stmt = db.compileStatement(sql);
@@ -398,6 +415,8 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
                 stmt.bindString(2, slNo);
 
                 stmt.execute();
+                attachEntity(saleListBean.getSl_id(), saleListBean, true);
+
             }
         } else {
              db.beginTransaction();
@@ -406,6 +425,8 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
                     stmt.bindString(1, String.valueOf(slOutStatus.getIndex()));
                     stmt.bindString(2, slNo);
                     stmt.execute();
+                    attachEntity(saleListBean.getSl_id(), saleListBean, true);
+
                 }
                 db.setTransactionSuccessful();
             } finally {
@@ -416,6 +437,10 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
     }
 
     public void updateSendStatus(String slNo, SlSendStatusEnum slSendStatus) {
+        SaleListBean saleListBean = App.getDaoSession(App.getContext()).
+                getSaleListBeanDao().queryBuilder().where(Properties.Sl_no.eq(slNo)).unique();
+        saleListBean.setSl_send_status(Long.valueOf(slSendStatus.getIndex()));
+
         String sql = "UPDATE salelist SET SL_SEND_STATUS=? where SL_NO =?";
 
         SQLiteStatement stmt = db.compileStatement(sql);
@@ -425,6 +450,8 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
                 stmt.bindString(2, slNo);
 
                 stmt.execute();
+                attachEntity(saleListBean.getSl_id(), saleListBean, true);
+
             }
         } else {
             db.beginTransaction();
@@ -433,6 +460,8 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
                     stmt.bindString(1, String.valueOf(slSendStatus.getIndex()));
                     stmt.bindString(2, slNo);
                     stmt.execute();
+                    attachEntity(saleListBean.getSl_id(), saleListBean, true);
+
                 }
                 db.setTransactionSuccessful();
             } finally {

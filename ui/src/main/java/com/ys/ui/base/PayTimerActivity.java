@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ys.ui.R;
@@ -68,6 +69,17 @@ public abstract class PayTimerActivity extends BaseActivity {
     }
 
 
+    protected void backHome() {
+//        if (findViewById(R.id.btn_back_home) != null) {
+//            findViewById(R.id.btn_back_home).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    finish();
+//                    startActivity(new Intent(PayTimerActivity.this, HomeActivity.class));
+//                }
+//            });
+//        }
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -84,9 +96,11 @@ public abstract class PayTimerActivity extends BaseActivity {
     }
 
     private void initTimer() {
-
-        minute = 5;
-        second = 0;
+        if (minute ==0 && second ==0) {
+            int timeout = PropertyUtils.getInstance().getTransTimeout();
+            minute = timeout / 60;
+            second = timeout % 60;
+        }
 
 
         tvTimer.setText(getTime());

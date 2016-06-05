@@ -38,7 +38,6 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
           Intent i = new Intent(context, TimerService.class);
           context.startService(i);
-//        startTimer();
      }
 
 }

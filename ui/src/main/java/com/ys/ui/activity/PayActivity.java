@@ -65,7 +65,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by river on 2016/4/19.
  */
-public class PayActivity extends BaseTimerActivity implements View.OnClickListener {
+public class PayActivity extends PayTimerActivity implements View.OnClickListener {
 
     @Bind(R.id.tv_gd_name)
     TextView tvGdName;
@@ -121,6 +121,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     private ImageButton ibGetV;
 
     private String slNo;
+    private String acountNo;
 
     /**
      * 用字符串生成二维码
@@ -175,6 +176,10 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
         init();
         tvPayType.setText(slType.getDesc());
         tvPayType0.setText(slType.getDesc());
+        if (slType == SlTypeEnum.CARD) {
+            tvPaySecond.setText("请刷卡");
+
+        }
         btnDirPay.setOnClickListener(this);
         btnVipPay.setOnClickListener(this);
         btnReSelectPayType.setOnClickListener(this);
@@ -205,12 +210,13 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
         saleListVo.setSlChann(mcGoodsBean.getMg_channo());
         final long amount = vip == 0 ? mcGoodsBean.getMg_disc_price() : mcGoodsBean.getMg_vip_price();
         saleListVo.setSlAmt(amount);
+        saleListVo.setSlAccNo(acountNo);
         createSaleList(saleListVo.getSlAmt(), vip, slNo);
 
         if (slType.getIndex() == SlTypeEnum.ALIPAY.getIndex()
                 || slType.getIndex() == SlTypeEnum.WX.getIndex()) {
 
-            createOrder(saleListVo, vip);
+            createOrder(saleListVo);
         } else {
             mQCodeImageView.setImageResource(R.mipmap.bankcard_flag);
             waitPay(saleListVo.getSlAmt());
@@ -221,7 +227,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     }
 
 
-    private void createOrder(final SaleListVo saleListVo, final int vip) {
+    private void createOrder(final SaleListVo saleListVo) {
         RetrofitManager.builder().createOrder(saleListVo.getMcNo(), saleListVo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -293,7 +299,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
         saleListBean.setSl_num(1L);
         saleListBean.setSl_type(String.valueOf(slType.getIndex()));
         saleListBean.setSl_time(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-
+        saleListBean.setSl_acc_no(acountNo);
         App.getDaoSession(App.getContext()).getSaleListBeanDao().insertOrReplace(saleListBean);
     }
 
@@ -308,14 +314,11 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
     // 银联卡支付
     private void waitPay(long amount) {
         slAmount = amount;
-        tvPaySecond.setText("请刷卡");
         mMyApi.setILfListener(mILfMsgHandler);
 
         if (pos_init()) {
             mMyApi.pos_purchase((int)amount);
         }
-
-
     }
 
     private MyApi mMyApi = new MyApi();
@@ -328,7 +331,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
 			/* Check parameters */
         if ( (path.length() == 0) || (baudrate == -1)) {
-            ToastUtils.showError("baudarete is error ：" + baudrate, App.getContext());
+            //ToastUtils.showError("baudarete is error ：" + baudrate, App.getContext());
             // throw new InvalidParameterException();
         }
         //设置串口接口
@@ -351,12 +354,12 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                         mMyApi.pos_purchase((int)slAmount);
                     } else if (cbmsg.reply == 1) {//失败
                         //signFlag = 2;
-                        ToastUtils.showShortMessage("签到失败");
+                        //Utils.showShortMessage("签到失败");
                     }
                     break;
                 case OP_POS_QUERY://查询
                 case OP_POS_PURCHASE://支付
-                    ToastUtils.showShortMessage("pos return reply=" + cbmsg.reply + "--info="+cbmsg.info);
+                   // ToastUtils.showShortMessage("pos return reply=" + cbmsg.reply + "--info="+cbmsg.info);
                     if (cbmsg.reply == 0) {//成功
                         DbManagerHelper.updatePayStatus(slNo, SlPayStatusEnum.FINISH);
                         startOutGoods(slNo);
@@ -505,6 +508,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
             case R.id.btn_reselect_paytype:
 
+
                 finish();
                 Intent intent = new Intent(PayActivity.this, ProductDetailActivity.class);
                 intent.putExtra("gdNo", mcGoodsBean.getGd_no());
@@ -631,6 +635,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
                                 Log.d("response", response.toString());
                                 if (response.getCode() == 0) {
+                                    acountNo = userNo;
 
                                     mDialog.cancel();
                                     createOrder(String.valueOf(slType.getIndex()), 1);
@@ -688,7 +693,7 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
                 });
 
     }
-    private void userReg(String phoneNo, String valideCode) {
+    private void userReg(final String phoneNo, String valideCode) {
         RetrofitManager.builder().userReg(phoneNo, valideCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -704,7 +709,8 @@ public class PayActivity extends BaseTimerActivity implements View.OnClickListen
 
                         if (response.getCode() == 0) {
                             mDialog.cancel();
-                            ToastUtils.showShortMessage("注册成功，默认密码是:123456");
+                            acountNo = phoneNo;
+                            //ToastUtils.showShortMessage("注册成功，默认密码是:123456");
                             // 生成订单
                             createOrder(String.valueOf(slType.getIndex()), 1);
                         }

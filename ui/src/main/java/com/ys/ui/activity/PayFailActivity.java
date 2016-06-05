@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ys.ui.R;
+import com.ys.ui.base.BaseTimerActivity;
 import com.ys.ui.base.PayTimerActivity;
 
 import butterknife.Bind;
@@ -15,7 +16,7 @@ import butterknife.Bind;
 /**
  * Created by wangtao on 2016/4/18.
  */
-public class PayFailActivity extends PayTimerActivity {
+public class PayFailActivity extends BaseTimerActivity {
 
 
     @Bind(R.id.transStatus)
@@ -31,6 +32,8 @@ public class PayFailActivity extends PayTimerActivity {
     ImageButton btnBackHome;
 
 
+    protected  int minute;
+    protected int second;
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -46,22 +49,22 @@ public class PayFailActivity extends PayTimerActivity {
     protected void create(Bundle savedInstanceState) {
 
          btnJxBuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                startActivity(new Intent(PayFailActivity.this, ProductActivity.class));
-            }
-        });
+             @Override
+             public void onClick(View v) {
+                 finish();
+                 startActivity(new Intent(PayFailActivity.this, ProductActivity.class));
+             }
+         });
 
         btnBackHome.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View v) {
+                                           @Override
+                                           public void onClick(View v) {
 
-                       finish();
-                       startActivity(new Intent(PayFailActivity.this, ProductActivity.class));
+                                               finish();
+                                               startActivity(new Intent(PayFailActivity.this, ProductActivity.class));
 
-                   }
-               }
+                                           }
+                                       }
         );
     }
 }

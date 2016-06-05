@@ -125,6 +125,7 @@
                  android:background="@color/bg"
                 android:padding="10dp"
                 android:text="重新选择购买方式"
+                android:visibility="gone"
                 android:textColor="@color/white"
                 android:textSize="16dp" />
 
@@ -239,7 +240,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:src="@mipmap/flow_2" />
+                android:src="@mipmap/flow_1" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -247,7 +248,6 @@
                 android:text="确认支付"
                 android:textColor="@color/white"
                 android:textSize="28dp" />
-
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -258,7 +258,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="完成"
+                android:text="出货"
+                android:textColor="@color/white"
+                android:textSize="28dp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:src="@mipmap/flow_1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="交易完成"
                 android:textColor="@color/white"
                 android:textSize="28dp" />
         </LinearLayout>

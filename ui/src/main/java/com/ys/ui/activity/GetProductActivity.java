@@ -79,6 +79,17 @@ public class GetProductActivity extends BaseTimerActivity implements View.OnClic
         btnBack.setOnClickListener(this);
     }
 
+    protected void backHome() {
+        if (findViewById(R.id.btn_back_home) != null) {
+            findViewById(R.id.btn_back_home).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                    startActivity(new Intent(GetProductActivity.this, HomeActivity.class));
+                }
+            });
+        }
+    }
     private void getProductByCode() {
         final String code = etProductCode.getText().toString();
         String pwd = etProductPwd.getText().toString();

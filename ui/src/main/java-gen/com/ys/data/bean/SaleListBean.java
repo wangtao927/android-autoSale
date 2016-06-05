@@ -25,7 +25,7 @@ public class SaleListBean {
     private String sl_chann;
     private Long sl_num;
     private String sl_type;
-    private String sl_isvip;
+    private String sl_isvip = "0";
     private String sl_err_msg;
     private String sl_acc_no;
     private Long sl_bf_amt;
@@ -287,4 +287,14 @@ public class SaleListBean {
         this.sl_out_status = sl_out_status;
     }
 
+    @Override
+    public String toString() {
+        return "SaleListBean{" +
+                "sl_id=" + sl_id +
+                ", sl_no='" + sl_no + '\'' +
+                ", sl_send_status=" + sl_send_status +
+                ", sl_pay_status='" + sl_pay_status + '\'' +
+                ", sl_out_status='" + sl_out_status + '\'' +
+                '}';
+    }
 }

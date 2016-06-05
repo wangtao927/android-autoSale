@@ -4,16 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.widget.ContentLoadingProgressBar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ys.BytesUtil;
 import com.ys.GetBytesUtils;
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.SaleListBean;
@@ -28,8 +25,6 @@ import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.serial.print.activity.PrintHelper;
 import com.ys.ui.serial.salemachine.SerialMachineActivity;
-import com.ys.ui.utils.PropertyUtils;
-import com.ys.ui.utils.ToastUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -116,7 +111,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
         runOnUiThread(new Runnable() {
             public void run() {
                 // 是正确的返回结果
-                ToastUtils.showShortMessage("dataReceived= " + BytesUtil.bytesToHexString(buff));
+               // ToastUtils.showShortMessage("dataReceived= " + BytesUtil.bytesToHexString(buff));
 
                 switch (buff[1]) {
 
@@ -265,7 +260,9 @@ public class OutGoodsActivity extends SerialMachineActivity {
             // 打印凭条
             printPayNote(slNo);
 
-            transStatus.setText("出货完成！");
+            transStatus.setText("交易完成！");
+            transFailDetail.setVisibility(View.VISIBLE);
+            transFailDetail.setText("请从取货口取走您的货物，欢迎继续购买!");
 
         } catch (Exception e) {
             e.printStackTrace();

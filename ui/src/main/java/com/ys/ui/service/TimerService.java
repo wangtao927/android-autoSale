@@ -25,6 +25,7 @@ import com.ys.data.bean.SaleListBean;
 import com.ys.data.dao.McParamsBeanDao;
 import com.ys.data.dao.SaleListBeanDao;
 import com.ys.ui.base.App;
+import com.ys.ui.common.constants.SlSendStatusEnum;
 import com.ys.ui.common.http.RetrofitManager;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.request.CommonRequest;
@@ -100,15 +101,17 @@ public class TimerService extends Service {
             bean = mcStatusBeanList.get(0);
             mcNo = bean.getMc_no();
             try {
+
                 if (TextUtils.isEmpty(bean.getMr_mc_position())) {
                     getLocation();
                     bean.setMr_mc_position(location.getLongitude() + "," + location.getLatitude());//经纬度
-                    //
 
                 }
             } catch (Exception e) {
 
             }
+
+
 
         } else {
             return;
@@ -121,7 +124,7 @@ public class TimerService extends Service {
         vo.setMcGoodsList(mcGoodsBeanList);
         //
         Query<SaleListBean> query =  App.getDaoSession(App.getContext()).getSaleListBeanDao()
-                .queryBuilder().where(SaleListBeanDao.Properties.Sl_send_status.eq(0)).build();
+                .queryBuilder().where(SaleListBeanDao.Properties.Sl_send_status.notEq(SlSendStatusEnum.FINISH.getIndex())).build();
 
         saleListBeans = query.list();
         vo.setMcSaleList(saleListBeans);

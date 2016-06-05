@@ -12,16 +12,22 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.ys.data.bean.AdvBean;
 import com.ys.data.bean.McGoodsBean;
+import com.ys.data.bean.SaleListBean;
+import com.ys.data.dao.AdvBeanDao;
+import com.ys.data.dao.McGoodsBeanDao;
+import com.ys.data.dao.SaleListBeanDao;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.utils.RandomUtils;
+import com.ys.ui.utils.ToastUtils;
 import com.ys.ui.utils.Utils;
 
 import java.util.List;
 
 import butterknife.Bind;
+import de.greenrobot.dao.query.Query;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
@@ -77,7 +83,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
         if (adsList == null) {
-            adsList = App.getDaoSession(App.getContext()).getAdvBeanDao().loadAll();
+            adsList = App.getDaoSession(App.getContext()).getAdvBeanDao().queryBuilder().where(AdvBeanDao.Properties.Ai_type.eq("1")).list();
         }
         adsStart();
     }
