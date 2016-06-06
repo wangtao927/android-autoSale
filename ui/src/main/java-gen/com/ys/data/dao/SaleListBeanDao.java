@@ -436,6 +436,16 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
 
     }
 
+    public void updateOutStatusFail(String slNo, SlOutStatusEnum slOutStatus, SlOutStatusEnum oldStatus) {
+
+        SaleListBean saleListBean = App.getDaoSession(App.getContext()).
+                getSaleListBeanDao().queryBuilder().where(Properties.Sl_no.eq(slNo)).unique();
+        if (String.valueOf(oldStatus.getIndex()).equals(saleListBean.getSl_out_status())) {
+            updateOutStatus(slNo, slOutStatus);
+        }
+
+
+    }
     public void updateSendStatus(String slNo, SlSendStatusEnum slSendStatus) {
         SaleListBean saleListBean = App.getDaoSession(App.getContext()).
                 getSaleListBeanDao().queryBuilder().where(Properties.Sl_no.eq(slNo)).unique();

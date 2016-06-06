@@ -119,7 +119,10 @@ public abstract class BaseTimerActivity extends BaseActivity {
                 //return;
             }
 
-            tvTimer.setText(timer);
+            if (tvTimer != null) {
+                tvTimer.setText(timer);
+
+            }
         }
     };
 

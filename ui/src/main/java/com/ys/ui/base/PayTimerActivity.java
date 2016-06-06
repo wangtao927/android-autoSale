@@ -70,15 +70,6 @@ public abstract class PayTimerActivity extends BaseActivity {
 
 
     protected void backHome() {
-//        if (findViewById(R.id.btn_back_home) != null) {
-//            findViewById(R.id.btn_back_home).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    finish();
-//                    startActivity(new Intent(PayTimerActivity.this, HomeActivity.class));
-//                }
-//            });
-//        }
     }
     @Override
     protected void onDestroy() {
@@ -128,7 +119,10 @@ public abstract class PayTimerActivity extends BaseActivity {
                 //return;
             }
 
-            tvTimer.setText(timer);
+            if (tvTimer != null) {
+                tvTimer.setText(timer);
+
+            }
         }
     };
 

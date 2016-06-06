@@ -39,7 +39,10 @@ import com.ys.ui.utils.ToastUtils;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -123,8 +126,16 @@ public class TimerService extends Service {
         mcGoodsBeanList = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().loadAll();
         vo.setMcGoodsList(mcGoodsBeanList);
         //
+
+        Calendar beforeTime = Calendar.getInstance();
+        beforeTime.add(Calendar.MINUTE, -5);// 5分钟之前的时间
+
+        Date beforeD = beforeTime.getTime();
+
+
         Query<SaleListBean> query =  App.getDaoSession(App.getContext()).getSaleListBeanDao()
-                .queryBuilder().where(SaleListBeanDao.Properties.Sl_send_status.notEq(SlSendStatusEnum.FINISH.getIndex())).build();
+                .queryBuilder().where(SaleListBeanDao.Properties.Sl_send_status.notEq(SlSendStatusEnum.FINISH.getIndex()))
+                .where(SaleListBeanDao.Properties.Sl_time.lt(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(beforeD))).build();
 
         saleListBeans = query.list();
         vo.setMcSaleList(saleListBeans);

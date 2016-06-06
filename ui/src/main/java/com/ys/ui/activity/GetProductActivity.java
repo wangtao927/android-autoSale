@@ -93,20 +93,20 @@ public class GetProductActivity extends BaseTimerActivity implements View.OnClic
     private void getProductByCode() {
         final String code = etProductCode.getText().toString();
         String pwd = etProductPwd.getText().toString();
-        List<McStatusBean> list = App.getDaoSession(App.getContext()).getMcStatusBeanDao().loadAll();
-        if (list != null && !list.isEmpty()) {
-            McStatusBean bean = list.get(0);
-            //
+
+        //List<McStatusBean> list = App.getDaoSession(App.getContext()).getMcStatusBeanDao().loadAll();
+//        if (list != null && !list.isEmpty()) {
+             //
             SaleListVo saleListVo = new SaleListVo();
-            saleListVo.setMcNo(bean.getMc_no());
+            saleListVo.setMcNo(App.mcNo);
             saleListVo.setSlType(String.valueOf(SlTypeEnum.CODE.getIndex()));
 
             saleListVo.setSlThCardno(code);
             saleListVo.setSlThPwd(pwd);
             createOrder(saleListVo);
-        } else {
-            ToastUtils.showError("终端数据异常", GetProductActivity.this);
-        }
+//        } else {
+//            ToastUtils.showError("终端数据异常", GetProductActivity.this);
+//        }
     }
 
     @Override

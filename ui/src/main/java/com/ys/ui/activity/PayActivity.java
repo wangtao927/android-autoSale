@@ -100,7 +100,6 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
 
     private SlTypeEnum slType;
 
-
     @Bind(R.id.lay_pay)
     LinearLayout layPay;
 
@@ -549,6 +548,8 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                 break;
             case R.id.ib_reg:
                 regFlag = true;
+                btnLogin.setText("注册");
+
                 ivLogin.setBackgroundResource(R.mipmap.login_1);
                 ivReg.setBackgroundResource(R.mipmap.reg);
                 tvPwd.setText("验证码");
@@ -559,7 +560,6 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                 ivLogin.setBackgroundResource(R.mipmap.login_1);
                 ivReg.setBackgroundResource(R.mipmap.reg);
                 tvPwd.setText("验证码");
-
 
                 // 发送验证码
                 if (etUserNo != null && !TextUtils.isEmpty(etUserNo.getText())) {
@@ -583,6 +583,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
     ImageView ivReg;
     EditText etUserNo;
     EditText etPwd;
+    Button btnLogin;
     private boolean regFlag = false;// 默认登录
 
     public void initview() {
@@ -591,7 +592,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
 
         etUserNo = (EditText) view.findViewById(R.id.et_phone);
         etPwd = (EditText) view.findViewById(R.id.et_pwd);
-        Button btnLogin = (Button) view.findViewById(R.id.btn_login);
+        btnLogin = (Button) view.findViewById(R.id.btn_login);
         Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
 
         btnLogin.setOnClickListener(this);

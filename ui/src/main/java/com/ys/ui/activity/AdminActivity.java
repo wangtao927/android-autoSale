@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ys.data.bean.McGoodsBean;
@@ -59,6 +60,8 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
     @Bind(R.id.btn_back)
     Button btnBack;
 
+    @Bind(R.id.tv_admin_mcno)
+    TextView tvMcNo;
     @Bind(R.id.recycler_view)
     LMRecyclerView recyclerView;
 
@@ -83,6 +86,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
         btnSysOut.setOnClickListener(this);
         btnBack.setOnClickListener(this);
         btnInitSerial.setOnClickListener(this);
+        tvMcNo.setText("终端号：" + App.mcNo);
         loadData();
         adapter = new McGoodsListAdapter(AdminActivity.this, lists);
         recyclerView.setAdapter(adapter);

@@ -74,18 +74,6 @@ public class OutGoodsActivity extends SerialMachineActivity {
         });
         btnBackHome = (ImageButton) findViewById(R.id.btn_back_home);
 
-//        btnBackHome.setOnClickListener(new View.OnClickListener() {
-//                                           @Override
-//                                           public void onClick(View v) {
-//
-////               finish();
-////               startActivity(new Intent(OutGoodsActivity.this, ProductActivity.class));
-//
-//           }
-//       }
-//        );
-        // 初始化广告图
-
 
         Bundle datas = getIntent().getExtras();
         slNo = datas.getString("slNo");
@@ -205,6 +193,8 @@ public class OutGoodsActivity extends SerialMachineActivity {
         transStatus.setText("出货失败!");
         transStatus.setTextColor(getResources().getColor(R.color.red));
         transFailDetail.setVisibility(View.VISIBLE);
+        btnJxBuy.setVisibility(View.VISIBLE);
+
         if (slType == SlTypeEnum.CODE.getIndex()) {
             transFailDetail.setText("请5分钟后重新操作，如有疑问， 请联系客服 400-060-0289。");
         }
@@ -213,9 +203,10 @@ public class OutGoodsActivity extends SerialMachineActivity {
         try {
             // 复位
             reback();
-            DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
 
             if (!transFinish) {
+                DbManagerHelper.updateOutStatusFail(slNo, SlOutStatusEnum.FAIL, SlOutStatusEnum.INIT);
+
                 refund(slNo);
             }
             //ToastUtils.showShortMessage("退款请求已发送：订单号：" + slNo);
@@ -252,6 +243,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
             }
             transFinish = true;
+
             reback();
 
             // 支付成功才会 走到出货
@@ -261,6 +253,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
             printPayNote(slNo);
 
             transStatus.setText("交易完成！");
+            btnJxBuy.setVisibility(View.VISIBLE);
             transFailDetail.setVisibility(View.VISIBLE);
             transFailDetail.setText("请从取货口取走您的货物，欢迎继续购买!");
 
@@ -272,6 +265,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
     private void printPayNote(String slNo) {
         Long vipPrice = 0L;
+
         SaleListBean bean = DbManagerHelper.getSaleRecord(slNo);
         if (bean.getSl_vip_price() != null) {
             vipPrice = bean.getSl_vip_price();
@@ -388,7 +382,6 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
     private void reback() {
 
-        btnJxBuy.setVisibility(View.VISIBLE);
 
         // 发送选货请求
         mBuffer = GetBytesUtils.reback();

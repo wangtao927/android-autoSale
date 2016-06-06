@@ -98,6 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
                 android:text=""
+                android:scrollbars="vertical"
                 android:textSize="15sp"
                 android:textColor="@color/white" />
 

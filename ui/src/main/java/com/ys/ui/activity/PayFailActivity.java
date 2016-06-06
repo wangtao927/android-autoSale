@@ -32,8 +32,8 @@ public class PayFailActivity extends BaseTimerActivity {
     ImageButton btnBackHome;
 
 
-    protected  int minute;
-    protected int second;
+    protected  int minute = 5;
+    protected int second = 0;
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -57,14 +57,15 @@ public class PayFailActivity extends BaseTimerActivity {
          });
 
         btnBackHome.setOnClickListener(new View.OnClickListener() {
-                                           @Override
-                                           public void onClick(View v) {
+               @Override
+               public void onClick(View v) {
 
-                                               finish();
-                                               startActivity(new Intent(PayFailActivity.this, ProductActivity.class));
+                   finish();
+                   startActivity(new Intent(PayFailActivity.this, ProductActivity.class));
 
-                                           }
-                                       }
+               }
+           }
         );
     }
+
 }

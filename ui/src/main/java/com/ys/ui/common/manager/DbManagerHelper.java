@@ -223,6 +223,11 @@ public class DbManagerHelper {
         App.getDaoSession(App.getContext()).getSaleListBeanDao().updateOutStatus(slNo, slOutStatus);
 
     }
+    public static void updateOutStatusFail(String slNo, SlOutStatusEnum newslOutStatus, SlOutStatusEnum oldStatus) {
+
+        App.getDaoSession(App.getContext()).getSaleListBeanDao().updateOutStatusFail(slNo, newslOutStatus, oldStatus);
+
+    }
 
 
 

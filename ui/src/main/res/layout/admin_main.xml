@@ -11,6 +11,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/tv_admin_mcno"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            />
         <Button
             android:id="@+id/btn_buhuo"
             android:layout_width="wrap_content"
@@ -25,12 +31,7 @@
             android:layout_column="3"
              android:text="@string/onekeyclear" />
 
-        <Button
-            android:id="@+id/btn_reset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="2"
-             android:text="@string/reset" />
+
         <Button
             android:id="@+id/btn_init_serial"
             android:layout_width="wrap_content"
@@ -49,6 +50,12 @@
             android:layout_height="wrap_content"
             android:layout_column="2"
              android:text="@string/sysout" />
+        <Button
+            android:id="@+id/btn_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:text="@string/reset" />
     </LinearLayout>
 
     <LinearLayout
