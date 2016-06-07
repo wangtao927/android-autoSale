@@ -13,9 +13,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.McStatusBean;
+import com.ys.data.bean.SaleListBean;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseTimerActivity;
+import com.ys.ui.common.constants.SlPayStatusEnum;
+import com.ys.ui.common.constants.SlSendStatusEnum;
 import com.ys.ui.common.constants.SlTypeEnum;
 import com.ys.ui.common.http.RetrofitManager;
 import com.ys.ui.common.manager.DbManagerHelper;
@@ -24,6 +27,8 @@ import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateOrderResult;
 import com.ys.ui.utils.ToastUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -146,6 +151,8 @@ public class GetProductActivity extends BaseTimerActivity implements View.OnClic
                         hideProgress();
                         if (response.isSuccess()) {
                             // 调用出货
+                            // 生成本地流水
+
 
                             String gdNo = response.getExt_data().getSlGdNo();
                             // 根据商品编码查询机器是否有该商品
@@ -155,6 +162,7 @@ public class GetProductActivity extends BaseTimerActivity implements View.OnClic
 
                                 return;
                             } else {
+                                createSaleList(mcGoodsBean, response.getExt_data().getSlNo());
                                 Intent intent = new Intent(GetProductActivity.this, OutGoodsActivity.class);
                                 intent.putExtra("slNo", response.getExt_data().getSlNo());
 
@@ -178,4 +186,26 @@ public class GetProductActivity extends BaseTimerActivity implements View.OnClic
                 });
     }
 
+    private void createSaleList(McGoodsBean mcGoodsBean, String slNo) {
+        SaleListBean saleListBean = new SaleListBean();
+        saleListBean.setSl_pay_status(String.valueOf(SlPayStatusEnum.INIT.getIndex()));
+        saleListBean.setMc_no(App.mcNo);
+        saleListBean.setSl_chann(mcGoodsBean.getMg_channo());
+        saleListBean.setSl_amt(mcGoodsBean.getMg_disc_price());
+        saleListBean.setSl_isvip("0");
+
+        saleListBean.setSl_disc_price(mcGoodsBean.getMg_disc_price());
+        saleListBean.setSl_vip_price(mcGoodsBean.getMg_vip_price());
+        saleListBean.setSl_pre_price(mcGoodsBean.getMg_pre_price());
+        saleListBean.setSl_score(mcGoodsBean.getMg_score_price());
+        saleListBean.setSl_gd_no(mcGoodsBean.getGd_no());
+        saleListBean.setSl_send_status(Long.valueOf(SlSendStatusEnum.INIT.getIndex()));
+        saleListBean.setSl_gd_name("");
+        saleListBean.setSl_no(slNo);
+        saleListBean.setSl_num(1L);
+        saleListBean.setSl_type(String.valueOf(SlTypeEnum.CODE.getIndex()));
+        saleListBean.setSl_time(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        saleListBean.setSl_acc_no("");
+        App.getDaoSession(App.getContext()).getSaleListBeanDao().insertOrReplace(saleListBean);
+    }
 }

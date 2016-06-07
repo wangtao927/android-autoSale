@@ -245,17 +245,17 @@ public class OutGoodsActivity extends SerialMachineActivity {
             transFinish = true;
 
             reback();
-
+            transStatus.setText("交易完成！");
+            btnJxBuy.setVisibility(View.VISIBLE);
+            transFailDetail.setVisibility(View.VISIBLE);
+            transFailDetail.setText("请从取货口取走您的货物，欢迎继续购买!");
             // 支付成功才会 走到出货
             DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FINISH);
             DbManagerHelper.reduceStore(channo);
             // 打印凭条
             printPayNote(slNo);
 
-            transStatus.setText("交易完成！");
-            btnJxBuy.setVisibility(View.VISIBLE);
-            transFailDetail.setVisibility(View.VISIBLE);
-            transFailDetail.setText("请从取货口取走您的货物，欢迎继续购买!");
+
 
         } catch (Exception e) {
             e.printStackTrace();
