@@ -541,6 +541,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                 break;
             case R.id.ib_login:
                 regFlag = false;
+                btnLogin.setText("登录");
                 ivLogin.setBackgroundResource(R.mipmap.login);
                 ivReg.setBackgroundResource(R.mipmap.reg_1);
                 tvPwd.setText("密 码");

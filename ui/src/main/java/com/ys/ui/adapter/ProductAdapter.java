@@ -79,6 +79,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
                 holder.wuhuo.setVisibility(View.VISIBLE);
 
                // holder.no.setBackgroundResource(R.drawable.circle_gray);
+            }else{
+                holder.wuhuo.setVisibility(View.GONE);
             }
         } else {
             holder.tvPrice.setText("无货");
