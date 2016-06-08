@@ -122,6 +122,26 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
     private String slNo;
     private String acountNo;
 
+
+    // 判断是否可以返回首页
+    private boolean backHomeFlag = true;
+
+    protected void backHome() {
+
+            findViewById(R.id.btn_back_home).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (backHomeFlag) {
+                        finish();
+                        startActivity(new Intent(PayActivity.this, ProductActivity.class));
+                    }
+
+                }
+            });
+
+
+    }
     /**
      * 用字符串生成二维码
      *
@@ -177,7 +197,6 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
         tvPayType0.setText(slType.getDesc());
         if (slType == SlTypeEnum.CARD) {
             tvPaySecond.setText("请刷卡");
-
         }
         btnDirPay.setOnClickListener(this);
         btnVipPay.setOnClickListener(this);
@@ -494,10 +513,11 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
         }
         switch (v.getId()) {
             case R.id.btn_dir_buy:
-
+                backHomeFlag = false;
                 createOrder(String.valueOf(slType.getIndex()), 0);
                 layPay.setVisibility(View.VISIBLE);
                 laySelectPay.setVisibility(View.GONE);
+
                 break;
             case R.id.btn_vip_buy:
 
@@ -533,7 +553,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                             userLogin(etUserNo.getText().toString(), etPwd.getText().toString());
                         }
                     }
-
+                    backHomeFlag = false;
                  }
                 break;
             case R.id.btn_cancel:

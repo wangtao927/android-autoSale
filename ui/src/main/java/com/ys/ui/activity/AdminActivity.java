@@ -23,6 +23,7 @@ import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.TermInitResult;
 import com.ys.ui.serial.pos.PosSerialHelper;
+import com.ys.ui.serial.print.activity.PrintHelper;
 import com.ys.ui.utils.ToastUtils;
 import com.ys.ui.view.LMRecyclerView;
 
@@ -150,8 +151,8 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.btn_init_serial:
 
-                PosSerialHelper.getInstance().setPath();
-
+                //PosSerialHelper.getInstance().setPath();
+                PrintHelper.getInstance().initPrint();
                 break;
             default:
                 break;

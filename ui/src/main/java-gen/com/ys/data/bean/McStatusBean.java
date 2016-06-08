@@ -237,4 +237,31 @@ public class McStatusBean {
         this.mr_mc_position = mr_mc_position;
     }
 
+    @Override
+    public String toString() {
+        return "McStatusBean{" +
+                "mc_no='" + mc_no + '\'' +
+                ", mr_coin_status='" + mr_coin_status + '\'' +
+                ", mr_coin_short='" + mr_coin_short + '\'' +
+                ", mr_bill_status='" + mr_bill_status + '\'' +
+                ", mr_bill_short='" + mr_bill_short + '\'' +
+                ", mr_uppos_status='" + mr_uppos_status + '\'' +
+                ", mr_scpos_status='" + mr_scpos_status + '\'' +
+                ", mr_alipay_status='" + mr_alipay_status + '\'' +
+                ", mr_wxpay_status='" + mr_wxpay_status + '\'' +
+                ", mr_net_status='" + mr_net_status + '\'' +
+                ", mr_temp='" + mr_temp + '\'' +
+                ", mr_door_isfault='" + mr_door_isfault + '\'' +
+                ", mr_door_status='" + mr_door_status + '\'' +
+                ", mr_chann_fault_num=" + mr_chann_fault_num +
+                ", mr_chann_fault_nos='" + mr_chann_fault_nos + '\'' +
+                ", mr_nogd_chnum=" + mr_nogd_chnum +
+                ", mr_nogd_chann='" + mr_nogd_chann + '\'' +
+                ", mr_gear_fault_num=" + mr_gear_fault_num +
+                ", mr_gear_fault_nos='" + mr_gear_fault_nos + '\'' +
+                ", mr_data_fault=" + mr_data_fault +
+                ", mr_door_date=" + mr_door_date +
+                ", mr_mc_position='" + mr_mc_position + '\'' +
+                '}';
+    }
 }

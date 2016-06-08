@@ -59,7 +59,7 @@ public class AdminLoginActivity extends BaseActivity implements View.OnClickList
 
                 } else {
                     //
-                    List<McAdminBean> list = App.getDaoSession(App.getContext()).getMcAdminBeanDao().loadAll();
+                    //List<McAdminBean> list = App.getDaoSession(App.getContext()).getMcAdminBeanDao().loadAll();
 
                     McAdminBean mcAdminBean = App.getDaoSession(App.getContext()).getMcAdminBeanDao().queryBuilder().where(McAdminBeanDao.Properties.U_no.eq(etUserNo.getText()))
                             .where(McAdminBeanDao.Properties.U_pwd.eq(etPwd.getText())).unique();
@@ -71,7 +71,9 @@ public class AdminLoginActivity extends BaseActivity implements View.OnClickList
                     } else {
                         ToastUtils.showShortMessage("用户名密码错误");
                     }
-
+//                    Intent detailIntent = new Intent(this, AdminActivity.class);
+//                    finish();
+//                    startActivity(detailIntent);
 
 
                 }
