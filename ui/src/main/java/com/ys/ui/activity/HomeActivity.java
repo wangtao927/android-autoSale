@@ -97,7 +97,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void adsStart() {
-         if (adsList == null || adsList.isEmpty()) {
+        if (adsList == null || adsList.isEmpty()) {
             Glide.with(HomeActivity.this)
                     .load(R.mipmap.ad1)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -152,8 +152,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             case R.id.btn_about:
                 startActivity(new Intent(HomeActivity.this, AboutActivity.class));
                 break;
-            case R.id.ad:
+            case R.id.btn_statement:
 
+                break;
+            case R.id.ad:
+                if (adIndex > adsList.size()) adIndex = 0;
                 String gdNo = adsList.get(adIndex).getAi_gd_no();
                 if (!TextUtils.isEmpty(gdNo)) {
                     // 跳转到明细界面

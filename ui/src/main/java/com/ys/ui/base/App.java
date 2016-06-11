@@ -4,12 +4,16 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Environment;
 
 import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.ys.SerialPortFinder;
 import com.ys.data.dao.DaoMaster;
 import com.ys.data.dao.DaoSession;
+import com.ys.ui.R;
+import com.ys.ui.activity.AdminActivity;
 import com.ys.ui.activity.TermInitActivity;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.serial.pos.PosSerialHelper;
@@ -63,14 +67,41 @@ public class App extends Application {
         startService(intent);
 
         //注册bugly
+        regBUgly();
 
-        Bugly.init(getApplicationContext(), APP_ID, false);
         //PosSerialHelper.getInstance().setPath();
 
         //SerialMachineHelper.getInstance().getSerial();
 
         /*Intent intent1 = new Intent(this, SerialInitService.class);
         startService(intent1);*/
+    }
+
+    private void regBUgly() {
+        /***** Beta高级设置 *****/
+        /**
+         * true表示app启动自动初始化升级模块;
+         * false不会自动初始化;
+         * 开发者如果担心sdk初始化影响app启动速度，可以设置为false，
+         * 在后面某个时刻手动调用Beta.init(getApplicationContext(),false);
+         */
+        Beta.autoInit = true;
+
+        /**
+         * true表示初始化时自动检查升级;
+         * false表示不会自动检查升级,需要手动调用Beta.checkUpgrade()方法;
+         */
+        Beta.autoCheckUpgrade = false;
+
+
+        /**
+         * 设置sd卡的Download为更新资源保存目录;
+         * 后续更新资源会保存在此目录，需要在manifest中添加WRITE_EXTERNAL_STORAGE权限;
+         */
+        Beta.storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+
+
+        Bugly.init(getApplicationContext(), APP_ID, false);
     }
 
 //    public static RefWatcher getRefWatcher(Context context) {

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tencent.bugly.beta.Beta;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.McStatusBean;
 import com.ys.ui.R;
@@ -129,26 +130,25 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
                 reset();
                 break;
             case R.id.btn_buhuo:
-
                 App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateAll(lists);
                 adapter.notifyDataSetChanged();
-
+                break;
             case R.id.btn_clear:
                 // 清除卡货
                 DbManagerHelper.clearAllChannStatus(lists);
-               // App.getDaoSession(App.getContext()).getMcGoodsBeanDao().clearChanStatus(lists);
+                // App.getDaoSession(App.getContext()).getMcGoodsBeanDao().clearChanStatus(lists);
                 adapter.notifyDataSetChanged();
 
                 break;
             case R.id.btn_back:
 
-                 // 返回首页
+                // 返回首页
                 finish();
                 startActivity(new Intent(this, HomeActivity.class));
 
                 break;
             case R.id.btn_sys_out:
-                 // 退出程序
+                // 退出程序
                 finish();
                 System.exit(0);
                 break;
@@ -158,8 +158,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
                 PrintHelper.getInstance().initPrint();
                 break;
             case R.id.btn_check_update:
-
-
+                Beta.checkUpgrade();
                 break;
             default:
                 break;
