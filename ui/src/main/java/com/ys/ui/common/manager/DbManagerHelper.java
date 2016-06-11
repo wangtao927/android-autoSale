@@ -174,7 +174,7 @@ public class DbManagerHelper {
         if (lists != null && !lists.isEmpty()) {
             McGoodsBeanDao dao = App.getDaoSession(App.getContext()).getMcGoodsBeanDao();
             for (McStoreUpdateVO storeUpdateVO : lists) {
-                dao.updateChanStatusByChanno(storeUpdateVO.getMg_channo(), storeUpdateVO.getMg_gnum(), Long.valueOf(storeUpdateVO.getMg_chann_status()));
+                dao.updateChanStatusByChanno(storeUpdateVO.getMg_channo(), Long.valueOf(storeUpdateVO.getMg_chann_status()));
 
             }
         }

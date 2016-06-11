@@ -178,52 +178,19 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
         }
     }
 
-    public void updateChanStatusByChanno(String channo, Long mg_gnum, Long chanStatus) {
-
-        McGoodsBean mcGoodsBean = load(channo);
-        mcGoodsBean.setMg_gnum(mg_gnum);
-        mcGoodsBean.setMg_chann_status(chanStatus);
-        String sql = "UPDATE mcgoods SET MG_CHANN_STATUS = ?, MG_GNUM =? WHERE mg_channo=? ";
-        SQLiteStatement stmt = db.compileStatement(sql);
-        if (db.isDbLockedByCurrentThread()) {
-            synchronized (stmt) {
-                stmt.bindLong(1, chanStatus);
-                stmt.bindLong(2, mg_gnum);
-                stmt.bindString(3, channo);
-                stmt.execute();
-                attachEntity(channo, mcGoodsBean, true );
-            }
-        } else {
-            // Do TX to acquire a connection before locking the stmt to avoid deadlocks
-            db.beginTransaction();
-            try {
-                synchronized (stmt) {
-                    stmt.bindLong(1, chanStatus);
-                    stmt.bindLong(2, mg_gnum);
-                    stmt.bindString(3, channo);
-                    stmt.execute();
-                    attachEntity(channo, mcGoodsBean, true);
-
-                }
-                db.setTransactionSuccessful();
-            } finally {
-                db.endTransaction();
-            }
-        }
-    }
     public void updateChanStatusByChanno(String channo, Long chanStatus) {
-        McGoodsBean mcGoodsBean = load(channo);
-        mcGoodsBean.setMg_chann_status(chanStatus);
 
-        String sql = "UPDATE mcgoods SET MG_CHANN_STATUS = ?  WHERE mg_channo=? ";
+        McGoodsBean mcGoodsBean = load(channo);
+//        mcGoodsBean.setMg_gnum(mg_gnum);
+        mcGoodsBean.setMg_chann_status(chanStatus);
+        String sql = "UPDATE mcgoods SET MG_CHANN_STATUS = ? WHERE mg_channo=? ";
         SQLiteStatement stmt = db.compileStatement(sql);
         if (db.isDbLockedByCurrentThread()) {
             synchronized (stmt) {
                 stmt.bindLong(1, chanStatus);
                 stmt.bindString(2, channo);
                 stmt.execute();
-                attachEntity(channo, mcGoodsBean, true);
-
+                attachEntity(channo, mcGoodsBean, true );
             }
         } else {
             // Do TX to acquire a connection before locking the stmt to avoid deadlocks
@@ -242,6 +209,37 @@ public class McGoodsBeanDao extends AbstractDao<McGoodsBean, String> {
             }
         }
     }
+//    public void updateChanStatusByChanno(String channo, Long chanStatus) {
+//        McGoodsBean mcGoodsBean = load(channo);
+//        mcGoodsBean.setMg_chann_status(chanStatus);
+//
+//        String sql = "UPDATE mcgoods SET MG_CHANN_STATUS = ?  WHERE mg_channo=? ";
+//        SQLiteStatement stmt = db.compileStatement(sql);
+//        if (db.isDbLockedByCurrentThread()) {
+//            synchronized (stmt) {
+//                stmt.bindLong(1, chanStatus);
+//                stmt.bindString(2, channo);
+//                stmt.execute();
+//                attachEntity(channo, mcGoodsBean, true);
+//
+//            }
+//        } else {
+//            // Do TX to acquire a connection before locking the stmt to avoid deadlocks
+//            db.beginTransaction();
+//            try {
+//                synchronized (stmt) {
+//                    stmt.bindLong(1, chanStatus);
+//                     stmt.bindString(2, channo);
+//                    stmt.execute();
+//                    attachEntity(channo, mcGoodsBean, true);
+//
+//                }
+//                db.setTransactionSuccessful();
+//            } finally {
+//                db.endTransaction();
+//            }
+//        }
+//    }
     public void updateChannelStatusByPK(McGoodsBean bean) {
 
 

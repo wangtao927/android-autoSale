@@ -44,6 +44,13 @@
             android:layout_height="wrap_content"
             android:layout_column="2"
              android:text="@string/backHome" />
+
+        <Button
+            android:id="@+id/btn_check_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:text="@string/checkUpdate" />
         <Button
             android:id="@+id/btn_sys_out"
             android:layout_width="wrap_content"

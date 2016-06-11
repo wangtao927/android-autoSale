@@ -271,8 +271,9 @@ public class OutGoodsActivity extends SerialMachineActivity {
             vipPrice = bean.getSl_vip_price();
         }
         GoodsBean goodsBean = DbManagerHelper.getGoodsInfo(bean.getSl_gd_no());
+
         PrintHelper.getInstance().gdPrint(slNo, App.mcNo, bean.getSl_gd_name(),
-                goodsBean.getGd_desc(), getPrice(bean.getSl_pre_price()),
+                goodsBean.getGd_spec(), getPrice(bean.getSl_pre_price()),
                 getPrice(vipPrice), getPrice(bean.getSl_amt()));
     }
 

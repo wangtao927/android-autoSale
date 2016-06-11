@@ -18,6 +18,7 @@
     <string name="reset">重置</string>
     <string name="init_serila">初始化串口</string>
     <string name="backHome">返回首页</string>
+    <string name="checkUpdate">检查更新</string>
     <string name="sysout">退出</string>
     <string name="onekeybuhuo">一键补满</string>
     <string name="onekeyclear">清卡货</string>

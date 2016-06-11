@@ -60,6 +60,8 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
 
     @Bind(R.id.btn_back)
     Button btnBack;
+    @Bind(R.id.btn_check_update)
+    Button btnCheckUpdate;
 
     @Bind(R.id.tv_admin_mcno)
     TextView tvMcNo;
@@ -87,6 +89,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
         btnSysOut.setOnClickListener(this);
         btnBack.setOnClickListener(this);
         btnInitSerial.setOnClickListener(this);
+        btnCheckUpdate.setOnClickListener(this);
         tvMcNo.setText("终端号：" + App.mcNo);
         loadData();
         adapter = new McGoodsListAdapter(AdminActivity.this, lists);
@@ -153,6 +156,10 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
 
                 //PosSerialHelper.getInstance().setPath();
                 PrintHelper.getInstance().initPrint();
+                break;
+            case R.id.btn_check_update:
+
+
                 break;
             default:
                 break;

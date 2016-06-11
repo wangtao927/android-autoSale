@@ -48,9 +48,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.btn_help)
     ImageButton btnHelp;
 
-    // logo
-    @Bind(R.id.logo)
-    ImageView logo;
 
     @Bind(R.id.ad)
     ImageView ad;
@@ -73,7 +70,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         btnBuy.setOnClickListener(this);
         btnAbout.setOnClickListener(this);
         ad.setOnClickListener(this);
-        logo.setOnClickListener(this);
         // 如果终端号不存在， 则跳转到设置终端信息界面
         if (!isInit()) {
             // 弹出层，输入终端号，初始化机器
@@ -154,7 +150,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(new Intent(HomeActivity.this, ProductActivity.class));
                 break;
             case R.id.btn_about:
-                startActivity(new Intent(HomeActivity.this, AdminActivity.class));
+                startActivity(new Intent(HomeActivity.this, AboutActivity.class));
                 break;
             case R.id.ad:
 
@@ -170,12 +166,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                         startActivity(detailIntent);
                     }
                 }
-                break;
-            case R.id.logo:
-                Intent detailIntent = new Intent(this, AdminLoginActivity.class);
-                 finish();
-                startActivity(detailIntent);
-
                 break;
             default:
                 break;
