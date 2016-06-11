@@ -48,6 +48,10 @@
             -->
         </activity>
         <activity
+            android:name=".activity.AboutActivity"
+            android:label="关于我们"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.GetProductActivity"
             android:label="@string/title_activity_get_product"
             android:screenOrientation="portrait"
@@ -85,10 +89,7 @@
             android:name=".activity.PayActivity"
             android:label="预支付"
             android:screenOrientation="portrait" />
-     <activity
-            android:name=".activity.AboutActivity"
-            android:label="关于我们"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".activity.QRcodePayActivity"
             android:label="支付"

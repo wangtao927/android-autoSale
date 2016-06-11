@@ -12,6 +12,7 @@ import com.ys.data.dao.McAdminBeanDao;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
+import com.ys.ui.common.sign.MD5;
 import com.ys.ui.utils.ToastUtils;
 
 import java.util.List;
@@ -59,10 +60,10 @@ public class AdminLoginActivity extends BaseActivity implements View.OnClickList
 
                 } else {
                     //
-                    //List<McAdminBean> list = App.getDaoSession(App.getContext()).getMcAdminBeanDao().loadAll();
 
+                    String pwd = MD5.MD5Encode(etPwd.getText().toString());
                     McAdminBean mcAdminBean = App.getDaoSession(App.getContext()).getMcAdminBeanDao().queryBuilder().where(McAdminBeanDao.Properties.U_no.eq(etUserNo.getText()))
-                            .where(McAdminBeanDao.Properties.U_pwd.eq(etPwd.getText())).unique();
+                            .where(McAdminBeanDao.Properties.U_pwd.eq(pwd)).unique();
 
                     if (mcAdminBean != null) {
                         Intent detailIntent = new Intent(this, AdminActivity.class);
