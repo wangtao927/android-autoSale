@@ -103,8 +103,12 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
     @Bind(R.id.lay_pay)
     LinearLayout layPay;
 
-    @Bind(R.id.btn_reselect_paytype)
-    Button btnReSelectPayType;
+//    @Bind(R.id.btn_reselect_paytype)
+//    Button btnReSelectPayType;
+
+    @Bind(R.id.tv_reselect_paytype)
+    TextView tvReselectPaytype;
+
 
     @Bind(R.id.lay_select_payway)
     LinearLayout laySelectPay;
@@ -200,7 +204,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
         }
         btnDirPay.setOnClickListener(this);
         btnVipPay.setOnClickListener(this);
-        btnReSelectPayType.setOnClickListener(this);
+       // btnReSelectPayType.setOnClickListener(this);
     }
 
     private void init() {
@@ -219,6 +223,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
 
     private void createOrder(String type, final int vip) {
 
+        tvReselectPaytype.setVisibility(View.VISIBLE);
         slNo = OrderUtils.getOrderNo();
         final SaleListVo saleListVo = new SaleListVo();
         saleListVo.setMcNo(App.mcNo);
@@ -525,15 +530,15 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                 initview();
                 break;
 
-            case R.id.btn_reselect_paytype:
-
-
-                finish();
-                Intent intent = new Intent(PayActivity.this, ProductDetailActivity.class);
-                intent.putExtra("gdNo", mcGoodsBean.getGd_no());
-                startActivity(intent);
-
-                break;
+//            case R.id.btn_reselect_paytype:
+//
+//
+//                finish();
+//                Intent intent = new Intent(PayActivity.this, ProductDetailActivity.class);
+//                intent.putExtra("gdNo", mcGoodsBean.getGd_no());
+//                startActivity(intent);
+//
+//                break;
             case R.id.btn_login:
 
                 if (etUserNo != null) {
@@ -735,6 +740,11 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                             //ToastUtils.showShortMessage("注册成功，默认密码是:123456");
                             // 生成订单
                             createOrder(String.valueOf(slType.getIndex()), 1);
+                            layPay.setVisibility(View.VISIBLE);
+                            laySelectPay.setVisibility(View.GONE);
+                            // 显示会员价格
+                            tvSalePrice.setText(String.format(gdVipPrice, getPrice(mcGoodsBean.getMg_vip_price())));
+
                         }
                     }
                 }, new Action1<Throwable>() {

@@ -23,7 +23,9 @@ import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android_serialport_api.SerialPort;
 
@@ -64,7 +66,7 @@ public class PrintHelper {
         b.show();
     }
 
-    public void gdPrint(String orderNo, String termNo, String gdName, String gdType, String price, String vipPrice, String actualPrice) {
+    public void gdPrint(String orderNo, String termNo, String gdName, String gdType, String price, String vipPrice, String actualPrice, String payType) {
         // 初始化串口
         try {
             InitCom();
@@ -72,13 +74,13 @@ public class PrintHelper {
             // 打印条形码
             Thread.sleep(1000);
 
-            printCode39();
+            printCode39(orderNo);
 
 
             // 打印内容
             Thread.sleep(1000);
 
-            print(orderNo, termNo, gdName, gdType, price, vipPrice, actualPrice);
+            print(orderNo, termNo, gdName, gdType, price, vipPrice, actualPrice, payType);
 
             // 切纸
 
@@ -123,17 +125,33 @@ public class PrintHelper {
         }
     }
 
+    static Map<Integer, Byte> map = new HashMap<>();
+    static {
+        map.put(50, (byte)0x30);
+        map.put(51, (byte)0x31);
+        map.put(52, (byte)0x32);
+        map.put(53, (byte)0x33);
+        map.put(54, (byte)0x34);
+        map.put(55, (byte)0x35);
+        map.put(56, (byte)0x36);
+        map.put(57, (byte)0x37);
+        map.put(58, (byte)0x38);
+        map.put(59, (byte)0x39);
 
-    private void printCode39() {
-        byte SendBuf[]={0X0D, 0X0A, 0X1D, 0X48, 0X02, 0X1D, 0X68, (byte) 0X80, 0X1D, 0X77, 0X02, 0X1D, 0X6B, 0X45, 0X09, 0X30, 0X31, 0X32, 0X33, 0X34, 0X35, 0X36, 0X37, 0X38, 0X0D, 0X0A};
+    }
+    private void printCode39(String orderNo) {
+        String print =  orderNo.substring(orderNo.length() - 9, orderNo.length());
+        byte[] bs = print.getBytes();
+        byte SendBuf[]={0X0D, 0X0A, 0X1D, 0X48, 0X02, 0X1D, 0X68, (byte) 0X80, 0X1D, 0X77, 0X02, 0X1D, 0X6B, 0X45, 0X09,
+                bs[0], bs[1], bs[2], bs[3], bs[4], bs[5], bs[6], bs[7], bs[8], 0X0D, 0X0A};
         SendData(SendBuf);
 
     }
 
-    private void print(String orderNo, String termNo, String gdName, String gdType, String price, String vipPrice, String actualPrice) {
+    private void print(String orderNo, String termNo, String gdName, String gdType, String price, String vipPrice, String actualPrice, String payType) {
 
         String mSendData =String.format(PrintConstants.content, orderNo, new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()),
-                termNo, gdName, gdType, price, vipPrice, actualPrice);
+                termNo, gdName, gdType, price, vipPrice, actualPrice, payType);
 
         byte SendBuf[]={0x1b,0x40};
         SendData(SendBuf);

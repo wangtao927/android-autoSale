@@ -286,7 +286,7 @@ public class SelectPayActivity extends BaseTimerActivity implements View.OnClick
         }
         PrintHelper.getInstance().gdPrint(slNo, App.mcNo, goodsBean.getGd_name(),
                 goodsBean.getGd_desc(), getPrice(mcGoodsBean.getMg_pre_price()),
-                getPrice(vipPrice), getPrice(mcGoodsBean.getMg_pre_price()));
+                getPrice(vipPrice), getPrice(mcGoodsBean.getMg_pre_price()), slType.getDesc());
     }
 
     private void startOutGoods(String slNo) {

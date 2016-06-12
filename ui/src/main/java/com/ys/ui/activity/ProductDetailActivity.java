@@ -113,7 +113,7 @@ public class ProductDetailActivity extends BaseTimerActivity implements View.OnC
                 startPay(SlTypeEnum.CARD);
                 break;
             case R.id.btn_sf:
-                //startPay(SlTypeEnum.CARD);
+                startPay(SlTypeEnum.CARD);
 
                 break;
             default:

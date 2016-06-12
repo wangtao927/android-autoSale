@@ -21,6 +21,8 @@ import com.ys.ui.R;
 import com.ys.ui.adapter.ProductAdapter;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseTimerActivity;
+import com.ys.ui.common.constants.ChanStatusEnum;
+import com.ys.ui.utils.ToastUtils;
 import com.ys.ui.view.CirclePageView;
 import com.ys.ui.view.LMRecyclerView;
 
@@ -144,11 +146,16 @@ public class ProductActivity extends BaseTimerActivity implements LMRecyclerView
                     .where(McGoodsBeanDao.Properties.Mg_channo.eq("00" + mProductCode.getText()))
                     .unique();
 
-            if (result != null) {
+            if (result != null && result.getMg_gnum().intValue() > 0
+                    && result.getMg_chann_status().intValue() == ChanStatusEnum.NORMAL.getIndex()) {
                 //go product detail
+                finish();
                 Intent intent = new Intent(this, ProductDetailActivity.class);
                 intent.putExtra("gdNo", result.getGd_no());
                 startActivity(intent);
+
+            } else {
+                ToastUtils.showShortMessage("该商品已售完！");
             }
 
         }

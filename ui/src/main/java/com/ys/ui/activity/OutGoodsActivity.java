@@ -272,9 +272,9 @@ public class OutGoodsActivity extends SerialMachineActivity {
         }
         GoodsBean goodsBean = DbManagerHelper.getGoodsInfo(bean.getSl_gd_no());
 
-        PrintHelper.getInstance().gdPrint(slNo, App.mcNo, bean.getSl_gd_name(),
+        PrintHelper.getInstance().gdPrint(slNo.substring(App.mcNo.length()), App.mcNo, bean.getSl_gd_name(),
                 goodsBean.getGd_spec(), getPrice(bean.getSl_pre_price()),
-                getPrice(vipPrice), getPrice(bean.getSl_amt()));
+                getPrice(vipPrice), getPrice(bean.getSl_amt()), SlTypeEnum.findByIndex(slType).getDesc());
     }
 
     protected String getPrice(Long price) {

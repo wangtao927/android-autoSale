@@ -117,14 +117,13 @@
                 />
 
 
-            <Button
-                android:id="@+id/btn_reselect_paytype"
+            <TextView
+                android:id="@+id/tv_reselect_paytype"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                 android:background="@color/bg"
                 android:padding="10dp"
-                android:text="重新选择购买方式"
+                android:text="（温馨提示：如您想取消交易或重新购药，请耐心等候）"
                 android:visibility="gone"
                 android:textColor="@color/white"
                 android:textSize="16dp" />

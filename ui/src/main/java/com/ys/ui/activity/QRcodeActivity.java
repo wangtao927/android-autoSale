@@ -285,7 +285,7 @@ public class QRcodeActivity extends BaseActivity implements View.OnClickListener
         }
         PrintHelper.getInstance().gdPrint(slNo, mcNo, goodsBean.getGd_name(),
                 goodsBean.getGd_desc(), getPrice(mcGoodsBean.getMg_pre_price()),
-                getPrice(vipPrice), getPrice(mcGoodsBean.getMg_pre_price()));
+                getPrice(vipPrice), getPrice(mcGoodsBean.getMg_pre_price()), slType.getDesc());
     }
 
     private void refund(String slNo) {
