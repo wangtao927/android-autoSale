@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_deep"
+    android:orientation="vertical">
+
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_deep"
@@ -8,7 +15,6 @@
     <include
         android:id="@+id/title"
         layout="@layout/title_bar2" />
-
     <TextView
         android:id="@+id/ll_tip"
         android:layout_width="wrap_content"
@@ -17,7 +23,7 @@
         android:layout_marginTop="10dp"
         android:text="关于我们"
         android:textColor="@color/white"
-        android:textSize="26sp"
+        android:textSize="44sp"
         android:textStyle="bold" />
 
     <View
@@ -59,42 +65,26 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="公司简介"
+            android:text="    公司简介"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="32sp"
             />
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:text="
+        广州博爱智谷医药集团是一家创新性医药健康产业集团。前身是创立于20世纪80年代末的广州博爱药店，集团秉承国父孙中山先生“博爱云者，为公爱而非私爱”的理念，以博爱、诚信、共赢、创业精神，致力于大健康产业的研发、生产和销售。经过近三十年的积极探索，已经成为国内最具实力的集生物医药产品研发、中药材种植基地、医药连锁、互联网电子商务销售平台和智能售药机网络为一体的综合性的大健康全产业链集团。\n
+        广州博爱智谷医药连锁有限公司拥有先进的管理理念及现化化管理设备，拥有五项软件著作权，二项授权发明专利，四项国家注册品牌商标，一项图形商标，四项国际域名注册证书等，公司实现了全程网络化办公，自主开发信息化零售管理系统，并实现数据的实时传输；有专业药品库、冷藏设备及高效的运输配套，达到国家新标GSP质量管理要求。\n
+        博爱智谷以“智慧医药、健康管理”为发展定位，积极致力于医药产业转型零售模式探索，努力成为医药零售的行业先锋。以顾客为核心，建立多层次、多来源、全渠道覆盖的线上线下立体零售网络，运用信息管理系统作为决策支持，探索医药产业新型零售管理系统模式，为消费者提供专业化医药健康服务，坚持实现“让生命更健康，让医药变简单”的企业使命。\n"/>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
 
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginRight="1dp"
-            android:layout_toLeftOf="@+id/btn_back_home"
-            android:background="@color/bg_btn"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:src="@mipmap/bticon" />
-
-        <ImageButton
-            android:id="@+id/btn_back_home"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@color/bg_btn"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:src="@mipmap/backhome" />
-    </LinearLayout>
 </LinearLayout>
+
+    <include
+        android:id="@+id/rl_footer"
+        layout="@layout/footer_bar" />
+    </RelativeLayout>

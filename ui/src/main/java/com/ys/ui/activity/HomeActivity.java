@@ -69,6 +69,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         btnGetDrug.setOnClickListener(this);
         btnBuy.setOnClickListener(this);
         btnAbout.setOnClickListener(this);
+        btnStatement.setOnClickListener(this);
+        btnHelp.setOnClickListener(this);
         ad.setOnClickListener(this);
         // 如果终端号不存在， 则跳转到设置终端信息界面
         if (!isInit()) {
@@ -153,6 +155,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(new Intent(HomeActivity.this, AboutActivity.class));
                 break;
             case R.id.btn_statement:
+                startActivity(new Intent(HomeActivity.this, MZActivity.class));
+
+                break;
+            case R.id.btn_help:
+                startActivity(new Intent(HomeActivity.this, HelpActivity.class));
+
 
                 break;
             case R.id.ad:
@@ -165,7 +173,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                     if (bean != null) {
                         Intent detailIntent = new Intent(this, ProductDetailActivity.class);
                         detailIntent.putExtra("gdNo", gdNo);
-                        finish();
+//                        finish();
                         startActivity(detailIntent);
                     }
                 }

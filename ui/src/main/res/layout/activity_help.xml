@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_deep"
+    android:orientation="vertical">
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_deep"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_bar2" />
+    <TextView
+        android:id="@+id/ll_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="温馨提示"
+        android:textColor="@color/white"
+        android:textSize="44sp"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="80dp"
+        android:layout_height="2dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/white" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/bg_btn"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=" \n 尊敬的用户：\n"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+            android:background="@color/red"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            android:background="@color/white"
+            android:text="
+        您好，感谢您使用博爱智能售药机，我们将秉承顾客至上的理念为您提供最好的服务，在使用本机买药过程中遇到下列问题：\n
+
+        1.卡币（纸币、硬币）：投入钱币系统不能正确识别 \n
+        2.卡货（药品不能正常出货）：您已经完成支付，售货机不能正常出货 \n
+
+        请拨打我们的服务热线： 18818867631（曹先生） 并留下您的联系方式，我们将会以最快的速度为您提供解决方案因以上问题给您造成不便，尽请谅解！\n
+
+        另外： 使用本机过程中如需专业的用药指导，请拨打我们的专业药师24小时热线电话： 40000-600-289，我们将竭诚为您服务。\n
+
+再次感谢您的惠顾。\n \n
+
+                                                                                 博爱智谷自助终端有限公司 \n
+
+                                              "/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
+    <include
+        android:id="@+id/rl_footer"
+        layout="@layout/footer_bar" />
+    </RelativeLayout>

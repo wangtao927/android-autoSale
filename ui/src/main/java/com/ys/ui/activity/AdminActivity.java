@@ -152,7 +152,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
 //                finish();
                 android.os.Process.killProcess(android.os.Process.myPid());
 
-//                System.exit(0);
+                System.exit(0);
                 break;
             case R.id.btn_init_serial:
 
