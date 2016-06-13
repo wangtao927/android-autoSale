@@ -74,7 +74,7 @@ public class PrintHelper {
             // 打印条形码
             Thread.sleep(1000);
 
-            printCode39(orderNo);
+            printCode39();
 
 
             // 打印内容
@@ -139,11 +139,9 @@ public class PrintHelper {
         map.put(59, (byte)0x39);
 
     }
-    private void printCode39(String orderNo) {
-        String print =  orderNo.substring(orderNo.length() - 9, orderNo.length());
-        byte[] bs = print.getBytes();
+    private void printCode39() {
         byte SendBuf[]={0X0D, 0X0A, 0X1D, 0X48, 0X02, 0X1D, 0X68, (byte) 0X80, 0X1D, 0X77, 0X02, 0X1D, 0X6B, 0X45, 0X09,
-                bs[0], bs[1], bs[2], bs[3], bs[4], bs[5], bs[6], bs[7], bs[8], 0X0D, 0X0A};
+                0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0X0D, 0X0A};
         SendData(SendBuf);
 
     }
