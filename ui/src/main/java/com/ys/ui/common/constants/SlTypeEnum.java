@@ -41,6 +41,7 @@ public enum SlTypeEnum {
     }
 
     public static SlTypeEnum findByIndex(int index) {
+
         for (SlTypeEnum slTypeEnum : SlTypeEnum.values()) {
             if (slTypeEnum.getIndex() == index) {
                 return slTypeEnum;

@@ -253,7 +253,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
             DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FINISH);
             DbManagerHelper.reduceStore(channo);
             // 打印凭条
-            printPayNote(slNo);
+            printPayNote();
 
 
 
@@ -263,7 +263,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
     }
 
-    private void printPayNote(String slNo) {
+    private void printPayNote() {
         Long vipPrice = 0L;
 
         SaleListBean bean = DbManagerHelper.getSaleRecord(slNo);
@@ -272,7 +272,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
         }
         GoodsBean goodsBean = DbManagerHelper.getGoodsInfo(bean.getSl_gd_no());
 
-        PrintHelper.getInstance().gdPrint(slNo.substring(App.mcNo.length()), App.mcNo, bean.getSl_gd_name(),
+        PrintHelper.getInstance().gdPrint(slNo.substring(App.mcNo.length()), App.mcNo, goodsBean.getGd_name(),
                 goodsBean.getGd_spec(), getPrice(bean.getSl_pre_price()),
                 getPrice(vipPrice), getPrice(bean.getSl_amt()), SlTypeEnum.findByIndex(slType).getDesc());
     }

@@ -7,7 +7,7 @@ public class PrintConstants {
 
     public static String content = "\n" +
             "广州博爱智谷自助终端有限公司\n" +
-            "订单编号： %s \n" +
+            "订单编号：%s \n" +
             "购物日期：%s\n" +
             "终端编号：%s\n" +
             "------------------------------\n\n" +

@@ -148,7 +148,7 @@ public class PrintHelper {
 
     private void print(String orderNo, String termNo, String gdName, String gdType, String price, String vipPrice, String actualPrice, String payType) {
 
-        String mSendData =String.format(PrintConstants.content, orderNo, new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()),
+        String mSendData =String.format(PrintConstants.content, orderNo, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),
                 termNo, gdName, gdType, price, vipPrice, actualPrice, payType);
 
         byte SendBuf[]={0x1b,0x40};
