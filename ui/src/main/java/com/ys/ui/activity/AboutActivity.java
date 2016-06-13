@@ -141,7 +141,7 @@ public class AboutActivity extends BaseTimerActivity implements View.OnClickList
             main_lin.addView(iv);
 
             //设置小圆点的margin值
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(40, 40, 1);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(20, 20, 1);
             lp.setMargins(10, 20, 10, 20);
             iv.setLayoutParams(lp);
         }

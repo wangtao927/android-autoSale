@@ -137,6 +137,10 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                 public void onClick(View v) {
 
                     if (backHomeFlag) {
+
+                        if (slType == SlTypeEnum.ALIPAY || slType == SlTypeEnum.WX) {
+                            finish_flag = true;
+                        }
                         finish();
                         startActivity(new Intent(PayActivity.this, ProductActivity.class));
                     }
@@ -241,6 +245,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
 
             createOrder(saleListVo);
         } else {
+            backHomeFlag = false;
             mQCodeImageView.setImageResource(R.mipmap.bankcard_flag);
             waitPay(saleListVo.getSlAmt());
 
@@ -360,9 +365,13 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
         //设置串口接口
         mMyApi.setPOSISerialPort(null);//null时使用android的串口jni，android_serialport_api.SerialPort
         //设置透传ip、端口；POS的串口路径和波特率
+        try {
+            return E_REQ_RETURN.REQ_OK == mMyApi.pos_init("113.108.182.4", 10061,
+                    path, String.valueOf(baudrate)) ;//"/dev/ttyS1"//lf
+        } catch (Exception e) {
+            return false;
+        }
 
-        return E_REQ_RETURN.REQ_OK == mMyApi.pos_init("113.108.182.4", 10061,
-                path, String.valueOf(baudrate)) ;//"/dev/ttyS1"//lf
     }
     //////////////////////////////////////////业务返回///////////////////////////////////////
     private Handler mmHandler = new Handler() {
@@ -504,7 +513,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
 
         Intent intent = new Intent(PayActivity.this, OutGoodsActivity.class);
 
-        intent.putExtra("slType", slType);
+        intent.putExtra("slType", slType.getIndex());
         intent.putExtra("slNo", slNo);
         intent.putExtra("channo", mcGoodsBean.getMg_channo());
         startActivity(intent);
@@ -518,7 +527,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
         }
         switch (v.getId()) {
             case R.id.btn_dir_buy:
-                backHomeFlag = false;
+               // backHomeFlag = false;
                 createOrder(String.valueOf(slType.getIndex()), 0);
                 layPay.setVisibility(View.VISIBLE);
                 laySelectPay.setVisibility(View.GONE);
@@ -558,7 +567,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                             userLogin(etUserNo.getText().toString(), etPwd.getText().toString());
                         }
                     }
-                    backHomeFlag = false;
+                    //backHomeFlag = false;
                  }
                 break;
             case R.id.btn_cancel:
@@ -678,7 +687,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                         }, new Action1<Throwable>() {
                             @Override
                             public void call(Throwable throwable) {
-                                ToastUtils.showShortMessage("失败");
+                                ToastUtils.showShortMessage("登录失败");
                             }
                         });
 

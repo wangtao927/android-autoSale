@@ -123,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:padding="10dp"
-                android:text="（温馨提示：如您想取消交易或重新购药，请耐心等候）"
+                android:text="（温馨提示：支付成功后，请静待出货。）"
                 android:visibility="gone"
                 android:textColor="@color/white"
                 android:textSize="16dp" />

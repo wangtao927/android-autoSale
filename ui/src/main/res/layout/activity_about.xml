@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:text="关于我们"
         android:textColor="@color/white"
         android:textSize="44sp"
@@ -40,7 +40,9 @@
         android:id="@+id/main_gallery"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="500dp" />
 
     <LinearLayout
         android:id="@+id/main_lin"
