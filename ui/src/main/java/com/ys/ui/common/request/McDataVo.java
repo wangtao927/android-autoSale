@@ -49,7 +49,7 @@ public class McDataVo implements Serializable {
     public String toString() {
         return "McDataVo{" +
                 "mcStatus=" + mcStatus +
-                ", mcGoodsList=" + mcGoodsList +
+                //", mcGoodsList=" + mcGoodsList +
                 ", mcSaleList=" + mcSaleList +
                 '}';
     }

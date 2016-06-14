@@ -26,7 +26,6 @@ public class TermInitResult implements Serializable {
 
     McStatusBean machine;
 
-    // 广告数据 TODO:
     List<AdvBean> mcadv;
 
     // 终端库存

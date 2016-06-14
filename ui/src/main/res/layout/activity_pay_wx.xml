@@ -119,7 +119,7 @@
 
             <TextView
                 android:id="@+id/tv_reselect_paytype"
-                android:layout_width="170dp"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:padding="10dp"

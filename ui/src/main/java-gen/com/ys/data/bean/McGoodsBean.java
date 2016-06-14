@@ -19,13 +19,13 @@ public class McGoodsBean implements Serializable {
     private String gd_mf_date;
     private String gd_exp_date;
     private Long mg_gvol;
-    private Long mg_gnum= 0L;
+    private Long mg_gnum = 0L;
     private Long mg_pre_price;
     private Long mg_score_price;
     private Long mg_vip_price;
     private Long mg_disc_price;
     private Long mg_price;
-    private Long mg_chann_status = 1L;
+    private Long mg_chann_status =1L;
     private java.util.Date addtime;
     private java.util.Date updatetime;
 

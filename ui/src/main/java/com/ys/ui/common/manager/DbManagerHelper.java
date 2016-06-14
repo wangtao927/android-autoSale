@@ -148,7 +148,17 @@ public class DbManagerHelper {
     }
 
     public static void updateMcGoods(List<McGoodsBean> lists) {
+        McGoodsBeanDao dao = App.getDaoSession(App.getContext()).getMcGoodsBeanDao();
         if (lists != null && !lists.isEmpty()){
+            List<McGoodsBean> mcStore = dao.loadAll();
+            for (int i =0 ; i < lists.size(); i++) {
+                for (McGoodsBean bean : mcStore) {
+                    if (bean.getMg_channo().equals(lists.get(i).getMg_channo())) {
+                        lists.get(i).setMg_gnum(bean.getMg_gnum());
+                        break;
+                    }
+                }
+            }
             App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateInTx(lists);
         }
     }

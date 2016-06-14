@@ -93,6 +93,7 @@ public class TimerService extends Service {
 
     private void startTimer() {
         McDataVo vo = new McDataVo();
+        getLocation();
         // 获取终端状态， 只有一条记录
         if (TextUtils.isEmpty(App.mcNo )) {
             return ;
@@ -106,12 +107,11 @@ public class TimerService extends Service {
             try {
 
                 if (TextUtils.isEmpty(bean.getMr_mc_position())) {
-                    getLocation();
+
                     bean.setMr_mc_position(location.getLongitude() + "," + location.getLatitude());//经纬度
 
                 }
             } catch (Exception e) {
-
             }
 
 
@@ -299,6 +299,9 @@ public class TimerService extends Service {
                                map.put("07", "1");// 0 成功 1 失败
 
                            }
+
+                         break;
+                     case "08":
 
                          break;
                      default:
