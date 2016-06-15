@@ -768,8 +768,11 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
 
 
     private void payFaild() {
-        finish();
-        startActivity(new Intent(PayActivity.this, PayFailActivity.class));
+        if (!finish_flag) {
+            finish();
+            startActivity(new Intent(PayActivity.this, PayFailActivity.class));
+        }
+
     }
 
     @Override
