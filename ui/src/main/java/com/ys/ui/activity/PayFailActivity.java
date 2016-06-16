@@ -8,22 +8,18 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ys.ui.R;
+import com.ys.ui.base.App;
 import com.ys.ui.base.BaseTimerActivity;
 import com.ys.ui.base.PayTimerActivity;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by wangtao on 2016/4/18.
  */
 public class PayFailActivity extends BaseTimerActivity {
 
-
-    @Bind(R.id.transStatus)
-    TextView transStatus;
-
-    @Bind(R.id.transFailDetail)
-    TextView transFailDetail;
 
     @Bind(R.id.btn_jx_buy)
     Button btnJxBuy;
@@ -32,11 +28,12 @@ public class PayFailActivity extends BaseTimerActivity {
     ImageButton btnBackHome;
 
 
-    protected  int minute = 5;
-    protected int second = 0;
+    //protected  int minute = 5;
+    //protected int second = 0;
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ButterKnife.unbind(this);
 
     }
 
@@ -47,12 +44,13 @@ public class PayFailActivity extends BaseTimerActivity {
 
     @Override
     protected void create(Bundle savedInstanceState) {
-
+         minute = 5;
+         second = 0;
          btnJxBuy.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
                  finish();
-                 startActivity(new Intent(PayFailActivity.this, ProductActivity.class));
+                 startActivity(new Intent(App.getContext(), ProductActivity.class));
              }
          });
 
@@ -61,7 +59,7 @@ public class PayFailActivity extends BaseTimerActivity {
                public void onClick(View v) {
 
                    finish();
-                   startActivity(new Intent(PayFailActivity.this, ProductActivity.class));
+                   startActivity(new Intent(App.getContext(), ProductActivity.class));
 
                }
            }

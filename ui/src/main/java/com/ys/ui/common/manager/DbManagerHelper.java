@@ -19,7 +19,9 @@ import com.ys.ui.common.constants.SlOutStatusEnum;
 import com.ys.ui.common.constants.SlPayStatusEnum;
 import com.ys.ui.common.constants.SlSendStatusEnum;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wangtao on 2016/4/13.
@@ -151,12 +153,21 @@ public class DbManagerHelper {
         McGoodsBeanDao dao = App.getDaoSession(App.getContext()).getMcGoodsBeanDao();
         if (lists != null && !lists.isEmpty()){
             List<McGoodsBean> mcStore = dao.loadAll();
+            Map<String, McGoodsBean> map = new HashMap<>();
+
+            for (McGoodsBean mcGoodsBean : mcStore) {
+                map.put(mcGoodsBean.getMg_channo(), mcGoodsBean);
+            }
+
             for (int i =0 ; i < lists.size(); i++) {
                 for (McGoodsBean bean : mcStore) {
-                    if (bean.getMg_channo().equals(lists.get(i).getMg_channo())) {
-                        lists.get(i).setMg_gnum(bean.getMg_gnum());
-                        break;
+                    if (bean.getMg_gnum() == null || bean.getMg_gnum().intValue() == 0) {
+                        lists.get(i).setMg_gnum(map.get(bean.getMg_channo()).getMg_gnum());
                     }
+//                    if (bean.getMg_channo().equals(lists.get(i).getMg_channo())) {
+//                        lists.get(i).setMg_gnum(bean.getMg_gnum());
+//                        break;
+//                    }
                 }
             }
             App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateInTx(lists);

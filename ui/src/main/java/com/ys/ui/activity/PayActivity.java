@@ -57,6 +57,7 @@ import java.util.Date;
 import java.util.TimerTask;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
@@ -103,8 +104,6 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
     @Bind(R.id.lay_pay)
     LinearLayout layPay;
 
-//    @Bind(R.id.btn_reselect_paytype)
-//    Button btnReSelectPayType;
 
     @Bind(R.id.tv_reselect_paytype)
     TextView tvReselectPaytype;
@@ -127,29 +126,30 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
     private String acountNo;
 
 
+
     // 判断是否可以返回首页
     private boolean backHomeFlag = true;
 
-    protected void backHome() {
-
-            findViewById(R.id.btn_back_home).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    if (backHomeFlag) {
-
-                        if (slType == SlTypeEnum.ALIPAY || slType == SlTypeEnum.WX) {
-                            finish_flag = true;
-                        }
-                        finish();
-                        startActivity(new Intent(PayActivity.this, ProductActivity.class));
-                    }
-
-                }
-            });
-
-
-    }
+//    protected void backHome() {
+//
+//        findViewById(R.id.btn_back_home).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (backHomeFlag) {
+//
+//                    if (slType == SlTypeEnum.ALIPAY || slType == SlTypeEnum.WX) {
+//                        finish_flag = true;
+//                    }
+//                    finish();
+//                    startActivity(new Intent(PayActivity.this, ProductActivity.class));
+//                }
+//
+//            }
+//        });
+//
+//
+//    }
     /**
      * 用字符串生成二维码
      *
@@ -208,7 +208,6 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
         }
         btnDirPay.setOnClickListener(this);
         btnVipPay.setOnClickListener(this);
-       // btnReSelectPayType.setOnClickListener(this);
     }
 
     private void init() {
@@ -539,15 +538,6 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                 initview();
                 break;
 
-//            case R.id.btn_reselect_paytype:
-//
-//
-//                finish();
-//                Intent intent = new Intent(PayActivity.this, ProductDetailActivity.class);
-//                intent.putExtra("gdNo", mcGoodsBean.getGd_no());
-//                startActivity(intent);
-//
-//                break;
             case R.id.btn_login:
 
                 if (etUserNo != null) {
@@ -785,6 +775,9 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
         if (pay_task != null) {
             pay_task.cancel();
         }
+        ButterKnife.unbind(this);
+
+        mmHandler.removeCallbacksAndMessages(null);
         mMyApi.pos_release();
 
     }

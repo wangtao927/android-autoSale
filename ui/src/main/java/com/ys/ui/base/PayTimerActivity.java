@@ -21,6 +21,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public abstract class PayTimerActivity extends BaseActivity {
 
@@ -74,6 +75,8 @@ public abstract class PayTimerActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ButterKnife.unbind(this);
+
         stopTimer();
     }
 
@@ -97,7 +100,6 @@ public abstract class PayTimerActivity extends BaseActivity {
         tvTimer.setText(getTime());
 
         timerTask = new TimerTask() {
-
             @Override
             public void run() {
                 Message msg = new Message();
@@ -112,22 +114,27 @@ public abstract class PayTimerActivity extends BaseActivity {
 
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
-            String timer = getTime();
-            if (TextUtils.isEmpty(timer)) {
+            String times = getTime();
+            if (TextUtils.isEmpty(times) ) {
+
+                stopTimer();
                 finish();
-                startActivity(new Intent(PayTimerActivity.this, PayFailActivity.class));
+                startActivity(new Intent(App.getContext(), PayFailActivity.class));
                 //return;
             }
 
             if (tvTimer != null) {
-                tvTimer.setText(timer);
+                tvTimer.setText(times);
 
+            } else {
+                finish();
+                startActivity(new Intent(App.getContext(), HomeActivity.class));
             }
         }
     };
 
     String getTime() {
-        Log.d("miniute:second", minute + ":" + second);
+        Log.d("PayTimer：miniute:second", minute + ":" + second);
         if (minute == 0) {
             if (second == 0) {
                 return "";

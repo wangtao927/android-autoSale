@@ -73,6 +73,7 @@ public abstract class BaseTimerActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+
         super.onDestroy();
         stopTimer();
     }
@@ -112,22 +113,26 @@ public abstract class BaseTimerActivity extends BaseActivity {
 
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
-            String timer = getTime();
-            if (TextUtils.isEmpty(timer)) {
+            String times = getTime();
+            if (TextUtils.isEmpty(times)) {
+
+                stopTimer();
                 finish();
-                startActivity(new Intent(BaseTimerActivity.this, HomeActivity.class));
+                startActivity(new Intent(App.getContext(), HomeActivity.class));
                 //return;
             }
 
             if (tvTimer != null) {
-                tvTimer.setText(timer);
-
+                tvTimer.setText(times);
+            } else {
+                finish();
+                startActivity(new Intent(App.getContext(), HomeActivity.class));
             }
         }
     };
 
     String getTime() {
-        Log.d("miniute:second", minute + ":" + second);
+        Log.d("BaseTimerminiute:second", minute + ":" + second);
         if (minute == 0) {
             if (second == 0) {
                 return "";
