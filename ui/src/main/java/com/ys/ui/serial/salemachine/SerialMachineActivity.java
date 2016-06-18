@@ -153,11 +153,11 @@ public abstract class SerialMachineActivity extends Activity {
 			mReadThread.start();
 		} catch (SecurityException e) {
 			//DisplayError(R.string.error_security);
-            ToastUtils.showError("SecurityException:" + e.getMessage(), this);
+            //ToastUtils.showError("SecurityException:" + e.getMessage(), this);
 		} catch (InvalidParameterException e) {
-			ToastUtils.showError("InvalidParameterException:" + e.getMessage(), this);
+			//ToastUtils.showError("InvalidParameterException:" + e.getMessage(), this);
 		} catch (Exception e) {
-			ToastUtils.showError("Exception:" + e.getMessage(), this);
+			//ToastUtils.showError("Exception:" + e.getMessage(), this);
 
 		}
 	}

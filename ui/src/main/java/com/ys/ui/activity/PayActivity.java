@@ -130,26 +130,26 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
     // 判断是否可以返回首页
     private boolean backHomeFlag = true;
 
-//    protected void backHome() {
-//
-//        findViewById(R.id.btn_back_home).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                if (backHomeFlag) {
-//
-//                    if (slType == SlTypeEnum.ALIPAY || slType == SlTypeEnum.WX) {
-//                        finish_flag = true;
-//                    }
-//                    finish();
-//                    startActivity(new Intent(PayActivity.this, ProductActivity.class));
-//                }
-//
-//            }
-//        });
-//
-//
-//    }
+    protected void backHome() {
+
+        findViewById(R.id.btn_back_home).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (backHomeFlag) {
+
+                    if (slType == SlTypeEnum.ALIPAY || slType == SlTypeEnum.WX) {
+                        finish_flag = true;
+                    }
+                    finish();
+                    startActivity(new Intent(PayActivity.this, ProductActivity.class));
+                }
+
+            }
+        });
+
+
+    }
     /**
      * 用字符串生成二维码
      *

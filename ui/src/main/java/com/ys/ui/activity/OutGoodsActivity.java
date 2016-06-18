@@ -55,6 +55,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
     ImageButton btnBackHome;
     boolean transFinish = false;
+    boolean selectGoodsFlag = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -108,9 +109,11 @@ public class OutGoodsActivity extends SerialMachineActivity {
                         if (buff[2] == 0xF3) buff[2] = 0x03;
                         switch (buff[3]) {
                             case 0x00:
+                                selectGoodsFlag = true;
                                 //queue.add(new RobotEventArg(2, 2, Integer.valueOf(buff[2]).toString()));
                                 break; // 提取中
                             case 0x55:
+                                selectGoodsFlag = true;
                                 //queue.add(new RobotEventArg(2, 3, Integer.valueOf(buff[2]).toString()));
                                 // 选货结束  发送出货命令
                                 mBuffer = GetBytesUtils.goodsOuter();
@@ -131,10 +134,12 @@ public class OutGoodsActivity extends SerialMachineActivity {
                     case 0x08: // 商品出货
                         switch (buff[2]) {
                             case 0x00:
+                                selectGoodsFlag = true;
                                 // 出货中    等待
                                 // queue.add(new RobotEventArg(2, 5, "排放中"));
                                 break;
                             case 0x55:
+                                selectGoodsFlag = true;
                                 // 出货完成    结束出货流程
                                 //queue.add(new RobotEventArg(2, 6, "排放完毕"));
                                 // 出货成功  结束
@@ -143,6 +148,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
 //                                ToastUtils.showShortMessage("交易成功");
                                 break;
                             case (byte) 0xFF:
+                                selectGoodsFlag = true;
                                 // 出货失败，结束出货流程
                                 // 出货失败：
                                 outGoodsFail();
@@ -400,8 +406,16 @@ public class OutGoodsActivity extends SerialMachineActivity {
                     return;
                 }
             } catch (IOException e) {
-                e.printStackTrace();
-                return;
+                // 重试发送
+                try {
+                    if (mOutputStream != null) {
+                        mOutputStream.write(mBuffer, 0, mBuffer.length);
+                    } else {
+                        return;
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
     }
@@ -439,6 +453,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
         public void handleMessage(Message msg) {
 
             String timer = getTime();
+
             if (TextUtils.isEmpty(timer)) {
 
                 if (!TextUtils.isEmpty(slNo)) {
@@ -447,6 +462,13 @@ public class OutGoodsActivity extends SerialMachineActivity {
                 startActivity(new Intent(OutGoodsActivity.this, HomeActivity.class));
                 finish();
                 return;
+            }
+            if ("01:40".equals(timer) || "01:45".equals(timer) || "01:50".equals(timer)) {
+                if (!selectGoodsFlag) {
+                    mSendingThread = new SendingThread();
+                    mSendingThread.start();
+                }
+
             }
             tvTimer.setText(timer);
         }

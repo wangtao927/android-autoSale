@@ -138,6 +138,7 @@ public class TimerService extends Service {
                 .where(SaleListBeanDao.Properties.Sl_time.lt(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(beforeD))).build();
 
         saleListBeans = query.list();
+
         vo.setMcSaleList(saleListBeans);
         CommonRequest<McDataVo> request = new CommonRequest<>(
                 bean.getMc_no(), System.currentTimeMillis(), vo);
@@ -160,9 +161,9 @@ public class TimerService extends Service {
                             // 判断数据，并更新
                             updateInfo(response.getExt_data().getOprcode(), response.getExt_data().getOprdata());
 
+                            // 修改交易流水为上报成功
                             DbManagerHelper.updateSendStatus(saleListBeans);
                         }
-                        // 修改交易流水为上报成功
 
 
                     }
