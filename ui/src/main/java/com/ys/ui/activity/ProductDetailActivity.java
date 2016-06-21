@@ -18,6 +18,7 @@ import com.ys.ui.common.constants.SlTypeEnum;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.utils.ImageUtils;
 import com.ys.ui.utils.PropertyUtils;
+import com.ys.ui.utils.ToastUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -90,6 +91,7 @@ public class ProductDetailActivity extends BaseTimerActivity implements View.OnC
                 .into(gdDetailImage);
 
         tvGdName.setText(String.format(gdNameValue, goodsBean.getGd_short_name()));
+
         tvPrice.setText(String.format(gdPrice, getPrice(mcGoodsBean.getMg_disc_price())));
         tvVipPrice.setText(String.format(gdVipPrice, getPrice(mcGoodsBean.getMg_vip_price())));
         tvDesc.setText(String.format(desc, goodsBean.getGd_desc(),

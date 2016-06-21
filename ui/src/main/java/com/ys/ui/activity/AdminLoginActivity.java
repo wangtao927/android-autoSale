@@ -68,6 +68,7 @@ public class AdminLoginActivity extends BaseActivity implements View.OnClickList
                     if (mcAdminBean != null) {
                         Intent detailIntent = new Intent(this, AdminActivity.class);
                         finish();
+                        detailIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(detailIntent);
                     } else {
                         ToastUtils.showShortMessage("用户名密码错误");

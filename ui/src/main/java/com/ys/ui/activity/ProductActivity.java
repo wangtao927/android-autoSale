@@ -212,4 +212,13 @@ public class ProductActivity extends BaseTimerActivity implements LMRecyclerView
         ButterKnife.unbind(this);
 
     }
+
+
+    @Override
+    protected void onResume() {
+        minute = 0;
+        second = 0;
+
+        super.onResume();
+    }
 }

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.tencent.bugly.beta.Beta;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.McStatusBean;
+import com.ys.data.dao.McGoodsBeanDao;
 import com.ys.ui.R;
 import com.ys.ui.adapter.McGoodsListAdapter;
 import com.ys.ui.base.App;
@@ -105,7 +106,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
     private void loadData() {
         mTotalCount = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().count();
 
-        QueryBuilder<McGoodsBean> queryBuilder = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().queryBuilder();
+        QueryBuilder<McGoodsBean> queryBuilder = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().queryBuilder().orderAsc(McGoodsBeanDao.Properties.Mg_channo);
         int offset = mPageIndex == 1 ? 0 : (mPageIndex * mPageSize);
         List pageList = queryBuilder.offset(offset).limit(mPageSize).list();
         lists.addAll(pageList);
@@ -136,9 +137,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
             case R.id.btn_clear:
                 // 清除卡货
                 DbManagerHelper.clearAllChannStatus(lists);
-                // App.getDaoSession(App.getContext()).getMcGoodsBeanDao().clearChanStatus(lists);
                 adapter.notifyDataSetChanged();
-
                 break;
             case R.id.btn_back:
 
@@ -156,7 +155,6 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.btn_init_serial:
 
-                //PosSerialHelper.getInstance().setPath();
                 PrintHelper.getInstance().initPrint();
                 break;
             case R.id.btn_check_update:
@@ -234,8 +232,6 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void reset() {
-
-        //  TODO 确定重置  弹出框
         backProcess();
 
     }

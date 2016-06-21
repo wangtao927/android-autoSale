@@ -43,13 +43,16 @@ public abstract class BaseTimerActivity extends BaseActivity {
 
     @Override
     protected void onStop() {
-        super.onStop();
         stopTimer();
+
+        super.onStop();
     }
 
 
     @Override
     protected void onResume() {
+//        minute = 0;
+//        second = 0;
         initTimer();
         super.onResume();
     }

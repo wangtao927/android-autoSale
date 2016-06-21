@@ -239,6 +239,10 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
         saleListVo.setSlAccNo(acountNo);
         createSaleList(saleListVo.getSlAmt(), vip, slNo);
 
+        // 重新计时
+        minute = 2;
+        second = 0;
+
         if (slType.getIndex() == SlTypeEnum.ALIPAY.getIndex()
                 || slType.getIndex() == SlTypeEnum.WX.getIndex()) {
 
@@ -780,6 +784,52 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
         mmHandler.removeCallbacksAndMessages(null);
         mMyApi.pos_release();
 
+    }
+
+    @Override
+    protected void refund() {
+
+        SaleListBean saleListBean = DbManagerHelper.getSaleRecord(slNo);
+
+        if (saleListBean.getSl_type().equals(String.valueOf(SlTypeEnum.ALIPAY.getIndex()))
+                || saleListBean.getSl_type().equals(String.valueOf(SlTypeEnum.WX.getIndex()))
+                || saleListBean.getSl_type().equals(String.valueOf(SlTypeEnum.CODE.getIndex()))) {
+            // 退款
+            RetrofitManager.builder().refund(slNo)
+                    .subscribeOn(Schedulers.io())
+                    .doOnSubscribe(new Action0() {
+                        @Override
+                        public void call() {
+                            //showProgress();
+
+                        }
+                    })
+                    .subscribe(new Action1<CommonResponse<String>>() {
+                        @Override
+                        public void call(CommonResponse<String> response) {
+                            Log.d("result", response.toString());
+                            //ToastUtils.showShortMessage("退款返回：" + response);
+
+                            if (response.isSuccess()) {
+
+                                //
+                                DbManagerHelper.updatePayStatus(slNo, SlPayStatusEnum.REFUNDED);
+
+                                //Toast.makeText(OutGoodsActivity.this, "退款请求已成功发送", Toast.LENGTH_SHORT).show();
+                            } else {
+                                //Toast.makeText(OutGoodsActivity.this, "退款请求发送失败", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+                    }, new Action1<Throwable>() {
+                        @Override
+                        public void call(Throwable throwable) {
+                            // hideProgress();
+                            // Toast.makeText(OutGoodsActivity.this, "退款失败，请联系工作人员", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+        }
     }
 
 }

@@ -118,6 +118,7 @@ public abstract class PayTimerActivity extends BaseActivity {
             if (TextUtils.isEmpty(times) ) {
 
                 stopTimer();
+                refund();
                 finish();
                 startActivity(new Intent(App.getContext(), PayFailActivity.class));
                 //return;
@@ -132,6 +133,7 @@ public abstract class PayTimerActivity extends BaseActivity {
             }
         }
     };
+
 
     String getTime() {
         Log.d("PayTimer：miniute:second", minute + ":" + second);
@@ -177,7 +179,7 @@ public abstract class PayTimerActivity extends BaseActivity {
     }
 
     protected abstract int getLayoutId();
-
+    protected abstract void refund();
     protected abstract void create(Bundle savedInstanceState);
 
     protected Context getCtx() {
