@@ -76,7 +76,6 @@ public class ProductActivity extends BaseTimerActivity implements LMRecyclerView
         loadData();
         mProductApter = new ProductAdapter(ProductActivity.this, mProducts);
         mRecyclerView.setAdapter(mProductApter);
-
     }
 
     @Override

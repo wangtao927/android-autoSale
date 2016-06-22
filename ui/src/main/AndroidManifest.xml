@@ -139,6 +139,7 @@
         <service
             android:name=".service.TimerService"
             android:screenOrientation="portrait" />
+
         <service
             android:name=".service.SerialInitService"
             android:screenOrientation="portrait" />

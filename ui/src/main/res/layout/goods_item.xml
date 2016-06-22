@@ -18,6 +18,7 @@
             android:id="@+id/iv_picon"
             android:layout_width="match_parent"
             android:layout_height="140dp"
+            android:scaleType="fitXY"
             android:src="@mipmap/p" />
         <ImageView
             android:id="@+id/wuhuo"

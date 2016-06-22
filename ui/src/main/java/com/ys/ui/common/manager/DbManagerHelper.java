@@ -116,8 +116,9 @@ public class DbManagerHelper {
      */
     public static void initGoods(List<GoodsBean> goods) {
         if (goods != null && !goods.isEmpty()) {
-            App.getDaoSession(App.getContext()).getGoodsBeanDao().deleteAll();
-            App.getDaoSession(App.getContext()).getGoodsBeanDao().insertInTx(goods);
+//            App.getDaoSession(App.getContext()).getGoodsBeanDao().deleteAll();
+//            App.getDaoSession(App.getContext()).getGoodsBeanDao().insertInTx(goods);
+            App.getDaoSession(App.getContext()).getGoodsBeanDao().deleteAndInsert(goods);
         }
 
     }

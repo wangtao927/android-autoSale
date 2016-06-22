@@ -64,10 +64,21 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
         GoodsBean goodsBean = DbManagerHelper.getGoodsInfo(mcGoodsBean.getGd_no());
         holder.no.setTag(mcGoodsBean);
 //        holder.productName.setText(goodsBean.getGd_name());
-        if (TextUtils.isEmpty(goodsBean.getGd_short_name())) {
-            goodsBean.setGd_short_name(goodsBean.getGd_name());
+        if (goodsBean == null ) {
+
+        } else {
+            if (TextUtils.isEmpty(goodsBean.getGd_short_name())) {
+                goodsBean.setGd_short_name(goodsBean.getGd_name());
+            }
+            holder.productName.setText(goodsBean.getGd_short_name());
+            String url = PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(goodsBean.getGd_img_s());
+
+            Glide.with(context)
+                    .load(url).fitCenter()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(holder.productIcon);
         }
-        holder.productName.setText(goodsBean.getGd_short_name());
+
         String cno = mcGoodsBean.getMg_channo();
         cno = cno.substring(cno.length() - 2);
         holder.no.setText(cno);
@@ -79,7 +90,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
             holder.ivPriceCut.setVisibility(isShowPriceCut ? View.VISIBLE : View.GONE);
 
             if (mcGoodsBean.getMg_gnum() <= 0 ||
-                    mcGoodsBean.getMg_chann_status().intValue() == ChanStatusEnum.ERROR.getIndex()) {
+                    mcGoodsBean.getMg_chann_status().intValue() == ChanStatusEnum.ERROR.getIndex() || goodsBean == null) {
                 holder.wuhuo.setVisibility(View.VISIBLE);
 
                // holder.no.setBackgroundResource(R.drawable.circle_gray);
@@ -91,13 +102,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
             holder.ivPriceCut.setVisibility(View.GONE);
         }
 
-        String url = PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(goodsBean.getGd_img_s());
 
-        Glide.with(context)
-                .load(url)
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .into(holder.productIcon);
+
 
     }
 

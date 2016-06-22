@@ -1,5 +1,6 @@
 package com.ys.ui.base;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import com.ys.ui.utils.ToastUtils;
 import java.io.File;
 import java.io.IOException;
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 
 import android_serialport_api.SerialPort;
 
@@ -55,6 +57,7 @@ public class App extends Application {
 
     public static String mcNo;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -69,6 +72,8 @@ public class App extends Application {
         //注册bugly
         regBUgly();
 
+//        CrashHandler crashHandler = CrashHandler.getInstance();
+//        crashHandler.init(ctx);
         //PosSerialHelper.getInstance().setPath();
 
         //SerialMachineHelper.getInstance().getSerial();
@@ -76,6 +81,7 @@ public class App extends Application {
         /*Intent intent1 = new Intent(this, SerialInitService.class);
         startService(intent1);*/
     }
+
 
     private void regBUgly() {
         /***** Beta高级设置 *****/
