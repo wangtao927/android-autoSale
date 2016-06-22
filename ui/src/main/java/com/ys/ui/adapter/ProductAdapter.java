@@ -3,6 +3,7 @@ package com.ys.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
         GoodsBean goodsBean = DbManagerHelper.getGoodsInfo(mcGoodsBean.getGd_no());
         holder.no.setTag(mcGoodsBean);
 //        holder.productName.setText(goodsBean.getGd_name());
+        if (TextUtils.isEmpty(goodsBean.getGd_short_name())) {
+            goodsBean.setGd_short_name(goodsBean.getGd_name());
+        }
         holder.productName.setText(goodsBean.getGd_short_name());
         String cno = mcGoodsBean.getMg_channo();
         cno = cno.substring(cno.length() - 2);
