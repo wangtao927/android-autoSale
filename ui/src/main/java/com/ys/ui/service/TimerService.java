@@ -18,6 +18,7 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.McParamsBean;
 import com.ys.data.bean.McStatusBean;
@@ -112,6 +113,9 @@ public class TimerService extends Service {
 
                 }
             } catch (Exception e) {
+                Log.e("TimerService", "mcNo:"+App.mcNo + e.getMessage());
+
+                CrashReport.postCatchedException(e);
             }
 
 
@@ -125,14 +129,11 @@ public class TimerService extends Service {
         // 获取库存信息
         mcGoodsBeanList = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().loadAll();
         vo.setMcGoodsList(mcGoodsBeanList);
-        //
 
         Calendar beforeTime = Calendar.getInstance();
         beforeTime.add(Calendar.MINUTE, -5);// 5分钟之前的时间
 
         Date beforeD = beforeTime.getTime();
-
-
         Query<SaleListBean> query =  App.getDaoSession(App.getContext()).getSaleListBeanDao()
                 .queryBuilder().where(SaleListBeanDao.Properties.Sl_send_status.notEq(SlSendStatusEnum.FINISH.getIndex()))
                 .where(SaleListBeanDao.Properties.Sl_time.lt(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(beforeD))).build();
@@ -144,14 +145,14 @@ public class TimerService extends Service {
                 bean.getMc_no(), System.currentTimeMillis(), vo);
         RetrofitManager.builder().postMcData(request)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        //showProgress();
-
-                    }
-                })
+                //.observeOn(AndroidSchedulers.mainThread())
+//                .doOnSubscribe(new Action0() {
+//                    @Override
+//                    public void call() {
+//                        //showProgress();
+//
+//                    }
+//                })
                 .subscribe(new Action1<CommonResponse<McDataResult>>() {
                     @Override
                     public void call(CommonResponse<McDataResult> response) {
@@ -162,7 +163,13 @@ public class TimerService extends Service {
                             updateInfo(response.getExt_data().getOprcode(), response.getExt_data().getOprdata());
 
                             // 修改交易流水为上报成功
-                            DbManagerHelper.updateSendStatus(saleListBeans);
+                            try {
+                                Log.d("updateSendStatus", "mcNo:"+ mcNo + saleListBeans.toString());
+                                DbManagerHelper.updateSendStatus(saleListBeans);
+                            } catch (Exception e) {
+                                Log.e("postMcData", App.mcNo + e.getMessage());
+                                CrashReport.postCatchedException(e);
+                            }
                         }
 
 
@@ -170,8 +177,10 @@ public class TimerService extends Service {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        Log.e("error", throwable.toString());
+                        Log.e("TimerService", throwable.toString());
                         //hideProgress();
+                        CrashReport.postCatchedException(throwable);
+
                     }
                 });
     }
@@ -196,6 +205,8 @@ public class TimerService extends Service {
             }
             location = manager.getLastKnownLocation(provider);
         } catch (Exception e) {
+            Log.e("timerservice", "get location error"+e.getMessage());
+            CrashReport.postCatchedException(e);
 
         }
     }
@@ -214,6 +225,9 @@ public class TimerService extends Service {
                                  App.getDaoSession(App.getContext()).getMcStatusBeanDao().update(entity);
                                  map.put("01", "0");// 0 成功 1 失败
                              } catch (Exception e) {
+                                 Log.e("updateMcStatus error", result.getMachine().toString() + e.getMessage());
+                                 CrashReport.postCatchedException(e);
+
                                  map.put("01", "1");// 0 成功 1 失败
                              }
 
@@ -228,6 +242,8 @@ public class TimerService extends Service {
                                  DbManagerHelper.initMcParam(result.getMcparam());
                                  map.put("02", "0");// 0 成功 1 失败
                              } catch (Exception e) {
+                                 Log.e("initMcParam", "param:" + result.getMcparam() + "error:" + e.getMessage());
+                                 CrashReport.postCatchedException(e);
                                  map.put("02", "1");// 0 成功 1 失败
                              }
                              continue;
@@ -242,6 +258,9 @@ public class TimerService extends Service {
                                  DbManagerHelper.updateMcGoods(result.getMcgoods());
                                  map.put("03", "0");// 0 成功 1 失败
                              } catch (Exception e) {
+                                 Log.e("updateMcGoods", "param:" + result.getMcgoods() + "error:" + e.getMessage());
+
+                                 CrashReport.postCatchedException(e);
                                  map.put("03", "1");// 0 成功 1 失败
                              }
                          } else {
@@ -255,6 +274,9 @@ public class TimerService extends Service {
                                  DbManagerHelper.initAdmin(result.getMcadmin());
                                  map.put("04", "0");// 0 成功 1 失败
                              } catch (Exception e) {
+                                 Log.e("initAdmin", "param:" + result.getMcadmin() + "error:" + e.getMessage());
+
+                                 CrashReport.postCatchedException(e);
                                  map.put("04", "1");// 0 成功 1 失败
                              }
 
@@ -271,6 +293,9 @@ public class TimerService extends Service {
                                  DbManagerHelper.initAdv(result.getMcadv());
                                  map.put("05", "0");// 0 成功 1 失败
                              } catch (Exception e) {
+                                 Log.e("initAdv", "param:" + result.getMcadv() + "error:" + e.getMessage());
+
+                                 CrashReport.postCatchedException(e);
                                  map.put("05", "1");// 0 成功 1 失败
                              }
 
@@ -286,6 +311,9 @@ public class TimerService extends Service {
                                   DbManagerHelper.initGoods(result.getGoods());
                                   map.put("06", "0");// 0 成功 1 失败
                               } catch (Exception e) {
+                                  Log.e("initGoods", "param:" + result.getGoods() + "error:" + e.getMessage());
+
+                                  CrashReport.postCatchedException(e);
                                   map.put("06", "1");// 0 成功 1 失败
                               }
                           } else {
@@ -298,6 +326,9 @@ public class TimerService extends Service {
                                    DbManagerHelper.updateMcStore(result.getMcstore());
                                    map.put("07", "0");// 0 成功 1 失败
                                } catch (Exception e) {
+                                   Log.e("updateMcStore", "param:" + result.getMcstore() + "error:" + e.getMessage());
+
+                                   CrashReport.postCatchedException(e);
                                    map.put("07", "1");// 0 成功 1 失败
                                }
                            } else {
@@ -328,14 +359,14 @@ public class TimerService extends Service {
     private void postOprStatus(Map<String, String> map) {
         RetrofitManager.builder().postOprStatus(mcNo, map)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        //showProgress();
-
-                    }
-                })
+                //.observeOn(AndroidSchedulers.mainThread())
+//                .doOnSubscribe(new Action0() {
+//                    @Override
+//                    public void call() {
+//                        //showProgress();
+//
+//                    }
+//                })
                 .subscribe(new Action1<CommonResponse<String>>() {
                     @Override
                     public void call(CommonResponse<String> response) {
@@ -347,6 +378,7 @@ public class TimerService extends Service {
                     public void call(Throwable throwable) {
                         Log.e("error", throwable.toString());
                         //hideProgress();
+                        CrashReport.postCatchedException(throwable);
                     }
                 });
     }

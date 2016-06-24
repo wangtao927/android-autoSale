@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.ys.data.bean.AdvBean;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.SaleListBean;

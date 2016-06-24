@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.tencent.bugly.crashreport.CrashReport;
+import com.ys.BytesUtil;
 import com.ys.GetBytesUtils;
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.SaleListBean;
@@ -31,7 +33,6 @@ import java.math.BigDecimal;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -100,8 +101,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
         runOnUiThread(new Runnable() {
             public void run() {
                 // 是正确的返回结果
-               // ToastUtils.showShortMessage("dataReceived= " + BytesUtil.bytesToHexString(buff));
-
+                Log.e("outGoodsActivity 105", App.mcNo + "dataReceived= " + BytesUtil.bytesToHexString(buff));
                 switch (buff[1]) {
 
                     case 0x0E: // ------------------------------------------------------------------------------- 提货
@@ -189,7 +189,8 @@ public class OutGoodsActivity extends SerialMachineActivity {
             //ToastUtils.showShortMessage("退款请求已发送：订单号：" + slNo);
         } catch (Exception e) {
            // ToastUtils.showShortMessage("slNo=" + slNo + " 退款异常:" + e);
-
+            Log.e("outGoodsActivity 193", App.mcNo+ "slNo=" + slNo + " 出货异常:" + e);
+            CrashReport.postCatchedException(e);
         }
     }
 
@@ -207,6 +208,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
     }
     private void transTimeout() {
         try {
+            Log.d("transTimeout", "transTimeout slNo="+slNo +"slType=" + slType);
             // 复位
             reback();
 
@@ -217,8 +219,8 @@ public class OutGoodsActivity extends SerialMachineActivity {
             }
             //ToastUtils.showShortMessage("退款请求已发送：订单号：" + slNo);
         } catch (Exception e) {
-            // ToastUtils.showShortMessage("slNo=" + slNo + " 退款异常:" + e);
-
+            Log.e("outGoodsActivity 222", "slNo=" + slNo + " 退款异常:" + e);
+           CrashReport.postCatchedException(e);
         }
     }
 
@@ -237,6 +239,9 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
         } catch (Exception e) {
             //ToastUtils.showShortMessage("出货失败");
+            Log.e("outGoodsActivity 243", App.mcNo +"outGoodsFail" + e);
+            CrashReport.postCatchedException(e);
+
         }
 
     }
@@ -264,7 +269,8 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("outGoodsActivitySUC 273", App.mcNo  + e);
+            CrashReport.postCatchedException(e);
         }
 
     }
@@ -277,7 +283,6 @@ public class OutGoodsActivity extends SerialMachineActivity {
             vipPrice = bean.getSl_vip_price();
         }
         GoodsBean goodsBean = DbManagerHelper.getGoodsInfo(bean.getSl_gd_no());
-
         PrintHelper.getInstance().gdPrint(slNo.substring(App.mcNo.length()), App.mcNo, goodsBean.getGd_name(),
                 goodsBean.getGd_spec(), getPrice(bean.getSl_pre_price()),
                 getPrice(vipPrice), getPrice(bean.getSl_amt()), SlTypeEnum.findByIndex(slType).getDesc());
@@ -350,7 +355,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
             RetrofitManager.builder().refund(slNo)
                     .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+                    //.observeOn(AndroidSchedulers.mainThread())
                     .doOnSubscribe(new Action0() {
                         @Override
                         public void call() {
@@ -378,8 +383,10 @@ public class OutGoodsActivity extends SerialMachineActivity {
                     }, new Action1<Throwable>() {
                         @Override
                         public void call(Throwable throwable) {
+                            Log.e("out goods refund", "退款失败：slNo=" + slNo + throwable.getMessage());
                             // hideProgress();
                            // Toast.makeText(OutGoodsActivity.this, "退款失败，请联系工作人员", Toast.LENGTH_SHORT).show();
+                            CrashReport.postCatchedException(throwable);
 
                         }
                     });
@@ -400,12 +407,15 @@ public class OutGoodsActivity extends SerialMachineActivity {
         @Override
         public void run() {
             try {
+                Log.d("sending thread", "buffer:" + BytesUtil.bytesToHexString(mBuffer));
                 if (mOutputStream != null) {
                     mOutputStream.write(mBuffer, 0, mBuffer.length);
                 } else {
                     return;
                 }
             } catch (IOException e) {
+                Log.e("SendingThread error", e.getMessage());
+                 CrashReport.postCatchedException(e);
                 // 重试发送
                 try {
                     if (mOutputStream != null) {
@@ -414,7 +424,9 @@ public class OutGoodsActivity extends SerialMachineActivity {
                         return;
                     }
                 } catch (IOException e1) {
-                    e1.printStackTrace();
+                    Log.e("SendingThread error2", e.getMessage());
+                    CrashReport.postCatchedException(e1);
+
                 }
             }
         }
@@ -464,6 +476,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
                 return;
             }
             if ("01:40".equals(timer) || "01:45".equals(timer) || "01:50".equals(timer)) {
+                Log.e("retry selectGoods:", timer + "retry start selectGoods" + mBuffer);
                 if (!selectGoodsFlag) {
                     mSendingThread = new SendingThread();
                     mSendingThread.start();

@@ -54,33 +54,6 @@ public class AboutActivity extends BaseTimerActivity implements View.OnClickList
     protected void create(Bundle savedInstanceState) {
         logo.setOnClickListener(this);
 
-//        ViewPager viewpager = (ViewPager) findViewById(R.id.viewpager);
-//        CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
-//
-//        viewlist.add(BitmapFactory.decodeResource(getResources(), (R.mipmap.zj1)));
-//        viewlist.add(BitmapFactory.decodeResource(getResources(), (R.mipmap.zj2)));
-//        viewlist.add(BitmapFactory.decodeResource(getResources(), (R.mipmap.zj3)));
-//
-//        viewpager.setAdapter(new PagerAdapter() {
-//
-//
-//            //viewpager中的组件数量
-//            @Override
-//            public int getCount() {
-//                return viewlist.size();
-//            }
-//
-//
-//            @Override
-//            public boolean isViewFromObject(View arg0, Object arg1) {
-//                return arg0 == arg1;
-//            }
-//
-//
-//        });
-//
-//        indicator.setViewPager(viewpager);
-
         initview();
         li = new ArrayList<Object>();
         for (int i = 0; i < res.length; i++) {

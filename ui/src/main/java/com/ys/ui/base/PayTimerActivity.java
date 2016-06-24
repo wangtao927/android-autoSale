@@ -121,13 +121,14 @@ public abstract class PayTimerActivity extends BaseActivity {
                 refund();
                 finish();
                 startActivity(new Intent(App.getContext(), PayFailActivity.class));
-                //return;
+                return;
             }
 
             if (tvTimer != null) {
                 tvTimer.setText(times);
 
             } else {
+                stopTimer();
                 finish();
                 startActivity(new Intent(App.getContext(), HomeActivity.class));
             }
@@ -136,7 +137,7 @@ public abstract class PayTimerActivity extends BaseActivity {
 
 
     String getTime() {
-        Log.d("PayTimer：miniute:second", minute + ":" + second);
+        //Log.d("PayTimer：miniute:second", minute + ":" + second);
         if (minute == 0) {
             if (second == 0) {
                 return "";

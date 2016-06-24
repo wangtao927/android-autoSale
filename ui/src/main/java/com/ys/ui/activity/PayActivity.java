@@ -29,6 +29,7 @@ import com.landfoneapi.misposwa.CallbackMsg;
 import com.landfoneapi.misposwa.E_REQ_RETURN;
 import com.landfoneapi.misposwa.ILfListener;
 import com.landfoneapi.misposwa.MyApi;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.SaleListBean;
@@ -372,6 +373,8 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
             return E_REQ_RETURN.REQ_OK == mMyApi.pos_init("113.108.182.4", 10061,
                     path, String.valueOf(baudrate)) ;//"/dev/ttyS1"//lf
         } catch (Exception e) {
+            CrashReport.postCatchedException(e);
+
             return false;
         }
 
@@ -652,18 +655,18 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                 RetrofitManager.builder().userLogin(userNo, userPwd)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe(new Action0() {
-                            @Override
-                            public void call() {
-                                //showProgress();
-                            }
-                        })
+//                        .doOnSubscribe(new Action0() {
+//                            @Override
+//                            public void call() {
+//                                //showProgress();
+//                            }
+//                        })
                         .subscribe(new Action1<CommonResponse<UserResult>>() {
                             @Override
                             public void call(CommonResponse<UserResult> response) {
                                 //hideProgress();
 
-                                Log.d("response", response.toString());
+                                Log.d("userLogin response", response.toString());
                                 if (response.getCode() == 0) {
                                     acountNo = userNo;
 
@@ -674,6 +677,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                                     // 显示会员价格
                                     tvSalePrice.setText(String.format(gdVipPrice, getPrice(mcGoodsBean.getMg_vip_price())));
                                 } else {
+                                    Log.d("mcNo="+ App.mcNo , "");
                                     ToastUtils.showShortMessage("用户名或密码错误");
                                 }
 
@@ -682,6 +686,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                             @Override
                             public void call(Throwable throwable) {
                                 ToastUtils.showShortMessage("登录失败");
+                                CrashReport.postCatchedException(throwable);
                             }
                         });
 
@@ -704,6 +709,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                     @Override
                     public void call(CommonResponse<String> response) {
                         //hideProgress();
+                        Log.d("getVerifyCode response", response.toString());
 
                         if (response.getCode() == 0) {
 
@@ -718,6 +724,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                     @Override
                     public void call(Throwable throwable) {
                         ToastUtils.showShortMessage("发送验证码失败");
+                        CrashReport.postCatchedException(throwable);
 
                     }
                 });
@@ -727,15 +734,16 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
         RetrofitManager.builder().userReg(phoneNo, valideCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        //showProgress();
-                    }
-                })
+//                .doOnSubscribe(new Action0() {
+//                    @Override
+//                    public void call() {
+//                        //showProgress();
+//                    }
+//                })
                 .subscribe(new Action1<CommonResponse<String>>() {
                     @Override
                     public void call(CommonResponse<String> response) {
+                        Log.d("userReg response", response.toString());
 
                         if (response.getCode() == 0) {
                             mDialog.cancel();
@@ -754,6 +762,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                     @Override
                     public void call(Throwable throwable) {
                         ToastUtils.showShortMessage("注册失败");
+                        CrashReport.postCatchedException(throwable);
 
                     }
                 });
@@ -789,6 +798,11 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
     @Override
     protected void refund() {
 
+        if (TextUtils.isEmpty(slNo)) {
+            Log.d("payActivity refund", "slNo is null");
+            CrashReport.postCatchedException(new NullPointerException("PayActivity refund : slNo is null"));
+            return;
+        }
         SaleListBean saleListBean = DbManagerHelper.getSaleRecord(slNo);
 
         if (saleListBean.getSl_type().equals(String.valueOf(SlTypeEnum.ALIPAY.getIndex()))
@@ -797,17 +811,18 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
             // 退款
             RetrofitManager.builder().refund(slNo)
                     .subscribeOn(Schedulers.io())
-                    .doOnSubscribe(new Action0() {
-                        @Override
-                        public void call() {
-                            //showProgress();
-
-                        }
-                    })
+                            .subscribeOn(Schedulers.newThread())
+//                    .doOnSubscribe(new Action0() {
+//                        @Override
+//                        public void call() {
+//                            //showProgress();
+//
+//                        }
+//                    })showProgress
                     .subscribe(new Action1<CommonResponse<String>>() {
                         @Override
                         public void call(CommonResponse<String> response) {
-                            Log.d("result", response.toString());
+                            Log.d("refund response", response.toString());
                             //ToastUtils.showShortMessage("退款返回：" + response);
 
                             if (response.isSuccess()) {
@@ -824,8 +839,11 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                     }, new Action1<Throwable>() {
                         @Override
                         public void call(Throwable throwable) {
+
+                            Log.e("PayActivity", "退款失败:" + throwable.getMessage());
                             // hideProgress();
                             // Toast.makeText(OutGoodsActivity.this, "退款失败，请联系工作人员", Toast.LENGTH_SHORT).show();
+                            CrashReport.postCatchedException(throwable);
 
                         }
                     });

@@ -122,12 +122,13 @@ public abstract class BaseTimerActivity extends BaseActivity {
                 stopTimer();
                 finish();
                 startActivity(new Intent(App.getContext(), HomeActivity.class));
-                //return;
+                return;
             }
 
             if (tvTimer != null) {
                 tvTimer.setText(times);
             } else {
+                stopTimer();
                 finish();
                 startActivity(new Intent(App.getContext(), HomeActivity.class));
             }
@@ -135,7 +136,7 @@ public abstract class BaseTimerActivity extends BaseActivity {
     };
 
     String getTime() {
-        Log.d("BaseTimerminiute:second", minute + ":" + second);
+       // Log.d("BaseTimerminiute:second", minute + ":" + second);
         if (minute == 0) {
             if (second == 0) {
                 return "";

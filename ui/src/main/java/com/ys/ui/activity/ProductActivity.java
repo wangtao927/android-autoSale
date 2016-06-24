@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -154,6 +155,7 @@ public class ProductActivity extends BaseTimerActivity implements LMRecyclerView
                 startActivity(intent);
 
             } else {
+                Log.d("ProductActivity", mProductCode.getText() + "goods salesOut");
                 ToastUtils.showShortMessage("该商品已售完！");
             }
 

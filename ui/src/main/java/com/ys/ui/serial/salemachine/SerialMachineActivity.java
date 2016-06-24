@@ -19,6 +19,7 @@ package com.ys.ui.serial.salemachine;
 import android.app.Activity;
 import android.os.Bundle;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseTimerActivity;
 import com.ys.ui.utils.ToastUtils;
@@ -151,14 +152,10 @@ public abstract class SerialMachineActivity extends Activity {
 			/* Create a receiving thread */
 			mReadThread = new ReadThread();
 			mReadThread.start();
-		} catch (SecurityException e) {
-			//DisplayError(R.string.error_security);
-            //ToastUtils.showError("SecurityException:" + e.getMessage(), this);
-		} catch (InvalidParameterException e) {
-			//ToastUtils.showError("InvalidParameterException:" + e.getMessage(), this);
 		} catch (Exception e) {
+			e.printStackTrace();
 			//ToastUtils.showError("Exception:" + e.getMessage(), this);
-
+			CrashReport.postCatchedException(e);
 		}
 	}
 

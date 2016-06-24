@@ -3,6 +3,7 @@ package com.ys.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.ContentLoadingProgressBar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.McStatusBean;
 import com.ys.data.bean.SaleListBean;
@@ -181,6 +183,8 @@ public class GetProductActivity extends BaseTimerActivity implements View.OnClic
                     public void call(Throwable throwable) {
                         hideProgress();
                         Toast.makeText(GetProductActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+                        CrashReport.postCatchedException(throwable);
+                        Log.e("mcNo=" + getMcNo(), "createOrder(type=code) http error " + throwable.getMessage());
 
                     }
                 });

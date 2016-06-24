@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.ui.R;
@@ -65,6 +66,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
         holder.no.setTag(mcGoodsBean);
 //        holder.productName.setText(goodsBean.getGd_name());
         if (goodsBean == null ) {
+            // 上报错误信息
+            CrashReport.postCatchedException(new NullPointerException("gdNo:" + mcGoodsBean.getGd_no()
+                    + "channo:" + mcGoodsBean.getMg_channo() + " goods is null"));
 
         } else {
             if (TextUtils.isEmpty(goodsBean.getGd_short_name())) {

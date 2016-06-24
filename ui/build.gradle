@@ -9,7 +9,7 @@ android {
         applicationId "com.ys.ui"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 6
+        versionCode 8
         versionName "3.3.2"
 
         ndk {

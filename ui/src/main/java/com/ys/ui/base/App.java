@@ -5,7 +5,10 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.util.Log;
 
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
@@ -28,6 +31,8 @@ import java.io.File;
 import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import android_serialport_api.SerialPort;
 
@@ -36,6 +41,8 @@ public class App extends Application {
 
     private static final String APP_ID = "900032569";
     public static Context ctx;
+    private  static Application instance = null;
+    private final String APP_CONTEXT_TAG = "appContext";
 
     private static DaoMaster daoMaster;
     private static DaoSession daoSession;
@@ -60,7 +67,6 @@ public class App extends Application {
 
     @Override
     public void onCreate() {
-        super.onCreate();
         ctx = getApplicationContext();
 
 
@@ -71,18 +77,50 @@ public class App extends Application {
 
         //注册bugly
         regBUgly();
+        synchronized (this) {
+            if (instance == null) {
+                instance = this;
+            }
+
 
 //        CrashHandler crashHandler = CrashHandler.getInstance();
 //        crashHandler.init(ctx);
-        //PosSerialHelper.getInstance().setPath();
+            //PosSerialHelper.getInstance().setPath();
 
-        //SerialMachineHelper.getInstance().getSerial();
+            //SerialMachineHelper.getInstance().getSerial();
 
         /*Intent intent1 = new Intent(this, SerialInitService.class);
         startService(intent1);*/
+            CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(instance); //App的策略Bean
+            strategy.setAppChannel(getPackageName());     //设置渠道
+            strategy.setAppVersion(getVersion());      //App的版本
+            strategy.setAppReportDelay(1000);  //设置SDK处理延时，毫秒
+            strategy.setDeviceID(mcNo);
+            strategy.setCrashHandleCallback(new AppCrashHandleCallback());
+
+            CrashReport.initCrashReport(instance, mcNo, true, strategy); //自定义策略生效，必须在初始化SDK前调用
+            CrashReport.setUserId("BBDTEK");
+        }
+
+        super.onCreate();
+
     }
 
-
+    /**
+     * 获取版本号
+     * @return 当前应用的版本号
+     */
+    public String getVersion() {
+        try {
+            PackageManager manager = this.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
+            String version = info.versionName;
+            return this.getString(R.string.app_version) + version;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return this.getString(R.string.app_version);
+        }
+    }
     private void regBUgly() {
         /***** Beta高级设置 *****/
         /**
@@ -133,7 +171,7 @@ public class App extends Application {
             return new SerialPort(new File(path), baudrate, 0);
 
         } catch (Exception e) {
-
+            CrashReport.postCatchedException(e);
             return null;
         }
             /* Open the serial port */
@@ -265,5 +303,50 @@ public class App extends Application {
 
     public void setSale_path(String sale_path) {
         this.sale_path = sale_path;
+    }
+
+
+
+    private class AppCrashHandleCallback extends CrashReport.CrashHandleCallback //bugly回调
+    {
+        @Override
+        public synchronized Map<String, String> onCrashHandleStart(int crashType, String errorType, String errorMessage, String errorStack)
+        {
+            String crashTypeName = null;
+            switch (crashType)
+            {
+                case CrashReport.CrashHandleCallback.CRASHTYPE_JAVA_CATCH:
+                    crashTypeName = "JAVA_CATCH";
+                    break;
+                case CrashReport.CrashHandleCallback.CRASHTYPE_JAVA_CRASH:
+                    crashTypeName = "JAVA_CRASH";
+                    break;
+                case CrashReport.CrashHandleCallback.CRASHTYPE_NATIVE:
+                    crashTypeName = "JAVA_NATIVE";
+                    break;
+                case CrashReport.CrashHandleCallback.CRASHTYPE_U3D:
+                    crashTypeName = "JAVA_U3D";
+                    break;
+                default:
+                {
+                    crashTypeName = "unknown";
+                }
+            }
+
+            Log.e(APP_CONTEXT_TAG, "Crash Happen Type:" + crashType + " TypeName:" + crashTypeName);
+            Log.e(APP_CONTEXT_TAG, "errorType:" + errorType);
+            Log.e(APP_CONTEXT_TAG, "errorMessage:" + errorMessage);
+            Log.e(APP_CONTEXT_TAG, "errorStack:" + errorStack);
+
+            Map<String, String> userDatas = super.onCrashHandleStart(crashType, errorType, errorMessage, errorStack);
+            if (userDatas == null)
+            {
+                userDatas = new HashMap<String, String>();
+            }
+
+            userDatas.put("DEBUG", "TRUE");
+            return userDatas;
+        }
+
     }
 }

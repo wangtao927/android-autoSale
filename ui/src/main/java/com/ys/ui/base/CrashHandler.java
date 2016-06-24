@@ -32,23 +32,17 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     public void uncaughtException(Thread thread, Throwable ex) {
 
 
-        try {
-            handleException(ex);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-//        Intent intent = new Intent(mContext, HomeActivity.class);
-//        // 新开任务栈
+//        try {
+//            handleException(ex);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 //
+//        // 新开任务栈
+//        Intent intent = new Intent(mContext, HomeActivity.class);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        mContext.startActivity(intent);
-//        Intent intent = new Intent();
-//         intent.setClass(mContext, HomeActivity.class);
-////         intent.addFlag(Intent.FLAG_ACTIVITY_NEW_TASK);
-//         mContext.startActivity(intent);
-//         android.os.Process.killProcess(android.os.Process.myPid());
+//        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     /**
