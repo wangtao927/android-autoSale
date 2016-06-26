@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <!--<uses-permission android:name="android.permission.INSTALL_PACKAGES" />-->
     <!--<uses-permission android:name="android.permission.DELETE_PACKAGES" />-->
@@ -164,7 +165,6 @@
 
         </receiver>
 
-        <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     </application>
 

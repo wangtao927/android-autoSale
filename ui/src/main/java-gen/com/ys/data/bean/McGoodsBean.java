@@ -19,7 +19,7 @@ public class McGoodsBean implements Serializable {
     private String gd_mf_date;
     private String gd_exp_date;
     private Long mg_gvol;
-    private Long mg_gnum = 0L;
+    private Long mg_gnum;
     private Long mg_pre_price;
     private Long mg_score_price;
     private Long mg_vip_price;
@@ -140,11 +140,18 @@ public class McGoodsBean implements Serializable {
     }
 
     public Long getMg_gnum() {
+        if (mg_gnum == null) {
+            return 0L;
+        }
         return mg_gnum;
     }
 
     public void setMg_gnum(Long mg_gnum) {
-        this.mg_gnum = mg_gnum;
+        if (mg_gnum == null) {
+            this.mg_gnum = 0L;
+        } else {
+            this.mg_gnum = mg_gnum;
+        }
     }
 
     public Long getMg_pre_price() {

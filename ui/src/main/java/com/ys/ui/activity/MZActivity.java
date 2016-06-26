@@ -22,11 +22,13 @@ import butterknife.ButterKnife;
 /**
  * Created by wangtao on 2016/6/9.
  */
-public class MZActivity extends BaseTimerActivity {
+public class MZActivity extends BaseTimerActivity  implements View.OnClickListener {
 
 
+    @Bind(R.id.logo)
+    ImageView logo;
 
-
+    long[] mHits = new long[5];
 
     @Override
     protected int getLayoutId() {
@@ -35,13 +37,34 @@ public class MZActivity extends BaseTimerActivity {
 
     @Override
     protected void create(Bundle savedInstanceState) {
-
-
-
+        logo.setOnClickListener(this);
 
     }
 
-    private void initview() {
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.logo:
+
+                System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
+                //实现左移，然后最后一个位置更新距离开机的时间，如果最后一个时间和最开始时间小于3000，即双击
+                mHits[mHits.length - 1] = SystemClock.uptimeMillis();
+                if (mHits[0] >= (SystemClock.uptimeMillis() - 3000)) {
+
+                    Intent detailIntent = new Intent(this, AdminLoginActivity.class);
+                    finish();
+                    startActivity(detailIntent);
+                }
+
+                break;
+
+            default:
+
+                break;
+        }
+
     }
     protected void backHome() {
         if (findViewById(R.id.btn_back_home) != null) {

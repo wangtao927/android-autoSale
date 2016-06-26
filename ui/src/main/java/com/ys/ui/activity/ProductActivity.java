@@ -152,6 +152,7 @@ public class ProductActivity extends BaseTimerActivity implements LMRecyclerView
                 finish();
                 Intent intent = new Intent(this, ProductDetailActivity.class);
                 intent.putExtra("gdNo", result.getGd_no());
+                intent.putExtra("channo", result.getMg_channo());
                 startActivity(intent);
 
             } else {
@@ -219,7 +220,7 @@ public class ProductActivity extends BaseTimerActivity implements LMRecyclerView
     protected void onResume() {
         minute = 0;
         second = 0;
-
+        reLoadData();refresh();
         super.onResume();
     }
 }

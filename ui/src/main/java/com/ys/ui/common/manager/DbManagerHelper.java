@@ -56,7 +56,9 @@ public class DbManagerHelper {
         } else {
             mcStatusBean.setMr_chann_fault_nos(mcStatusBean.getMr_chann_fault_nos() + "|" + channo);
         }
-        mcStatusBean.setMr_chann_fault_num(mcStatusBean.getMr_chann_fault_num()+1);
+        long faultNum = mcStatusBean.getMr_chann_fault_num() == null ? 0 : mcStatusBean.getMr_chann_fault_num();
+
+        mcStatusBean.setMr_chann_fault_num(faultNum +1);
         dao.update(mcStatusBean);
 
     }
@@ -161,15 +163,11 @@ public class DbManagerHelper {
             }
 
             for (int i =0 ; i < lists.size(); i++) {
-                for (McGoodsBean bean : mcStore) {
-                    if (bean.getMg_gnum() == null || bean.getMg_gnum().intValue() == 0) {
-                        lists.get(i).setMg_gnum(map.get(bean.getMg_channo()).getMg_gnum());
+
+                    if (lists.get(i).getMg_gnum() == null || lists.get(i).getMg_gnum().intValue() == 0) {
+                        lists.get(i).setMg_gnum(map.get(lists.get(i).getMg_channo()).getMg_gnum());
                     }
-//                    if (bean.getMg_channo().equals(lists.get(i).getMg_channo())) {
-//                        lists.get(i).setMg_gnum(bean.getMg_gnum());
-//                        break;
-//                    }
-                }
+
             }
             App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateInTx(lists);
         }
@@ -224,7 +222,19 @@ public class DbManagerHelper {
         }
 
     }
+    public static McGoodsBean getOutGoodsByChanno(String channo) {
 
+        List<McGoodsBean> mcGoodsBeanList = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().queryBuilder()
+                .where(McGoodsBeanDao.Properties.Mg_channo.eq(channo)).where(McGoodsBeanDao.Properties.Mg_chann_status.eq(ChanStatusEnum.NORMAL.getIndex()))
+                .where(McGoodsBeanDao.Properties.Mg_gnum.gt(0)).list();
+
+        if (mcGoodsBeanList != null && !mcGoodsBeanList.isEmpty()) {
+            return mcGoodsBeanList.get(0);
+        } else {
+            return null;
+        }
+
+    }
 
     public static void reduceStore(String channo) {
         App.getDaoSession(App.getContext()).getMcGoodsBeanDao().reduceMcStore(channo);
@@ -234,7 +244,7 @@ public class DbManagerHelper {
         App.getDaoSession(App.getContext()).getSaleListBeanDao().updateSendStatus(slNo, slSendStatus);
     }
 
-    public static void updatePayStatus(String slNo, SlPayStatusEnum slPayStatus) {
+    public static void updatePayStatus(String slNo, String slPayStatus) {
 
         App.getDaoSession(App.getContext()).getSaleListBeanDao().updatePayStatus(slNo, slPayStatus);
 

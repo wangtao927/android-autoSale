@@ -183,9 +183,7 @@ public class SerialMachineHelper {
                 mInputStream = mSerialPort.getInputStream();
                 mReadThread = new ReadThread();
                 mReadThread.start();
-
                 sendCmds();
-
                 long startTime = System.currentTimeMillis();
                 while (!flag) {
                     if ((System.currentTimeMillis() - startTime) > 3000) {
@@ -197,9 +195,7 @@ public class SerialMachineHelper {
                 if (flag) {
                     ToastUtils.showShortMessage("suc: path= " + path);
                     break;
-
                 }
-
             } catch (Exception e) {
                 ToastUtils.showShortMessage("sale exception path: " + path + " e:" + e.getMessage());
                 flag = false;

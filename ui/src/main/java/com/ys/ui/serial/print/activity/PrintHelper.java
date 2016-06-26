@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.ys.SerialPortFinder;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
@@ -92,8 +93,10 @@ public class PrintHelper {
             Thread.sleep(2000);
             CloseCom();
 
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            Log.e("gdPrint", App.mcNo + "slNo=" + orderNo + e.getMessage());
+            CrashReport.postCatchedException(e);
         }
 
     }
@@ -117,10 +120,21 @@ public class PrintHelper {
             mReadThread = new ReadThread();
             mReadThread.start();
         } catch (SecurityException e) {
+            Log.e("print InitCom", App.mcNo  + e.getMessage());
             DisplayError(R.string.error_security);
+            CrashReport.postCatchedException(e);
+
         } catch (IOException e) {
+            Log.e("print InitCom", App.mcNo  + e.getMessage());
+
+            CrashReport.postCatchedException(e);
+
             DisplayError(R.string.error_unknown);
         } catch (InvalidParameterException e) {
+            Log.e("print InitCom", App.mcNo  + e.getMessage());
+
+            CrashReport.postCatchedException(e);
+
             DisplayError(R.string.error_configuration);
         }
     }
@@ -162,6 +176,8 @@ public class PrintHelper {
         } catch (UnsupportedEncodingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            CrashReport.postCatchedException(e);
+
         }
     }
 
@@ -179,7 +195,9 @@ public class PrintHelper {
                 } else {
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e("print SendData", App.mcNo + e.getMessage());
+                CrashReport.postCatchedException(e);
+
             }
         } else {
 

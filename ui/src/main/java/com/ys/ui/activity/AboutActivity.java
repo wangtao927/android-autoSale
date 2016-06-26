@@ -40,8 +40,6 @@ public class AboutActivity extends BaseTimerActivity implements View.OnClickList
 
     int current_circle = 0;
 
-    Runnable timeadv;
-    int count;
 
     long[] mHits = new long[5];
 

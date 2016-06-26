@@ -18,6 +18,7 @@ package com.ys.ui.serial.salemachine;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.tencent.bugly.crashreport.CrashReport;
 import com.ys.ui.base.App;
@@ -142,10 +143,14 @@ public abstract class SerialMachineActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		init();
+	}
+
+	protected void init() {
 		mApplication = (App)getApplication();
 //
 		try {
- 			mSerialPort = mApplication.getSerialPort();
+			mSerialPort = mApplication.getSerialPort();
 
 			mOutputStream = mSerialPort.getOutputStream();
 			mInputStream = mSerialPort.getInputStream();
@@ -154,6 +159,7 @@ public abstract class SerialMachineActivity extends Activity {
 			mReadThread.start();
 		} catch (Exception e) {
 			e.printStackTrace();
+			Log.e("SerialMachineActivity","onCreate:" + e.getMessage());
 			//ToastUtils.showError("Exception:" + e.getMessage(), this);
 			CrashReport.postCatchedException(e);
 		}

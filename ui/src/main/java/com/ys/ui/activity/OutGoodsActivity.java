@@ -101,7 +101,11 @@ public class OutGoodsActivity extends SerialMachineActivity {
         runOnUiThread(new Runnable() {
             public void run() {
                 // 是正确的返回结果
-                Log.e("outGoodsActivity 105", App.mcNo + "dataReceived= " + BytesUtil.bytesToHexString(buff));
+                Log.d("outGoodsActivity 105", App.mcNo + "dataReceived= " + BytesUtil.bytesToHexString(buff));
+
+                if (buff.length < 3) {
+                    return;
+                }
                 switch (buff[1]) {
 
                     case 0x0E: // ------------------------------------------------------------------------------- 提货
@@ -208,6 +212,8 @@ public class OutGoodsActivity extends SerialMachineActivity {
     }
     private void transTimeout() {
         try {
+            CrashReport.postCatchedException(new Exception("transTimeout slNo="+slNo +"slType=" + slType));
+
             Log.d("transTimeout", "transTimeout slNo="+slNo +"slType=" + slType);
             // 复位
             reback();
@@ -372,7 +378,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
                             if (response.isSuccess()) {
 
                                 //
-                                DbManagerHelper.updatePayStatus(slNo, SlPayStatusEnum.REFUNDED);
+                                DbManagerHelper.updatePayStatus(slNo, String.valueOf(SlPayStatusEnum.REFUNDED.getIndex()));
 
                                 //Toast.makeText(OutGoodsActivity.this, "退款请求已成功发送", Toast.LENGTH_SHORT).show();
                             } else {
@@ -411,6 +417,11 @@ public class OutGoodsActivity extends SerialMachineActivity {
                 if (mOutputStream != null) {
                     mOutputStream.write(mBuffer, 0, mBuffer.length);
                 } else {
+
+			/* Create a receiving thread */
+                    CrashReport.postCatchedException(new Exception("sending thread mOutputStream=null " + " slNo="+slNo +"slType=" + slType));
+                    init();
+
                     return;
                 }
             } catch (IOException e) {
@@ -421,6 +432,8 @@ public class OutGoodsActivity extends SerialMachineActivity {
                     if (mOutputStream != null) {
                         mOutputStream.write(mBuffer, 0, mBuffer.length);
                     } else {
+                        CrashReport.postCatchedException(new Exception("sending thread2 mOutputStream=null " + " slNo="+slNo +"slType=" + slType));
+                        init();
                         return;
                     }
                 } catch (IOException e1) {
@@ -475,8 +488,9 @@ public class OutGoodsActivity extends SerialMachineActivity {
                 finish();
                 return;
             }
-            if ("01:40".equals(timer) || "01:45".equals(timer) || "01:50".equals(timer)) {
-                Log.e("retry selectGoods:", timer + "retry start selectGoods" + mBuffer);
+            if ("01:40".equals(timer) || "01:45".equals(timer) || "01:50".equals(timer) || "01:35".equals(timer)) {
+                CrashReport.postCatchedException(new Exception("machine not response ,retry at " + timer));
+                Log.e("retry selectGoods:", timer + "retry start selectGoods" +  BytesUtil.bytesToHexString(mBuffer));
                 if (!selectGoodsFlag) {
                     mSendingThread = new SendingThread();
                     mSendingThread.start();

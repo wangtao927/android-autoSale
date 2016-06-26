@@ -162,7 +162,7 @@ public class RetrofitManager {
     }
 
     public Observable<CommonResponse<McDataResult>> postMcData(CommonRequest<McDataVo> request) {
-        Log.e("request-json:", new GsonBuilder().create().toJson(request));
+        Log.d("request-json:", new GsonBuilder().create().toJson(request));
         return mcDataApi.postMcData(request);
     }
 
@@ -176,7 +176,7 @@ public class RetrofitManager {
 
         CommonRequest<Map<String, String>> request= new CommonRequest<>(mcNo,
                 System.currentTimeMillis(), map);
-        Log.e("request-json:", new GsonBuilder().create().toJson(request));
+        Log.d("postOprStatus request-json:", new GsonBuilder().create().toJson(request));
 
         return mcDataApi.postOprStatus(request);
     }
@@ -191,7 +191,7 @@ public class RetrofitManager {
         // 创建订单号
         saleListVo.setSlNo(OrderUtils.getOrderNo(mcNo));
         CommonRequest<SaleListVo> request = new CommonRequest<>(mcNo, System.currentTimeMillis(), saleListVo);
-        Log.e("createOrder request-json:", new GsonBuilder().create().toJson(request));
+        Log.d("createOrder request:", new GsonBuilder().create().toJson(request));
 
         return orderApi.createOrder(request);
 
@@ -218,7 +218,7 @@ public class RetrofitManager {
         data.put("sl_no", slNo);
 
         CommonRequest<Map<String, String>> request = new CommonRequest<>(mcNo, time, data);
-        Log.e("refund request-json:", new GsonBuilder().create().toJson(request));
+        Log.d("refund request-json:", new GsonBuilder().create().toJson(request));
 
         return orderApi.refund(request);
     }
@@ -231,7 +231,7 @@ public class RetrofitManager {
         data.put("user_pwd", userPwd);
 
         CommonRequest<Map<String, String>> request = new CommonRequest<>(mcNo, time, data);
-        Log.e("userLogin request-json:", new GsonBuilder().create().toJson(request));
+        Log.d("userLogin request-json:", new GsonBuilder().create().toJson(request));
 
         return userApi.userLogin(request);
     }
@@ -245,7 +245,7 @@ public class RetrofitManager {
         data.put("verify_code", verifyCode);
 
         CommonRequest<Map<String, String>> request = new CommonRequest<>(mcNo, time, data);
-         Log.e("userReg request-json:", new GsonBuilder().create().toJson(request));
+         Log.d("userReg request-json:", new GsonBuilder().create().toJson(request));
         return userApi.userReg(request);
      }
      public Observable<CommonResponse<String>> getVerifyCode(String userNo) {
@@ -256,7 +256,7 @@ public class RetrofitManager {
         data.put("user_no", userNo);
 
         CommonRequest<Map<String, String>> request = new CommonRequest<>(mcNo, time, data);
-         Log.e("getVerifyCode request:", new GsonBuilder().create().toJson(request));
+         Log.d("getVerifyCode request:", new GsonBuilder().create().toJson(request));
 
         return userApi.getVerifyCode(request);
      }

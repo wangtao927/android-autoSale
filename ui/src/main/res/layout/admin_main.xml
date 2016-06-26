@@ -6,44 +6,58 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
         <TextView
             android:id="@+id/tv_admin_mcno"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="16sp"
             />
+
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
         <Button
             android:id="@+id/btn_buhuo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="2"
-             android:text="@string/onekeybuhuo" />
+            android:text="@string/onekeybuhuo" />
 
         <Button
             android:id="@+id/btn_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="3"
-             android:text="@string/onekeyclear" />
-
+            android:text="@string/onekeyclear" />
 
         <Button
             android:id="@+id/btn_init_serial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="2"
-             android:text="@string/init_serila" />
+            android:text="@string/init_serila" />
+         <Button
+            android:id="@+id/btn_clear_saleList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:text="清空上送流水" />
+
+
         <Button
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="2"
-             android:text="@string/backHome" />
+            android:text="@string/backHome" />
 
         <Button
             android:id="@+id/btn_check_update"
@@ -56,15 +70,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="2"
-             android:text="@string/sysout" />
+            android:text="@string/sysout" />
         <Button
             android:id="@+id/btn_reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="2"
             android:text="@string/reset" />
-    </LinearLayout>
 
+
+
+    </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

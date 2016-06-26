@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.ui.R;
@@ -61,6 +62,7 @@ public class ProductDetailActivity extends BaseTimerActivity implements View.OnC
     String desc = "%s \n[规格] %s \n [配方] %s \n [功能主治] %s \n [用法用量] %s";
 
     private String gdNo = "";
+    private String channo = "";
 
     @Override
     protected int getLayoutId() {
@@ -81,10 +83,15 @@ public class ProductDetailActivity extends BaseTimerActivity implements View.OnC
         //调用接口获取地址
         Bundle datas = getIntent().getExtras();
         gdNo = datas.getString("gdNo");
-
+        channo = datas.getString("channo");
         goodsBean = DbManagerHelper.getGoodsInfo(gdNo);
-        mcGoodsBean = DbManagerHelper.getOutGoods(gdNo);
+        mcGoodsBean = DbManagerHelper.getOutGoodsByChanno(channo);
 
+        if (mcGoodsBean == null) {
+            CrashReport.postCatchedException(new Exception(App.mcNo + "mcGoodsBean is null, channo=" + channo + "gdNo=" + gdNo));
+
+            return;
+        }
         Glide.with(App.getContext())
                 .load(PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(goodsBean.getGd_img_s()))
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)

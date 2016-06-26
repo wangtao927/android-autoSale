@@ -26,6 +26,7 @@ import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.TermInitResult;
 import com.ys.ui.serial.pos.PosSerialHelper;
 import com.ys.ui.serial.print.activity.PrintHelper;
+import com.ys.ui.serial.salemachine.SerialMachineHelper;
 import com.ys.ui.utils.ToastUtils;
 import com.ys.ui.view.LMRecyclerView;
 
@@ -58,6 +59,10 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
     Button btnSysOut;
     @Bind(R.id.btn_init_serial)
     Button btnInitSerial;
+    @Bind(R.id.btn_clear_saleList)
+    Button btnCleanSaleList;
+//    @Bind(R.id.btn_init_sale)
+//    Button btnInitSale;
 
 
     @Bind(R.id.btn_back)
@@ -91,6 +96,8 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
         btnSysOut.setOnClickListener(this);
         btnBack.setOnClickListener(this);
         btnInitSerial.setOnClickListener(this);
+        btnCleanSaleList.setOnClickListener(this);
+//        btnInitSale.setOnClickListener(this);
         btnCheckUpdate.setOnClickListener(this);
         tvMcNo.setText("终端号：" + App.mcNo);
         loadData();
@@ -148,15 +155,25 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.btn_sys_out:
                 // 退出程序
-//                finish();
-                android.os.Process.killProcess(android.os.Process.myPid());
-
-                System.exit(0);
-                break;
+                finish();
+//                android-serialport.os.Process.killProcess(android.os.Process.myPid());
+//
+//                System.exit(0);
+                // 退出没效果， 抛异常
+                throw new RuntimeException("admin exit system");
+                //break;
             case R.id.btn_init_serial:
 
                 PrintHelper.getInstance().initPrint();
                 break;
+              case R.id.btn_clear_saleList:
+
+                  App.getDaoSession(App.getContext()).getSaleListBeanDao().deleteSaleListBySendStatus();
+                break;
+//              case R.id.btn_init_sale:
+//                  SerialMachineHelper.getInstance().getSerial();
+//
+//                break;
             case R.id.btn_check_update:
                 Beta.checkUpgrade();
                 break;

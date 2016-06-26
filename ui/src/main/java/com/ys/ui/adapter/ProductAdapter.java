@@ -148,6 +148,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
 
             Intent intent = new Intent(context, ProductDetailActivity.class);
             intent.putExtra("gdNo", mcGoodsBean.getGd_no());
+            intent.putExtra("channo", mcGoodsBean.getMg_channo());
+
             context.startActivity(intent);
         }
 

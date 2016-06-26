@@ -56,7 +56,7 @@ public class App extends Application {
     private String minipos_path = "/dev/ttyES0";
 
     private int print_baudrate = 38400;
-    private String print_path = "/dev/ttymxc0";
+    private String print_path = "/dev/ttymxc2";
 
 
     private int sale_baudrate = 19200;

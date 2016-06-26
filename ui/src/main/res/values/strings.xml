@@ -16,7 +16,9 @@
     <string name="back">返回</string>
     <string name="admin">后台</string>
     <string name="reset">重置</string>
-    <string name="init_serila">初始化串口</string>
+    <string name="init_serila">初始化打印机</string>
+    <string name="init_pos">初始化pos</string>
+    <string name="init_sale">初始化售货机</string>
     <string name="backHome">返回首页</string>
     <string name="checkUpdate">检查更新</string>
     <string name="sysout">退出</string>
