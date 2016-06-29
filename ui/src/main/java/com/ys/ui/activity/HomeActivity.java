@@ -174,6 +174,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                     if (bean != null) {
                         Intent detailIntent = new Intent(this, ProductDetailActivity.class);
                         detailIntent.putExtra("gdNo", gdNo);
+                        detailIntent.putExtra("channo", bean.getMg_channo());
 //                        finish();
                         startActivity(detailIntent);
                     }
