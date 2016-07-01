@@ -85,9 +85,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        if (adsList == null) {
+        //if (adsList == null) {
             adsList = App.getDaoSession(App.getContext()).getAdvBeanDao().queryBuilder().where(AdvBeanDao.Properties.Ai_type.eq("1")).list();
-        }
+       // }
         adsStart();
     }
 

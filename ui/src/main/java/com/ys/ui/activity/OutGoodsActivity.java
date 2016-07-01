@@ -212,7 +212,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
     }
     private void transTimeout() {
         try {
-            CrashReport.postCatchedException(new Exception("transTimeout slNo="+slNo +"slType=" + slType));
+            CrashReport.postCatchedException(new Exception("transTimeout slNo="+slNo +"slType=" + slType + " transFinish="+transFinish));
 
             Log.d("transTimeout", "transTimeout slNo="+slNo +"slType=" + slType);
             // 复位
@@ -415,6 +415,11 @@ public class OutGoodsActivity extends SerialMachineActivity {
             try {
                 Log.d("sending thread", "buffer:" + BytesUtil.bytesToHexString(mBuffer));
                 if (mOutputStream != null) {
+                    try {
+                        CrashReport.postCatchedException(new Exception("slNo="+slNo +"slType=" + slType + "-send cmd:" + BytesUtil.bytesToHexString(mBuffer)));
+                    } catch (Exception e) {
+                        CrashReport.postCatchedException(e);
+                    }
                     mOutputStream.write(mBuffer, 0, mBuffer.length);
                 } else {
 
