@@ -72,6 +72,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         btnAbout.setOnClickListener(this);
         btnStatement.setOnClickListener(this);
         btnHelp.setOnClickListener(this);
+        btnShop.setOnClickListener(this);
+        btnSmart.setOnClickListener(this);
         ad.setOnClickListener(this);
         // 如果终端号不存在， 则跳转到设置终端信息界面
         if (!isInit()) {
@@ -180,6 +182,15 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                     }
                 }
                 break;
+            case R.id.btn_shop:
+                startActivity(new Intent(HomeActivity.this, MallWebviewActivity.class));
+                break;
+            case R.id.btn_smart:
+
+                startActivity(new Intent(HomeActivity.this, YsActivity.class));
+
+                break;
+
             default:
                 break;
 

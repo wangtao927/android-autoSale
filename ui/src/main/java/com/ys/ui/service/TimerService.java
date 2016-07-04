@@ -160,11 +160,16 @@ public class TimerService extends Service {
                         if (response.isSuccess()) {
                             // 生成成功  同步数据
                             // 判断数据，并更新
-                            updateInfo(response.getExt_data().getOprcode(), response.getExt_data().getOprdata());
+                            try {
+                                updateInfo(response.getExt_data().getOprcode(), response.getExt_data().getOprdata());
+                            } catch (Exception e) {
+                                Log.e("TimerService", "mcNo:" + mcNo + e.getMessage());
+                                CrashReport.postCatchedException(e);
+                            }
 
                             // 修改交易流水为上报成功
                             try {
-                                Log.d("updateSendStatus", "mcNo:"+ mcNo + saleListBeans.toString());
+                                Log.d("updateSendStatus", "mcNo:" + mcNo + saleListBeans.toString());
                                 DbManagerHelper.updateSendStatus(saleListBeans);
                             } catch (Exception e) {
                                 Log.e("postMcData", App.mcNo + e.getMessage());

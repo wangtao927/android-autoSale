@@ -20,6 +20,7 @@ import com.ys.ui.common.constants.SlPayStatusEnum;
 import com.ys.ui.common.constants.SlSendStatusEnum;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -499,13 +500,21 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
         }
 
     }
+
+    public void updateSendStatusBatch(List<SaleListBean> saleListBeans,  SlSendStatusEnum slSendStatus) {
+          for (SaleListBean saleListBean : saleListBeans) {
+              saleListBean.setSl_send_status(Long.valueOf(slSendStatus.getIndex()));
+          }
+
+        updateInTx(saleListBeans);
+    }
+
     public void updateSendStatus(String slNo, SlSendStatusEnum slSendStatus) {
         SaleListBean saleListBean = App.getDaoSession(App.getContext()).
                 getSaleListBeanDao().queryBuilder().where(Properties.Sl_no.eq(slNo)).unique();
         saleListBean.setSl_send_status(Long.valueOf(slSendStatus.getIndex()));
 
         String sql = "UPDATE salelist SET SL_SEND_STATUS=? where SL_NO =?";
-
         SQLiteStatement stmt = db.compileStatement(sql);
         if (db.isDbLockedByCurrentThread()) {
             synchronized (stmt) {

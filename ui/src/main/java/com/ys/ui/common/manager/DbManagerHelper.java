@@ -269,9 +269,10 @@ public class DbManagerHelper {
 
     public static void updateSendStatus(List<SaleListBean> saleListBeans) {
 
-         for (SaleListBean saleListBean: saleListBeans) {
-             updateSendStatus(saleListBean.getSl_no(), SlSendStatusEnum.FINISH);
-        }
+        App.getDaoSession(App.getContext()).getSaleListBeanDao().updateSendStatusBatch(saleListBeans,  SlSendStatusEnum.FINISH);
+//         for (SaleListBean saleListBean: saleListBeans) {
+//             updateSendStatus(saleListBean.getSl_no(), SlSendStatusEnum.FINISH);
+//        }
     }
 
     public static String getMcNo() {
