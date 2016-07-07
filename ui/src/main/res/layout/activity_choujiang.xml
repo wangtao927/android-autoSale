@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/bg"
+android:orientation="vertical">
+
+<include
+    android:id="@+id/title"
+    layout="@layout/title_bar2" />
+
+<ImageView
+    android:id="@+id/ad"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:layout_below="@+id/title"
+    android:background="@mipmap/adv_2"
+    android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rl_footer"
+        android:layout_below="@id/ad"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:gravity="center" >
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center">
+               <com.ys.ui.view.LuckyPanView
+                   android:id="@+id/id_luckypan"
+                   android:layout_width="fill_parent"
+                   android:layout_height="fill_parent"
+                   android:layout_alignParentTop="true"
+                   android:layout_centerHorizontal="true" />
+
+               <ImageView
+                   android:id="@+id/id_start_btn"
+                   android:src="@mipmap/start"
+                   android:layout_centerVertical="true"
+                   android:layout_centerInParent="true"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   />
+
+           </RelativeLayout>
+
+        </LinearLayout>
+
+<include
+    android:id="@+id/rl_footer"
+    layout="@layout/footer_bar" />
+
+</RelativeLayout>
