@@ -16,17 +16,12 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.ui.R;
-import com.ys.ui.activity.ProductActivity;
 import com.ys.ui.activity.ProductDetailActivity;
-import com.ys.ui.base.App;
 import com.ys.ui.common.constants.ChanStatusEnum;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.utils.ImageUtils;
 import com.ys.ui.utils.NumberUtils;
 import com.ys.ui.utils.PropertyUtils;
-import com.ys.ui.utils.ToastUtils;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

@@ -8,14 +8,14 @@
 
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="1220dp"
     android:background="@color/bg_deep"
     android:orientation="vertical">
 
     <include
         android:id="@+id/title"
         layout="@layout/title_bar2" />
-    <LinearLayout
+   <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@color/bg_btn">
@@ -32,6 +32,64 @@
             android:text="用药人群分类"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
+
+    </LinearLayout>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="480dp"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="10dp"
+        >
+
+        <ImageView
+            android:id="@+id/iv_cryy"
+            android:src="@mipmap/cryy"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />
+
+        <ImageView
+            android:id="@+id/iv_etyy"
+            android:src="@mipmap/etyy"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="480dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
+        >
+
+        <ImageView
+            android:id="@+id/iv_nxyy"
+            android:src="@mipmap/nxyy"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            />
+
+        <ImageView
+            android:id="@+id/iv_nryy"
+            android:src="@mipmap/nryy"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />
 
     </LinearLayout>
 

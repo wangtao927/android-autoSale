@@ -29,11 +29,12 @@
             android:src="@mipmap/saleout" />
         <TextView
             android:id="@+id/no"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:background="@drawable/circle_red"
             android:gravity="center_horizontal"
+            android:textSize="24dp"
             android:text="11"
             android:textColor="@color/white" />
 
@@ -50,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="￥129.00"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textColor="@color/red" />
 
         <ImageView
@@ -68,6 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
+        android:textSize="24sp"
         android:text="商品"
         android:textColor="@color/white" />
 </LinearLayout>

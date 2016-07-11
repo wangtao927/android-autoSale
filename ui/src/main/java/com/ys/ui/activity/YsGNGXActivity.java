@@ -3,10 +3,22 @@ package com.ys.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.SimpleAdapter;
 
 import com.ys.ui.R;
+import com.ys.ui.adapter.GngxGridAdaper;
 import com.ys.ui.base.BaseTimerActivity;
+import com.ys.ui.common.constants.GngxEnum;
+import com.ys.ui.utils.ToastUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -16,6 +28,23 @@ import butterknife.ButterKnife;
 public class YsGNGXActivity extends BaseTimerActivity implements View.OnClickListener {
 
 
+    @Bind(R.id.gridView)
+    GridView gridView;
+
+    private List<Map<String, Object>> data_list;
+    SimpleAdapter simpleAdapter;
+
+    private int[] images = new int[]{
+            R.mipmap.zibuyangsheng, R.mipmap.ydfs, R.mipmap.yybj, R.mipmap.yybj,
+            R.mipmap.wgyy, R.mipmap.qqsh, R.mipmap.cwyy, R.mipmap.cwyy,
+            R.mipmap.hxxt, R.mipmap.mzhl, R.mipmap.qrjd, R.mipmap.qrjd
+    };
+
+    private int[] ids = new int[] {
+            GngxEnum.ZIBUYANGSHENG.getId(), GngxEnum.YDFS.getId(), GngxEnum.YYBJ.getId(),GngxEnum.YLQX.getId(),
+            GngxEnum.WGYY.getId(), GngxEnum.QQSH.getId(), GngxEnum.CWYY.getId(), GngxEnum.GMYY.getId(),
+            GngxEnum.HXXT.getId(), GngxEnum.MZHL.getId(), GngxEnum.QRJD.getId(),  GngxEnum.PFYY.getId(),
+    };
 
     @Override
     protected int getLayoutId() {
@@ -25,8 +54,39 @@ public class YsGNGXActivity extends BaseTimerActivity implements View.OnClickLis
     @Override
     protected void create(Bundle savedInstanceState) {
 
+        data_list = new ArrayList<>();
+        getData();
 
+        String[] from ={"image", "id"};
+        int[] to = {R.id.iv_gngx, R.id.tv_id};
+
+        simpleAdapter = new SimpleAdapter(this, data_list, R.layout.level2_gngx_item, from, to);
+
+        gridView.setAdapter(simpleAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Map<String, Object> map = data_list.get(position);
+                ToastUtils.showShortMessage(map.get("image") + "--" + map.get("id").toString());
+
+
+            }
+        });
     }
+
+    public List<Map<String, Object>> getData(){
+        //cion和iconName的长度是相同的，这里任选其一都可以
+        for(int i=0;i<images.length;i++){
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("image", images[i]);
+            map.put("id", ids[i]);
+            data_list.add(map);
+        }
+
+        return data_list;
+    }
+
+
 
     @Override
     public void onClick(View v) {

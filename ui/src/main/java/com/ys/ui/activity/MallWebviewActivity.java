@@ -6,16 +6,19 @@ import android.webkit.WebViewClient;
 
 import com.ys.ui.R;
 import com.ys.ui.base.BaseActivity;
+import com.ys.ui.base.BaseTimerActivity;
 
 import butterknife.Bind;
 
 /**
  * Created by wangtao on 2016/7/1.
  */
-public class MallWebviewActivity extends BaseActivity {
+public class MallWebviewActivity extends BaseTimerActivity {
 
     @Bind(R.id.webView)
    WebView webView;
+
+    int minute = 5;
 
     @Override
     protected int getLayoutId() {
@@ -25,7 +28,13 @@ public class MallWebviewActivity extends BaseActivity {
     @Override
     protected void create(Bundle savedInstanceState) {
 
-        webView.loadUrl("http://www.baidu.com");
+        webView.loadUrl("http://www.bayyw.com/app/index.html");
+       // webView.loadUrl("http://www.baidu.com");
+
+        webView.getSettings().setSupportZoom(true);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setAllowFileAccess(true);
+        webView.getSettings().setJavaScriptEnabled(true);
 
         webView.setWebViewClient(new WebViewClient() {
             @Override

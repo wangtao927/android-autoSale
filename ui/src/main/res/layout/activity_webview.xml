@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/linearLayout1"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/bg_deep"
+android:orientation="vertical">
+
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:gravity="center">
-    <WebView
+    android:background="@color/bg_deep"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_bar2" />
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/webView"
-        />
+        android:layout_height="1020dp">
+        <WebView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_x="0.0dip"
+            android:layout_y="0.0dip"
+            android:layout_weight="1.0"
+            android:id="@+id/webView"
+            />
+
+    </LinearLayout>
+
 
 </LinearLayout>
+
+<include
+    android:id="@+id/rl_footer"
+    layout="@layout/footer_bar" />
+</RelativeLayout>

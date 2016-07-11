@@ -47,7 +47,8 @@ public class YsActivity extends BaseTimerActivity implements View.OnClickListene
             case R.id.iv_ys1:
                 // 名厂名药
                 finish();
-                startActivity(new Intent(this, YsMCMYActivity.class));
+//                startActivity(new Intent(this, YsMCMYActivity.class));
+                startActivity(new Intent(this, YsDetailActivity.class));
 
                 break;
             case R.id.iv_ys2:
@@ -57,15 +58,16 @@ public class YsActivity extends BaseTimerActivity implements View.OnClickListene
 
                 break;
             case R.id.iv_ys3:
-                // 功效症状
                 finish();
-                startActivity(new Intent(this, YsGNGXActivity.class));
+                // 人体部位
+                startActivity(new Intent(this, YsRTBWActivity.class));
 
                 break;
             case R.id.iv_ys4:
                 finish();
-                // 人体部位
-                startActivity(new Intent(this, YsRTBWActivity.class));
+                // 功效症状
+
+                startActivity(new Intent(this, YsGNGXActivity.class));
                 break;
             default:
                 break;

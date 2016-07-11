@@ -8,7 +8,7 @@
 
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/bg_deep"
     android:orientation="vertical">
 
@@ -17,12 +17,11 @@
         layout="@layout/title_bar2" />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="480dp"
         android:orientation="horizontal"
-        android:layout_weight="1"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="10dp"
         >
 
@@ -30,7 +29,8 @@
             android:id="@+id/iv_ys1"
             android:src="@mipmap/ys1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
             android:layout_weight="1"
             />
 
@@ -39,27 +39,30 @@
             android:src="@mipmap/ys2"
             android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+
             />
 
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="480dp"
         android:orientation="horizontal"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
-        android:layout_weight="1"
+
         >
 
         <ImageView
             android:id="@+id/iv_ys3"
             android:src="@mipmap/ys3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:scaleType="fitXY"
 
             />
 
@@ -67,7 +70,8 @@
             android:id="@+id/iv_ys4"
             android:src="@mipmap/ys4"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
             android:layout_weight="1"
             />
 

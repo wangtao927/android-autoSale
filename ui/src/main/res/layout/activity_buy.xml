@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/ll_buy"
         android:layout_centerHorizontal="true"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:text="请直接点击药品图片购买或输入商品编码购买！"
         android:textColor="@color/white" />
 

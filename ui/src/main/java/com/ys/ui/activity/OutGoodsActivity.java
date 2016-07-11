@@ -91,7 +91,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
         mSendingThread = new SendingThread();
         mSendingThread.start();
 
-        initTimer(2,0);
+        initTimer(1,0);
 
     }
 

@@ -36,13 +36,18 @@
 
     </LinearLayout>
 
-    <LinearLayout
+
+
+    <GridView
+        android:id="@+id/gridView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bg">
-
-
-    </LinearLayout>
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginRight="28dp"
+        android:numColumns="4"
+        android:stretchMode="columnWidth" >
+     </GridView>
 
 </LinearLayout>
 

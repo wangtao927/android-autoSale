@@ -112,13 +112,18 @@
             android:label="首页"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
- <activity
+       <activity
             android:name=".activity.MallWebviewActivity"
             android:label="首页"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.YsActivity"
+            android:label="智能药师"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.YsDetailActivity"
             android:label="智能药师"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
