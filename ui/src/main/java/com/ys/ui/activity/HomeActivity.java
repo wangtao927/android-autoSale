@@ -193,8 +193,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
                 break;
             case R.id.btn_member:
-                startActivity(new Intent(HomeActivity.this, ZhuanPanActivity.class));
-                //ToastUtils.showShortMessage("敬请期待");
+               // startActivity(new Intent(HomeActivity.this, ZhuanPanActivity.class));
+                ToastUtils.showShortMessage("敬请期待");
 
                 break;
             default:

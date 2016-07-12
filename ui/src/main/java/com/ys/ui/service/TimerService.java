@@ -170,11 +170,18 @@ public class TimerService extends Service {
                             // 修改交易流水为上报成功
                             try {
                                 Log.d("updateSendStatus", "mcNo:" + mcNo + saleListBeans.toString());
-                                DbManagerHelper.updateSendStatus(saleListBeans);
+                                if (saleListBeans != null  && !saleListBeans.isEmpty()) {
+                                    DbManagerHelper.updateSendStatus(saleListBeans);
+
+                                }
                             } catch (Exception e) {
                                 Log.e("postMcData", App.mcNo + e.getMessage());
                                 CrashReport.postCatchedException(e);
                             }
+                        } else {
+
+                            CrashReport.postCatchedException(new Exception(response.toString()));
+
                         }
 
 
