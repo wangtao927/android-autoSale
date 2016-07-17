@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.tencent.bugly.crashreport.CrashReport;
 import com.ys.SerialPortFinder;
@@ -22,11 +20,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import android_serialport_api.SerialPort;
 
@@ -102,12 +96,12 @@ public class PrintHelper {
     }
 
 
-    public void getStatus() {
-        InitCom();
-        byte SendBuf[]={0X10, 0X04, 0x01};
-        SendData(SendBuf);
-
-    }
+//    public void getStatus() {
+//        InitCom();
+//        byte SendBuf[]={0X10, 0X04, 0x01};
+//        SendData(SendBuf);
+//
+//    }
 
     private void InitCom() {
         mApplication = (App) App.getContext();
@@ -139,20 +133,6 @@ public class PrintHelper {
         }
     }
 
-    static Map<Integer, Byte> map = new HashMap<>();
-    static {
-        map.put(50, (byte)0x30);
-        map.put(51, (byte)0x31);
-        map.put(52, (byte)0x32);
-        map.put(53, (byte)0x33);
-        map.put(54, (byte)0x34);
-        map.put(55, (byte)0x35);
-        map.put(56, (byte)0x36);
-        map.put(57, (byte)0x37);
-        map.put(58, (byte)0x38);
-        map.put(59, (byte)0x39);
-
-    }
     private void printCode39() {
         byte SendBuf[]={0X0D, 0X0A, 0X1D, 0X48, 0X02, 0X1D, 0X68, (byte) 0X80, 0X1D, 0X77, 0X02, 0X1D, 0X6B, 0X45, 0X09,
                 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0X0D, 0X0A};
@@ -174,8 +154,7 @@ public class PrintHelper {
             SendData(send);
 
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+
             CrashReport.postCatchedException(e);
 
         }
@@ -193,6 +172,8 @@ public class PrintHelper {
                 if (mOutputStream != null) {
                     mOutputStream.write(bytedata);
                 } else {
+
+                    Log.e("mOutputStream is null", App.mcNo );
                 }
             } catch (IOException e) {
                 Log.e("print SendData", App.mcNo + e.getMessage());
@@ -264,7 +245,7 @@ public class PrintHelper {
         //提交当前数据
         editor.commit();
 
-        ToastUtils.showShortMessage(new String(buffer));
+       // ToastUtils.showShortMessage(new String(buffer));
     }
 
 

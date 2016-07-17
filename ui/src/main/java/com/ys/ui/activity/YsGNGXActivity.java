@@ -35,9 +35,9 @@ public class YsGNGXActivity extends BaseTimerActivity implements View.OnClickLis
     SimpleAdapter simpleAdapter;
 
     private int[] images = new int[]{
-            R.mipmap.zibuyangsheng, R.mipmap.ydfs, R.mipmap.yybj, R.mipmap.yybj,
-            R.mipmap.wgyy, R.mipmap.qqsh, R.mipmap.cwyy, R.mipmap.cwyy,
-            R.mipmap.hxxt, R.mipmap.mzhl, R.mipmap.qrjd, R.mipmap.qrjd
+            R.mipmap.zibuyangsheng, R.mipmap.ydfs, R.mipmap.yybj, R.mipmap.ylqx,
+            R.mipmap.wgyy, R.mipmap.qqsh, R.mipmap.cwyy, R.mipmap.gmyy,
+            R.mipmap.hxxt, R.mipmap.mzhl, R.mipmap.qrjd, R.mipmap.pfyy
     };
 
     private int[] ids = new int[] {
@@ -67,8 +67,14 @@ public class YsGNGXActivity extends BaseTimerActivity implements View.OnClickLis
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Map<String, Object> map = data_list.get(position);
+
                 ToastUtils.showShortMessage(map.get("image") + "--" + map.get("id").toString());
 
+                finish();
+                Intent intent = new Intent(YsGNGXActivity.this, YsDetailActivity.class);
+                intent.putExtra("index", (int)(map.get("id")));
+                intent.putExtra("desc", GngxEnum.findParamById((int)map.get("id")).getDesc());
+                startActivity(intent);
 
             }
         });
@@ -91,6 +97,7 @@ public class YsGNGXActivity extends BaseTimerActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
 
             default:
                 break;

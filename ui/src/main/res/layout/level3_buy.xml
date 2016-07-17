@@ -13,13 +13,17 @@
     <LinearLayout
         android:id="@+id/ly_topcontent"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:layout_below="@+id/title"
-        android:orientation="vertical">
-
+        android:orientation="horizontal">
+        <com.ys.ui.view.WordWrapView
+            android:id="@+id/view_wordwrap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            />
     </LinearLayout>
 
-    <!--名厂名药-->
 
     <LinearLayout
         android:layout_width="match_parent"

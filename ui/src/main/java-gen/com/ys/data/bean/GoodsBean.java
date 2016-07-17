@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Entity mapped to table goods.
  */
-public class GoodsBean implements Serializable {
+public class GoodsBean  implements Serializable  {
 
     private String gd_no;
     private String gd_code;
@@ -45,6 +45,7 @@ public class GoodsBean implements Serializable {
     private String remark;
     private String addtime;
     private String updatetime;
+    private String gd_keyword;
 
     public GoodsBean() {
     }
@@ -53,7 +54,7 @@ public class GoodsBean implements Serializable {
         this.gd_no = gd_no;
     }
 
-    public GoodsBean(String gd_no, String gd_code, String gd_short_name, String gd_name, String gd_type, String gd_ty_class, String gd_pm_class, String gd_nm_class, String gd_approve_code, String gd_spec, String gd_brand, String gd_manufacturer, String gd_saleunit, String gd_barcode, Long gd_sale_price, Long gd_disc_price, Long gd_vip_price, Long gd_score_price, Long gd_supplier, String gd_img1, String gd_img2, String gd_img3, String gd_img4, String gd_img_s, String gd_instruction_file, String gd_desc, String gd_url, String gd_desc1, String gd_desc2, String gd_desc3, String gd_desc4, String gd_desc5, String mer_no, String remark, String addtime, String updatetime) {
+    public GoodsBean(String gd_no, String gd_code, String gd_short_name, String gd_name, String gd_type, String gd_ty_class, String gd_pm_class, String gd_nm_class, String gd_approve_code, String gd_spec, String gd_brand, String gd_manufacturer, String gd_saleunit, String gd_barcode, Long gd_sale_price, Long gd_disc_price, Long gd_vip_price, Long gd_score_price, Long gd_supplier, String gd_img1, String gd_img2, String gd_img3, String gd_img4, String gd_img_s, String gd_instruction_file, String gd_desc, String gd_url, String gd_desc1, String gd_desc2, String gd_desc3, String gd_desc4, String gd_desc5, String mer_no, String remark, String addtime, String updatetime, String gd_keyword) {
         this.gd_no = gd_no;
         this.gd_code = gd_code;
         this.gd_short_name = gd_short_name;
@@ -90,6 +91,7 @@ public class GoodsBean implements Serializable {
         this.remark = remark;
         this.addtime = addtime;
         this.updatetime = updatetime;
+        this.gd_keyword = gd_keyword;
     }
 
     public String getGd_no() {
@@ -378,6 +380,14 @@ public class GoodsBean implements Serializable {
 
     public void setUpdatetime(String updatetime) {
         this.updatetime = updatetime;
+    }
+
+    public String getGd_keyword() {
+        return gd_keyword;
+    }
+
+    public void setGd_keyword(String gd_keyword) {
+        this.gd_keyword = gd_keyword;
     }
 
 }

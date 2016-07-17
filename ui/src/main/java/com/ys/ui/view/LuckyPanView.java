@@ -37,8 +37,8 @@ public class LuckyPanView extends SurfaceView implements Callback, Runnable
 	/**
 	 * 抽奖的文字
 	 */
-	private String[] mStrs = new String[]{"100块", "50块", "恭喜发财", "10块",
-			"恭喜发财", "5块", "恭喜发财", "5块"};
+	private String[] mStrs = new String[]{"再来一次", "50积分", "一等奖获2000积分", "再来一次",
+			"三等奖获500积分", "再来一次", "二等奖获1000积分", "100积分"};
 	/**
 	 * 每个盘块的颜色
 	 */

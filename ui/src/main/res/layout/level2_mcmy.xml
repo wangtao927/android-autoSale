@@ -35,6 +35,129 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        >
+
+        <ImageView
+            android:id="@+id/iv_mcmy1"
+            android:src="@mipmap/mcmy1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />
+
+        <ImageView
+            android:id="@+id/iv_mcmy2"
+            android:src="@mipmap/mcmy2"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            />
+        <ImageView
+            android:id="@+id/iv_mcmy3"
+            android:src="@mipmap/mcmy3"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            />
+        <ImageView
+            android:id="@+id/iv_mcmy4"
+            android:src="@mipmap/mcmy4"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
+        >
+
+        <ImageView
+            android:id="@+id/iv_mcmy5"
+            android:src="@mipmap/mcmy5"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            />
+        <ImageView
+            android:id="@+id/iv_mcmy6"
+            android:src="@mipmap/mcmy6"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            />
+        <ImageView
+            android:id="@+id/iv_mcmy7"
+            android:src="@mipmap/mcmy7"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            />
+        <ImageView
+            android:id="@+id/iv_mcmy8"
+            android:src="@mipmap/mcmy8"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_below="@+id/ly_topcontent"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/ib_pre_page"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:layout_weight="1"
+            android:src="@mipmap/page_pre" />
+        <com.ys.ui.view.LMRecyclerView
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="4"
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false" />
+        <ImageButton
+            android:id="@+id/ib_next_page"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:src="@mipmap/page_next" />
+
+
+    </LinearLayout>
+
 </LinearLayout>
 
     <include

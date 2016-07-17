@@ -43,9 +43,9 @@ public abstract class SerialMachineActivity extends Activity {
 	protected OutputStream mOutputStream;
 	private InputStream mInputStream;
 	ReadThread mReadThread;
-	protected int baudrate  = 19200;
+	//protected int baudrate  = 19200;
 
-	protected String path = "/dev/ttyES1";
+	//protected String path = "/dev/ttyES1";
 
 	boolean begin = false;
 	boolean end = false;

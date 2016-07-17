@@ -7,32 +7,32 @@ import com.ys.ui.R;
  */
 public enum RtbwEnum {
 
-    TOU(11, "头"),
-    JIN(12, "颈"),
+    TOU(111, "头"),
+    JIN(112, "颈"),
 
-    XIONG(21, "胸"),
-    FU(22, "腹"),
+    XIONG(121, "胸"),
+    FU(122, "腹"),
 
-    SIZHI(31, "四肢"),
-    SZQ(32, "生殖器"),
+    SIZHI(131, "四肢"),
+    SZQ(132, "生殖器"),
 
-    BEI(41, "背"),
-    YAOTUN(42, "腰臀部"),
+    BEI(141, "背"),
+    YAOTUN(142, "腰臀部"),
 
-    XINZANG(51, "心脏"),
-    FEI(52, "肺"),
+    XINZANG(151, "心脏"),
+    FEI(152, "肺"),
 
-    SHENGZANG(61, "肾脏"),
-    DACHANG(62, "大肠"),
+    SHENGZANG(161, "肾脏"),
+    DACHANG(162, "大肠"),
 
-    XIAOCHANG(71, "小肠"),
-    PANGGUANG(72, "膀胱"),
+    XIAOCHANG(171, "小肠"),
+    PANGGUANG(172, "膀胱"),
 
-    PIZANG(81, "脾脏"),
-    GANZANG(82, "肝脏"),
+    PIZANG(181, "脾脏"),
+    GANZANG(182, "肝脏"),
 
-    DAN(91, "胆"),
-    WEI(92, "胃"),
+    DAN(191, "胆"),
+    WEI(192, "胃"),
 
 
     ;
@@ -63,7 +63,7 @@ public enum RtbwEnum {
         this.id = id;
     }
 
-    public RtbwEnum findParamById(int id) {
+    public static RtbwEnum findParamById(int id) {
         for (RtbwEnum param: RtbwEnum.values()) {
             if (param.getId() == id) {
                 return param;

@@ -14,7 +14,7 @@ import de.greenrobot.dao.identityscope.IdentityScopeType;
  * Master of DAO (schema version 1): knows all DAOs.
 */
 public class DaoMaster extends AbstractDaoMaster {
-    public static final int SCHEMA_VERSION = 1;
+    public static final int SCHEMA_VERSION = 2; // 数据库升级
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(SQLiteDatabase db, boolean ifNotExists) {
@@ -63,9 +63,12 @@ public class DaoMaster extends AbstractDaoMaster {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            // 商品表添加字段
             Log.i("greenDAO", "Upgrading schema from version " + oldVersion + " to " + newVersion + " by dropping all tables");
-            dropAllTables(db, true);
-            onCreate(db);
+             if (oldVersion!=newVersion) {
+                 db.execSQL("ALTER TABLE goods ADD COLUMN GD_KEYWORD TEXT");
+             }
+            //onCreate(db);
         }
     }
 

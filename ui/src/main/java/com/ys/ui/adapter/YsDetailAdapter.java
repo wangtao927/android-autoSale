@@ -2,6 +2,7 @@ package com.ys.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -66,14 +67,17 @@ public class YsDetailAdapter extends RecyclerView.Adapter<YsDetailAdapter.Holder
                     .load(url).fitCenter()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(holder.productIcon);
-        holder.productName.setText(goodsBean.getGd_short_name());
+        // 简称 +  用法用量
+            holder.productName.setText(goodsBean.getGd_short_name() + goodsBean.getGd_desc3());
+
+            holder.tvDesc.setText(goodsBean.getGd_pm_class());
 
             holder.tvPrice.setText("￥"+NumberUtils.m2(goodsBean.getGd_sale_price() * 0.01));
 
-
-
-
-
+            if (DbManagerHelper.getOutGoods(goodsBean.getGd_no()) == null) {
+                holder.btBuyNow.setBackgroundColor(Color.GRAY);
+                holder.btBuyNow.setClickable(false);
+            }
     }
 
     @Override
@@ -89,6 +93,8 @@ public class YsDetailAdapter extends RecyclerView.Adapter<YsDetailAdapter.Holder
         @Bind(R.id.tv_pname)
         TextView productName;
 
+        @Bind(R.id.tv_desc)
+        TextView tvDesc;
 
         @Bind(R.id.tv_price)
         TextView tvPrice;

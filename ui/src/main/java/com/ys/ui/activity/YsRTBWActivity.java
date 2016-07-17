@@ -75,7 +75,11 @@ public class YsRTBWActivity extends BaseTimerActivity {
                 Map<String, Object> map = data_list.get(position);
                 ToastUtils.showShortMessage(map.get("image") + "--" + map.get("id").toString());
 
-
+                finish();
+                Intent intent = new Intent(YsRTBWActivity.this, YsDetailActivity.class);
+                intent.putExtra("index", (int)(map.get("id")));
+                intent.putExtra("desc", RtbwEnum.findParamById((int)map.get("id")).getDesc());
+                startActivity(intent);
             }
         });
     }

@@ -10,6 +10,7 @@ import com.ys.data.bean.McParamsBean;
 import com.ys.data.bean.McStatusBean;
 import com.ys.data.bean.McStoreUpdateVO;
 import com.ys.data.bean.SaleListBean;
+import com.ys.data.dao.GoodsBeanDao;
 import com.ys.data.dao.McGoodsBeanDao;
 import com.ys.data.dao.McStatusBeanDao;
 import com.ys.data.dao.SaleListBeanDao;
@@ -285,6 +286,11 @@ public class DbManagerHelper {
         App.getDaoSession(App.getContext()).getMcGoodsBeanDao().clearChanStatus(lists);
 
         updateMcStatusChannAll();
+    }
+
+    public static List<GoodsBean> queryGoodsByKeyword(String keyword) {
+
+        return App.getDaoSession(App.getContext()).getGoodsBeanDao().queryBuilder().where(GoodsBeanDao.Properties.Gd_keyword.like("%"+keyword+"%")).list();
     }
 
 }

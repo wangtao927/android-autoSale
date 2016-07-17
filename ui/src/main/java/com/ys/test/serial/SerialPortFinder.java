@@ -50,6 +50,7 @@ public class SerialPortFinder {
 			}
 			return mDevices;
 		}
+
 		public String getName() {
 			return mDriverName;
 		}

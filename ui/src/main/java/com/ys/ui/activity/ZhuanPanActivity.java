@@ -31,8 +31,20 @@ public class ZhuanPanActivity extends Activity
 			{
 				if (!mLuckyPanView.isStart())
 				{
-					mStartBtn.setImageResource(R.mipmap.stop);
+					//mStartBtn.setImageResource(R.mipmap.stop);
 					mLuckyPanView.luckyStart(1);
+
+					try {
+						Thread.sleep(4000);
+						if (!mLuckyPanView.isShouldEnd())
+
+						{
+							mStartBtn.setImageResource(R.mipmap.start);
+							mLuckyPanView.luckyEnd();
+						}
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				} else
 				{
 					if (!mLuckyPanView.isShouldEnd())

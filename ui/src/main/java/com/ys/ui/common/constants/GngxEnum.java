@@ -51,7 +51,7 @@ public enum GngxEnum {
         this.id = id;
     }
 
-    public GngxEnum findParamById(int id) {
+    public static GngxEnum findParamById(int id) {
         for (GngxEnum param: GngxEnum.values()) {
             if (param.getId() == id) {
                 return param;

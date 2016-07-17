@@ -48,7 +48,7 @@ public class YsActivity extends BaseTimerActivity implements View.OnClickListene
                 // 名厂名药
                 finish();
 //                startActivity(new Intent(this, YsMCMYActivity.class));
-                startActivity(new Intent(this, YsDetailActivity.class));
+                startActivity(new Intent(this, YsMCMYActivity.class));
 
                 break;
             case R.id.iv_ys2:
