@@ -8,6 +8,8 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.text.Layout;
+import android.text.StaticLayout;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -154,6 +156,8 @@ public class LuckyPanView extends SurfaceView implements Callback, Runnable
 		mTextPaint = new Paint();
 		mTextPaint.setColor(0xFFffffff);
 		mTextPaint.setTextSize(mTextSize);
+
+		mTextPaint.setTextAlign(Paint.Align.CENTER);
 		// 圆弧的绘制范围
 		mRange = new RectF(getPaddingLeft(), getPaddingLeft(), mRadius
 				+ getPaddingLeft(), mRadius + getPaddingLeft());
@@ -340,6 +344,7 @@ public class LuckyPanView extends SurfaceView implements Callback, Runnable
 		// 利用水平偏移让文字居中
 		float hOffset = (float) (mRadius * Math.PI / mItemCount / 2 - textWidth / 2);// 水平偏移
 		float vOffset = mRadius / 2 / 3;// 垂直偏移
+
 		mCanvas.drawTextOnPath(string, path, hOffset, vOffset, mTextPaint);
 	}
 

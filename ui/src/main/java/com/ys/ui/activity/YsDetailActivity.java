@@ -73,16 +73,16 @@ public class YsDetailActivity extends BaseTimerActivity implements LMRecyclerVie
         int index = datas.getInt("index");
         //String desc = datas.getString("desc");
         List<YsDetailView> list =  YsConstants.getListView(index);
-        GradientDrawable drawable = new GradientDrawable();
-        drawable.setShape(GradientDrawable.RECTANGLE); // 画框
-        drawable.setStroke(1, getResources().getColor(R.color.bg_btn)); // 边框粗细及颜色
+
        // drawable.setColor(getResources().getColor(R.color.bg)); // 边框内部颜色
         Button button ;
         for (YsDetailView detailView : list) {
             button = new Button(this);
             button.setText(detailView.getDesc());
-            button.setBackgroundDrawable(drawable);
-
+            GradientDrawable drawable = new GradientDrawable();
+            drawable.setShape(GradientDrawable.RECTANGLE); // 画框
+            drawable.setStroke(1, getResources().getColor(R.color.bg_btn)); // 边框粗细及颜色
+            button.setBackground(drawable);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

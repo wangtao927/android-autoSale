@@ -18,7 +18,6 @@ android:orientation="vertical">
     android:background="@mipmap/adv_2"
     android:scaleType="fitXY" />
 
-
            <RelativeLayout
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
@@ -45,15 +44,38 @@ android:orientation="vertical">
            </RelativeLayout>
  <LinearLayout
      android:id="@+id/ly_gz"
-     android:layout_above="@+id/rl_footer"
+     android:layout_above="@+id/ly_gedesc"
      android:layout_width="match_parent"
-     android:layout_height="100dp">
+     android:layout_height="100dp"
+     android:gravity="center_horizontal">
      <TextView
          android:text="抽奖规则"
+         android:textSize="30dp"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content" />
 
  </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ly_gedesc"
+        android:layout_above="@+id/rl_footer"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/white"
+        android:gravity="left">
+        <TextView
+            android:text="1. 顾客可凭博爱智谷自助终端消费小票上的'订单编号'参与会员抽奖活动，有机会\n
+            获得高额的会员积分\n
+            2. 抽奖中所获得会员积分将自动记入您的会员卡\n
+            3. 会员积分可在博爱商城中按照会员积分使用规则进行商品换购\n
+            "
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 <include
     android:id="@+id/rl_footer"
