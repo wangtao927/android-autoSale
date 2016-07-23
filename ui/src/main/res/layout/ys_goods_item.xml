@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_item"
     android:layout_width="match_parent"
@@ -8,69 +7,85 @@
     android:gravity="center"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        >
-
-        <ImageView
-            android:id="@+id/iv_picon"
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:scaleType="fitXY"
-            android:src="@mipmap/p" />
-    </LinearLayout>
-
-
-
-    <LinearLayout
+        android:id="@+id/ly_item"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:layout_weight="1"
-        android:layout_marginTop="5dp">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_pname"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textSize="20sp"
-            android:text="商品"
-            android:textColor="@color/white" />
-        <TextView
-            android:id="@+id/tv_desc"
-            android:layout_width="wrap_content"
+            >
+
+            <ImageView
+                android:id="@+id/iv_picon"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/p" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textSize="20sp"
-            android:text="商品描述"
-            android:textColor="@color/white" />
-       <LinearLayout
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:orientation="horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp">
 
-           <TextView
-               android:id="@+id/tv_price"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="￥129.00"
-               android:textSize="20sp"
-               android:textColor="@color/red" />
-           <Button
-               android:id="@+id/btn_buynow"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:background="@color/yellow"
-               android:text="点击购买"/>
-       </LinearLayout>
+            <TextView
+                android:id="@+id/tv_pname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="20sp"
+                android:text="商品"
+                android:background="@color/red"
+                android:textColor="@color/white" />
+            <TextView
+                android:id="@+id/tv_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="20sp"
+                android:text="商品描述"
+                android:textColor="@color/white" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="￥129.00"
+                    android:textSize="26sp"
+                    android:textColor="@color/red" />
+                <Button
+                    android:id="@+id/btn_buynow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/yellow"
+                    android:textSize="26sp"
+                    android:text="点击购买"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
 
     </LinearLayout>
 
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/ly_item"
+        android:background="@color/bg_btn" />
 </LinearLayout>

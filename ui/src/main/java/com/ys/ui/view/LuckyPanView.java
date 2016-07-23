@@ -4,8 +4,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.text.Layout;
@@ -39,8 +42,10 @@ public class LuckyPanView extends SurfaceView implements Callback, Runnable
 	/**
 	 * 抽奖的文字
 	 */
-	private String[] mStrs = new String[]{"再来一次", "50积分", "一等奖获2000积分", "再来一次",
-			"三等奖获500积分", "再来一次", "二等奖获1000积分", "100积分"};
+//	private String[] mStrs = new String[]{ "再来一次", "2000积分", "100积分", "再来一次",
+//			"1000积分", "500积分", "再来一次", "50积分"};
+	private String[] mStrs = new String[]{ "", "", "", "",
+			"", "", "", ""};
 	/**
 	 * 每个盘块的颜色
 	 */
@@ -49,14 +54,15 @@ public class LuckyPanView extends SurfaceView implements Callback, Runnable
 	/**
 	 * 与文字对应的图片
 	 */
-//	private int[] mImgs = new int[] { R.drawable.danfan, R.drawable.ipad,
-//			R.drawable.f040, R.drawable.iphone, R.drawable.meizi,
-//			R.drawable.f040 };
+	private int[] mImgs = new int[] {R.mipmap.onemoretime, R.mipmap.draw_1,
+			R.mipmap.score100,  R.mipmap.onemoretime,
+			R.mipmap.draw_2, R.mipmap.draw_3,
+          R.mipmap.onemoretime,R.mipmap.score50, };
 
 	/**
 	 * 与文字对应图片的bitmap数组
 	 */
-	//private Bitmap[] mImgsBitmap;
+	private Bitmap[] mImgsBitmap;
 	/**
 	 * 盘块的个数
 	 */
@@ -121,8 +127,9 @@ public class LuckyPanView extends SurfaceView implements Callback, Runnable
 		mHolder.addCallback(this);
 
 		// setZOrderOnTop(true);// 设置画布 背景透明
-		// mHolder.setFormat(PixelFormat.TRANSLUCENT);
-
+//		 mHolder.setFormat(PixelFormat.TRANSLUCENT);
+//
+		mHolder.setSizeFromLayout();
 		setFocusable(true);
 		setFocusableInTouchMode(true);
 		this.setKeepScreenOn(true);
@@ -154,21 +161,22 @@ public class LuckyPanView extends SurfaceView implements Callback, Runnable
 		mArcPaint.setDither(true);
 		// 初始化绘制文字的画笔
 		mTextPaint = new Paint();
-		mTextPaint.setColor(0xFFffffff);
+		//mTextPaint.setColor(getResources().getColor(R.color.bg));
 		mTextPaint.setTextSize(mTextSize);
 
 		mTextPaint.setTextAlign(Paint.Align.CENTER);
+
 		// 圆弧的绘制范围
 		mRange = new RectF(getPaddingLeft(), getPaddingLeft(), mRadius
 				+ getPaddingLeft(), mRadius + getPaddingLeft());
 
 		// 初始化图片
-//		mImgsBitmap = new Bitmap[mItemCount];
-//		for (int i = 0; i < mItemCount; i++)
-//		{
-//			mImgsBitmap[i] = BitmapFactory.decodeResource(getResources(),
-//					mImgs[i]);
-//		}
+		mImgsBitmap = new Bitmap[mItemCount];
+		for (int i = 0; i < mItemCount; i++)
+		{
+			mImgsBitmap[i] = BitmapFactory.decodeResource(getResources(),
+					mImgs[i]);
+		}
 
 		// 开启线程
 		isRunning = true;
@@ -208,21 +216,6 @@ public class LuckyPanView extends SurfaceView implements Callback, Runnable
 
 	}
 
-	private void loopDraw() {
-		while (isRunning) {
-			long start = System.currentTimeMillis();
-			draw();
-			long end = System.currentTimeMillis();
-			try {
-				if (end - start < 50) {
-					Thread.sleep(50 - (end - start));
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
-		}
-	}
 
 	private void draw() {
 		try {
@@ -278,7 +271,11 @@ public class LuckyPanView extends SurfaceView implements Callback, Runnable
 	 * 根据当前旋转的mStartAngle计算当前滚动到的区域 绘制背景，不重要，完全为了美观
 	 */
 	private void drawBg() {
-		mCanvas.drawColor(0xFFFFFFFF);
+//		mCanvas.drawColor(0xFFFFFFFF);
+		mCanvas.drawColor(Color.parseColor("#000222"));
+//		mCanvas.drawColor(0xFFFFFF00);
+
+//		mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 		mCanvas.drawBitmap(mBgBitmap, null, new Rect(mPadding / 2,
 				mPadding / 2, getMeasuredWidth() - mPadding / 2,
 				getMeasuredWidth() - mPadding / 2), null);
@@ -299,8 +296,8 @@ public class LuckyPanView extends SurfaceView implements Callback, Runnable
 			float to = from + 360 - (i) * (360 / mItemCount);
 
 			if ((rotate > from) && (rotate < to)) {
-				Log.d("TAG", mStrs[i]);
-				return;
+//				Log.d("TAG", mStrs[i]);
+//				return;
 			}
 		}
 	}
@@ -309,7 +306,7 @@ public class LuckyPanView extends SurfaceView implements Callback, Runnable
 	 * 绘制图片
 	 *
 	 * @param startAngle
-	 * @param sweepAngle
+	 * @param
 	 * @param i
 	 */
 	private void drawIcon(float startAngle, int i) {
@@ -318,21 +315,21 @@ public class LuckyPanView extends SurfaceView implements Callback, Runnable
 
 		float angle = (float) ((30 + startAngle) * (Math.PI / 180));
 
-		int x = (int) (mCenter + mRadius / 2 / 2 * Math.cos(angle));
-		int y = (int) (mCenter + mRadius / 2 / 2 * Math.sin(angle));
+		int x = (int) (mCenter + mRadius / 2 /1.5 * Math.cos(angle));
+		int y = (int) (mCenter + mRadius / 2 /1.5 * Math.sin(angle));
 
 		// 确定绘制图片的位置
-		Rect rect = new Rect(x - imgWidth / 2, y - imgWidth / 2, x + imgWidth
+		Rect rect = new Rect(x - imgWidth/2 , y - imgWidth/2 , x + imgWidth
 				/ 2, y + imgWidth / 2);
 
-		//mCanvas.drawBitmap(mImgsBitmap[i], null, rect, null);
+		mCanvas.drawBitmap(mImgsBitmap[i], null, rect, null);
 
 	}
 
 	/**
 	 * 绘制文本
 	 *
-	 * @param rect
+	 * @param
 	 * @param startAngle
 	 * @param sweepAngle
 	 * @param string
@@ -381,8 +378,6 @@ public class LuckyPanView extends SurfaceView implements Callback, Runnable
 	public void luckyEnd() {
 		mStartAngle = 0;
 		isShouldEnd = true;
-
-		isRunning =false;
 	}
 
 	public boolean isStart() {

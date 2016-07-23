@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -53,6 +54,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.ad)
     ImageView ad;
 
+    @Bind(R.id.ib_pre_page)
+    ImageButton imPrePage;
+
+    @Bind(R.id.ib_next_page)
+    ImageButton imNextPage;
+
     Handler mhandler = new Handler();
 
     public int adIndex;
@@ -75,6 +82,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         btnShop.setOnClickListener(this);
         btnSmart.setOnClickListener(this);
         btnMember.setOnClickListener(this);
+
+        imPrePage.setOnClickListener(this);
+        imNextPage.setOnClickListener(this);
+
         ad.setOnClickListener(this);
         // 如果终端号不存在， 则跳转到设置终端信息界面
         if (!isInit()) {
@@ -103,6 +114,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void adsStart() {
+        Log.d("advstart", "advstart:index=" + adIndex);
         if (adsList == null || adsList.isEmpty()) {
             Glide.with(HomeActivity.this)
                     .load(R.mipmap.ad1)
@@ -114,22 +126,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(ad);
 
-            mhandler.postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    Glide.with(HomeActivity.this)
-                            .load(adsList.get(adIndex).getFileUrl())
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(ad);
-
-                    adIndex++;
-                    if (adIndex >= adsList.size()) {
-                        adIndex = 0;
-                    }
-                    adsStart();
-                }
-            }, 10000);
+            mhandler.postDelayed(loopRunnable, 10000);
         }
     }
 
@@ -193,9 +190,28 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
                 break;
             case R.id.btn_member:
-                startActivity(new Intent(HomeActivity.this, ZhuanPanActivity.class));
+                startActivity(new Intent(HomeActivity.this, VipActivity.class));
 //                ToastUtils.showShortMessage("敬请期待");
 
+                break;
+            case R.id.ib_pre_page:
+
+                adIndex--;
+                if (adIndex <0) {
+                    adIndex = adsList.size()-1;
+                }
+                mhandler.removeCallbacks(loopRunnable);
+
+                adsStart();
+                break;
+            case R.id.ib_next_page:
+                adIndex++;
+                if (adIndex >= adsList.size()) {
+                    adIndex = 0;
+                }
+                mhandler.removeCallbacks(loopRunnable);
+
+                adsStart();
                 break;
             default:
                 break;
@@ -203,4 +219,19 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    Runnable loopRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Glide.with(HomeActivity.this)
+                    .load(adsList.get(adIndex).getFileUrl())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(ad);
+
+            adIndex++;
+            if (adIndex >= adsList.size()) {
+                adIndex = 0;
+            }
+            adsStart();
+        }
+    };
 }

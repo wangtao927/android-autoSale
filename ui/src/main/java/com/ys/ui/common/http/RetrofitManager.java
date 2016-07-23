@@ -7,10 +7,12 @@ import com.google.gson.GsonBuilder;
 import com.ys.ui.base.App;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.request.CommonRequest;
+import com.ys.ui.common.request.CreateDrawVo;
 import com.ys.ui.common.request.McDataVo;
 import com.ys.ui.common.request.ReFundVo;
 import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
+import com.ys.ui.common.response.CreateDrawResult;
 import com.ys.ui.common.response.CreateOrderResult;
 import com.ys.ui.common.response.McDataResult;
 import com.ys.ui.common.response.SaleListResult;
@@ -176,7 +178,7 @@ public class RetrofitManager {
 
         CommonRequest<Map<String, String>> request= new CommonRequest<>(mcNo,
                 System.currentTimeMillis(), map);
-        Log.d("postOprStatus request-json:", new GsonBuilder().create().toJson(request));
+        Log.d("postOprStatus request:", new GsonBuilder().create().toJson(request));
 
         return mcDataApi.postOprStatus(request);
     }
@@ -261,5 +263,20 @@ public class RetrofitManager {
         return userApi.getVerifyCode(request);
      }
 
+
+    public Observable<CommonResponse<CreateDrawResult>> createDraw(String slNo, String userNo, String userPwd) {
+
+        String mcNo =App.mcNo;
+        CreateDrawVo createDrawVo = new CreateDrawVo();
+        createDrawVo.setMcNo(mcNo);
+        createDrawVo.setSlNo(slNo);
+        createDrawVo.setUserNo(userNo);
+        createDrawVo.setUserPwd(userPwd);
+        Log.d("createDraw request", createDrawVo.toString());
+        CommonRequest<CreateDrawVo> request = new CommonRequest<>(mcNo, System.currentTimeMillis(), createDrawVo);
+
+        return orderApi.createDraw(request);
+
+    }
 
 }

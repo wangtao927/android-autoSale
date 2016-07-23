@@ -19,6 +19,7 @@ import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McGoodsBean;
 import com.ys.ui.R;
 import com.ys.ui.activity.ProductDetailActivity;
+import com.ys.ui.activity.ProductNoSaleDetailActivity;
 import com.ys.ui.common.constants.ChanStatusEnum;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.utils.ImageUtils;
@@ -52,7 +53,7 @@ public class YsDetailAdapter extends RecyclerView.Adapter<YsDetailAdapter.Holder
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ys_goods_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ys_list_goods_item, parent, false);
         return new Holder(view);
     }
 
@@ -60,24 +61,20 @@ public class YsDetailAdapter extends RecyclerView.Adapter<YsDetailAdapter.Holder
     public void onBindViewHolder(Holder holder, int position) {
         final GoodsBean goodsBean = data.get(position);
 
-
+            holder.productName.setTag(goodsBean);
             String url = PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(goodsBean.getGd_img_s());
 
             Glide.with(context)
                     .load(url).fitCenter()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(holder.productIcon);
-        // 简称 +  用法用量
-            holder.productName.setText(goodsBean.getGd_short_name() + goodsBean.getGd_desc3());
+         holder.productName.setText(goodsBean.getGd_short_name());
 
-            holder.tvDesc.setText(goodsBean.getGd_pm_class());
+        if (goodsBean.getGd_desc2()!= null && goodsBean.getGd_desc2().length() > 30) {
+            goodsBean.setGd_desc2(goodsBean.getGd_desc2().substring(30));
+        }
 
             holder.tvPrice.setText("￥"+NumberUtils.m2(goodsBean.getGd_sale_price() * 0.01));
-
-            if (DbManagerHelper.getOutGoods(goodsBean.getGd_no()) == null) {
-                holder.btBuyNow.setBackgroundColor(Color.GRAY);
-                holder.btBuyNow.setClickable(false);
-            }
     }
 
     @Override
@@ -93,29 +90,25 @@ public class YsDetailAdapter extends RecyclerView.Adapter<YsDetailAdapter.Holder
         @Bind(R.id.tv_pname)
         TextView productName;
 
-        @Bind(R.id.tv_desc)
-        TextView tvDesc;
-
         @Bind(R.id.tv_price)
         TextView tvPrice;
 
-        @Bind(R.id.btn_buynow)
-        Button btBuyNow;
-
-        @OnClick(R.id.btn_buynow)
+        @OnClick(R.id.iv_picon)
         void itemClick() {
-//            if (mcGoodsBean.getMg_gnum() <= 0 || mcGoodsBean.getMg_chann_status().intValue() == ChanStatusEnum.ERROR.getIndex()) {
-//                // 无货
-//               // ToastUtils.showError("该药品暂时无货，请选择其他药品购买", App.getContext());
-//                return;
-//            }
-//
-//
-//            Intent intent = new Intent(context, ProductDetailActivity.class);
-//            intent.putExtra("gdNo", mcGoodsBean.getGd_no());
-//            intent.putExtra("channo", mcGoodsBean.getMg_channo());
-//
-//            context.startActivity(intent);
+            GoodsBean goodsBean = (GoodsBean) productName.getTag();
+
+            Intent intent;
+            McGoodsBean mcGoodsBean = DbManagerHelper.getOutGoods(goodsBean.getGd_no());
+            if (mcGoodsBean == null) {
+                intent = new Intent(context, ProductNoSaleDetailActivity.class);
+                intent.putExtra("gdNo", goodsBean.getGd_no());
+            } else {
+                intent = new Intent(context, ProductDetailActivity.class);
+                intent.putExtra("gdNo", goodsBean.getGd_no());
+                intent.putExtra("channo", mcGoodsBean.getMg_channo());
+
+            }
+            context.startActivity(intent);
         }
 
         public Holder(View itemView) {

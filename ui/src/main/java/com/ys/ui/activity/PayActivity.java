@@ -729,8 +729,8 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        ToastUtils.showShortMessage("发送验证码失败");
-                        CrashReport.postCatchedException(throwable);
+                        ToastUtils.showShortMessage("获取验证码失败");
+                        //CrashReport.postCatchedException(throwable);
 
                     }
                 });
@@ -761,6 +761,9 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                             laySelectPay.setVisibility(View.GONE);
                             // 显示会员价格
                             tvSalePrice.setText(String.format(gdVipPrice, getPrice(mcGoodsBean.getMg_vip_price())));
+
+                        } else {
+                            ToastUtils.showShortMessage("注册失败");
 
                         }
                     }

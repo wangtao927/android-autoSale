@@ -262,7 +262,7 @@
             android:layout_weight="1"
             android:background="@drawable/rectangle_btn"
             android:padding="5dp"
-            android:src="@mipmap/payment_4" />
+            android:src="@mipmap/payment_5" />
     </LinearLayout>
 
     <include

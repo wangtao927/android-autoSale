@@ -5,6 +5,9 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.ys.ui.R;
 
 /**
  * Created by wangtao on 2016/7/17.
@@ -52,11 +55,13 @@ public class WordWrapView extends ViewGroup {
         int rows = 1;
         for(int i=0;i<childCount;i++){
             View view = getChildAt(i);
-            view.setBackgroundColor(Color.GREEN);
+
+            //view.setBackgroundResource(R.drawable.label);
+            ((Button)view).setTextColor(Color.WHITE);
             int width = view.getMeasuredWidth();
             int height = view.getMeasuredHeight();
             x += width+TEXT_MARGIN;
-            if(x>autualWidth){
+            if (x>autualWidth) {
                 x = width+SIDE_MARGIN;
                 rows++;
             }

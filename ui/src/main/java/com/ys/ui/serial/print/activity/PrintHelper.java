@@ -12,12 +12,14 @@ import com.ys.SerialPortFinder;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.common.constants.PrintConstants;
+import com.ys.ui.common.constants.SlTypeEnum;
 import com.ys.ui.utils.ToastUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -142,8 +144,14 @@ public class PrintHelper {
 
     private void print(String orderNo, String termNo, String gdName, String gdType, String price, String vipPrice, String actualPrice, String payType) {
 
-        String mSendData =String.format(PrintConstants.content, orderNo, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),
-                termNo, gdName, gdType, price, vipPrice, actualPrice, payType);
+        String mSendData;
+        if (SlTypeEnum.SCORE.getDesc().equals(payType)) {
+           mSendData = String.format(PrintConstants.content, orderNo, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),
+                   termNo, gdName, gdType, price, vipPrice, new BigDecimal(actualPrice).multiply(new BigDecimal(100)).toString()  +"积分", payType);
+        } else {
+            mSendData =String.format(PrintConstants.content, orderNo, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),
+                    termNo, gdName, gdType, price, vipPrice, actualPrice +" 元 ", payType);
+        }
 
         byte SendBuf[]={0x1b,0x40};
         SendData(SendBuf);

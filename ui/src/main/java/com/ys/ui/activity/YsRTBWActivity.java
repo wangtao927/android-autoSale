@@ -73,7 +73,7 @@ public class YsRTBWActivity extends BaseTimerActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Map<String, Object> map = data_list.get(position);
-                ToastUtils.showShortMessage(map.get("image") + "--" + map.get("id").toString());
+                //ToastUtils.showShortMessage(map.get("image") + "--" + map.get("id").toString());
 
                 finish();
                 Intent intent = new Intent(YsRTBWActivity.this, YsDetailActivity.class);

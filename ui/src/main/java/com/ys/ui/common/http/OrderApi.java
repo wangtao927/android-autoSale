@@ -2,9 +2,11 @@ package com.ys.ui.common.http;
 
 import com.ys.data.bean.SaleListBean;
 import com.ys.ui.common.request.CommonRequest;
+import com.ys.ui.common.request.CreateDrawVo;
 import com.ys.ui.common.request.ReFundVo;
 import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
+import com.ys.ui.common.response.CreateDrawResult;
 import com.ys.ui.common.response.CreateOrderResult;
 import com.ys.ui.common.response.SaleListResult;
 
@@ -43,5 +45,9 @@ public interface OrderApi {
     @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_SHORT)
     @POST("refund")
     Observable<CommonResponse<String>> refund(@Body CommonRequest<Map<String, String>>  request);
+
+    @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_SHORT)
+    @POST("createDraw")
+    Observable<CommonResponse<CreateDrawResult>> createDraw(@Body CommonRequest<CreateDrawVo>  request);
 
 }

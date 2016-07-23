@@ -11,7 +11,7 @@ public enum SlTypeEnum {
     CARD(2, "银行卡"),
     WX(3, "微信支付"),
     ALIPAY(4, "支付宝"),
-    SCORE(5, "-积分兑换"),
+    SCORE(5, "积分兑换"),
     CODE(6, "提货码"),
     ;
 

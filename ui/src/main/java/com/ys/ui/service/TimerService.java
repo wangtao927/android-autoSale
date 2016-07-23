@@ -141,6 +141,9 @@ public class TimerService extends Service {
         saleListBeans = query.list();
 
         vo.setMcSaleList(saleListBeans);
+
+        CrashReport.postCatchedException(new RuntimeException("TimerService upload:" + vo.toString()));
+
         CommonRequest<McDataVo> request = new CommonRequest<>(
                 bean.getMc_no(), System.currentTimeMillis(), vo);
         RetrofitManager.builder().postMcData(request)
@@ -157,6 +160,7 @@ public class TimerService extends Service {
                     @Override
                     public void call(CommonResponse<McDataResult> response) {
                         Log.d("result", response.toString());
+
                         if (response.isSuccess()) {
                             // 生成成功  同步数据
                             // 判断数据，并更新

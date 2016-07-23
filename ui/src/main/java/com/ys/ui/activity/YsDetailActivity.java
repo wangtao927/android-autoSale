@@ -1,13 +1,15 @@
 package com.ys.ui.activity;
 
 import android.content.Intent;
-import android.graphics.drawable.GradientDrawable;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.dao.GoodsBeanDao;
@@ -43,6 +45,9 @@ public class YsDetailActivity extends BaseTimerActivity implements LMRecyclerVie
     @Bind(R.id.ib_next_page)
     ImageButton mNextPageButton;
 
+    @Bind(R.id.ll_ys_detail)
+    LinearLayout linearLayout;
+
     protected List<GoodsBean> mProducts = new ArrayList();
 
     protected YsDetailAdapter detailtApter;
@@ -50,6 +55,8 @@ public class YsDetailActivity extends BaseTimerActivity implements LMRecyclerVie
     protected Long mTotalCount;
 
     protected int PAGE_SIZE = 6;
+
+    protected int LINE_NUM = 2;
 
     protected int mPageIndex = 1;
     protected CirclePageView mPageView;
@@ -74,38 +81,59 @@ public class YsDetailActivity extends BaseTimerActivity implements LMRecyclerVie
         //String desc = datas.getString("desc");
         List<YsDetailView> list =  YsConstants.getListView(index);
 
+        if (list.size() < 10 ) {
+            PAGE_SIZE = 4;
+        }
        // drawable.setColor(getResources().getColor(R.color.bg)); // 边框内部颜色
         Button button ;
         for (YsDetailView detailView : list) {
             button = new Button(this);
             button.setText(detailView.getDesc());
-            GradientDrawable drawable = new GradientDrawable();
-            drawable.setShape(GradientDrawable.RECTANGLE); // 画框
-            drawable.setStroke(1, getResources().getColor(R.color.bg_btn)); // 边框粗细及颜色
-            button.setBackground(drawable);
+            button.setTextSize(30);
+            button.setBackgroundResource(R.drawable.label);
+
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Button b = (Button)v;
+                    // 其他所有的都变成  原始背景色
+                    for (int i = 0; i < wordWrapView.getChildCount(); i++) {
+//                        if (b.equals(wordWrapView.getChildAt(i))) {
+//                            b.setBackgroundResource(R.drawable.label_1);
+//                        }
+                        wordWrapView.getChildAt(i).setBackgroundResource(R.drawable.label);
+                    }
+                    b.setBackgroundResource(R.drawable.label_1);
                     keyword = b.getText().toString();
-                    ToastUtils.showShortMessage(keyword);
+                    //ToastUtils.showShortMessage(keyword);
                     reLoadDataWithNoPage();
 
                 }
             });
             wordWrapView.addView(button);
         }
-
         initView();
         loadData();
+        getViewHeight(linearLayout);
+        ToastUtils.showShortMessage("height=" + getViewHeight(linearLayout) + " width=" + getViewWidth(linearLayout));
         detailtApter = new YsDetailAdapter(YsDetailActivity.this, mProducts);
         mRecyclerView.setAdapter(detailtApter);
+
+    }
+    //宽
+    public int getViewWidth(LinearLayout view){
+        view.measure(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        return view.getMeasuredWidth();
+    }
+    //高
+    public int getViewHeight(LinearLayout view){
+        view.measure(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        return view.getMeasuredHeight();
     }
 
 
-
     protected void initView() {
-        mRecyclerView.setLayoutManager(new GridLayoutManager(App.ctx, 2));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(App.ctx, LINE_NUM));
         mRecyclerView.setLoadMoreListener(this);
 
         mPrePageButton.setOnClickListener(this);

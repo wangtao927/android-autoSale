@@ -122,7 +122,7 @@ public class ProductDetailActivity extends BaseTimerActivity implements View.OnC
                 startPay(SlTypeEnum.CARD);
                 break;
             case R.id.btn_sf:
-                startPay(SlTypeEnum.CARD);
+                startPay(SlTypeEnum.CASH);
 
                 break;
             default:
@@ -135,11 +135,20 @@ public class ProductDetailActivity extends BaseTimerActivity implements View.OnC
     private void startPay(SlTypeEnum slTypeEnum) {
 
         finish();
-        Intent intent = new Intent(ProductDetailActivity.this, PayActivity.class);
+        Intent intent = null;
+        if (slTypeEnum == SlTypeEnum.CASH) {
+            intent = new Intent(ProductDetailActivity.this, PayByCoinActivity.class);
+
+         } else {
+            intent = new Intent(ProductDetailActivity.this, PayActivity.class);
+
+        }
+
 
         intent.putExtra("goods", goodsBean);
         intent.putExtra("mcGoods", mcGoodsBean);
         intent.putExtra("type", slTypeEnum.getIndex());
+
         startActivity(intent);
     }
 }

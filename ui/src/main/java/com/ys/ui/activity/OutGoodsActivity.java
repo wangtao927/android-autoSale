@@ -356,7 +356,8 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
         if (saleListBean.getSl_type().equals(String.valueOf(SlTypeEnum.ALIPAY.getIndex()))
                 || saleListBean.getSl_type().equals(String.valueOf(SlTypeEnum.WX.getIndex()))
-                || saleListBean.getSl_type().equals(String.valueOf(SlTypeEnum.CODE.getIndex()))) {
+                || saleListBean.getSl_type().equals(String.valueOf(SlTypeEnum.CODE.getIndex()))
+                || saleListBean.getSl_type().equals(String.valueOf(SlTypeEnum.SCORE.getIndex()))) {
             // 退款
 
             RetrofitManager.builder().refund(slNo)

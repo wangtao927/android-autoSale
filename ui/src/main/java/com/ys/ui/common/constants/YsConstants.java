@@ -30,16 +30,16 @@ public class YsConstants {
         //                      名厂名药   301 - 400
         // 滋补养生
         List<YsDetailView> list = new ArrayList<>();
-        list.add(new YsDetailView(3, "保健食品", 6111, 11, "保健"));
-        list.add(new YsDetailView(3, "养生花茶", 6112, 11, "养生花茶"));
+//        list.add(new YsDetailView(3, "保健食品", 6111, 11, "保健"));
+//        list.add(new YsDetailView(3, "养生花茶", 6112, 11, "养生花茶"));
 
-        list.add(new YsDetailView(3, "营养滋补", 6113, 11, "营养滋补"));
+     //   list.add(new YsDetailView(3, "营养滋补", 6113, 11, "营养滋补"));
         list.add(new YsDetailView(4, "补阳类", 61131, 6003, "补阳"));
         list.add(new YsDetailView(4, "补阴类", 61132, 6003, "补阴"));
         list.add(new YsDetailView(4, "补血类", 61133, 6003, "补血"));
         list.add(new YsDetailView(4, "补气类", 61134, 6003, "补气"));
 
-        list.add(new YsDetailView(3, "药食同源", 6114, 11, "药食同源"));
+      //  list.add(new YsDetailView(3, "药食同源", 6114, 11, "药食同源"));
         list.add(new YsDetailView(4, "药膳汤料", 61141, 6004, "药膳汤料"));
 
         level3.put(11, list);
@@ -60,39 +60,39 @@ public class YsConstants {
         //营养保健
         list = new ArrayList<>();
 
-        list.add(new YsDetailView(3, "延缓衰老", 61301, 13, ""));
-        list.add(new YsDetailView(3, "肠胃保健", 61302, 13, ""));
+     //   list.add(new YsDetailView(3, "延缓衰老", 61301, 13, ""));
+     //   list.add(new YsDetailView(3, "肠胃保健", 61302, 13, ""));
         list.add(new YsDetailView(4, "便秘调理", 6130201, 61302, ""));
         list.add(new YsDetailView(4, "调理肠胃", 6130202, 61302, ""));
 
-        list.add(new YsDetailView(3, "益智补脑", 61303, 13, ""));
+     //   list.add(new YsDetailView(3, "益智补脑", 61303, 13, ""));
         list.add(new YsDetailView(4, "改善记忆力", 6130301, 61303, ""));
         list.add(new YsDetailView(4, "缓解衰老", 6130302, 61303, ""));
         list.add(new YsDetailView(4, "改善睡眠", 6130303, 61303, ""));
 
 
-        list.add(new YsDetailView(3, "补充维生素", 61304, 13, ""));
-        list.add(new YsDetailView(3, "预防三高", 61305, 13, ""));
+      //  list.add(new YsDetailView(3, "补充维生素", 61304, 13, ""));
+     //   list.add(new YsDetailView(3, "预防三高", 61305, 13, ""));
         list.add(new YsDetailView(4, "预防高血压", 6130501, 61305, ""));
         list.add(new YsDetailView(4, "预防高脂肪", 6130502, 61305, ""));
         list.add(new YsDetailView(4, "预防高血糖", 6130503, 61305, ""));
         list.add(new YsDetailView(4, "大蒜精油", 6130504, 61305, ""));
 
 
-        list.add(new YsDetailView(3, "增强免疫", 61306, 13, ""));
+      //  list.add(new YsDetailView(3, "增强免疫", 61306, 13, ""));
         list.add(new YsDetailView(4, "牛初乳", 6130601, 61306, ""));
         list.add(new YsDetailView(4, "蛋白质", 6130602, 61306, ""));
         list.add(new YsDetailView(4, "益生菌", 6130603, 61306, ""));
 
-        list.add(new YsDetailView(3, "补锌", 61307, 13, ""));
-        list.add(new YsDetailView(3, "补钙", 61308, 13, ""));
+      //  list.add(new YsDetailView(3, "补锌", 61307, 13, ""));
+      //  list.add(new YsDetailView(3, "补钙", 61308, 13, ""));
 
         level3.put(13, list);
 
         // 医疗器械
         list = new ArrayList<>();
 
-        list.add(new YsDetailView(3, "外用贴", 61401, 14, ""));
+      //  list.add(new YsDetailView(3, "外用贴", 61401, 14, ""));
         list.add(new YsDetailView(4, "外用贴", 6140101, 61401, ""));
         list.add(new YsDetailView(4, "晕车贴", 6140102, 61401, ""));
         list.add(new YsDetailView(4, "退热贴", 6140103, 61401, ""));
@@ -102,18 +102,18 @@ public class YsConstants {
         list.add(new YsDetailView(4, "驱蚊手环", 6140107, 61401, ""));
 
 
-        list.add(new YsDetailView(3, "医疗用品", 61402, 14, ""));
+      //  list.add(new YsDetailView(3, "医疗用品", 61402, 14, ""));
         list.add(new YsDetailView(4, "药箱", 6140201, 61402, ""));
         list.add(new YsDetailView(4, "医用剪刀", 6140202, 61402, ""));
         list.add(new YsDetailView(4, "医用手套", 6140203, 61402, ""));
         list.add(new YsDetailView(4, "急求包", 6140204, 61402, ""));
 
 
-        list.add(new YsDetailView(3, "检测仪器", 61403, 14, ""));
+      //  list.add(new YsDetailView(3, "检测仪器", 61403, 14, ""));
         list.add(new YsDetailView(4, "体温计", 6140301, 61403, ""));
         list.add(new YsDetailView(4, "计步器", 6140302, 61403, ""));
 
-        list.add(new YsDetailView(3, "医用辅料", 61404, 14, ""));
+       // list.add(new YsDetailView(3, "医用辅料", 61404, 14, ""));
         list.add(new YsDetailView(4, "药棉", 6140401, 61404, ""));
         list.add(new YsDetailView(4, "纱布", 6140402, 61404, ""));
         list.add(new YsDetailView(4, "胶布", 6140403, 61404, ""));
@@ -125,29 +125,29 @@ public class YsConstants {
 
         // 五官用药
         list = new ArrayList<>();
-        list.add(new YsDetailView(3, "牙齿护理", 62101, 21, "牙齿"));
+    //    list.add(new YsDetailView(3, "牙齿护理", 62101, 21, "牙齿"));
         list.add(new YsDetailView(4, "牙龈肿痛", 6210101, 62101, ""));
         list.add(new YsDetailView(4, "牙龈出血", 6210101, 62101, ""));
         list.add(new YsDetailView(4, "龋齿", 6210101, 62101, ""));
 
-        list.add(new YsDetailView(3, "口腔咽喉", 62102, 21, ""));
-        list.add(new YsDetailView(3, "眼科用药", 62103, 21, ""));
-        list.add(new YsDetailView(3, "耳科用药", 62104, 21, ""));
-        list.add(new YsDetailView(3, "鼻科用药", 62105, 21, ""));
+//        list.add(new YsDetailView(3, "口腔咽喉", 62102, 21, ""));
+//        list.add(new YsDetailView(3, "眼科用药", 62103, 21, ""));
+//        list.add(new YsDetailView(3, "耳科用药", 62104, 21, ""));
+//        list.add(new YsDetailView(3, "鼻科用药", 62105, 21, ""));
 
         level3.put(21, list);
 
         // 情趣生活  计生用药
         list = new ArrayList<>();
-        list.add(new YsDetailView(3, "检测用品", 62201, 22, ""));
+       // list.add(new YsDetailView(3, "检测用品", 62201, 22, ""));
         list.add(new YsDetailView(4, "早孕检测试纸", 6220101, 62201, ""));
         list.add(new YsDetailView(4, "验孕棒", 6220102, 62201, ""));
         list.add(new YsDetailView(4, "其他检测用品", 6220103, 62201, ""));
 
-        list.add(new YsDetailView(3, "避孕用品", 62202, 22, ""));
+       // list.add(new YsDetailView(3, "避孕用品", 62202, 22, ""));
         list.add(new YsDetailView(4, "避孕套", 6220201, 62202, ""));
 
-        list.add(new YsDetailView(3, "情趣用品", 62203, 22, ""));
+      //  list.add(new YsDetailView(3, "情趣用品", 62203, 22, ""));
         list.add(new YsDetailView(4, "润滑助情", 6220301, 62203, ""));
         list.add(new YsDetailView(4, "男用专区", 6220302, 62203, ""));
         list.add(new YsDetailView(4, "女用专区", 6220303, 62203, ""));
@@ -209,13 +209,13 @@ public class YsConstants {
         level3.put(31, list);
         // 美妆护理
         list = new ArrayList<>();
-        list.add(new YsDetailView(3, "美体", 63201, 32, ""));
+       // list.add(new YsDetailView(3, "美体", 63201, 32, ""));
         list.add(new YsDetailView(4, "减肥瘦身", 6320101, 63201, ""));
         list.add(new YsDetailView(4, "狐臭半月清", 6320102, 63201, ""));
         list.add(new YsDetailView(4, "脱毛膏", 6320103, 63201, ""));
         list.add(new YsDetailView(4, "丰胸", 6320104, 63201, ""));
 
-        list.add(new YsDetailView(3, "局部护理", 63202, 32, ""));
+      //  list.add(new YsDetailView(3, "局部护理", 63202, 32, ""));
         list.add(new YsDetailView(4, "牙齿护理", 6320201, 63202, ""));
         list.add(new YsDetailView(4, "口腔护理", 6320202, 63202, ""));
         list.add(new YsDetailView(4, "足部护理", 6320203, 63202, ""));
@@ -223,12 +223,12 @@ public class YsConstants {
         list.add(new YsDetailView(4, "滴眼液", 6320205, 63202, ""));
         list.add(new YsDetailView(4, "秘密护理", 6320206, 63202, ""));
 
-        list.add(new YsDetailView(3, "全身护理", 63203, 32, ""));
+      //  list.add(new YsDetailView(3, "全身护理", 63203, 32, ""));
         list.add(new YsDetailView(4, "洗浴护理", 6320301, 63203, ""));
         list.add(new YsDetailView(4, "一次性用品", 6320302, 63203, ""));
         list.add(new YsDetailView(4, "奇台护理", 6320303, 63203, ""));
 
-        list.add(new YsDetailView(3, "基础护理", 63204, 32, ""));
+       // list.add(new YsDetailView(3, "基础护理", 63204, 32, ""));
         list.add(new YsDetailView(4, "面膜", 6320401, 63204, ""));
         list.add(new YsDetailView(4, "防晒霜", 6320402, 63204, ""));
         list.add(new YsDetailView(4, "滋润护肤", 6320403, 63204, ""));
@@ -236,7 +236,7 @@ public class YsConstants {
         list.add(new YsDetailView(4, "唇膏", 6320405, 63204, ""));
         list.add(new YsDetailView(4, "眼霜", 6320406, 63204, ""));
 
-        list.add(new YsDetailView(3, "美容修复", 63205, 32, ""));
+      //  list.add(new YsDetailView(3, "美容修复", 63205, 32, ""));
         list.add(new YsDetailView(4, "祛痘", 6320501, 63205, ""));
         list.add(new YsDetailView(4, "淡斑", 6320502, 63205, ""));
         list.add(new YsDetailView(4, "祛疤", 6320503, 63205, ""));
@@ -273,14 +273,14 @@ public class YsConstants {
         /******身体部位**********/
          // 头
         list = new ArrayList<>();
-        list.add(new YsDetailView(3, "面部", 711101, 111, ""));
+      //  list.add(new YsDetailView(3, "面部", 711101, 111, ""));
         list.add(new YsDetailView(4, "面部色斑", 71110101, 111, ""));
         list.add(new YsDetailView(4, "座疮粉刺", 71110101, 111, ""));
         list.add(new YsDetailView(4, "皮肤过敏", 71110101, 111, ""));
         list.add(new YsDetailView(4, "毛囊炎", 71110101, 111, ""));
 
 
-        list.add(new YsDetailView(3, "口腔", 711102, 111, ""));
+      //  list.add(new YsDetailView(3, "口腔", 711102, 111, ""));
         list.add(new YsDetailView(4, "牙痛", 71110101, 111, ""));
         list.add(new YsDetailView(4, "口腔溃疡", 71110101, 111, ""));
         list.add(new YsDetailView(4, "牙龈出血", 71110101, 111, ""));
@@ -289,17 +289,17 @@ public class YsConstants {
         list.add(new YsDetailView(4, "口臭", 71110101, 111, ""));
         list.add(new YsDetailView(4, "口角炎", 71110101, 111, ""));
 
-        list.add(new YsDetailView(3, "耳朵", 711103, 111, ""));
+      //  list.add(new YsDetailView(3, "耳朵", 711103, 111, ""));
         list.add(new YsDetailView(4, "听力下降", 71110101, 111, ""));
         list.add(new YsDetailView(4, "耳鸣", 71110101, 111, ""));
         list.add(new YsDetailView(4, "中耳炎", 71110101, 111, ""));
 
-        list.add(new YsDetailView(3, "鼻子", 711104, 111, ""));
+      //  list.add(new YsDetailView(3, "鼻子", 711104, 111, ""));
         list.add(new YsDetailView(4, "鼻炎", 71110101, 111, ""));
         list.add(new YsDetailView(4, "鼻塞", 71110101, 111, ""));
         list.add(new YsDetailView(4, "流鼻涕", 71110101, 111, ""));
 
-        list.add(new YsDetailView(3, "头", 711105, 111, ""));
+       // list.add(new YsDetailView(3, "头", 711105, 111, ""));
         list.add(new YsDetailView(4, "头痛", 71110101, 111, ""));
         list.add(new YsDetailView(4, "头皮瘙痒", 71110101, 111, ""));
         list.add(new YsDetailView(4, "眩晕", 71110101, 111, ""));
@@ -307,7 +307,7 @@ public class YsConstants {
         list.add(new YsDetailView(4, "记忆力衰退", 71110101, 111, ""));
         list.add(new YsDetailView(4, "失眠症", 71110101, 111, ""));
 
-        list.add(new YsDetailView(3, "眼睛", 711106, 111, ""));
+       // list.add(new YsDetailView(3, "眼睛", 711106, 111, ""));
         list.add(new YsDetailView(4, "沙眼", 71110101, 111, ""));
         list.add(new YsDetailView(4, "红眼病", 71110101, 111, ""));
         list.add(new YsDetailView(4, "近视眼", 71110101, 111, ""));
@@ -336,9 +336,9 @@ public class YsConstants {
         level3.put(112, list);
         // 胸
         list = new ArrayList<>();
-         list.add(new YsDetailView(3, "乳房", 711106, 121, ""));
+       //  list.add(new YsDetailView(3, "乳房", 711106, 121, ""));
         list.add(new YsDetailView(4, "乳腺增生", 71110101, 121, ""));
-        list.add(new YsDetailView(3, "心血管", 711106, 121, ""));
+       // list.add(new YsDetailView(3, "心血管", 711106, 121, ""));
         list.add(new YsDetailView(4, "心脏病", 71110101, 121, ""));
         list.add(new YsDetailView(4, "高血压", 71110101, 121, ""));
 
@@ -376,7 +376,7 @@ public class YsConstants {
         level3.put(131, list);//四肢
         //
         list = new ArrayList<>();
-        list.add(new YsDetailView(3, "男生殖器", 713206, 132, ""));
+        //list.add(new YsDetailView(3, "男生殖器", 713206, 132, ""));
         list.add(new YsDetailView(4, "尿路结石", 713106, 132, ""));
         list.add(new YsDetailView(4, "尿频尿急", 713106, 132, ""));
         list.add(new YsDetailView(4, "前列腺炎", 713106, 132, ""));
@@ -384,7 +384,7 @@ public class YsConstants {
         list.add(new YsDetailView(4, "膀胱炎", 713106, 132, ""));
         list.add(new YsDetailView(4, "前列腺肥大", 713106, 132, ""));
 
-        list.add(new YsDetailView(3, "女生殖器", 713206, 132, ""));
+        //list.add(new YsDetailView(3, "女生殖器", 713206, 132, ""));
         list.add(new YsDetailView(4, "白带增多", 713106, 132, ""));
         list.add(new YsDetailView(4, "滴虫病", 713106, 132, ""));
         list.add(new YsDetailView(4, "尿道炎", 713106, 132, ""));

@@ -13,9 +13,13 @@
     <LinearLayout
         android:id="@+id/ly_topcontent"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_below="@+id/title"
-        android:orientation="horizontal">
+        android:orientation="vertical">
         <com.ys.ui.view.WordWrapView
             android:id="@+id/view_wordwrap"
             android:background="@color/bg"
@@ -23,17 +27,27 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             />
+
     </LinearLayout>
 
-
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/ly_topcontent"
+        android:background="@color/bg_btn" />
     <LinearLayout
+        android:id="@+id/ll_ys_detail"
         android:layout_width="match_parent"
         android:layout_height="700dp"
-        android:layout_below="@+id/ly_topcontent"
+        android:layout_below="@+id/v_line"
         android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/ib_pre_page"
+                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@null"
@@ -50,6 +64,7 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false" />
             <ImageButton
+                android:layout_marginRight="10dp"
                 android:id="@+id/ib_next_page"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
