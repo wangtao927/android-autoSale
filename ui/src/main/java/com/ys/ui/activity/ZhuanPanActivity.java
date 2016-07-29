@@ -22,6 +22,7 @@ import com.ys.ui.base.BaseTimerActivity;
 import com.ys.ui.common.http.RetrofitManager;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateDrawResult;
+import com.ys.ui.utils.RandomUtils;
 import com.ys.ui.utils.ToastUtils;
 import com.ys.ui.view.LuckyPanView;
 
@@ -69,8 +70,6 @@ public class ZhuanPanActivity extends BaseTimerActivity implements View.OnClickL
 			case R.id.id_start_btn:
 				// 弹出框， 输入订单号，用户名 密码
                 initview();
-//                start(0);
-//
 				break;
 			case R.id.btn_confirm:
 
@@ -92,9 +91,6 @@ public class ZhuanPanActivity extends BaseTimerActivity implements View.OnClickL
 					return;
 				}
 
-				ToastUtils.showShortMessage(etSlNo.getText().toString() + "-"
-				+ etUserNo.getText().toString() + "-" + etPwd.getText().toString());
-				// call createDraw
 				minute = 2;
 				second = 0;
 				createDraw(slNo, userNo, pwd);
@@ -116,7 +112,7 @@ public class ZhuanPanActivity extends BaseTimerActivity implements View.OnClickL
 				@Override
 				public void onClick(View v) {
 					finish();
-					startActivity(new Intent(ZhuanPanActivity.this, HomeActivity.class));
+					startActivity(new Intent(ZhuanPanActivity.this, VipActivity.class));
 				}
 			});
 		}
@@ -161,7 +157,7 @@ public class ZhuanPanActivity extends BaseTimerActivity implements View.OnClickL
 		mDialog.show();
 	}
 
-	private void start(int index) {
+	private void start(final int index) {
 
 		if (!mLuckyPanView.isStart()) {
 
@@ -172,6 +168,14 @@ public class ZhuanPanActivity extends BaseTimerActivity implements View.OnClickL
 						public void run() {
 							if (!mLuckyPanView.isShouldEnd()) {
 								mLuckyPanView.luckyEnd();
+
+								if (index == 0) {
+									ToastUtils.showShortMessage("很遗憾，再抽一次呗");
+
+								} else {
+									ToastUtils.showShortMessage("恭喜您，中奖了");
+
+								}
 							}
 
 						}
@@ -203,12 +207,11 @@ public class ZhuanPanActivity extends BaseTimerActivity implements View.OnClickL
 
 						} else {
 							mDialog.cancel();
-
 							// 没中奖
-							start(0);
+							//start(0);
 							Log.d("createDraw fail:",  response.toString());
 
-							//ToastUtils.showError("创建订单失败", ZhuanPanActivity.this);
+							ToastUtils.showError(response.getMsg(), ZhuanPanActivity.this);
 						}
 
 					}
@@ -217,7 +220,7 @@ public class ZhuanPanActivity extends BaseTimerActivity implements View.OnClickL
 					public void call(Throwable throwable) {
 						mDialog.cancel();
 
-						start(0);
+//						start(0);
 						//hideProgress();
 						//Toast.makeText(GetProductActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
 						ToastUtils.showShortMessage("网络不好，请重试");
@@ -234,16 +237,16 @@ public class ZhuanPanActivity extends BaseTimerActivity implements View.OnClickL
 
 		} else if (level == 2) {
 			//
-			 level = 4;
+			 level = 3;
 		} else if (level == 3) {
             level = 5;
 		}else if (level == 4) {
-            level = 2;
+            level = 3;
 		}else if (level == 5) {
-             level = 7;
+             level = 6;
 		} else {
-			// 0  3  6
-           level = 3;
+
+           level = 0;
 		}
 		return level;
 	}

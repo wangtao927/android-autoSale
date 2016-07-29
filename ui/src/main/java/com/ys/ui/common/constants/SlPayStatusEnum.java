@@ -39,4 +39,13 @@ public enum SlPayStatusEnum {
     public void setDesc(String desc) {
         this.desc = desc;
     }
+
+    public static SlPayStatusEnum getPayStatusByIndex(int index) {
+        for (SlPayStatusEnum payStatusEnum : SlPayStatusEnum.values()) {
+            if (payStatusEnum.getIndex() == index) {
+                return payStatusEnum;
+            }
+        }
+        return SlPayStatusEnum.INIT;
+    }
 }

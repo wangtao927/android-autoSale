@@ -15,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateOrderResult;
+import com.ys.ui.common.response.UserResult;
 import com.ys.ui.utils.ImageUtils;
 import com.ys.ui.utils.NumberUtils;
 import com.ys.ui.utils.OrderUtils;
@@ -105,7 +107,6 @@ public class ScoreListAdapter extends RecyclerView.Adapter<ScoreListAdapter.Hold
 
         }
 
-
         if (mcGoodsBean != null) {
             //holder.tvPrice.setText("￥"+NumberUtils.m2(mcGoodsBean.getMg_disc_price() * 0.01));
             holder.tvPrice.setText("积分价："+ mcGoodsBean.getMg_score_price());
@@ -163,51 +164,110 @@ public class ScoreListAdapter extends RecyclerView.Adapter<ScoreListAdapter.Hold
     GoodsBean goodsBean;
     private String slNo;
 
-    private View view;
-
-
-    EditText etUserNo;
-
-    EditText etPwd;
-
-    Button btnConfirm;
-
-    Button btnCancel;
     private Dialog mDialog;
+
+    private View view;
+    ImageView ivLogin;
+    ImageView ivReg;
+    EditText etUserNo;
+    EditText etPwd;
+    Button btnLogin;
+    private TextView tvPwd;
+    private ImageButton ibGetV;
+    private boolean regFlag = false;// 默认登录
+
     public void initview() {
         LayoutInflater inflater = LayoutInflater.from(context);
-        view = inflater.inflate(R.layout.hg_input, null);
+        view = inflater.inflate(R.layout.dialog_login, null);
 
-        etUserNo = (EditText) view.findViewById(R.id.et_userno);
+        etUserNo = (EditText) view.findViewById(R.id.et_phone);
         etPwd = (EditText) view.findViewById(R.id.et_pwd);
-        btnConfirm = (Button) view.findViewById(R.id.btn_confirm);
-        btnCancel = (Button) view.findViewById(R.id.btn_cancel);
+        btnLogin = (Button) view.findViewById(R.id.btn_login);
+        Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
 
-
-        btnConfirm.setOnClickListener(new View.OnClickListener() {
+        btnLogin.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                if (etUserNo != null) {
 
-                if (!TextUtils.isEmpty(etUserNo.getText().toString())
-                        && !TextUtils.isEmpty(etPwd.getText().toString())) {
-                    createOrder(etUserNo.getText().toString(), etPwd.getText().toString());
+                    if (regFlag) {
+                        // 注册
+                        if (TextUtils.isEmpty(etUserNo.getText()) || TextUtils.isEmpty(etPwd.getText())) {
+                            ToastUtils.showShortMessage("手机号和验证码不能为空");
+                        } else {
+                            userReg(etUserNo.getText().toString(), etPwd.getText().toString());
 
-                } else {
-                    //
-                    ToastUtils.showShortMessage("请输入正确的会员信息");
-
+                        }
+                    } else {
+                        if (TextUtils.isEmpty(etUserNo.getText()) || TextUtils.isEmpty(etPwd.getText())) {
+                            ToastUtils.showShortMessage("用户名密码不能为空");
+                        } else {
+                            userLogin(etUserNo.getText().toString(), etPwd.getText().toString());
+                        }
+                    }
+                    //backHomeFlag = false;
                 }
-
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                mcGoodsBean = null;
-                goodsBean = null;
                 mDialog.cancel();
+
+            }
+        });
+
+        ivLogin = (ImageView) view.findViewById(R.id.ib_login);
+        ivReg = (ImageView) view.findViewById(R.id.ib_reg);
+        tvPwd = (TextView) view.findViewById(R.id.tv_pwd);
+        ibGetV = (ImageButton) view.findViewById(R.id.ib_getv);
+
+        ivLogin.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                regFlag = false;
+                btnLogin.setText("登录");
+                ivLogin.setBackgroundResource(R.mipmap.login);
+                ivReg.setBackgroundResource(R.mipmap.reg_1);
+                tvPwd.setText("密 码");
+                ibGetV.setVisibility(View.GONE);
+            }
+        });
+        ivReg.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                regFlag = true;
+                btnLogin.setText("注册");
+
+                ivLogin.setBackgroundResource(R.mipmap.login_1);
+                ivReg.setBackgroundResource(R.mipmap.reg);
+                tvPwd.setText("验证码");
+                ibGetV.setVisibility(View.VISIBLE);
+            }
+        });
+        ibGetV.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                regFlag = true;
+                ivLogin.setBackgroundResource(R.mipmap.login_1);
+                ivReg.setBackgroundResource(R.mipmap.reg);
+                tvPwd.setText("验证码");
+
+                // 发送验证码
+                if (etUserNo != null && !TextUtils.isEmpty(etUserNo.getText())) {
+
+                    getValideCode(etUserNo.getText().toString());
+
+                    ibGetV.setBackgroundResource(R.mipmap.getv1);
+                    ibGetV.setClickable(false);
+                } else {
+                    ToastUtils.showShortMessage("请填写手机号");
+                }
             }
         });
 
@@ -221,6 +281,178 @@ public class ScoreListAdapter extends RecyclerView.Adapter<ScoreListAdapter.Hold
         dialogWindow.setAttributes(lp);
         mDialog.show();
     }
+
+    private void userLogin(final String userNo, final String userPwd) {
+        //
+        RetrofitManager.builder().userLogin(userNo, userPwd)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+//                        .doOnSubscribe(new Action0() {
+//                            @Override
+//                            public void call() {
+//                                //showProgress();
+//                            }
+//                        })
+                .subscribe(new Action1<CommonResponse<UserResult>>() {
+                    @Override
+                    public void call(CommonResponse<UserResult> response) {
+                        //hideProgress();
+
+                        Log.d("userLogin response", response.toString());
+                        if (response.getCode() == 0) {
+//                            acountNo = userNo;
+
+                            mDialog.cancel();
+                            createOrder(userNo, userPwd);
+//                            layPay.setVisibility(View.VISIBLE);
+//                            laySelectPay.setVisibility(View.GONE);
+//                            // 显示会员价格
+//                            tvSalePrice.setText(String.format(gdVipPrice, getPrice(mcGoodsBean.getMg_vip_price())));
+                        } else {
+                            Log.d("mcNo="+ App.mcNo , "用户名或密码错误" + userNo + "--"+userPwd);
+                            ToastUtils.showShortMessage("用户名或密码错误");
+                        }
+
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtils.showShortMessage("登录失败");
+                        CrashReport.postCatchedException(throwable);
+                    }
+                });
+
+
+
+    }
+
+    private void getValideCode(String phoneNo) {
+
+        RetrofitManager.builder().getVerifyCode(phoneNo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        //showProgress();
+                    }
+                })
+                .subscribe(new Action1<CommonResponse<String>>() {
+                    @Override
+                    public void call(CommonResponse<String> response) {
+                        //hideProgress();
+                        Log.d("getVerifyCode response", response.toString());
+
+                        if (response.getCode() == 0) {
+
+                            ToastUtils.showShortMessage("验证码已发送");
+
+                        } else {
+                            ToastUtils.showShortMessage(response.getMsg());
+                        }
+
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtils.showShortMessage("获取验证码失败");
+                        //CrashReport.postCatchedException(throwable);
+
+                    }
+                });
+
+    }
+    private void userReg(final String phoneNo, String valideCode) {
+        RetrofitManager.builder().userReg(phoneNo, valideCode)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+//                .doOnSubscribe(new Action0() {
+//                    @Override
+//                    public void call() {
+//                        //showProgress();
+//                    }
+//                })
+                .subscribe(new Action1<CommonResponse<String>>() {
+                    @Override
+                    public void call(CommonResponse<String> response) {
+                        Log.d("userReg response", response.toString());
+
+                        if (response.getCode() == 0) {
+                            mDialog.cancel();
+                            ToastUtils.showShortMessage("注册成功");
+//                            acountNo = phoneNo;
+//                            //ToastUtils.showShortMessage("注册成功，默认密码是:123456");
+//                            // 生成订单
+//                            createOrder(String.valueOf(slType.getIndex()), 1);
+//                            layPay.setVisibility(View.VISIBLE);
+//                            laySelectPay.setVisibility(View.GONE);
+//                            // 显示会员价格
+//                            tvSalePrice.setText(String.format(gdVipPrice, getPrice(mcGoodsBean.getMg_vip_price())));
+
+                        } else {
+                            ToastUtils.showShortMessage("注册失败");
+
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtils.showShortMessage("注册失败");
+                        CrashReport.postCatchedException(throwable);
+
+                    }
+                });
+
+    }
+
+
+//    public void initview() {
+//        LayoutInflater inflater = LayoutInflater.from(context);
+//        view = inflater.inflate(R.layout.dialog_login, null);
+//
+//        etUserNo = (EditText) view.findViewById(R.id.et_userno);
+//        etPwd = (EditText) view.findViewById(R.id.et_pwd);
+//        btnConfirm = (Button) view.findViewById(R.id.btn_confirm);
+//        btnCancel = (Button) view.findViewById(R.id.btn_cancel);
+//
+//
+//        btnConfirm.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (!TextUtils.isEmpty(etUserNo.getText().toString())
+//                        && !TextUtils.isEmpty(etPwd.getText().toString())) {
+//                    createOrder(etUserNo.getText().toString(), etPwd.getText().toString());
+//
+//                } else {
+//                    //
+//                    ToastUtils.showShortMessage("请输入正确的会员信息");
+//
+//                }
+//
+//            }
+//        });
+//        btnCancel.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                mcGoodsBean = null;
+//                goodsBean = null;
+//                mDialog.cancel();
+//            }
+//        });
+//
+//        mDialog = new Dialog(context, R.style.dialog);
+//        mDialog.setContentView(view);
+//        Window dialogWindow = mDialog.getWindow();
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+//        DisplayMetrics d = context.getResources().getDisplayMetrics(); // 获取屏幕宽、高用
+//        lp.width = (int) (d.widthPixels * 0.8); // 高度设置为屏幕的0.6
+//
+//        dialogWindow.setAttributes(lp);
+//        mDialog.show();
+//    }
 
     // 普通支付  取折扣价   会员支付取 会员价  vip 0 不是vip  1 是vip
 

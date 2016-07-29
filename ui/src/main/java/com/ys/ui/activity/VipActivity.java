@@ -25,11 +25,15 @@ import butterknife.ButterKnife;
 public class VipActivity extends BaseTimerActivity implements View.OnClickListener {
 
 
-    @Bind(R.id.iv_hyhg)
-    ImageView mjfhg;
 
+    @Bind(R.id.iv_jfhg)
+    ImageView ivJfhg;
+    @Bind(R.id.iv_mfzx)
+    ImageView ivMfzx;
+    @Bind(R.id.iv_hyth)
+    ImageView ivHyth;
     @Bind(R.id.iv_hycj)
-    ImageView mjfcj;
+    ImageView ivHycj;
 
     @Override
     protected int getLayoutId() {
@@ -39,8 +43,10 @@ public class VipActivity extends BaseTimerActivity implements View.OnClickListen
     @Override
     protected void create(Bundle savedInstanceState) {
 
-        mjfcj.setOnClickListener(this);
-        mjfhg.setOnClickListener(this);
+        ivJfhg.setOnClickListener(this);
+        ivMfzx.setOnClickListener(this);
+        ivHyth.setOnClickListener(this);
+        ivHycj.setOnClickListener(this);
 
     }
 
@@ -66,19 +72,33 @@ public class VipActivity extends BaseTimerActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-
+        Intent intent = new Intent(VipActivity.this, VipBuyActivity.class);
         switch (v.getId()) {
-            case R.id.iv_hyhg:
+            case R.id.iv_jfhg:
 
-                finish();
-                startActivity(new Intent(VipActivity.this, ScoreListActivity.class));
+                intent.putExtra("index", 1);
 
                 break;
+            case R.id.iv_mfzx:
+
+                intent.putExtra("index", 2);
+
+
+                break;
+            case R.id.iv_hyth:
+
+                intent.putExtra("index", 3);
+
+                break;
+
             case R.id.iv_hycj:
-                finish();
-                startActivity(new Intent(VipActivity.this, ZhuanPanActivity.class));
+
+                intent = new Intent(VipActivity.this, ZhuanPanActivity.class);
                 break;
 
         }
+        finish();
+
+        startActivity(intent);
     }
 }

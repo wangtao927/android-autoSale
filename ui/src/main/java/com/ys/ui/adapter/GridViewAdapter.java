@@ -6,31 +6,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.ys.data.bean.McGoodsBean;
 import com.ys.ui.R;
-import com.ys.ui.view.GoodsGridViewItem;
+import com.ys.ui.view.GridDataSet;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by wangtao on 2016/4/19.
  */
-public class GoodsGridViewAdapter extends BaseAdapter {
+public class GridViewAdapter extends BaseAdapter {
 
-    private List<HashMap<String, GoodsGridViewItem>> list;
-    private GoodsGridViewItem tempGridViewItem;
+    private List<GridDataSet> list;
     private LayoutInflater layoutInflater;
 
-    public GoodsGridViewAdapter(Context context,
-                     List<HashMap<String, GoodsGridViewItem>> list) {
+    public GridViewAdapter(Context context,
+                           List<GridDataSet> list) {
 
         this.list = list;
         layoutInflater = LayoutInflater.from(context);
 
     }
 
+    public void setData(List<GridDataSet> data) {
+        this.list = data;
+        notifyDataSetChanged();
+    }
     /**
      * 数据总数
      */
@@ -62,15 +64,11 @@ public class GoodsGridViewAdapter extends BaseAdapter {
 
         if (layoutInflater != null) {
 
-            view = layoutInflater
-                    .inflate(R.layout.goods_item, null);
+            view = layoutInflater.inflate(R.layout.gridview_item, null);
             ImageView imageView = (ImageView) view
-                    .findViewById(R.id.image);
-            TextView textView = (TextView) view.findViewById(R.id.text);
+                    .findViewById(R.id.iv_gridview);
+            imageView.setImageResource(list.get(position).getIamgeId());
             //获取自定义的类实例
-            //tempGridViewItem = list.get(position).get("");
-//            imageView.setImageBitmap(tempGridViewItem.bitmap);
-//            textView.setText(tempGridViewItem.gdName);
 
         }
         return view;

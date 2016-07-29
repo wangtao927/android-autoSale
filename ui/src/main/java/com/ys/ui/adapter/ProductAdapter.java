@@ -92,7 +92,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
                     mcGoodsBean.getMg_chann_status().intValue() == ChanStatusEnum.ERROR.getIndex() || goodsBean == null) {
                 holder.wuhuo.setVisibility(View.VISIBLE);
 
-               // holder.no.setBackgroundResource(R.drawable.circle_gray);
             }else{
                 holder.wuhuo.setVisibility(View.GONE);
             }
@@ -144,6 +143,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> 
             Intent intent = new Intent(context, ProductDetailActivity.class);
             intent.putExtra("gdNo", mcGoodsBean.getGd_no());
             intent.putExtra("channo", mcGoodsBean.getMg_channo());
+            intent.putExtra("origin", 0);
 
             context.startActivity(intent);
         }

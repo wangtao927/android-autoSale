@@ -2,20 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_deep"
+    android:background="@color/white"
     android:orientation="vertical">
 
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_deep"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <include
         android:id="@+id/title"
         layout="@layout/title_bar2" />
-   <!-- <LinearLayout
+    <LinearLayout
+        android:id="@+id/ll_rtbw"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@color/bg_btn">
@@ -26,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:id="@+id/tv_rtbw_desc"
             android:textSize="24dp"
             android:textColor="@color/white"
             android:paddingTop="10dp"
@@ -33,40 +35,67 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
-    </LinearLayout>-->
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1160dp"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/iv_ren"
-            android:layout_weight="1"
-            android:src="@mipmap/ys12"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:scaleType="fitXY"/>
 
         <GridView
             android:id="@+id/gv_rtbw"
-            android:layout_marginTop="5dp"
-            android:layout_weight="2"
+            android:layout_marginTop="1dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:numColumns="2"
+            android:numColumns="4"
             >
-
         </GridView>
-
-
-
     </LinearLayout>
+
+
 
 </LinearLayout>
 
+
+    <RelativeLayout
+        android:id="@+id/rl_page"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rl_footer"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/bg_deep"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageButton
+            android:id="@+id/ib_pre_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+
+            android:layout_marginLeft="20dp"
+            android:src="@mipmap/page_pre" />
+
+        <LinearLayout
+            android:id="@+id/ll_pages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/ib_next_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:background="@null"
+            android:src="@mipmap/page_next" />
+
+    </RelativeLayout>
     <include
         android:id="@+id/rl_footer"
         layout="@layout/footer_bar" />

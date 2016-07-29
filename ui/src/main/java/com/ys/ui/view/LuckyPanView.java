@@ -49,15 +49,19 @@ public class LuckyPanView extends SurfaceView implements Callback, Runnable
 	/**
 	 * 每个盘块的颜色
 	 */
-	private int[] mColors = new int[]{0xEBD19200, 0xF7E6C101, 0xEBD19200,
-			0xF7E6C101, 0xEBD19200, 0xF7E6C101, 0xEBD19200, 0xF7E6C101};
+//	private int[] mColors = new int[]{0xEBD19200, 0xF7E6C101, 0xEBD19200,
+//			0xF7E6C101, 0xEBD19200, 0xF7E6C101, 0xEBD19200, 0xF7E6C101};
+
+	private int[] mColors = new int[]{Color.parseColor("#fbd901"), Color.parseColor("#faca00"),
+			Color.parseColor("#fbd901"), Color.parseColor("#faca00"),
+			Color.parseColor("#fbd901"), Color.parseColor("#faca00")
+	};
 	/**
 	 * 与文字对应的图片
 	 */
 	private int[] mImgs = new int[] {R.mipmap.onemoretime, R.mipmap.draw_1,
-			R.mipmap.score100,  R.mipmap.onemoretime,
-			R.mipmap.draw_2, R.mipmap.draw_3,
-          R.mipmap.onemoretime,R.mipmap.score50, };
+			R.mipmap.score100,  R.mipmap.draw_2, R.mipmap.draw_3,
+          R.mipmap.score50 };
 
 	/**
 	 * 与文字对应图片的bitmap数组
@@ -66,7 +70,7 @@ public class LuckyPanView extends SurfaceView implements Callback, Runnable
 	/**
 	 * 盘块的个数
 	 */
-	private int mItemCount = 8;
+	private int mItemCount = 6;
 
 	/**
 	 * 绘制盘块的范围
@@ -126,7 +130,7 @@ public class LuckyPanView extends SurfaceView implements Callback, Runnable
 		mHolder = getHolder();
 		mHolder.addCallback(this);
 
-		// setZOrderOnTop(true);// 设置画布 背景透明
+//		 setZOrderOnTop(true);// 设置画布 背景透明
 //		 mHolder.setFormat(PixelFormat.TRANSLUCENT);
 //
 		mHolder.setSizeFromLayout();
@@ -297,7 +301,7 @@ public class LuckyPanView extends SurfaceView implements Callback, Runnable
 
 			if ((rotate > from) && (rotate < to)) {
 //				Log.d("TAG", mStrs[i]);
-//				return;
+				return;
 			}
 		}
 	}

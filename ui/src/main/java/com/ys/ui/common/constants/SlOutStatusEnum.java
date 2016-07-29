@@ -36,4 +36,14 @@ public enum SlOutStatusEnum {
     public void setDesc(String desc) {
         this.desc = desc;
     }
+
+
+    public static SlOutStatusEnum getOutStatusByIndex(int index) {
+        for (SlOutStatusEnum statusEnum : SlOutStatusEnum.values()) {
+            if (statusEnum.getIndex() == index) {
+                return statusEnum;
+            }
+        }
+        return INIT;
+    }
 }

@@ -61,20 +61,19 @@ public class YsDetailAdapter extends RecyclerView.Adapter<YsDetailAdapter.Holder
     public void onBindViewHolder(Holder holder, int position) {
         final GoodsBean goodsBean = data.get(position);
 
-            holder.productName.setTag(goodsBean);
-            String url = PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(goodsBean.getGd_img_s());
+        holder.productName.setTag(goodsBean);
+        String url = PropertyUtils.getInstance().getFastDfsUrl() + ImageUtils.getImageUrl(goodsBean.getGd_img_s());
 
-            Glide.with(context)
-                    .load(url).fitCenter()
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .into(holder.productIcon);
-         holder.productName.setText(goodsBean.getGd_short_name());
+        Glide.with(context)
+                .load(url).fitCenter()
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(holder.productIcon);
+        holder.productName.setText(goodsBean.getGd_short_name());
 
-        if (goodsBean.getGd_desc2()!= null && goodsBean.getGd_desc2().length() > 30) {
+        if (goodsBean.getGd_desc2() != null && goodsBean.getGd_desc2().length() > 30) {
             goodsBean.setGd_desc2(goodsBean.getGd_desc2().substring(30));
         }
-
-            holder.tvPrice.setText("￥"+NumberUtils.m2(goodsBean.getGd_sale_price() * 0.01));
+        holder.tvPrice.setText("￥" + NumberUtils.m2(goodsBean.getGd_sale_price() * 0.01));
     }
 
     @Override
@@ -106,6 +105,7 @@ public class YsDetailAdapter extends RecyclerView.Adapter<YsDetailAdapter.Holder
                 intent = new Intent(context, ProductDetailActivity.class);
                 intent.putExtra("gdNo", goodsBean.getGd_no());
                 intent.putExtra("channo", mcGoodsBean.getMg_channo());
+                intent.putExtra("origin", 2);
 
             }
             context.startActivity(intent);

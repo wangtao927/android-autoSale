@@ -14,6 +14,7 @@ import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.ys.SerialPortFinder;
+import com.ys.data.bean.McStatusBean;
 import com.ys.data.dao.DaoMaster;
 import com.ys.data.dao.DaoSession;
 import com.ys.ui.R;
@@ -65,13 +66,12 @@ public class App extends Application {
     public static String mcNo;
 
 
+
     @Override
     public void onCreate() {
         ctx = getApplicationContext();
-
-
         mcNo = DbManagerHelper.getMcNo();
-//
+
         Intent intent = new Intent(this, TimerService.class);
         startService(intent);
 

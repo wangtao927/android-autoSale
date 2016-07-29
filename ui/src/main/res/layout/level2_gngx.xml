@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_deep"
+    android:background="@color/white"
     android:orientation="vertical">
 
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_deep"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <include
@@ -17,19 +17,19 @@
         layout="@layout/title_bar2" />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="48dp"
         android:background="@color/bg_btn">
         <ImageView
             android:src="@mipmap/menu"
             android:layout_marginLeft="20dp"
-            android:padding="10dp"
+            android:padding="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
 
             android:textSize="24dp"
             android:textColor="@color/white"
-            android:paddingTop="18dp"
+            android:padding="10dp"
             android:text="功能症状分类"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />

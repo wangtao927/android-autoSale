@@ -16,8 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
         android:layout_below="@+id/title"
         android:orientation="vertical">
         <com.ys.ui.view.WordWrapView
@@ -36,18 +36,21 @@
         android:layout_height="1dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_below="@+id/ly_topcontent"
         android:background="@color/bg_btn" />
     <LinearLayout
         android:id="@+id/ll_ys_detail"
         android:layout_width="match_parent"
-        android:layout_height="700dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_below="@+id/v_line"
         android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/ib_pre_page"
-                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@null"
@@ -56,15 +59,13 @@
             <com.ys.ui.view.LMRecyclerView
                 android:layout_marginTop="25dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="15dp"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="4"
+                android:layout_weight="34"
                 android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:clipToPadding="false" />
             <ImageButton
-                android:layout_marginRight="10dp"
                 android:id="@+id/ib_next_page"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"

@@ -1,15 +1,13 @@
 package com.ys.ui.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.dao.GoodsBeanDao;
@@ -18,7 +16,6 @@ import com.ys.ui.adapter.YsDetailAdapter;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseTimerActivity;
 import com.ys.ui.common.constants.YsConstants;
-import com.ys.ui.utils.ToastUtils;
 import com.ys.ui.view.CirclePageView;
 import com.ys.ui.view.LMRecyclerView;
 import com.ys.ui.view.WordWrapView;
@@ -45,18 +42,15 @@ public class YsDetailActivity extends BaseTimerActivity implements LMRecyclerVie
     @Bind(R.id.ib_next_page)
     ImageButton mNextPageButton;
 
-    @Bind(R.id.ll_ys_detail)
-    LinearLayout linearLayout;
-
     protected List<GoodsBean> mProducts = new ArrayList();
 
     protected YsDetailAdapter detailtApter;
 
     protected Long mTotalCount;
 
-    protected int PAGE_SIZE = 6;
+    protected int PAGE_SIZE = 9;
 
-    protected int LINE_NUM = 2;
+    protected int LINE_NUM = 3;
 
     protected int mPageIndex = 1;
     protected CirclePageView mPageView;
@@ -67,6 +61,7 @@ public class YsDetailActivity extends BaseTimerActivity implements LMRecyclerVie
 
     private String keyword;
 
+    private int index;
     @Override
     protected int getLayoutId() {
         return R.layout.level3_buy;
@@ -77,12 +72,12 @@ public class YsDetailActivity extends BaseTimerActivity implements LMRecyclerVie
         // 初始化  label 标签
 
         Bundle datas = getIntent().getExtras();
-        int index = datas.getInt("index");
+        index = datas.getInt("index");
         //String desc = datas.getString("desc");
         List<YsDetailView> list =  YsConstants.getListView(index);
 
-        if (list.size() < 10 ) {
-            PAGE_SIZE = 4;
+        if (list.size() > 20) {
+            PAGE_SIZE = 6;
         }
        // drawable.setColor(getResources().getColor(R.color.bg)); // 边框内部颜色
         Button button ;
@@ -91,21 +86,18 @@ public class YsDetailActivity extends BaseTimerActivity implements LMRecyclerVie
             button.setText(detailView.getDesc());
             button.setTextSize(30);
             button.setBackgroundResource(R.drawable.label);
-
+            button.setGravity(Gravity.CENTER_HORIZONTAL);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Button b = (Button)v;
                     // 其他所有的都变成  原始背景色
                     for (int i = 0; i < wordWrapView.getChildCount(); i++) {
-//                        if (b.equals(wordWrapView.getChildAt(i))) {
-//                            b.setBackgroundResource(R.drawable.label_1);
-//                        }
+//
                         wordWrapView.getChildAt(i).setBackgroundResource(R.drawable.label);
                     }
                     b.setBackgroundResource(R.drawable.label_1);
                     keyword = b.getText().toString();
-                    //ToastUtils.showShortMessage(keyword);
                     reLoadDataWithNoPage();
 
                 }
@@ -114,23 +106,10 @@ public class YsDetailActivity extends BaseTimerActivity implements LMRecyclerVie
         }
         initView();
         loadData();
-        getViewHeight(linearLayout);
-        ToastUtils.showShortMessage("height=" + getViewHeight(linearLayout) + " width=" + getViewWidth(linearLayout));
         detailtApter = new YsDetailAdapter(YsDetailActivity.this, mProducts);
         mRecyclerView.setAdapter(detailtApter);
 
     }
-    //宽
-    public int getViewWidth(LinearLayout view){
-        view.measure(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        return view.getMeasuredWidth();
-    }
-    //高
-    public int getViewHeight(LinearLayout view){
-        view.measure(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        return view.getMeasuredHeight();
-    }
-
 
     protected void initView() {
         mRecyclerView.setLayoutManager(new GridLayoutManager(App.ctx, LINE_NUM));

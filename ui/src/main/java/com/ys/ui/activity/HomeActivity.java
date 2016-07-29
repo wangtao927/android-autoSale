@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -25,6 +26,7 @@ import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.utils.RandomUtils;
 import com.ys.ui.utils.ToastUtils;
 import com.ys.ui.utils.Utils;
+import com.ys.ui.view.CirclePageView;
 
 import java.util.List;
 
@@ -50,6 +52,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.btn_help)
     ImageButton btnHelp;
 
+
+    @Bind(R.id.ll_pages)
+    LinearLayout mPagesLayout;
+    private CirclePageView mPageView;
 
     @Bind(R.id.ad)
     ImageView ad;
@@ -99,9 +105,15 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        //if (adsList == null) {
-            adsList = App.getDaoSession(App.getContext()).getAdvBeanDao().queryBuilder().where(AdvBeanDao.Properties.Ai_type.eq("1")).list();
-       // }
+        adsList = App.getDaoSession(App.getContext()).getAdvBeanDao().queryBuilder().where(AdvBeanDao.Properties.Ai_type.eq("1")).list();
+
+        mPagesLayout.removeAllViews();
+        mPageView = new CirclePageView(this);
+
+        mPageView.init(adsList.size());
+        mPagesLayout.addView(mPageView);
+        mPageView.setSelectedPage(adIndex);
+
         adsStart();
     }
 
@@ -114,6 +126,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void adsStart() {
+
         Log.d("advstart", "advstart:index=" + adIndex);
         if (adsList == null || adsList.isEmpty()) {
             Glide.with(HomeActivity.this)
@@ -181,8 +194,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 }
                 break;
             case R.id.btn_shop:
-               // startActivity(new Intent(HomeActivity.this, MallWebviewActivity.class));
-                ToastUtils.showShortMessage("敬请期待");
+               startActivity(new Intent(HomeActivity.this, MallWebviewActivity.class));
+                //ToastUtils.showShortMessage("敬请期待");
                 break;
             case R.id.btn_smart:
 
@@ -197,9 +210,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             case R.id.ib_pre_page:
 
                 adIndex--;
+
                 if (adIndex <0) {
                     adIndex = adsList.size()-1;
                 }
+                mPageView.setSelectedPage(adIndex);
+
                 mhandler.removeCallbacks(loopRunnable);
 
                 adsStart();
@@ -209,6 +225,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 if (adIndex >= adsList.size()) {
                     adIndex = 0;
                 }
+                mPageView.setSelectedPage(adIndex);
+
                 mhandler.removeCallbacks(loopRunnable);
 
                 adsStart();
@@ -231,6 +249,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             if (adIndex >= adsList.size()) {
                 adIndex = 0;
             }
+            mPageView.setSelectedPage(adIndex);
+
             adsStart();
         }
     };

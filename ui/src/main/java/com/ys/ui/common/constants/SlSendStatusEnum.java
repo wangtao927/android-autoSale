@@ -35,4 +35,14 @@ public enum SlSendStatusEnum {
     public void setDesc(String desc) {
         this.desc = desc;
     }
+
+
+    public static SlSendStatusEnum getSendStatusByIndex(int index) {
+        for (SlSendStatusEnum statusEnum : SlSendStatusEnum.values()) {
+            if (statusEnum.getIndex() == index) {
+                return statusEnum;
+            }
+        }
+        return INIT;
+    }
 }

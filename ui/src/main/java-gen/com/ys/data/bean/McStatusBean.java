@@ -28,6 +28,10 @@ public class McStatusBean {
     private Long mr_data_fault;
     private java.util.Date mr_door_date;
     private String mr_mc_position;
+    private Long mc_isbiller;
+    private Long mc_isuppos;
+    private Long mc_iswxpay;
+    private Long mc_isalipay;
 
     public McStatusBean() {
     }
@@ -36,9 +40,9 @@ public class McStatusBean {
         this.mc_no = mc_no;
     }
 
-    public McStatusBean(String mc_no,  String mr_coin_status, String mr_coin_short, String mr_bill_status, String mr_bill_short, String mr_uppos_status, String mr_scpos_status, String mr_alipay_status, String mr_wxpay_status, String mr_net_status, String mr_temp, String mr_door_isfault, String mr_door_status, Long mr_chann_fault_num, String mr_chann_fault_nos, Long mr_nogd_chnum, String mr_nogd_chann, Long mr_gear_fault_num, String mr_gear_fault_nos, Long mr_data_fault, java.util.Date mr_door_date, String mr_mc_position) {
+    public McStatusBean(String mc_no, String mr_coin_status, String mr_coin_short, String mr_bill_status, String mr_bill_short, String mr_uppos_status, String mr_scpos_status, String mr_alipay_status, String mr_wxpay_status, String mr_net_status, String mr_temp, String mr_door_isfault, String mr_door_status, Long mr_chann_fault_num, String mr_chann_fault_nos, Long mr_nogd_chnum, String mr_nogd_chann, Long mr_gear_fault_num, String mr_gear_fault_nos, Long mr_data_fault, java.util.Date mr_door_date, String mr_mc_position, Long mc_isbiller, Long mc_isuppos, Long mc_iswxpay, Long mc_isalipay) {
         this.mc_no = mc_no;
-         this.mr_coin_status = mr_coin_status;
+        this.mr_coin_status = mr_coin_status;
         this.mr_coin_short = mr_coin_short;
         this.mr_bill_status = mr_bill_status;
         this.mr_bill_short = mr_bill_short;
@@ -59,6 +63,10 @@ public class McStatusBean {
         this.mr_data_fault = mr_data_fault;
         this.mr_door_date = mr_door_date;
         this.mr_mc_position = mr_mc_position;
+        this.mc_isbiller = mc_isbiller;
+        this.mc_isuppos = mc_isuppos;
+        this.mc_iswxpay = mc_iswxpay;
+        this.mc_isalipay = mc_isalipay;
     }
 
     public String getMc_no() {
@@ -237,31 +245,36 @@ public class McStatusBean {
         this.mr_mc_position = mr_mc_position;
     }
 
-    @Override
-    public String toString() {
-        return "McStatusBean{" +
-                "mc_no='" + mc_no + '\'' +
-                ", mr_coin_status='" + mr_coin_status + '\'' +
-                ", mr_coin_short='" + mr_coin_short + '\'' +
-                ", mr_bill_status='" + mr_bill_status + '\'' +
-                ", mr_bill_short='" + mr_bill_short + '\'' +
-                ", mr_uppos_status='" + mr_uppos_status + '\'' +
-                ", mr_scpos_status='" + mr_scpos_status + '\'' +
-                ", mr_alipay_status='" + mr_alipay_status + '\'' +
-                ", mr_wxpay_status='" + mr_wxpay_status + '\'' +
-                ", mr_net_status='" + mr_net_status + '\'' +
-                ", mr_temp='" + mr_temp + '\'' +
-                ", mr_door_isfault='" + mr_door_isfault + '\'' +
-                ", mr_door_status='" + mr_door_status + '\'' +
-                ", mr_chann_fault_num=" + mr_chann_fault_num +
-                ", mr_chann_fault_nos='" + mr_chann_fault_nos + '\'' +
-                ", mr_nogd_chnum=" + mr_nogd_chnum +
-                ", mr_nogd_chann='" + mr_nogd_chann + '\'' +
-                ", mr_gear_fault_num=" + mr_gear_fault_num +
-                ", mr_gear_fault_nos='" + mr_gear_fault_nos + '\'' +
-                ", mr_data_fault=" + mr_data_fault +
-                ", mr_door_date=" + mr_door_date +
-                ", mr_mc_position='" + mr_mc_position + '\'' +
-                '}';
+    public Long getMc_isbiller() {
+        return mc_isbiller;
     }
+
+    public void setMc_isbiller(Long mc_isbiller) {
+        this.mc_isbiller = mc_isbiller;
+    }
+
+    public Long getMc_isuppos() {
+        return mc_isuppos;
+    }
+
+    public void setMc_isuppos(Long mc_isuppos) {
+        this.mc_isuppos = mc_isuppos;
+    }
+
+    public Long getMc_iswxpay() {
+        return mc_iswxpay;
+    }
+
+    public void setMc_iswxpay(Long mc_iswxpay) {
+        this.mc_iswxpay = mc_iswxpay;
+    }
+
+    public Long getMc_isalipay() {
+        return mc_isalipay;
+    }
+
+    public void setMc_isalipay(Long mc_isalipay) {
+        this.mc_isalipay = mc_isalipay;
+    }
+
 }

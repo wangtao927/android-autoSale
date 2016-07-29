@@ -72,7 +72,7 @@ public class ScoreListActivity extends BaseTimerActivity implements LMRecyclerVi
                 @Override
                 public void onClick(View v) {
                     finish();
-                    startActivity(new Intent(ScoreListActivity.this, HomeActivity.class));
+                    startActivity(new Intent(ScoreListActivity.this, VipActivity.class));
                 }
             });
         }

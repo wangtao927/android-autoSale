@@ -18,6 +18,7 @@ import com.ys.data.dao.GoodsBeanDao;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.common.constants.ChanStatusEnum;
+import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.utils.ToastUtils;
 
 import java.util.HashMap;
@@ -32,30 +33,18 @@ import butterknife.OnClick;
  * Created by wangtao on 2016/4/10.
  */
 public class McGoodsListAdapter extends RecyclerView.Adapter<McGoodsListAdapter.Holder> {
-    private Map<String, GoodsBean> goodsMap = new HashMap<>();
-    private List<McGoodsBean> data;
+     private List<McGoodsBean> data;
     private Context context;
 
     public McGoodsListAdapter(Context context, List<McGoodsBean> lists) {
         this.context = context;
         data = lists;
-        initGoodsMap();
 
-    }
-
-
-    private void initGoodsMap() {
-        for (McGoodsBean mcGoods : data) {
-            GoodsBean goodsBean = App.getDaoSession(App.getContext()).getGoodsBeanDao().
-                    queryBuilder().where(GoodsBeanDao.Properties.Gd_no.eq(mcGoods.getGd_no())).unique();
-            goodsMap.put(mcGoods.getGd_no(), goodsBean);
-        }
     }
 
 
     public void setData(List<McGoodsBean> data) {
         this.data = data;
-        initGoodsMap();
         notifyDataSetChanged();
     }
 
@@ -68,13 +57,13 @@ public class McGoodsListAdapter extends RecyclerView.Adapter<McGoodsListAdapter.
     @Override
     public void onBindViewHolder(McGoodsListAdapter.Holder holder, int position) {
         final McGoodsBean goodsView = data.get(position);
-        //final McGoodsBean goodsView = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().load(tmpGoods.getMg_channo());
+        GoodsBean goodsBean = DbManagerHelper.getGoodsInfo(goodsView.getGd_no());
         //将数据保存在itemView的Tag中，以便点击时进行获取
         holder.channo.setTag(goodsView);
         holder.channo.setText(goodsView.getMg_channo());
         holder.gdNo.setText(goodsView.getGd_no());
 
-        holder.gdName.setText(goodsMap.get(goodsView.getGd_no()).getGd_name());
+        holder.gdName.setText(goodsBean.getGd_name());
         if (goodsView.getMg_gvol() != null) {
             holder.gvol.setText(String.valueOf(goodsView.getMg_gvol()));
 

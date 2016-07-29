@@ -12,6 +12,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.bean.McGoodsBean;
+import com.ys.data.bean.McStatusBean;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseTimerActivity;
@@ -37,7 +38,7 @@ public class ProductDetailActivity extends BaseTimerActivity implements View.OnC
 
     @Bind(R.id.btn_yl)
     ImageButton btnYl;
-
+//
     @Bind(R.id.btn_sf)
     ImageButton btnSf;
 
@@ -64,6 +65,7 @@ public class ProductDetailActivity extends BaseTimerActivity implements View.OnC
     private String gdNo = "";
     private String channo = "";
 
+    private int origin;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_detail;
@@ -73,17 +75,49 @@ public class ProductDetailActivity extends BaseTimerActivity implements View.OnC
     protected void create(Bundle savedInstanceState) {
 
         init();
-        btnWx.setOnClickListener(this);
-        btnZfb.setOnClickListener(this);
-        btnYl.setOnClickListener(this);
-        btnSf.setOnClickListener(this);
+        if (!isSupportCash) {
+            btnSf.setVisibility(View.GONE);
+        } else {
+            btnSf.setOnClickListener(this);
+        }
+        if (!isSupportAlipay) {
+            btnZfb.setVisibility(View.GONE);
+        } else {
+            btnZfb.setOnClickListener(this);
+        }
+        if (!isSupportWx) {
+            btnWx.setVisibility(View.GONE);
+        } else {
+            btnWx.setOnClickListener(this);
+        }
+        if (!isSupportPos) {
+            btnYl.setVisibility(View.GONE);
+        } else {
+            btnYl.setOnClickListener(this);
+
+        }
      }
+    public  boolean isSupportWx = true;
+    public  boolean isSupportPos = true;
+    public  boolean isSupportAlipay = true;
+    public  boolean isSupportCash = false;
 
     private void init() {
+        try {
+            McStatusBean mcStatusBean = DbManagerHelper.getMcStatusBean();
+            isSupportWx = mcStatusBean.getMc_iswxpay().intValue() == 1;
+            isSupportPos = mcStatusBean.getMc_isuppos().intValue() == 1;
+            isSupportCash = mcStatusBean.getMc_isbiller().intValue() == 1;
+            isSupportAlipay = mcStatusBean.getMc_isalipay().intValue() == 1;
+        } catch (Exception e) {
+            CrashReport.postCatchedException(e);
+        }
+
         //调用接口获取地址
         Bundle datas = getIntent().getExtras();
         gdNo = datas.getString("gdNo");
         channo = datas.getString("channo");
+        origin = datas.getInt("origin");
         goodsBean = DbManagerHelper.getGoodsInfo(gdNo);
         mcGoodsBean = DbManagerHelper.getOutGoodsByChanno(channo);
 
@@ -121,16 +155,43 @@ public class ProductDetailActivity extends BaseTimerActivity implements View.OnC
             case R.id.btn_yl:
                 startPay(SlTypeEnum.CARD);
                 break;
-            case R.id.btn_sf:
-                startPay(SlTypeEnum.CASH);
-
-                break;
+//            case R.id.btn_sf:
+//
+//                ToastUtils.showShortMessage("该售货机暂不支持现金支付");
+//                startPay(SlTypeEnum.CASH);
+//
+//                break;
             default:
                 break;
 
         }
     }
 
+    @Override
+    protected void backHome() {
+        if(findViewById(R.id.btn_back_home)!=null){
+            findViewById(R.id.btn_back_home).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                    if (origin == 0) {
+                        startActivity(new Intent(ProductDetailActivity.this, ProductActivity.class));
+
+                    } else if (origin == 11) {
+                        // 会员特惠
+                        finish();
+                        Intent intent = new Intent(ProductDetailActivity.this, VipBuyActivity.class);
+                        intent.putExtra("index", 3);
+                        startActivity(intent);
+
+                    } else  {
+                        startActivity(new Intent(ProductDetailActivity.this, YsActivity.class));
+
+                    }
+                }
+            });
+        }
+    }
 
     private void startPay(SlTypeEnum slTypeEnum) {
 

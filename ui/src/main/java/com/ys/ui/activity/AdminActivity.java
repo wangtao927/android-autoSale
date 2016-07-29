@@ -167,8 +167,10 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
                 PrintHelper.getInstance().initPrint();
                 break;
               case R.id.btn_clear_saleList:
-
-                  App.getDaoSession(App.getContext()).getSaleListBeanDao().deleteSaleListBySendStatus();
+                   // 跳转到流水界面
+                  finish();
+                  startActivity(new Intent(AdminActivity.this, AdminSaleLitActivity.class));
+                  //App.getDaoSession(App.getContext()).getSaleListBeanDao().deleteSaleListBySendStatus();
                 break;
 //              case R.id.btn_init_sale:
 //                  SerialMachineHelper.getInstance().getSerial();

@@ -24,61 +24,31 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btn_buhuo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="2"
-            android:text="@string/onekeybuhuo" />
-
-        <Button
-            android:id="@+id/btn_clear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="3"
-            android:text="@string/onekeyclear" />
-
-        <Button
-            android:id="@+id/btn_init_serial"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="2"
-            android:text="@string/init_serila" />
          <Button
             android:id="@+id/btn_clear_saleList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="2"
-            android:text="交易流水" />
-
-
+            android:text="清空上送流水" />
         <Button
             android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:text="@string/back" />
+        <Button
+            android:id="@+id/btn_back_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="2"
             android:text="@string/backHome" />
 
         <Button
-            android:id="@+id/btn_check_update"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="2"
-            android:text="@string/checkUpdate" />
-        <Button
             android:id="@+id/btn_sys_out"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="2"
             android:text="@string/sysout" />
-        <Button
-            android:id="@+id/btn_reset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="2"
-            android:text="@string/reset" />
-
-
 
     </LinearLayout>
     <LinearLayout
@@ -88,34 +58,38 @@
         android:layout_marginLeft="10dp">
 
         <TextView
-            android:layout_width="80dp"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="订单号" />
+ <TextView
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="货道编号" />
 
         <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:text="商品编号" />
-
-        <TextView
-            android:layout_width="80dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="商品名称" />
 
         <TextView
-            android:layout_width="40dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="容量" />
+            android:text="支付状态" />
 
         <TextView
-            android:layout_width="40dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="库存" />
+            android:text="出货状态" />
 
         <TextView
-            android:layout_width="40dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="是否卡货" />
+            android:text="上送状态" />
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="交易时间" />
 
     </LinearLayout>
 

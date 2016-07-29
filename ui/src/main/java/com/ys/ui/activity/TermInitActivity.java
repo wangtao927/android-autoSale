@@ -131,8 +131,6 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
                             initTerm(response);
 
                             // 初始化数据成功， 初始化出货机，打印机，银联
-
-
                             Toast.makeText(TermInitActivity.this, "初始化成功", Toast.LENGTH_SHORT).show();
                             finish();
                             startActivity(new Intent(TermInitActivity.this, HomeActivity.class));
@@ -164,6 +162,10 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
     private void initTerm(CommonResponse<TermInitResult> response) {
         // 1. 保存终端号到sqllite
         McStatusBean mcStatusBean = getInitBean(response.getExt_data().getMachine().getMc_no());
+        mcStatusBean.setMc_isbiller(response.getExt_data().getMachine().getMc_isbiller());
+        mcStatusBean.setMc_isalipay(response.getExt_data().getMachine().getMc_isalipay());
+        mcStatusBean.setMc_isuppos(response.getExt_data().getMachine().getMc_isuppos());
+        mcStatusBean.setMc_iswxpay(response.getExt_data().getMachine().getMc_iswxpay());
         DbManagerHelper.initTermStatus(mcStatusBean);
         // 2. 更新终端参数
         DbManagerHelper.initMcParam(response.getExt_data().getMcparam());

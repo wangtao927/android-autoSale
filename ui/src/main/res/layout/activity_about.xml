@@ -39,10 +39,10 @@
     <com.ys.ui.view.UGallery
         android:id="@+id/main_gallery"
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_height="500dp" />
+        android:layout_width="match_parent"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:layout_height="400dp" />
 
     <LinearLayout
         android:id="@+id/main_lin"
@@ -75,6 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="16sp"
+            android:lineSpacingMultiplier="1.5"
             android:textColor="@color/white"
             android:text="
         广州博爱智谷医药集团是一家创新性医药健康产业集团。前身是创立于20世纪80年代末的广州博爱药店，集团秉承国父孙中山先生“博爱云者，为公爱而非私爱”的理念，以博爱、诚信、共赢、创业精神，致力于大健康产业的研发、生产和销售。经过近三十年的积极探索，已经成为国内最具实力的集生物医药产品研发、中药材种植基地、医药连锁、互联网电子商务销售平台和智能售药机网络为一体的综合性的大健康全产业链集团。\n

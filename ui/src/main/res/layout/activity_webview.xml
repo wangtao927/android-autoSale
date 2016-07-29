@@ -6,33 +6,29 @@ android:background="@color/bg_deep"
 android:orientation="vertical">
 
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_deep"
-    android:orientation="vertical">
 
     <include
         android:id="@+id/title"
         layout="@layout/title_bar2" />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title"
+        android:layout_above="@+id/rl_footer"
+        >
         <WebView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_x="0.0dip"
             android:layout_y="0.0dip"
-            android:layout_weight="1.0"
             android:id="@+id/webView"
             />
 
     </LinearLayout>
 
+    <include
+        android:id="@+id/rl_footer"
+        layout="@layout/footer_bar" />
+    <include layout="@layout/include_loading" />
 
-</LinearLayout>
-
-<include
-    android:id="@+id/rl_footer"
-    layout="@layout/footer_bar" />
 </RelativeLayout>

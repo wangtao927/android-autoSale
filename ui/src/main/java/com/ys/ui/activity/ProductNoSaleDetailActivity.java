@@ -40,7 +40,6 @@ public class ProductNoSaleDetailActivity extends BaseTimerActivity {
     TextView tvDesc;
 
     private GoodsBean goodsBean;
-    private McGoodsBean mcGoodsBean;
 
     String gdNameValue = "商品名：%s";
     String gdPrice = "价    格：%s 元";
@@ -48,11 +47,10 @@ public class ProductNoSaleDetailActivity extends BaseTimerActivity {
     String desc = "%s \n[规格] %s \n [配方] %s \n [功能主治] %s \n [用法用量] %s";
 
     private String gdNo = "";
-    private String channo = "";
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_detail;
+        return R.layout.activity_nosale_detail;
     }
 
     @Override
@@ -76,12 +74,23 @@ public class ProductNoSaleDetailActivity extends BaseTimerActivity {
 
         tvGdName.setText(String.format(gdNameValue, goodsBean.getGd_short_name()));
 
-        tvPrice.setText(String.format(gdPrice, getPrice(mcGoodsBean.getMg_disc_price())));
-        tvVipPrice.setText(String.format(gdVipPrice, getPrice(mcGoodsBean.getMg_vip_price())));
+        tvPrice.setText(String.format(gdPrice, getPrice(goodsBean.getGd_disc_price())));
+        tvVipPrice.setText(String.format(gdVipPrice, getPrice(goodsBean.getGd_vip_price())));
         tvDesc.setText(String.format(desc, goodsBean.getGd_desc(),
                 goodsBean.getGd_spec(), goodsBean.getGd_desc1(), goodsBean.getGd_desc2(), goodsBean.getGd_desc3()));
     }
 
-
+    @Override
+    protected void backHome() {
+        if(findViewById(R.id.btn_back_home)!=null){
+            findViewById(R.id.btn_back_home).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                    startActivity(new Intent(ProductNoSaleDetailActivity.this, YsActivity.class));
+                }
+            });
+        }
+    }
 
 }

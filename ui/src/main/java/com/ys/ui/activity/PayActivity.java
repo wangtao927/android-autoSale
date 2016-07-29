@@ -453,6 +453,14 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
 
     }
 
+    Handler getOrderStatusHandler = new Handler();
+
+    Runnable getStatusRunnable = new Runnable() {
+        @Override
+        public void run() {
+            getOrderStatus(slNo);
+        }
+    };
     private void getOrderStatus(final String slNo) {
         RetrofitManager.builder().getOrderStatus(slNo)
                 .subscribeOn(Schedulers.io())
@@ -474,7 +482,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                                 // ToastUtils.showShortMessage("支付成功");
                                 //
 
-                                DbManagerHelper.updatePayStatus(slNo, response.getExt_data().getSl_pay_status());
+                                //DbManagerHelper.updatePayStatus(slNo, response.getExt_data().getSl_pay_status());
                                 startOutGoods(slNo);
 
 
@@ -483,20 +491,17 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                                     return;
                                 }
                                 if (System.currentTimeMillis() - startTime < timeout * 1000) {
-                                    try {
-                                        Thread.sleep(2000);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                        Log.e("sleep error", e.getMessage());
-                                        CrashReport.postCatchedException(e);
-                                    }
-                                    getOrderStatus(slNo);
+                                    getOrderStatusHandler.postDelayed(getStatusRunnable, 2000);
+//                                    try {
+//                                        Thread.sleep(2000);
+//                                    } catch (InterruptedException e) {
+//                                        e.printStackTrace();
+//                                        Log.e("sleep error", e.getMessage());
+//                                        CrashReport.postCatchedException(e);
+//                                    }
+//                                    getOrderStatus(slNo);
                                 } else {
                                     DbManagerHelper.updatePayStatus(slNo, String.valueOf(SlPayStatusEnum.CANCELD.getIndex()));
-
-//                                    finish();
-//                                    startActivity(new Intent(PayActivity.this, HomeActivity.class));
-//                                    ToastUtils.showError("未支付或者支付失败", PayActivity.this);
 
                                     payFaild();
                                 }
@@ -508,6 +513,12 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
+
+                        // 重试？
+
+                        DbManagerHelper.updatePayStatus(slNo, String.valueOf(SlPayStatusEnum.CANCELD.getIndex()));
+
+                        payFaild();
                         //hideProgress();
                         Log.e("getOrderStatus error", "mcNo=" + getMcNo() + "slNo=" + slNo + throwable.getMessage());
                         CrashReport.postCatchedException(throwable);
@@ -801,7 +812,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
             pay_task.cancel();
         }
         ButterKnife.unbind(this);
-
+        getOrderStatusHandler.removeCallbacks(getStatusRunnable);
         mmHandler.removeCallbacksAndMessages(null);
         mMyApi.pos_release();
 

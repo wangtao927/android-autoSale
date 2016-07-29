@@ -63,7 +63,7 @@ public class YsMCMYActivity extends BaseTimerActivity implements LMRecyclerView.
 
     private Long mTotalCount;
 
-    private int PAGE_SIZE = 4;
+    private int PAGE_SIZE = 9;
 
     private int mPageIndex = 1;
     private CirclePageView mPageView;
@@ -93,20 +93,14 @@ public class YsMCMYActivity extends BaseTimerActivity implements LMRecyclerView.
        im_mcmy8.setOnClickListener(this);
     }
 
-
-
     private void initView() {
-        mRecyclerView.setLayoutManager(new GridLayoutManager(App.ctx, 2));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(App.ctx, 3));
         mRecyclerView.setLoadMoreListener(this);
 
         mPrePageButton.setOnClickListener(this);
         mNextPageButton.setOnClickListener(this);
         initPages();
-
-
     }
-
-
 
     /**
      * 初始化分页

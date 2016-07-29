@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 /**
  * Created by wangtao on 2016/7/4.
  */
-public class YsActivity extends BaseTimerActivity implements View.OnClickListener {
+public class YsDisplayActivity extends BaseTimerActivity implements View.OnClickListener {
 
 
     @Bind(R.id.iv_ys1)
@@ -47,6 +47,7 @@ public class YsActivity extends BaseTimerActivity implements View.OnClickListene
             case R.id.iv_ys1:
                 // 名厂名药
                 finish();
+//                startActivity(new Intent(this, YsMCMYActivity.class));
                 startActivity(new Intent(this, YsMCMYActivity.class));
 
                 break;
@@ -59,9 +60,7 @@ public class YsActivity extends BaseTimerActivity implements View.OnClickListene
             case R.id.iv_ys3:
                 finish();
                 // 人体部位
-                Intent intent = new Intent(this, YsRTBWActivity.class);
-                intent.putExtra("index", 1);
-                startActivity(intent);
+                startActivity(new Intent(this, YsRTBWActivity.class));
 
                 break;
             case R.id.iv_ys4:
@@ -83,7 +82,7 @@ public class YsActivity extends BaseTimerActivity implements View.OnClickListene
                 @Override
                 public void onClick(View v) {
                     finish();
-                    startActivity(new Intent(YsActivity.this, HomeActivity.class));
+                    startActivity(new Intent(YsDisplayActivity.this, HomeActivity.class));
                 }
             });
         }

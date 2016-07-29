@@ -6,29 +6,49 @@ android:layout_height="match_parent"
 android:background="@color/bg"
 android:orientation="vertical">
 
-<include
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_deep"
+    android:orientation="vertical">
+
+    <include
     android:id="@+id/title"
     layout="@layout/title_bar2" />
 
-<ImageView
-    android:id="@+id/ad"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/title"
-    android:background="@mipmap/banner_jfcj"
-    android:scaleType="fitXY" />
+    <LinearLayout
+        android:id="@+id/ll_hycj"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/bg_btn">
+        <ImageView
+            android:src="@mipmap/menu"
+            android:padding="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="24dp"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:text="会员抽奖"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/ad"
+    android:layout_below="@+id/ll_hycj"
     android:layout_above="@+id/ly_gz"
+    android:layout_marginTop="30dp"
     android:background="@color/bg">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="700dp"
         android:layout_above="@+id/ly_gz"
-        android:layout_margin="30dp"
-        android:layout_below="@id/ad"
+        android:layout_below="@id/ll_hycj"
         android:background="@color/bg"
         android:layout_gravity="center"
         >
@@ -37,7 +57,7 @@ android:orientation="vertical">
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_centerInParent="true"
-            android:padding="30dp" />
+            android:padding="70dp" />
 
         <ImageView
             android:id="@+id/id_start_btn"
@@ -56,11 +76,22 @@ android:orientation="vertical">
      android:id="@+id/ly_gz"
      android:layout_above="@+id/ly_gedesc"
      android:layout_width="match_parent"
-     android:layout_height="40dp"
-     android:gravity="center_horizontal">
+     android:layout_marginTop="10dp"
+     android:layout_height="180dp"
+     android:orientation="vertical"
+     >
+     <ImageView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center_horizontal"
+         android:src="@mipmap/xx"
+         android:layout_weight="1"/>
      <TextView
-         android:text="抽奖规则"
+         android:id="@+id/tv_cj"
+         android:text="抽 奖 规 则 :"
+         android:layout_gravity="center_horizontal"
          android:textSize="30dp"
+         android:layout_weight="1"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content" />
 
@@ -69,24 +100,25 @@ android:orientation="vertical">
         android:id="@+id/ly_gedesc"
         android:layout_above="@+id/rl_footer"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="30dp"
         android:background="@color/white"
-        android:gravity="left">
+        >
         <TextView
             android:text="    1. 顾客可凭博爱智谷自助终端消费小票上的'订单编号'参与会员抽奖活动，有机会获得高额的会员积分\n
     2. 抽奖中所获得会员积分将自动记入您的会员卡\n
     3. 会员积分可在博爱商城中按照会员积分使用规则进行商品换购\n
             "
             android:textSize="20dp"
+            android:lineSpacingMultiplier="1.5"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
-
+</LinearLayout>
 <include
     android:id="@+id/rl_footer"
     layout="@layout/footer_bar" />

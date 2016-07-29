@@ -1,5 +1,7 @@
 package com.ys.ui.common.constants;
 
+import com.ys.ui.R;
+import com.ys.ui.view.GridDataSet;
 import com.ys.ui.view.YsDetailView;
 
 import java.util.ArrayList;
@@ -573,5 +575,38 @@ public class YsConstants {
 
     public static List<YsDetailView> getListView(int index) {
         return level3.get(index);
+    }
+
+
+    public static List<GridDataSet> getList(int index) {
+        // 1  第一页
+        List<GridDataSet> list = new ArrayList();
+        if (index == 1) {
+            list.add(new GridDataSet(1, R.mipmap.tou, 111, "头"));
+            list.add(new GridDataSet(1, R.mipmap.jin, 112, "颈"));
+            list.add(new GridDataSet(1, R.mipmap.xiong, 121, "胸"));
+            list.add(new GridDataSet(1, R.mipmap.fu, 122, "腹"));
+            list.add(new GridDataSet(1, R.mipmap.sizhi, 131, "四肢"));
+            list.add(new GridDataSet(1, R.mipmap.szq, 132, "生殖器"));
+            list.add(new GridDataSet(1, R.mipmap.bei, 141, "背"));
+            list.add(new GridDataSet(1, R.mipmap.yaotun, 142, "腰臀部"));
+            list.add(new GridDataSet(1, R.mipmap.xinzang, 151, "心脏"));
+            list.add(new GridDataSet(1, R.mipmap.fei, 152, "肺"));
+            list.add(new GridDataSet(1, R.mipmap.shenzang, 161, "肾脏"));
+            list.add(new GridDataSet(1, R.mipmap.dachang, 162, "大肠"));
+
+
+        } else {
+            // 2 第二页
+
+            list.add(new GridDataSet(1, R.mipmap.xiaochang, 171, "小肠"));
+            list.add(new GridDataSet(1, R.mipmap.pangguang, 172, "膀胱"));
+            list.add(new GridDataSet(1, R.mipmap.ganpi, 181, "脾脏"));
+            list.add(new GridDataSet(1, R.mipmap.ganzang, 182, "肝脏"));
+            list.add(new GridDataSet(1, R.mipmap.dan, 191, "胆"));
+            list.add(new GridDataSet(1, R.mipmap.wei, 192, "胃"));
+        }
+
+        return list;
     }
 }

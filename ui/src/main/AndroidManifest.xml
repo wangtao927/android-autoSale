@@ -78,8 +78,16 @@
             android:label="@string/admin"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.AdminSaleLitActivity"
+            android:label="@string/admin"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.QRcodeActivity"
             android:label="二维码支付"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.VipBuyActivity"
+            android:label="会员购买"
             android:screenOrientation="portrait" />
         <activity
             android:launchMode="singleTask"
