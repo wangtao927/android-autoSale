@@ -1,16 +1,6 @@
 package com.ys.ui.activity;
 
 
-import com.landfoneapi.misposwa.CallbackMsg;
-import com.landfoneapi.misposwa.E_REQ_RETURN;
-import com.landfoneapi.misposwa.ILfListener;
-import com.landfoneapi.protocol.pkg.Display;
-import com.landfoneapi.protocol.pkg.DisplayType;
-import com.landfoneapi.protocol.pkg._04_GetRecordReply;
-import com.landfoneapi.protocol.pkg._04_PassbookRenewReply;
-import com.ys.ui.R;
-import com.ys.ui.service.MyService;
-
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -27,6 +17,16 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import com.landfoneapi.misposwa.CallbackMsg;
+import com.landfoneapi.misposwa.E_REQ_RETURN;
+import com.landfoneapi.misposwa.ILfListener;
+import com.landfoneapi.protocol.pkg.Display;
+import com.landfoneapi.protocol.pkg.DisplayType;
+import com.landfoneapi.protocol.pkg._04_GetRecordReply;
+import com.landfoneapi.protocol.pkg._04_PassbookRenewReply;
+import com.ys.ui.R;
+import com.ys.ui.service.MyService;
 
 public class InitActivity extends Activity {
 	private String TAG = "InitActivity";

@@ -5,12 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseTimerActivity;
-import com.ys.ui.base.PayTimerActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

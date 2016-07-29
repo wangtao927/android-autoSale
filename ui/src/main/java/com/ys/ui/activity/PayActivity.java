@@ -35,7 +35,6 @@ import com.ys.data.bean.McGoodsBean;
 import com.ys.data.bean.SaleListBean;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
-import com.ys.ui.base.BaseTimerActivity;
 import com.ys.ui.base.PayTimerActivity;
 import com.ys.ui.common.constants.SlPayStatusEnum;
 import com.ys.ui.common.constants.SlSendStatusEnum;

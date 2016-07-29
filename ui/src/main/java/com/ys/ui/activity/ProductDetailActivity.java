@@ -20,10 +20,8 @@ import com.ys.ui.common.constants.SlTypeEnum;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.utils.ImageUtils;
 import com.ys.ui.utils.PropertyUtils;
-import com.ys.ui.utils.ToastUtils;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 public class ProductDetailActivity extends BaseTimerActivity implements View.OnClickListener {
 

@@ -9,7 +9,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.ys.ui.R;
-import com.ys.ui.base.BaseActivity;
 import com.ys.ui.base.BaseTimerActivity;
 
 import butterknife.Bind;

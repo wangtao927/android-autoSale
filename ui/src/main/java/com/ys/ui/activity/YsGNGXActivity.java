@@ -8,10 +8,8 @@ import android.widget.GridView;
 import android.widget.SimpleAdapter;
 
 import com.ys.ui.R;
-import com.ys.ui.adapter.GngxGridAdaper;
 import com.ys.ui.base.BaseTimerActivity;
 import com.ys.ui.common.constants.GngxEnum;
-import com.ys.ui.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

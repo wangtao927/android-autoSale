@@ -2,7 +2,6 @@ package com.ys.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -12,13 +11,10 @@ import android.widget.TextView;
 
 import com.ys.ui.R;
 import com.ys.ui.adapter.GridViewAdapter;
-import com.ys.ui.base.App;
 import com.ys.ui.base.BaseTimerActivity;
-import com.ys.ui.common.constants.RtbwEnum;
 import com.ys.ui.common.constants.YsConstants;
 import com.ys.ui.view.CirclePageView;
 import com.ys.ui.view.GridDataSet;
-import com.ys.ui.view.YsDetailView;
 
 import java.util.List;
 

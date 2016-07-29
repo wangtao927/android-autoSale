@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.ys.data.bean.McGoodsBean;
-import com.ys.data.bean.McStatusBean;
 import com.ys.data.bean.SaleListBean;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
@@ -31,7 +30,6 @@ import com.ys.ui.utils.ToastUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.Bind;
 import rx.android.schedulers.AndroidSchedulers;

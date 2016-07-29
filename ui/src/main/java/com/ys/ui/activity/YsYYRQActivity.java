@@ -7,7 +7,6 @@ import android.widget.ImageView;
 
 import com.ys.ui.R;
 import com.ys.ui.base.BaseTimerActivity;
-import com.ys.ui.common.constants.GngxEnum;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

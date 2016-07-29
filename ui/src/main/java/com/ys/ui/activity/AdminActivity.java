@@ -3,7 +3,6 @@ package com.ys.ui.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -24,10 +23,7 @@ import com.ys.ui.common.http.RetrofitManager;
 import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.TermInitResult;
-import com.ys.ui.serial.pos.PosSerialHelper;
 import com.ys.ui.serial.print.activity.PrintHelper;
-import com.ys.ui.serial.salemachine.SerialMachineHelper;
-import com.ys.ui.utils.ToastUtils;
 import com.ys.ui.view.LMRecyclerView;
 
 import java.util.ArrayList;

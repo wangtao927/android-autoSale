@@ -15,8 +15,6 @@ import com.ys.ui.base.BaseActivity;
 import com.ys.ui.common.sign.MD5;
 import com.ys.ui.utils.ToastUtils;
 
-import java.util.List;
-
 import butterknife.Bind;
 
 /**

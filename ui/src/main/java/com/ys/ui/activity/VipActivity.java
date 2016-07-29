@@ -2,19 +2,11 @@ package com.ys.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Gallery;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.ys.ui.R;
-import com.ys.ui.adapter.GalleryAdapter;
 import com.ys.ui.base.BaseTimerActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

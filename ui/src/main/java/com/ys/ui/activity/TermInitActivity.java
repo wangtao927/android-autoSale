@@ -15,12 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.ys.data.bean.GoodsBean;
-import com.ys.data.bean.McAdminBean;
-import com.ys.data.bean.McGoodsBean;
-import com.ys.data.bean.McParamsBean;
 import com.ys.data.bean.McStatusBean;
-import com.ys.data.dao.SaleListBeanDao;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
@@ -29,10 +24,7 @@ import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.TermInitResult;
 import com.ys.ui.service.TimerService;
-import com.ys.ui.utils.StringUtils;
 
-import java.security.Provider;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;

@@ -24,7 +24,6 @@ import com.ys.ui.base.BaseActivity;
 import com.ys.ui.common.constants.SlPayStatusEnum;
 import com.ys.ui.common.constants.SlTypeEnum;
 import com.ys.ui.common.http.RetrofitManager;
-import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.request.SaleListVo;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateOrderResult;

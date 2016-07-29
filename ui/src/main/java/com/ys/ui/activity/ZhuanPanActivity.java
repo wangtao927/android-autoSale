@@ -22,7 +22,6 @@ import com.ys.ui.base.BaseTimerActivity;
 import com.ys.ui.common.http.RetrofitManager;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.CreateDrawResult;
-import com.ys.ui.utils.RandomUtils;
 import com.ys.ui.utils.ToastUtils;
 import com.ys.ui.view.LuckyPanView;
 
