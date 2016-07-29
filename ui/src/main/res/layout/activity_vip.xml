@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_deep"
+    android:background="@color/white"
     android:orientation="vertical">
 
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_deep"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <include
@@ -18,25 +18,66 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_vertical"
+        android:layout_height="510dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
         >
+
         <ImageView
-            android:layout_weight="1"
-            android:id="@+id/iv_hyhg"
-            android:src="@mipmap/banner_jfhg"
-            android:layout_width="match_parent"
+            android:id="@+id/iv_jfhg"
+            android:src="@mipmap/mem1"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="6dp"
+            android:layout_weight="1"
+            />
+
+        <ImageView
+            android:id="@+id/iv_mfzx"
+            android:src="@mipmap/mem2"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="5dp"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="510dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+
+        >
+
+        <ImageView
+            android:id="@+id/iv_hyth"
+            android:src="@mipmap/mem3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="6dp"
+            android:layout_weight="1"
+
             />
 
         <ImageView
             android:id="@+id/iv_hycj"
-            android:layout_weight="1"
-            android:src="@mipmap/banner_jfcj"
-            android:layout_width="match_parent"
+            android:src="@mipmap/mem4"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginBottom="100dp"/>
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            />
 
     </LinearLayout>
 
