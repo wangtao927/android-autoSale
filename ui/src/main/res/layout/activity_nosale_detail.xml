@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
                     android:text=""
-                    android:textSize="15sp"
+                    android:textSize="20sp"
                     android:textColor="@color/white" />
 
 
@@ -128,6 +128,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:text="备注： "
             android:textSize="28sp"
 
@@ -136,7 +137,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="    该商品在本售药机上没有售卖或已售完，请到门店或官方商城上购买"
-            android:textSize="28sp"
+            android:textSize="24sp"
 
             />
     </LinearLayout>

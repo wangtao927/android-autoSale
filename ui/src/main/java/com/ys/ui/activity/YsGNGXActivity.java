@@ -68,8 +68,6 @@ public class YsGNGXActivity extends BaseTimerActivity implements View.OnClickLis
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Map<String, Object> map = data_list.get(position);
 
-                //ToastUtils.showShortMessage(map.get("image") + "--" + map.get("id").toString());
-
                 finish();
                 Intent intent = new Intent(YsGNGXActivity.this, YsDetailActivity.class);
                 intent.putExtra("index", (int)(map.get("id")));
@@ -112,7 +110,7 @@ public class YsGNGXActivity extends BaseTimerActivity implements View.OnClickLis
                 @Override
                 public void onClick(View v) {
                     finish();
-                    startActivity(new Intent(YsGNGXActivity.this, HomeActivity.class));
+                    startActivity(new Intent(YsGNGXActivity.this, YsActivity.class));
                 }
             });
         }

@@ -257,7 +257,6 @@ public class OutGoodsActivity extends SerialMachineActivity {
             reInitTimer(0, 30);
             if (mSendingThread != null) {
                 mSendingThread.interrupt();
-
             }
             transFinish = true;
 
@@ -282,16 +281,22 @@ public class OutGoodsActivity extends SerialMachineActivity {
     }
 
     private void printPayNote() {
-        Long vipPrice = 0L;
+         new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Long vipPrice = 0L;
 
-        SaleListBean bean = DbManagerHelper.getSaleRecord(slNo);
-        if (bean.getSl_vip_price() != null) {
-            vipPrice = bean.getSl_vip_price();
-        }
-        GoodsBean goodsBean = DbManagerHelper.getGoodsInfo(bean.getSl_gd_no());
-        PrintHelper.getInstance().gdPrint(slNo.substring(App.mcNo.length()), App.mcNo, goodsBean.getGd_name(),
-                goodsBean.getGd_spec(), getPrice(bean.getSl_pre_price()),
-                getPrice(vipPrice), getPrice(bean.getSl_amt()), SlTypeEnum.findByIndex(slType).getDesc());
+                SaleListBean bean = DbManagerHelper.getSaleRecord(slNo);
+                if (bean.getSl_vip_price() != null) {
+                    vipPrice = bean.getSl_vip_price();
+                }
+                GoodsBean goodsBean = DbManagerHelper.getGoodsInfo(bean.getSl_gd_no());
+                PrintHelper.getInstance().gdPrint(slNo.substring(App.mcNo.length()), App.mcNo, goodsBean.getGd_name(),
+                        goodsBean.getGd_spec(), getPrice(bean.getSl_pre_price()),
+                        getPrice(vipPrice), getPrice(bean.getSl_amt()), SlTypeEnum.findByIndex(slType).getDesc());
+            }
+        }).start();
+
     }
 
     protected String getPrice(Long price) {
@@ -473,6 +478,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
                 Message msg = new Message();
                 msg.what = 0;
                 handler.sendMessage(msg);
+
             }
         };
 
@@ -529,17 +535,15 @@ public class OutGoodsActivity extends SerialMachineActivity {
         }
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
-            handler = null;
+
         }
 
         if (timerTask != null) {
             timerTask.cancel();
-            timerTask = null;
         }
 
         if (timer != null) {
             timer.cancel();
-            timer = null;
         }
     }
 }

@@ -89,7 +89,7 @@ public class YsYYRQActivity extends BaseTimerActivity implements View.OnClickLis
                 @Override
                 public void onClick(View v) {
                     finish();
-                    startActivity(new Intent(YsYYRQActivity.this, HomeActivity.class));
+                    startActivity(new Intent(YsYYRQActivity.this, YsActivity.class));
                 }
             });
         }

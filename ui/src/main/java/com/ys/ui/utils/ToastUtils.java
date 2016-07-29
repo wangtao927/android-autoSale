@@ -41,6 +41,8 @@ public class ToastUtils {
     }
     private static Toast getToast(String message, Context context, int length) {
         Toast toast = Toast.makeText(context, message, length);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 10);
+
         return toast;
     }
 }

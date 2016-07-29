@@ -13,6 +13,8 @@ public enum SlTypeEnum {
     ALIPAY(4, "支付宝"),
     SCORE(5, "积分兑换"),
     CODE(6, "提货码"),
+    VIPFREE(7, "免费尊享"),
+
     ;
 
 

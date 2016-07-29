@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:text="免责申明"
         android:textColor="@color/white"
         android:textSize="44sp"
@@ -33,7 +33,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="10dp"
         android:background="@color/white" />
 
 
@@ -49,7 +49,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text=" \n 用户在接受本智能售药机服务之前，请务必仔细阅读以下条款并同意本声明：\n"
+            android:text=" \n     用户在接受本智能售药机服务之前，请务必仔细阅读以下条款并同意本声明：\n"
             android:textColor="@color/white"
             android:textSize="26sp"
             android:background="@color/red"
@@ -60,6 +60,7 @@
             android:textSize="22sp"
             android:textColor="@color/black"
             android:background="@color/white"
+            android:lineSpacingMultiplier="1.5"
             android:text=" \n
         1、个人直接或通过各类方式使用本售药机的行为，都将视作已无条件接受本声明所涉全部内容，如对本声明的任何条款有异议，请停止售药机所提供的全部服务及各类使用本机行为。\n
         2、使用本机过程中，请按照本机提示流程操作，否则因个人操作不当而造成的损失，本公司概不负责。\n

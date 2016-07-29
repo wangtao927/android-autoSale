@@ -6,11 +6,36 @@
     android:orientation="vertical"
     >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_deep"
+        android:orientation="vertical">
+
     <include
         android:id="@+id/title"
         layout="@layout/title_bar2" />
+    <LinearLayout
+        android:id="@+id/ll_hycj"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/bg_btn">
+        <ImageView
+            android:src="@mipmap/menu"
+            android:padding="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_vip_type"
+            android:textSize="24dp"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:text="积分换购"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-
+    </LinearLayout>
     <com.ys.ui.view.LMRecyclerView
         android:layout_marginTop="25dp"
         android:layout_marginRight="10dp"
@@ -20,9 +45,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/rl_page"
-        android:layout_below="@+id/iv_jfhg"
+        android:layout_below="@+id/title"
         android:clipToPadding="false" />
 
+
+</LinearLayout>
     <RelativeLayout
         android:id="@+id/rl_page"
         android:layout_width="wrap_content"
@@ -59,8 +86,6 @@
             android:src="@mipmap/page_next" />
 
     </RelativeLayout>
-
-
     <include
         android:id="@+id/rl_footer"
         layout="@layout/footer_bar" />
