@@ -75,7 +75,17 @@ public class OutGoodsActivity extends SerialMachineActivity {
             }
         });
         btnBackHome = (ImageButton) findViewById(R.id.btn_back_home);
+        btnBackHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                if (transFinish) {
+
+                    finish();
+                    startActivity(new Intent(OutGoodsActivity.this, ProductActivity.class));
+                }
+            }
+        });
 
         Bundle datas = getIntent().getExtras();
         slNo = datas.getString("slNo");
@@ -91,7 +101,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
         mSendingThread = new SendingThread();
         mSendingThread.start();
 
-        initTimer(1,0);
+        initTimer(1,5);
 
     }
 
@@ -114,11 +124,9 @@ public class OutGoodsActivity extends SerialMachineActivity {
                         switch (buff[3]) {
                             case 0x00:
                                 selectGoodsFlag = true;
-                                //queue.add(new RobotEventArg(2, 2, Integer.valueOf(buff[2]).toString()));
                                 break; // 提取中
                             case 0x55:
                                 selectGoodsFlag = true;
-                                //queue.add(new RobotEventArg(2, 3, Integer.valueOf(buff[2]).toString()));
                                 // 选货结束  发送出货命令
                                 mBuffer = GetBytesUtils.goodsOuter();
 
@@ -127,7 +135,6 @@ public class OutGoodsActivity extends SerialMachineActivity {
                                 break; // 提取完毕
                             case (byte) 0xFF:
                                 selectGoodsFaild();
-                                //queue.add(new RobotEventArg(2, 4, Integer.valueOf(buff[2]).toString()));
                                 break; // 提取失败
                             case (byte) 0xEE:
                                 outGoodsFail();
@@ -199,7 +206,7 @@ public class OutGoodsActivity extends SerialMachineActivity {
     }
 
     private void updateTransFailDesc() {
-        reInitTimer(5, 0);
+        reInitTimer(5, 1);
         //  锁定货道
         transStatus.setText("出货失败!");
         transStatus.setTextColor(getResources().getColor(R.color.red));
@@ -236,8 +243,9 @@ public class OutGoodsActivity extends SerialMachineActivity {
         updateTransFailDesc();
         try {
             reback();
-            App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChanStatusByChanno(
-                    channo, Long.valueOf(ChanStatusEnum.ERROR.getIndex()));
+//            App.getDaoSession(App.getContext()).getMcGoodsBeanDao().updateChanStatusByChanno(
+//                    channo, Long.valueOf(ChanStatusEnum.ERROR.getIndex()));
+            DbManagerHelper.updateMcStoreChannStatus(channo, ChanStatusEnum.ERROR);
 
             DbManagerHelper.updateOutStatus(slNo, SlOutStatusEnum.FAIL);
 
@@ -270,9 +278,6 @@ public class OutGoodsActivity extends SerialMachineActivity {
             DbManagerHelper.reduceStore(channo);
             // 打印凭条
             printPayNote();
-
-
-
         } catch (Exception e) {
             Log.e("outGoodsActivitySUC 273", App.mcNo  + e);
             CrashReport.postCatchedException(e);

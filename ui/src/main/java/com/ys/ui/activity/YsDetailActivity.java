@@ -1,6 +1,7 @@
 package com.ys.ui.activity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
@@ -8,6 +9,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.ys.data.bean.GoodsBean;
 import com.ys.data.dao.GoodsBeanDao;
@@ -27,6 +29,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.dao.query.QueryBuilder;
+import de.greenrobot.dao.query.WhereCondition;
 
 /**
  * Created by wangtao on 2016/7/10.
@@ -59,6 +62,8 @@ public class YsDetailActivity extends BaseTimerActivity implements LMRecyclerVie
     @Bind(R.id.view_wordwrap)
     WordWrapView wordWrapView;
 
+    @Bind(R.id.tv_ys_desc)
+    TextView mTvDesc;
     private String keyword;
 
     private int index;
@@ -73,7 +78,8 @@ public class YsDetailActivity extends BaseTimerActivity implements LMRecyclerVie
 
         Bundle datas = getIntent().getExtras();
         index = datas.getInt("index");
-        //String desc = datas.getString("desc");
+        String desc = datas.getString("desc");
+        mTvDesc.setText(desc);
         List<YsDetailView> list =  YsConstants.getListView(index);
 
         if (list.size() > 20) {
@@ -86,18 +92,24 @@ public class YsDetailActivity extends BaseTimerActivity implements LMRecyclerVie
             button.setText(detailView.getDesc());
             button.setTextSize(30);
             button.setBackgroundResource(R.drawable.label);
-            button.setGravity(Gravity.CENTER_HORIZONTAL);
+            button.setGravity(Gravity.CENTER);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Button b = (Button)v;
                     // 其他所有的都变成  原始背景色
-                    for (int i = 0; i < wordWrapView.getChildCount(); i++) {
-//
-                        wordWrapView.getChildAt(i).setBackgroundResource(R.drawable.label);
-                    }
+//                    for (int i = 0; i < wordWrapView.getChildCount(); i++) {
+////
+//                        wordWrapView.getChildAt(i).
+//                        wordWrapView.getChildAt(i).setBackgroundResource(R.drawable.label);
+//                    }
                     b.setBackgroundResource(R.drawable.label_1);
-                    keyword = b.getText().toString();
+                    if (TextUtils.isEmpty(keyword)) {
+                         keyword = b.getText().toString() + ",";
+                    } else {
+                        keyword +=b.getText().toString() +",";
+
+                    }
                     reLoadDataWithNoPage();
 
                 }
@@ -141,13 +153,34 @@ public class YsDetailActivity extends BaseTimerActivity implements LMRecyclerVie
     protected void loadData() {
 
         QueryBuilder<GoodsBean> queryBuilder = App.getDaoSession(App.getContext()).getGoodsBeanDao().queryBuilder();
+
         int offset = mPageIndex == 1 ? 0 : ((mPageIndex-1) * PAGE_SIZE);
         if (!TextUtils.isEmpty(keyword)) {
-            queryBuilder = queryBuilder.where(GoodsBeanDao.Properties.Gd_keyword.like("%"+keyword+"%"));
+            String[] key = keyword.split(",");
+            if (key.length == 1) {
+
+                queryBuilder = queryBuilder.where(GoodsBeanDao.Properties.Gd_keyword.like("%" + key[0] + "%"));
+
+            } else if (key.length == 2) {
+                queryBuilder = queryBuilder.whereOr(GoodsBeanDao.Properties.Gd_keyword.like("%" + key[0] + "%"),
+                        GoodsBeanDao.Properties.Gd_keyword.like("%" + key[1] + "%"));
+
+            } else {
+                WhereCondition[] listWhere = new WhereCondition[key.length-2];
+                for (int i = 0; i< key.length; i++) {
+                    if (i ==0 || i == 1) {
+                        continue;
+                    }
+                    listWhere[i-2] =  GoodsBeanDao.Properties.Gd_keyword.like("%" + key[i] + "%");
+                }
+
+                queryBuilder = queryBuilder.whereOr(GoodsBeanDao.Properties.Gd_keyword.like("%" + key[0] + "%"),
+                        GoodsBeanDao.Properties.Gd_keyword.like("%" + key[1] + "%"),
+                        listWhere
+                );
+            }
         }
         mProducts = queryBuilder.offset(offset).limit(PAGE_SIZE).orderAsc(GoodsBeanDao.Properties.Gd_code).list();
-
-
     }
 
 

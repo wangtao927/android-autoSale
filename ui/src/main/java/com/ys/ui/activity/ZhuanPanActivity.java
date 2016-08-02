@@ -74,7 +74,7 @@ public class ZhuanPanActivity extends BaseTimerActivity implements View.OnClickL
 
 				String userNo  = etUserNo.getText().toString();
 				String slNo = etSlNo.getText().toString();
-				String pwd = etPwd.getText().toString();
+//				String pwd = etPwd.getText().toString();
 
 				if (TextUtils.isEmpty(userNo) ) {
 					ToastUtils.showShortMessage("用户名不能为空");
@@ -85,14 +85,9 @@ public class ZhuanPanActivity extends BaseTimerActivity implements View.OnClickL
 
 					return;
 				}
-				if (TextUtils.isEmpty(pwd)) {
-                     ToastUtils.showShortMessage("密码不能为空");
-					return;
-				}
-
 				minute = 2;
 				second = 0;
-				createDraw(slNo, userNo, pwd);
+				createDraw(slNo, userNo);
 				break;
 
 			case R.id.btn_cancel:
@@ -124,8 +119,6 @@ public class ZhuanPanActivity extends BaseTimerActivity implements View.OnClickL
 
 	EditText etUserNo;
 
-	EditText etPwd;
-
 	Button btnConfirm;
 
 	Button btnCancel;
@@ -136,7 +129,6 @@ public class ZhuanPanActivity extends BaseTimerActivity implements View.OnClickL
 
 		etSlNo = (EditText) view.findViewById(R.id.et_slNo);
 		etUserNo = (EditText) view.findViewById(R.id.et_userno);
-		etPwd = (EditText) view.findViewById(R.id.et_pwd);
 		btnConfirm = (Button) view.findViewById(R.id.btn_confirm);
 		btnCancel = (Button) view.findViewById(R.id.btn_cancel);
 
@@ -184,8 +176,8 @@ public class ZhuanPanActivity extends BaseTimerActivity implements View.OnClickL
 	}
 
 
-	private void createDraw(String slNo, String userNo, String pwd) {
-		RetrofitManager.builder().createDraw(App.mcNo + slNo, userNo, pwd)
+	private void createDraw(String slNo, String userNo) {
+		RetrofitManager.builder().createDraw(App.mcNo + slNo, userNo)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.doOnSubscribe(new Action0() {
@@ -218,10 +210,6 @@ public class ZhuanPanActivity extends BaseTimerActivity implements View.OnClickL
 					@Override
 					public void call(Throwable throwable) {
 						mDialog.cancel();
-
-//						start(0);
-						//hideProgress();
-						//Toast.makeText(GetProductActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
 						ToastUtils.showShortMessage("网络不好，请重试");
 						Log.d("createDraw:", "网络不好:" + throwable.getMessage());
 						CrashReport.postCatchedException(throwable);

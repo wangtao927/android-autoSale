@@ -31,7 +31,6 @@ public class AdminSaleLitActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.btn_clear_saleList)
     Button btnCleanSaleList;
 
-
     @Bind(R.id.btn_back)
     Button btnBack;
     @Bind(R.id.btn_back_home)

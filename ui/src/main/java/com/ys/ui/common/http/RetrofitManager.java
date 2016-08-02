@@ -264,14 +264,14 @@ public class RetrofitManager {
      }
 
 
-    public Observable<CommonResponse<CreateDrawResult>> createDraw(String slNo, String userNo, String userPwd) {
+    public Observable<CommonResponse<CreateDrawResult>> createDraw(String slNo, String userNo) {
 
         String mcNo =App.mcNo;
         CreateDrawVo createDrawVo = new CreateDrawVo();
         createDrawVo.setMcNo(mcNo);
         createDrawVo.setSlNo(slNo);
         createDrawVo.setUserNo(userNo);
-        createDrawVo.setUserPwd(userPwd);
+
         Log.d("createDraw request", createDrawVo.toString());
         CommonRequest<CreateDrawVo> request = new CommonRequest<>(mcNo, System.currentTimeMillis(), createDrawVo);
 

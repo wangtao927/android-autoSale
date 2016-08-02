@@ -57,12 +57,12 @@ public abstract class PayTimerActivity extends BaseActivity {
     private void stopTimer() {
         if (timerTask != null) {
             timerTask.cancel();
-            timerTask = null;
+           // timerTask = null;
         }
 
         if (timer != null) {
             timer.cancel();
-            timer = null;
+            //timer = null;
         }
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
@@ -137,7 +137,7 @@ public abstract class PayTimerActivity extends BaseActivity {
 
 
     String getTime() {
-        //Log.d("PayTimer：miniute:second", minute + ":" + second);
+        Log.d("PayTimer：miniute:second", minute + ":" + second);
         if (minute == 0) {
             if (second == 0) {
                 return "";

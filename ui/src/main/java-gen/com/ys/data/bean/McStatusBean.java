@@ -19,7 +19,7 @@ public class McStatusBean {
     private String mr_temp;
     private String mr_door_isfault;
     private String mr_door_status;
-    private Long mr_chann_fault_num;
+    private Long mr_chann_fault_num=0L;
     private String mr_chann_fault_nos;
     private Long mr_nogd_chnum;
     private String mr_nogd_chann;

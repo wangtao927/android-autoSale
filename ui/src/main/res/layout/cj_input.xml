@@ -67,7 +67,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <!--<LinearLayout
         android:id="@+id/ll_pwd"
         android:layout_width="400dp"
         android:layout_height="50dp"
@@ -108,7 +108,7 @@
             android:visibility="gone"
             />
 
-    </LinearLayout>
+    </LinearLayout>-->
 
 
     <LinearLayout

@@ -3,6 +3,7 @@ package com.ys.ui.adapter;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -209,6 +210,7 @@ public class VipBuyAdapter extends RecyclerView.Adapter<VipBuyAdapter.Holder> {
     private ImageButton ibGetV;
     private boolean regFlag = false;// 默认登录
 
+    TextView mTvErrmsg;
     public void initview() {
         LayoutInflater inflater = LayoutInflater.from(context);
         view = inflater.inflate(R.layout.dialog_login, null);
@@ -216,6 +218,7 @@ public class VipBuyAdapter extends RecyclerView.Adapter<VipBuyAdapter.Holder> {
         etUserNo = (EditText) view.findViewById(R.id.et_phone);
         etPwd = (EditText) view.findViewById(R.id.et_pwd);
         btnLogin = (Button) view.findViewById(R.id.btn_login);
+        mTvErrmsg = (TextView) view.findViewById(R.id.tv_errmsg);
         Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
         regFlag = false;
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -227,14 +230,16 @@ public class VipBuyAdapter extends RecyclerView.Adapter<VipBuyAdapter.Holder> {
                     if (regFlag) {
                         // 注册
                         if (TextUtils.isEmpty(etUserNo.getText()) || TextUtils.isEmpty(etPwd.getText())) {
-                            ToastUtils.showShortMessage("手机号和验证码不能为空");
+                           // ToastUtils.showShortMessage("手机号和验证码不能为空");
+                            mTvErrmsg.setText("手机号和验证码不能为空");
                         } else {
                             userReg(etUserNo.getText().toString(), etPwd.getText().toString());
 
                         }
                     } else {
                         if (TextUtils.isEmpty(etUserNo.getText()) || TextUtils.isEmpty(etPwd.getText())) {
-                            ToastUtils.showShortMessage("用户名密码不能为空");
+                           // ToastUtils.showShortMessage("用户名密码不能为空");
+                            mTvErrmsg.setText("用户名密码不能为空");
                         } else {
                             userLogin(etUserNo.getText().toString(), etPwd.getText().toString());
                         }
@@ -262,6 +267,8 @@ public class VipBuyAdapter extends RecyclerView.Adapter<VipBuyAdapter.Holder> {
             @Override
             public void onClick(View v) {
                 regFlag = false;
+                mTvErrmsg.setText("");
+                mTvErrmsg.setVisibility(View.GONE);
                 btnLogin.setText("登录");
                 ivLogin.setBackgroundResource(R.mipmap.login);
                 ivReg.setBackgroundResource(R.mipmap.reg_1);
@@ -274,6 +281,8 @@ public class VipBuyAdapter extends RecyclerView.Adapter<VipBuyAdapter.Holder> {
             @Override
             public void onClick(View v) {
                 regFlag = true;
+                mTvErrmsg.setText("");
+                mTvErrmsg.setVisibility(View.GONE);
                 btnLogin.setText("注册");
 
                 ivLogin.setBackgroundResource(R.mipmap.login_1);
@@ -290,7 +299,8 @@ public class VipBuyAdapter extends RecyclerView.Adapter<VipBuyAdapter.Holder> {
                 ivLogin.setBackgroundResource(R.mipmap.login_1);
                 ivReg.setBackgroundResource(R.mipmap.reg);
                 tvPwd.setText("验证码");
-
+                mTvErrmsg.setText("");
+                mTvErrmsg.setVisibility(View.GONE);
                 // 发送验证码
                 if (etUserNo != null && !TextUtils.isEmpty(etUserNo.getText())) {
 
@@ -299,7 +309,9 @@ public class VipBuyAdapter extends RecyclerView.Adapter<VipBuyAdapter.Holder> {
                     ibGetV.setBackgroundResource(R.mipmap.getv1);
                     ibGetV.setClickable(false);
                 } else {
-                    ToastUtils.showShortMessage("请填写手机号");
+                    //ToastUtils.showShortMessage("请填写手机号");
+                    mTvErrmsg.setText("手机号码不能为空");
+                    mTvErrmsg.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -335,7 +347,7 @@ public class VipBuyAdapter extends RecyclerView.Adapter<VipBuyAdapter.Holder> {
                         if (response.getCode() == 0) {
 //                            acountNo = userNo;
 
-                            mDialog.cancel();
+//                            mDialog.cancel();
                             createOrder(userNo, userPwd);
 //                            layPay.setVisibility(View.VISIBLE);
 //                            laySelectPay.setVisibility(View.GONE);
@@ -343,14 +355,18 @@ public class VipBuyAdapter extends RecyclerView.Adapter<VipBuyAdapter.Holder> {
 //                            tvSalePrice.setText(String.format(gdVipPrice, getPrice(mcGoodsBean.getMg_vip_price())));
                         } else {
                             Log.d("mcNo="+ App.mcNo , "用户名或密码错误" + userNo + "--"+userPwd);
-                            ToastUtils.showShortMessage("用户名或密码错误");
+                            //ToastUtils.showShortMessage("用户名或密码错误");
+                            mTvErrmsg.setText("用户名密码错误");
+                            mTvErrmsg.setVisibility(View.VISIBLE);
                         }
 
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        ToastUtils.showShortMessage("登录失败");
+                        //ToastUtils.showShortMessage("登录失败");
+                        mTvErrmsg.setText("登录失败");
+                        mTvErrmsg.setVisibility(View.VISIBLE);
                         CrashReport.postCatchedException(throwable);
                     }
                 });
@@ -378,7 +394,10 @@ public class VipBuyAdapter extends RecyclerView.Adapter<VipBuyAdapter.Holder> {
 
                         if (response.getCode() == 0) {
 
-                            ToastUtils.showShortMessage("验证码已发送");
+                            mTvErrmsg.setText("验证码已发送");
+
+                            mTvErrmsg.setVisibility(View.VISIBLE);
+                           // ToastUtils.showShortMessage("验证码已发送");
 
                         } else {
                             ToastUtils.showShortMessage(response.getMsg());
@@ -388,7 +407,9 @@ public class VipBuyAdapter extends RecyclerView.Adapter<VipBuyAdapter.Holder> {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        ToastUtils.showShortMessage("获取验证码失败");
+                        //ToastUtils.showShortMessage("获取验证码失败");
+                        mTvErrmsg.setText("获取验证码失败");
+                        mTvErrmsg.setVisibility(View.VISIBLE);
                         //CrashReport.postCatchedException(throwable);
 
                     }
@@ -411,11 +432,15 @@ public class VipBuyAdapter extends RecyclerView.Adapter<VipBuyAdapter.Holder> {
                         Log.d("userReg response", response.toString());
 
                         if (response.getCode() == 0) {
+                           ToastUtils.showShortMessage("注册成功");
+//
                             mDialog.cancel();
-                            ToastUtils.showShortMessage("注册成功");
 
                         } else {
-                            ToastUtils.showShortMessage("注册失败");
+//                            ToastUtils.showShortMessage("注册失败");
+                            mTvErrmsg.setText("注册失败");
+
+                            mTvErrmsg.setVisibility(View.VISIBLE);
 
                         }
                     }
@@ -423,6 +448,9 @@ public class VipBuyAdapter extends RecyclerView.Adapter<VipBuyAdapter.Holder> {
                     @Override
                     public void call(Throwable throwable) {
                         ToastUtils.showShortMessage("注册失败");
+                        mTvErrmsg.setText("注册失败");
+
+                        mTvErrmsg.setVisibility(View.VISIBLE);
                         CrashReport.postCatchedException(throwable);
 
                     }
@@ -454,12 +482,7 @@ public class VipBuyAdapter extends RecyclerView.Adapter<VipBuyAdapter.Holder> {
         saleListVo.setSlNo(slNo);
         saleListVo.setSlThPwd(pwd);
         createOrder(saleListVo);
-
-
-
     }
-
-
 
     private void createOrder(final SaleListVo saleListVo) {
         RetrofitManager.builder().createOrder(saleListVo.getMcNo(), saleListVo)
@@ -477,7 +500,7 @@ public class VipBuyAdapter extends RecyclerView.Adapter<VipBuyAdapter.Holder> {
                         //hideProgress();
                         if (response.isSuccess()) {
                             // 调用出货
-
+                            mDialog.cancel();
                             Intent intent = new Intent(context, OutGoodsActivity.class);
 
                             intent.putExtra("slType", SlTypeEnum.SCORE.getIndex());
@@ -489,11 +512,13 @@ public class VipBuyAdapter extends RecyclerView.Adapter<VipBuyAdapter.Holder> {
                             Log.d("createOrder:", "创建订单失败:" + response.toString());
 
                             if (type == 1) {
-                                ToastUtils.showShortMessage("积分兑换失败");
-
+                                //ToastUtils.showShortMessage("积分兑换失败");
+                                mTvErrmsg.setText("积分兑换失败");
+                                mTvErrmsg.setVisibility(View.VISIBLE);
                             } else if (type == 2) {
-                                ToastUtils.showShortMessage("领取免费药品失败");
-
+                               // ToastUtils.showShortMessage("领取免费药品失败");
+                                mTvErrmsg.setText("领取免费药品失败");
+                                mTvErrmsg.setVisibility(View.VISIBLE);
                             }
                         }
 
@@ -505,6 +530,9 @@ public class VipBuyAdapter extends RecyclerView.Adapter<VipBuyAdapter.Holder> {
                         //Toast.makeText(GetProductActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
                         //ToastUtils.showShortMessage("网络不好，请重试");
                         Log.d("createOrder:", "网络不好:" + throwable.getMessage());
+                        mTvErrmsg.setText("网络不好，请稍后再试");
+
+                        mTvErrmsg.setVisibility(View.VISIBLE);
                         //CrashReport.postCatchedException(throwable);
 
                     }

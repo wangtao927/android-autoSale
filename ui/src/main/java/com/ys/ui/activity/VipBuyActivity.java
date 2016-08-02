@@ -70,14 +70,13 @@ public class VipBuyActivity extends BaseTimerActivity implements LMRecyclerView.
             mVipType.setText("积分换购");
 
         } else if (origin == 2) {
-            mVipType.setText("免贵尊享");
+            mVipType.setText("免费尊享");
 
         } else if (origin == 3) {
             mVipType.setText("会员特惠");
         }
         initView();
         loadData();
-
 
         mVipBuyAdapter = new VipBuyAdapter(VipBuyActivity.this, mProducts, origin);
         mRecyclerView.setAdapter(mVipBuyAdapter);

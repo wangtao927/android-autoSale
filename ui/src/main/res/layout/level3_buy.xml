@@ -5,10 +5,33 @@
     android:background="@color/bg"
     android:orientation="vertical"
     >
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <include
         android:id="@+id/title"
         layout="@layout/title_bar2" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/bg_btn">
+        <ImageView
+            android:src="@mipmap/menu"
+            android:layout_marginLeft="20dp"
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="24dp"
+            android:id="@+id/tv_ys_desc"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:text="名厂名药"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ly_topcontent"
@@ -76,8 +99,9 @@
 
 
     </LinearLayout>
-
+</LinearLayout>
     <include
         android:id="@+id/rl_footer"
         layout="@layout/footer_bar" />
+
 </RelativeLayout>

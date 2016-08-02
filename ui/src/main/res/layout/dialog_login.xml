@@ -118,7 +118,31 @@
             />
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_errmsg"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/tv_errmsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:textSize="20dp"
+            android:singleLine="true"
+            android:text=""
+            android:visibility="gone"
+            android:textColor="@color/red" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_buy"

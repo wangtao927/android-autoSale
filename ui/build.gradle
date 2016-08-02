@@ -10,8 +10,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
         //versionCode 3
-        versionCode 6
-        versionName "1.5.1"
+        versionCode 8
+        versionName "1.5.3"
 
         ndk {
             moduleName "serial_port"

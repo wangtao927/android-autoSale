@@ -59,6 +59,7 @@ public class WordWrapView extends ViewGroup {
 
             //view.setBackgroundResource(R.drawable.label);
             ((Button)view).setTextColor(Color.WHITE);
+            ((Button)view).setGravity(Gravity.CENTER);
             int width = view.getMeasuredWidth();
             if (width < 140) {
                width = 140;

@@ -227,6 +227,9 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
     private void createOrder(String type, final int vip) {
 
         tvReselectPaytype.setVisibility(View.VISIBLE);
+//        if (slType == SlTypeEnum.CARD) {
+//            tvReselectPaytype.setText("（温馨提示：请在下方的pos机支付成功后，请静待出货。）");
+//        }
         slNo = OrderUtils.getOrderNo();
         final SaleListVo saleListVo = new SaleListVo();
         saleListVo.setMcNo(App.mcNo);
@@ -240,8 +243,8 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
         createSaleList(saleListVo.getSlAmt(), vip, slNo);
 
         // 重新计时
-        minute = 2;
-        second = 0;
+        minute = 1;
+        second = 30;
 
         if (slType.getIndex() == SlTypeEnum.ALIPAY.getIndex()
                 || slType.getIndex() == SlTypeEnum.WX.getIndex()) {
@@ -506,6 +509,17 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                                 }
 
                             }
+                        } else {
+                            Log.e("getOrderStatus error", response.toString());
+                            CrashReport.postCatchedException(new RuntimeException("getOrderStatus mcNo="+ App.mcNo + " error:" + response.toString()));
+
+                            // 可以看本地流水的交易状态
+                            DbManagerHelper.updatePayStatus(slNo, String.valueOf(SlPayStatusEnum.CANCELD.getIndex()));
+
+                            refund();
+                            payFaild();
+
+
                         }
 
                     }
@@ -518,7 +532,8 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                         DbManagerHelper.updatePayStatus(slNo, String.valueOf(SlPayStatusEnum.CANCELD.getIndex()));
 
                         payFaild();
-                        //hideProgress();
+
+//                        refund();
                         Log.e("getOrderStatus error", "mcNo=" + getMcNo() + "slNo=" + slNo + throwable.getMessage());
                         CrashReport.postCatchedException(throwable);
 
@@ -532,7 +547,6 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
 
     private void startOutGoods(String slNo) {
         finish();
-
         Intent intent = new Intent(PayActivity.this, OutGoodsActivity.class);
 
         intent.putExtra("slType", slType.getIndex());

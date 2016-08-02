@@ -15,8 +15,8 @@ public class CreateDrawVo implements Serializable {
     private String slNo;
     @SerializedName("user_no")
     private String userNo;
-    @SerializedName("user_pwd")
-    private String userPwd;
+  /*  @SerializedName("user_pwd")
+    private String userPwd;*/
 
     public String getMcNo() {
         return mcNo;
@@ -42,13 +42,6 @@ public class CreateDrawVo implements Serializable {
         this.userNo = userNo;
     }
 
-    public String getUserPwd() {
-        return userPwd;
-    }
-
-    public void setUserPwd(String userPwd) {
-        this.userPwd = userPwd;
-    }
 
     @Override
     public String toString() {
@@ -56,7 +49,6 @@ public class CreateDrawVo implements Serializable {
                 "mcNo='" + mcNo + '\'' +
                 ", slNo='" + slNo + '\'' +
                 ", userNo='" + userNo + '\'' +
-                ", userPwd='" + userPwd + '\'' +
                 '}';
     }
 }
