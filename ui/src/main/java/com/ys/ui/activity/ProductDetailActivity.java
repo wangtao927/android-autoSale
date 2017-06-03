@@ -178,9 +178,8 @@ public class ProductDetailActivity extends BaseTimerActivity implements View.OnC
                     } else if (origin == 11) {
                         // 会员特惠
                         finish();
-                        Intent intent = new Intent(ProductDetailActivity.this, VipBuyActivity.class);
-                        intent.putExtra("index", 3);
-                        startActivity(intent);
+
+
 
                     } else  {
                         startActivity(new Intent(ProductDetailActivity.this, YsActivity.class));

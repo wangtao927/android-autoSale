@@ -23,7 +23,8 @@ public enum ParamEnum {
     SERIAL_PORT("42","波特率",""),
     POS_IP("43","银联POS后台IP","211.147.64.198"),
     POS_PORT("44","银联POS后台端口号","5800"),
-
+    LINK_PHONE("50", "联系人手机号","13250241806"),
+    KEFU_PHONE("51", "客服手机号","4000-600-289"),
     ;
 
 

@@ -15,15 +15,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tencent.bugly.crashreport.CrashReport;
 import com.ys.data.bean.McGoodsBean;
-import com.ys.data.bean.McParamsBean;
 import com.ys.data.bean.McStatusBean;
 import com.ys.data.bean.SaleListBean;
-import com.ys.data.dao.McParamsBeanDao;
 import com.ys.data.dao.SaleListBeanDao;
 import com.ys.ui.base.App;
 import com.ys.ui.common.constants.SlSendStatusEnum;
@@ -36,12 +32,8 @@ import com.ys.ui.common.response.McDataResult;
 import com.ys.ui.common.response.TermInitResult;
 import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.StringUtils;
-import com.ys.ui.utils.ToastUtils;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,8 +41,6 @@ import java.util.List;
 import java.util.Map;
 
 import de.greenrobot.dao.query.Query;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 

@@ -56,7 +56,8 @@ public class App extends Application {
     private int minipos_baudrate = 9600;
     private String minipos_path = "/dev/ttyES0";
 
-    private int print_baudrate = 38400;
+//    private int print_baudrate = 38400;
+    private int print_baudrate = 2400;
     private String print_path = "/dev/ttymxc2";
 
 
@@ -311,8 +312,7 @@ public class App extends Application {
     {
         @Override
         public synchronized Map<String, String> onCrashHandleStart(int crashType, String errorType, String errorMessage, String errorStack)
-        {
-            String crashTypeName = null;
+        {            String crashTypeName = null;
             switch (crashType)
             {
                 case CrashReport.CrashHandleCallback.CRASHTYPE_JAVA_CATCH:

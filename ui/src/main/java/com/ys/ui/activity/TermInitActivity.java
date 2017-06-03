@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.ys.data.bean.McStatusBean;
 import com.ys.ui.R;
 import com.ys.ui.base.App;
@@ -55,21 +56,25 @@ public class TermInitActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void getLocation() {
-        LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        List<String> providerList = manager.getProviders(true);
-        if (providerList.contains(LocationManager.GPS_PROVIDER)) {
-            provider = LocationManager.GPS_PROVIDER;
-        } else if (providerList.contains(LocationManager.NETWORK_PROVIDER)) {
-            provider = LocationManager.NETWORK_PROVIDER;
+        try {
+            LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            List<String> providerList = manager.getProviders(true);
+            if (providerList.contains(LocationManager.GPS_PROVIDER)) {
+                provider = LocationManager.GPS_PROVIDER;
+            } else if (providerList.contains(LocationManager.NETWORK_PROVIDER)) {
+                provider = LocationManager.NETWORK_PROVIDER;
 
-        } else {
-            // 没有可用的位置服务
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            } else {
+                // 没有可用的位置服务
+            }
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            return;
+                return;
+            }
+            location = manager.getLastKnownLocation(provider);
+        } catch (Exception e) {
+            CrashReport.postCatchedException(e);
         }
-        location = manager.getLastKnownLocation(provider);
     }
     @Override
     protected void onDestroy() {

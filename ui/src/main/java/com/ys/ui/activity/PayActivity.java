@@ -139,6 +139,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                 if (backHomeFlag) {
 
                     if (slType == SlTypeEnum.ALIPAY || slType == SlTypeEnum.WX) {
+                        getOrderStatusHandler.removeCallbacks(getStatusRunnable);
                         finish_flag = true;
                     }
                     finish();
@@ -227,9 +228,6 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
     private void createOrder(String type, final int vip) {
 
         tvReselectPaytype.setVisibility(View.VISIBLE);
-//        if (slType == SlTypeEnum.CARD) {
-//            tvReselectPaytype.setText("（温馨提示：请在下方的pos机支付成功后，请静待出货。）");
-//        }
         slNo = OrderUtils.getOrderNo();
         final SaleListVo saleListVo = new SaleListVo();
         saleListVo.setMcNo(App.mcNo);
@@ -254,10 +252,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
             backHomeFlag = false;
             mQCodeImageView.setImageResource(R.mipmap.bankcard_flag);
             waitPay(saleListVo.getSlAmt());
-
-         }
-
-
+        }
     }
 
 
@@ -293,6 +288,9 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
 
                             } catch (WriterException e) {
                                 Log.e("error:", e.getMessage());
+                                ToastUtils.showError("创建订单失败", PayActivity.this);
+                                CrashReport.postCatchedException(e);
+
                             }
 //                            finish();
 //                            startActivity(new Intent(PayActivity.this, OutGoodsActivity.class));
@@ -402,6 +400,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                 case OP_POS_QUERY://查询
                 case OP_POS_PURCHASE://支付
                    // ToastUtils.showShortMessage("pos return reply=" + cbmsg.reply + "--info="+cbmsg.info);
+                    Log.d("pos reply", "pos return reply=" + cbmsg.reply + "--info="+cbmsg.info + " qrcode" + cbmsg.qrcode);
                     if (cbmsg.reply == 0) {//成功
                         DbManagerHelper.updatePayStatus(slNo, String.valueOf(SlPayStatusEnum.FINISH.getIndex()));
                         startOutGoods(slNo);
@@ -419,7 +418,6 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                     }
                     break;
                 case OP_POS_DISPLAY://POS提示信息
-
 //                    if (cbmsg.reply == 0) {//成功
 //                        flag = 1;
 //                        ToastUtils.showShortMessage("pos 操作成功");
@@ -460,6 +458,8 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
     Runnable getStatusRunnable = new Runnable() {
         @Override
         public void run() {
+            getOrderStatusHandler.removeCallbacks(getStatusRunnable);
+
             getOrderStatus(slNo);
         }
     };
@@ -467,12 +467,12 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
         RetrofitManager.builder().getOrderStatus(slNo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-//                .doOnSubscribe(new Action0() {
-//                    @Override
-//                    public void call() {
-//                        //showProgress();
-//                    }
-//                })
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        //showProgress();
+                    }
+                })
                 .subscribe(new Action1<CommonResponse<SaleListResult>>() {
                     @Override
                     public void call(CommonResponse<SaleListResult> response) {
@@ -481,45 +481,31 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                         if (response.getCode() == 0) {
                             if (String.valueOf(SlPayStatusEnum.FINISH.getIndex()).equals(response.getExt_data().getSl_pay_status())) {
                                 //支付成功
-                                // ToastUtils.showShortMessage("支付成功");
-                                //
-
-                                //DbManagerHelper.updatePayStatus(slNo, response.getExt_data().getSl_pay_status());
+                                getOrderStatusHandler.removeCallbacks(getStatusRunnable);
                                 startOutGoods(slNo);
-
-
-                            } else {
+                            } else if (String.valueOf(SlPayStatusEnum.PAYING.getIndex()).equals(response.getExt_data().getSl_pay_status())
+                                    || String.valueOf(SlPayStatusEnum.INIT.getIndex()).equals(response.getExt_data().getSl_pay_status())) {
                                 if (finish_flag) {
                                     return;
                                 }
                                 if (System.currentTimeMillis() - startTime < timeout * 1000) {
                                     getOrderStatusHandler.postDelayed(getStatusRunnable, 2000);
-//                                    try {
-//                                        Thread.sleep(2000);
-//                                    } catch (InterruptedException e) {
-//                                        e.printStackTrace();
-//                                        Log.e("sleep error", e.getMessage());
-//                                        CrashReport.postCatchedException(e);
-//                                    }
-//                                    getOrderStatus(slNo);
                                 } else {
                                     DbManagerHelper.updatePayStatus(slNo, String.valueOf(SlPayStatusEnum.CANCELD.getIndex()));
 
                                     payFaild();
                                 }
-
+                            } else {
+                                DbManagerHelper.updatePayStatus(slNo, String.valueOf(SlPayStatusEnum.CANCELD.getIndex()));
+                                payFaild();
                             }
                         } else {
                             Log.e("getOrderStatus error", response.toString());
-                            CrashReport.postCatchedException(new RuntimeException("getOrderStatus mcNo="+ App.mcNo + " error:" + response.toString()));
-
+                            CrashReport.postCatchedException(new RuntimeException("getOrderStatus mcNo=" + App.mcNo + " error:" + response.toString()));
                             // 可以看本地流水的交易状态
                             DbManagerHelper.updatePayStatus(slNo, String.valueOf(SlPayStatusEnum.CANCELD.getIndex()));
-
                             refund();
                             payFaild();
-
-
                         }
 
                     }
@@ -528,12 +514,8 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                     public void call(Throwable throwable) {
 
                         // 重试？
-
                         DbManagerHelper.updatePayStatus(slNo, String.valueOf(SlPayStatusEnum.CANCELD.getIndex()));
-
                         payFaild();
-
-//                        refund();
                         Log.e("getOrderStatus error", "mcNo=" + getMcNo() + "slNo=" + slNo + throwable.getMessage());
                         CrashReport.postCatchedException(throwable);
 
@@ -548,7 +530,6 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
     private void startOutGoods(String slNo) {
         finish();
         Intent intent = new Intent(PayActivity.this, OutGoodsActivity.class);
-
         intent.putExtra("slType", slType.getIndex());
         intent.putExtra("slNo", slNo);
         intent.putExtra("channo", mcGoodsBean.getMg_channo());
@@ -685,12 +666,12 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                 RetrofitManager.builder().userLogin(userNo, userPwd)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-//                        .doOnSubscribe(new Action0() {
-//                            @Override
-//                            public void call() {
-//                                //showProgress();
-//                            }
-//                        })
+                        .doOnSubscribe(new Action0() {
+                            @Override
+                            public void call() {
+                                //showProgress();
+                            }
+                        })
                         .subscribe(new Action1<CommonResponse<UserResult>>() {
                             @Override
                             public void call(CommonResponse<UserResult> response) {
@@ -707,7 +688,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
                                     // 显示会员价格
                                     tvSalePrice.setText(String.format(gdVipPrice, getPrice(mcGoodsBean.getMg_vip_price())));
                                 } else {
-                                    Log.d("mcNo="+ App.mcNo , "用户名或密码错误" + userNo + "--"+userPwd);
+                                    Log.d("mcNo=" + App.mcNo, "用户名或密码错误" + userNo + "--" + userPwd);
                                     ToastUtils.showShortMessage("用户名或密码错误");
                                 }
 
@@ -804,12 +785,14 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
 
 
     private void payFaild() {
-
+        getOrderStatusHandler.removeCallbacks(getStatusRunnable);
         if (!finish_flag) {
             Log.d("payActivity payFaild", "finish payed");
 
             finish();
             startActivity(new Intent(PayActivity.this, PayFailActivity.class));
+        } else {
+            // 已结执行完成了
         }
 
     }
@@ -825,7 +808,11 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
             pay_task.cancel();
         }
         ButterKnife.unbind(this);
-        getOrderStatusHandler.removeCallbacks(getStatusRunnable);
+        if (getOrderStatusHandler != null) {
+            getOrderStatusHandler.removeCallbacks(getStatusRunnable);
+            getOrderStatusHandler.removeCallbacksAndMessages(null);
+        }
+
         mmHandler.removeCallbacksAndMessages(null);
         mMyApi.pos_release();
 
@@ -833,7 +820,7 @@ public class PayActivity extends PayTimerActivity implements View.OnClickListene
 
     @Override
     protected void refund() {
-
+        getOrderStatusHandler.removeCallbacks(getStatusRunnable);
         if (TextUtils.isEmpty(slNo)) {
             Log.d("payActivity refund", "slNo is null");
             CrashReport.postCatchedException(new NullPointerException("PayActivity refund : slNo is null"));

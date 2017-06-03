@@ -1,13 +1,17 @@
 package com.ys.ui.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +28,7 @@ import com.ys.ui.common.manager.DbManagerHelper;
 import com.ys.ui.common.response.CommonResponse;
 import com.ys.ui.common.response.TermInitResult;
 import com.ys.ui.serial.print.activity.PrintHelper;
+import com.ys.ui.utils.ToastUtils;
 import com.ys.ui.view.LMRecyclerView;
 
 import java.util.ArrayList;
@@ -59,7 +64,8 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
     Button btnCleanSaleList;
 //    @Bind(R.id.btn_init_sale)
 //    Button btnInitSale;
-
+    @Bind(R.id.btn_edit_path)
+    Button btnEditPath;
 
     @Bind(R.id.btn_back)
     Button btnBack;
@@ -95,6 +101,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
         btnCleanSaleList.setOnClickListener(this);
 //        btnInitSale.setOnClickListener(this);
         btnCheckUpdate.setOnClickListener(this);
+        btnEditPath.setOnClickListener(this);
         tvMcNo.setText("终端号：" + App.mcNo);
         loadData();
         adapter = new McGoodsListAdapter(AdminActivity.this, lists);
@@ -109,6 +116,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
     private void loadData() {
         mTotalCount = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().count();
 
+        // TODO 判断查询条件
         QueryBuilder<McGoodsBean> queryBuilder = App.getDaoSession(App.getContext()).getMcGoodsBeanDao().queryBuilder().orderAsc(McGoodsBeanDao.Properties.Mg_channo);
         int offset = mPageIndex == 1 ? 0 : (mPageIndex * mPageSize);
         List pageList = queryBuilder.offset(offset).limit(mPageSize).list();
@@ -162,7 +170,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
 
                 PrintHelper.getInstance().initPrint();
                 break;
-              case R.id.btn_clear_saleList:
+            case R.id.btn_clear_saleList:
                    // 跳转到流水界面
                   finish();
                   startActivity(new Intent(AdminActivity.this, AdminSaleLitActivity.class));
@@ -172,6 +180,35 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
 //                  SerialMachineHelper.getInstance().getSerial();
 //
 //                break;
+
+            case R.id.btn_edit_path:
+                  // 弹出输入框, 输入 保存
+                // 弹出一个输入框， 修改库存
+                final EditText inputServer = new EditText(AdminActivity.this);
+                inputServer.setInputType(InputType.TYPE_CLASS_TEXT);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
+                SharedPreferences sp = App.getContext().getSharedPreferences("saleSerial",
+                        Activity.MODE_PRIVATE);
+                String path = sp.getString("sale_path", "");
+                builder.setTitle("串口路径：" + path).setView(inputServer)
+                        .setNegativeButton("返回", null);
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        SharedPreferences mySharedPreferences = App.getContext().getSharedPreferences("saleSerial",
+                                Activity.MODE_PRIVATE);
+                        //实例化SharedPreferences.Editor对象（第二步）
+                        SharedPreferences.Editor editor = mySharedPreferences.edit();
+                        //用putString的方法保存数据
+                        editor.putString("sale_path", inputServer.getText().toString());
+                        //提交当前数据
+                        editor.commit();
+
+                    }
+                });
+                builder.show();
+                break;
             case R.id.btn_check_update:
                 Beta.checkUpgrade();
                 break;

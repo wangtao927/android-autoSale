@@ -18,6 +18,10 @@ public class GetBytesUtils {
         return buffer;
     }
 
+    /**
+     * 重置
+     * @return
+     */
     public static byte[] reback() {
         byte[] buffer = new byte[]{0x02, 0x25, 0x25, 0x03};
         return buffer;
@@ -46,6 +50,11 @@ public class GetBytesUtils {
 
     }
 
+    /**
+     * 选货道
+     * @param rackNo
+     * @return
+     */
     public static byte[] goodsSelect(byte rackNo) {
         if (rackNo == 0x02) {
             rackNo = (byte) 0xF2;
@@ -62,6 +71,11 @@ public class GetBytesUtils {
         //buffer[3]&0xFF;
         return buffer;
     }
+
+    /**
+     * 出货命令
+     * @return
+     */
     public static byte[] goodsOuter() {
 
         byte[] buffer = new byte[]{0x02, 0x08, 0x08, 0x03};

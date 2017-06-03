@@ -3,10 +3,13 @@ package com.ys.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.ys.ui.R;
 import com.ys.ui.base.BaseTimerActivity;
+import com.ys.ui.utils.PropertyUtils;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -15,7 +18,8 @@ import butterknife.ButterKnife;
 public class HelpActivity extends BaseTimerActivity {
 
 
-
+   @Bind(R.id.tv_help)
+   TextView tvHelp;
 
 
     @Override
@@ -26,9 +30,8 @@ public class HelpActivity extends BaseTimerActivity {
     @Override
     protected void create(Bundle savedInstanceState) {
 
-
-
-
+        tvHelp.setText(String.format(tvHelp.getText().toString(), PropertyUtils.getInstance().getLinkPhone(),
+                PropertyUtils.getInstance().getKfPhone()));
     }
 
     protected void backHome() {

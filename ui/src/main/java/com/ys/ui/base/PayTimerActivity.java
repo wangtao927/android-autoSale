@@ -137,7 +137,7 @@ public abstract class PayTimerActivity extends BaseActivity {
 
 
     String getTime() {
-        Log.d("PayTimer：miniute:second", minute + ":" + second);
+//        Log.d("PayTimer：miniute:second", minute + ":" + second);
         if (minute == 0) {
             if (second == 0) {
                 return "";

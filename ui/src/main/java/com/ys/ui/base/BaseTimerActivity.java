@@ -136,7 +136,7 @@ public abstract class BaseTimerActivity extends BaseActivity {
     };
 
     String getTime() {
-        Log.d("BaseTimerminiute:second", minute + ":" + second);
+//        Log.d("BaseTimerminiute:second", minute + ":" + second);
         if (minute == 0) {
             if (second == 0) {
                 return "";

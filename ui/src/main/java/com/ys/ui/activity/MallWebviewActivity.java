@@ -81,11 +81,16 @@ public class MallWebviewActivity extends BaseTimerActivity {
 
 
     public void showProgress() {
-        mPbLoading.setVisibility(View.VISIBLE);
+        if (mPbLoading != null) {
+            mPbLoading.setVisibility(View.VISIBLE);
+        }
     }
 
     public void hideProgress() {
-        mPbLoading.setVisibility(View.GONE);
+        if (mPbLoading != null) {
+            mPbLoading.setVisibility(View.GONE);
+
+        }
     }
 
 

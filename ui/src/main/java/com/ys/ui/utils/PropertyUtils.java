@@ -72,6 +72,12 @@ public class PropertyUtils {
         return getValue(ParamEnum.POS_IP);
     }
 
+    public String getLinkPhone() {
+        return getValue(ParamEnum.LINK_PHONE);
+    }
+    public String getKfPhone() {
+        return getValue(ParamEnum.KEFU_PHONE);
+    }
 
     private String getValue(ParamEnum paramEnum) {
         try {

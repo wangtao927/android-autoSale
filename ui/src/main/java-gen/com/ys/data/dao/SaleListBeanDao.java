@@ -345,14 +345,14 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
             if (saleListBeanList != null && !saleListBeanList.isEmpty()) {
                 SaleListBean saleListBean = saleListBeanList.get(0);
                 saleListBean.setSl_pay_status(slPayStatus);
-                String sql = "UPDATE salelist SET  SL_PAY_STATUS = ? where SL_NO =?";
+                String sql = "UPDATE salelist SET  SL_PAY_STATUS = ? where SL_NO =? and sl_time=?";
 
                 SQLiteStatement stmt = db.compileStatement(sql);
                 if (db.isDbLockedByCurrentThread()) {
                     synchronized (stmt) {
                         stmt.bindString(1, slPayStatus);
                         stmt.bindString(2, slNo);
-
+                        stmt.bindString(3, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
                         stmt.execute();
                         attachEntity(saleListBean.getSl_id(), saleListBean, true);
                     }
@@ -363,7 +363,7 @@ public class SaleListBeanDao extends AbstractDao<SaleListBean, Long> {
                         synchronized (stmt) {
                             stmt.bindString(1, slPayStatus);
                             stmt.bindString(2, slNo);
-
+                            stmt.bindString(3, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
                             stmt.execute();
                             attachEntity(saleListBean.getSl_id(), saleListBean, true);
 

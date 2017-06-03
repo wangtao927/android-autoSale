@@ -75,4 +75,17 @@ public class SaleListResult implements Serializable {
     public void setSl_out_status(String sl_out_status) {
         this.sl_out_status = sl_out_status;
     }
+
+    @Override
+    public String toString() {
+        return "SaleListResult{" +
+                "sl_no='" + sl_no + '\'' +
+                ", sl_batch_no='" + sl_batch_no + '\'' +
+                ", mc_no='" + mc_no + '\'' +
+                ", sl_gd_no='" + sl_gd_no + '\'' +
+                ", sl_gd_name='" + sl_gd_name + '\'' +
+                ", sl_pay_status='" + sl_pay_status + '\'' +
+                ", sl_out_status='" + sl_out_status + '\'' +
+                '}';
+    }
 }

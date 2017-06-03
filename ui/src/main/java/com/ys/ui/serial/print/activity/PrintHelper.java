@@ -43,6 +43,8 @@ public class PrintHelper {
 
     private String printPath = "";
     private String tmpPath = "";
+    private int tmpPorate;
+    private int borate;
 
     public static PrintHelper getInstance() {
         if (printHelper == null) {
@@ -241,14 +243,14 @@ public class PrintHelper {
         // do nothing
         Log.d("return", new String(buffer));
         mReadThread.interrupt();
-
+        tmpPorate = borate;
         tmpPath = printPath;
         SharedPreferences mySharedPreferences= App.getContext().getSharedPreferences("printSerial",
                 Activity.MODE_PRIVATE);
         //实例化SharedPreferences.Editor对象（第二步）
         SharedPreferences.Editor editor = mySharedPreferences.edit();
         //用putString的方法保存数据
-        editor.putString("print_baudrate", String.valueOf(mApplication.getPrint_baudrate()));
+        editor.putString("print_baudrate", String.valueOf(borate));
         editor.putString("print_path", tmpPath);
         //提交当前数据
         editor.commit();
@@ -265,34 +267,44 @@ public class PrintHelper {
 
         mApplication = (App) App.getContext();
         byte SendBuf[]={0X10, 0X04, 0x01};
-        for (String path : paths) {
-            if (!TextUtils.isEmpty(tmpPath) ) {
+        int[] borates = {2400, 38400};
+        for (int b : borates) {
+            borate = b;
+            if (tmpPorate > 0 ) {
                 break;
             }
-            printPath = path;
+            for (String path : paths) {
+                if (!TextUtils.isEmpty(tmpPath) ) {
+                    break;
+                }
 
-            try {
-                mSerialPort = mApplication.getSerialPort(path, mApplication.getPrint_baudrate());
-                mOutputStream = mSerialPort.getOutputStream();
+                printPath = path;
 
-                mInputStream = mSerialPort.getInputStream();
+                try {
+//                    mSerialPort = mApplication.getSerialPort(path, mApplication.getPrint_baudrate());
+                    mSerialPort = mApplication.getSerialPort(path, b);
+                    mOutputStream = mSerialPort.getOutputStream();
 
-                mReadThread = new ReadThread();
-                mReadThread.start();
-                SendData(SendBuf);
-            } catch (Exception e) {
+                    mInputStream = mSerialPort.getInputStream();
 
-                continue;
+                    mReadThread = new ReadThread();
+                    mReadThread.start();
+                    SendData(SendBuf);
+                } catch (Exception e) {
+
+                    continue;
+                }
+                try {
+                    Thread.sleep(2000);
+                    mReadThread.interrupt();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }
-            try {
-                Thread.sleep(2000);
-                mReadThread.interrupt();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
+            ToastUtils.showShortMessage("path:" + tmpPath);
         }
-        ToastUtils.showShortMessage("path:" + tmpPath);
+
     }
 
     private boolean openCom(String path,  int bodurate) {

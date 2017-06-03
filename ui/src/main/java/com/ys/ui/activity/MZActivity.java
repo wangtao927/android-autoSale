@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.ys.ui.R;
 import com.ys.ui.base.BaseTimerActivity;
+import com.ys.ui.utils.PropertyUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -17,6 +19,8 @@ import butterknife.ButterKnife;
  */
 public class MZActivity extends BaseTimerActivity  implements View.OnClickListener {
 
+    @Bind(R.id.tv_mz)
+    TextView tvMz;
 
     @Bind(R.id.logo)
     ImageView logo;
@@ -31,7 +35,7 @@ public class MZActivity extends BaseTimerActivity  implements View.OnClickListen
     @Override
     protected void create(Bundle savedInstanceState) {
         logo.setOnClickListener(this);
-
+        tvMz.setText(String.format(tvMz.getText().toString(), PropertyUtils.getInstance().getKfPhone()));
     }
 
 

@@ -97,10 +97,8 @@ public class OutGoodsActivity extends SerialMachineActivity {
 
         // 发送选货请求
         mBuffer = GetBytesUtils.goodsSelect(no);
-
         mSendingThread = new SendingThread();
         mSendingThread.start();
-
         initTimer(1,5);
 
     }

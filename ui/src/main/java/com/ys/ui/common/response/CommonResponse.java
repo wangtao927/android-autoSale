@@ -46,6 +46,7 @@ public class CommonResponse<T> implements Serializable {
         return "CommonResponse{" +
                 "code=" + code +
                 ", msg='" + msg + '\'' +
+                ", ext_data=" + ext_data +
                 '}';
     }
 }

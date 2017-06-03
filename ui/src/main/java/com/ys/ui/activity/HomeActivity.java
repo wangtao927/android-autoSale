@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -19,6 +20,7 @@ import com.ys.ui.R;
 import com.ys.ui.base.App;
 import com.ys.ui.base.BaseActivity;
 import com.ys.ui.common.manager.DbManagerHelper;
+import com.ys.ui.utils.PropertyUtils;
 import com.ys.ui.utils.RandomUtils;
 import com.ys.ui.utils.Utils;
 import com.ys.ui.view.CirclePageView;
@@ -60,6 +62,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.ib_next_page)
     ImageButton imNextPage;
 
+    @Bind(R.id.tel)
+    TextView tvTel;
     Handler mhandler = new Handler();
 
     public int adIndex;
@@ -94,6 +98,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             startActivity(new Intent(this, TermInitActivity.class));
             return;
         }
+        tvTel.setText("咨询电话："+ PropertyUtils.getInstance().getKfPhone());
     }
 
     @Override
@@ -121,7 +126,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     private void adsStart() {
 
-        Log.d("advstart", "advstart:index=" + adIndex);
+       // Log.d("advstart", "advstart:index=" + adIndex);
         if (adsList == null || adsList.isEmpty()) {
             Glide.with(HomeActivity.this)
                     .load(R.mipmap.ad1)
