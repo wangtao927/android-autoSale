@@ -14,12 +14,12 @@ public class DaoGenerate {
 
 //        addAd(schema);
 //        addGoods(schema);
-        //addMCGoods(schema);
+//        addMCGoods(schema);
 //        addMCParams(schema);
-//        addMCStatus(schema);
+        addMCStatus(schema);
 //        addMcAdmin(schema);
 //        addPromotion(schema);
-        addSaleList(schema);
+//        addSaleList(schema);
 
 
         new DaoGenerator().generateAll(schema, "E:/code/github/android-autoSale/ui/src/main/java-gen");
@@ -30,7 +30,7 @@ public class DaoGenerate {
 
         adv.setTableName("adv");
         adv.addStringProperty("ai_id").primaryKey();
-        adv.addStringProperty("ai_file_id");// 文件名称
+        adv.addStringProperty("ai_file_id");// ???????
         adv.addStringProperty("ai_file_name");
         adv.addStringProperty("ai_type");
         adv.addStringProperty("ai_gd_no");
@@ -42,7 +42,7 @@ public class DaoGenerate {
     private static void addMcAdmin(Schema schema) {
         Entity mcParamBean = schema.addEntity("McAdminBean");
         mcParamBean.setTableName("mcadmin");
-        mcParamBean.addStringProperty("u_no").primaryKey();//机身号
+        mcParamBean.addStringProperty("u_no").primaryKey();
         mcParamBean.addStringProperty("u_pwd");
 
     }
@@ -51,14 +51,10 @@ public class DaoGenerate {
      * @param schema
      */
     private static void addGoods(Schema schema) {
-        // 一个实体（类）就关联到数据库中的一张表，此处表名为「Note」（既类名）
         Entity goodsBean = schema.addEntity("GoodsBean");
         goodsBean.setTableName("goods");
-        // 你也可以重新给表命名
         // note.setTableName("NODE");
 
-        // greenDAO 会自动根据实体类的属性值来创建表字段，并赋予默认值
-        // 接下来你便可以设置表中的字段：
         goodsBean.addStringProperty("gd_no").primaryKey();
         goodsBean.addStringProperty("gd_code");
         goodsBean.addStringProperty("gd_short_name");
@@ -70,7 +66,7 @@ public class DaoGenerate {
         goodsBean.addStringProperty("gd_approve_code");
         goodsBean.addStringProperty("gd_spec");
         goodsBean.addStringProperty("gd_brand");
-        goodsBean.addStringProperty("gd_manufacturer"); // 生产厂家
+        goodsBean.addStringProperty("gd_manufacturer");
         goodsBean.addStringProperty("gd_saleunit");
         goodsBean.addStringProperty("gd_barcode");
 
@@ -87,9 +83,9 @@ public class DaoGenerate {
         goodsBean.addStringProperty("gd_instruction_file");
         goodsBean.addStringProperty("gd_desc");
         goodsBean.addStringProperty("gd_url");
-        goodsBean.addStringProperty("gd_desc1"); // 配方
-        goodsBean.addStringProperty("gd_desc2");// 功能主治
-        goodsBean.addStringProperty("gd_desc3");// 用法用量
+        goodsBean.addStringProperty("gd_desc1");
+        goodsBean.addStringProperty("gd_desc2");
+        goodsBean.addStringProperty("gd_desc3");
         goodsBean.addStringProperty("gd_desc4");
         goodsBean.addStringProperty("gd_desc5");
         goodsBean.addStringProperty("mer_no");
@@ -97,6 +93,7 @@ public class DaoGenerate {
         goodsBean.addStringProperty("addtime");
         goodsBean.addStringProperty("updatetime");
 
+        goodsBean.addStringProperty("gd_keyword");//
 
 
 
@@ -108,24 +105,24 @@ public class DaoGenerate {
 
 //        mcGoodsBean.addLongProperty("mg_id").primaryKey();
 
-        mcGoodsBean.addStringProperty("mc_no");//终端号
-        mcGoodsBean.addStringProperty("mg_channo").primaryKey();//货道编号
-        mcGoodsBean.addStringProperty("gd_no");//商品编码
-        mcGoodsBean.addStringProperty("gd_type");//商品类型
+        mcGoodsBean.addStringProperty("mc_no");
+        mcGoodsBean.addStringProperty("mg_channo").primaryKey();
+        mcGoodsBean.addStringProperty("gd_no");
+        mcGoodsBean.addStringProperty("gd_type");
         mcGoodsBean.addStringProperty("gd_approve_code");
         mcGoodsBean.addStringProperty("gd_batch_no");
         mcGoodsBean.addStringProperty("gd_des_code");
         mcGoodsBean.addStringProperty("gd_mf_date");
         mcGoodsBean.addStringProperty("gd_exp_date");
-        mcGoodsBean.addLongProperty("mg_gvol");//商品容量
-        mcGoodsBean.addLongProperty("mg_gnum");//商品存量
-        mcGoodsBean.addLongProperty("mg_pre_price"); // prePrice 原价
-        mcGoodsBean.addLongProperty("mg_score_price"); // 积分价
-        mcGoodsBean.addLongProperty("mg_vip_price");  // 会员价
-        mcGoodsBean.addLongProperty("mg_disc_price"); // 折扣价
+        mcGoodsBean.addLongProperty("mg_gvol");
+        mcGoodsBean.addLongProperty("mg_gnum");
+        mcGoodsBean.addLongProperty("mg_pre_price"); // prePric
+        mcGoodsBean.addLongProperty("mg_score_price");
+        mcGoodsBean.addLongProperty("mg_vip_price");
+        mcGoodsBean.addLongProperty("mg_disc_price");
 
-        mcGoodsBean.addLongProperty("mg_price"); // 销售单价
-        mcGoodsBean.addLongProperty("mg_chann_status"); // 默认不卡货   1 正常  2 卡货
+        mcGoodsBean.addLongProperty("mg_price"); //
+        mcGoodsBean.addLongProperty("mg_chann_status"); //
         mcGoodsBean.addDateProperty("addtime");
         mcGoodsBean.addDateProperty("updatetime");
 
@@ -144,11 +141,10 @@ public class DaoGenerate {
     private static void addMCStatus(Schema schema) {
         Entity mcParamBean = schema.addEntity("McStatusBean");
         mcParamBean.setTableName("mcstatus");
-        mcParamBean.addStringProperty("mc_no").primaryKey();//终端号
-        mcParamBean.addStringProperty("mc_serial_no");//机身号
-        mcParamBean.addStringProperty("mr_coin_status");//DEFAULT '0' COMMENT '硬币器状态：''0''-正常，''1''-异常。',
-        mcParamBean.addStringProperty("mr_coin_short");//DEFAULT NULL COMMENT '硬币预警',
-        mcParamBean.addStringProperty("mr_bill_status");//DEFAULT '0' COMMENT '纸币器状态：''0''-正常，''1''-异常。',
+        mcParamBean.addStringProperty("mc_no").primaryKey();//
+        mcParamBean.addStringProperty("mr_coin_status");//DEFAULT '0' COMMENT
+        mcParamBean.addStringProperty("mr_coin_short");//DEFAULT NULL COMMENT
+        mcParamBean.addStringProperty("mr_bill_status");//DEFAULT '0' COMMENT
         mcParamBean.addStringProperty("mr_bill_short");
         mcParamBean.addStringProperty("mr_uppos_status");
         mcParamBean.addStringProperty("mr_scpos_status");
@@ -167,6 +163,12 @@ public class DaoGenerate {
         mcParamBean.addLongProperty("mr_data_fault");
         mcParamBean.addDateProperty("mr_door_date");
         mcParamBean.addStringProperty("mr_mc_position");
+
+        mcParamBean.addLongProperty("mc_isbiller");
+        mcParamBean.addLongProperty("mc_isuppos");
+        mcParamBean.addLongProperty("mc_iswxpay");
+        mcParamBean.addLongProperty("mc_isalipay");
+
     }
 
 
@@ -195,34 +197,34 @@ public class DaoGenerate {
     private static void addSaleList(Schema schema) {
         Entity mcParamBean = schema.addEntity("SaleListBean");
         mcParamBean.setTableName("salelist");
-        mcParamBean.addStringProperty("sl_no").primaryKey(); //终端号
-        mcParamBean.addStringProperty("sl_batch_no");// 批次号
-        mcParamBean.addStringProperty("sl_time");//交易时间
-        mcParamBean.addStringProperty("mc_no");// 终端号
-        mcParamBean.addStringProperty("sl_gd_no");// 商品编码
-        mcParamBean.addStringProperty("sl_gd_name");//商品名称
-        mcParamBean.addLongProperty("sl_pre_price");//原价
-        mcParamBean.addLongProperty("sl_disc_price");// 折扣价
-        mcParamBean.addLongProperty("sl_vip_price");//会员价
+        mcParamBean.addStringProperty("sl_no").primaryKey(); //????
+        mcParamBean.addStringProperty("sl_batch_no");// ???κ?
+        mcParamBean.addStringProperty("sl_time");//???????
+        mcParamBean.addStringProperty("mc_no");// ????
+        mcParamBean.addStringProperty("sl_gd_no");// ???????
+        mcParamBean.addStringProperty("sl_gd_name");//???????
+        mcParamBean.addLongProperty("sl_pre_price");//???
+        mcParamBean.addLongProperty("sl_disc_price");// ????
+        mcParamBean.addLongProperty("sl_vip_price");//?????
 
-        mcParamBean.addLongProperty("sl_amt");//交易金额
-        mcParamBean.addLongProperty("sl_score");//小费积分
-        mcParamBean.addLongProperty("sl_cash_in");//投纸币金额
-        mcParamBean.addLongProperty("sl_cash_out");//找零纸币金额
+        mcParamBean.addLongProperty("sl_amt");//??????
+        mcParamBean.addLongProperty("sl_score");//С?????
+        mcParamBean.addLongProperty("sl_cash_in");//??????
+        mcParamBean.addLongProperty("sl_cash_out");//?????????
         mcParamBean.addStringProperty("sl_coin_in");
         mcParamBean.addStringProperty("sl_coin_out");
-        mcParamBean.addStringProperty("sl_chann");//货道编号
-        mcParamBean.addLongProperty("sl_num"); //销售数量
-        mcParamBean.addStringProperty("sl_type");//付款方式：1-现金、2-银行卡、3-微信支付，4-支付宝，5-积分兑换，6-提货码
-        mcParamBean.addStringProperty("sl_isvip");// 是否会员，0-否，1-是
-        //mcParamBean.addStringProperty("sl_status");//交易状态：1-已下单，2-已支付，3-已出货，4-已退款，5-支付失败，6-出货失败
+        mcParamBean.addStringProperty("sl_chann");//???????
+        mcParamBean.addLongProperty("sl_num"); //????????
+        mcParamBean.addStringProperty("sl_type");//???????1-???2-???п???3-????????4-???????5-????????6-?????
+        mcParamBean.addStringProperty("sl_isvip");// ???????0-??1-??
+        //mcParamBean.addStringProperty("sl_status");//????????1-???????2-???????3-???????4-?????5-???????6-???????
         mcParamBean.addStringProperty("sl_err_msg");
         mcParamBean.addStringProperty("sl_acc_no");
         mcParamBean.addLongProperty("sl_bf_amt");
         mcParamBean.addLongProperty("sl_af_amt");
-        mcParamBean.addLongProperty("sl_send_status");//上报状态 0 未上报 1 已上报
-        mcParamBean.addStringProperty("sl_pay_status");//支付状态：1-待支付，2-支付中，3-支付成功，4-支付失败，5-已退款，6-订单撤销
-        mcParamBean.addStringProperty("sl_out_status");//出货状态：1-待出货，2-出货成功，3-出货失败
+        mcParamBean.addLongProperty("sl_send_status");//????? 0 δ??? 1 ?????
+        mcParamBean.addStringProperty("sl_pay_status");//???????1-???????2-????У?3-????????4-???????5-?????6-????????
+        mcParamBean.addStringProperty("sl_out_status");//????????1-????????2-?????????3-???????
 
     }
 
